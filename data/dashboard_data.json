@@ -3,7 +3,7 @@
   "company": "CIG Motors",
   "currency": "NGN",
   "unit": "millions",
-  "generated_at": "2026-09-12T10:04:27.842661",
+  "generated_at": "2026-09-12T12:37:18.065739",
   "data_sources": {
     "gl_transactions": 10252,
     "gl_accounts": 372,
@@ -776,6 +776,54 @@
       }
     ],
     "total_opex": 5160315613.97,
+    "capex": 31500167375.25,
+    "capex_breakdown": [
+      {
+        "label": "FA - Plant & Machinery",
+        "value": 11310429145.0,
+        "share": 35.9
+      },
+      {
+        "label": "FA - Building",
+        "value": 10714613977.84,
+        "share": 34.0
+      },
+      {
+        "label": "FA - Land",
+        "value": 2663198307.69,
+        "share": 8.5
+      },
+      {
+        "label": "FA - GAC Ogba Construction",
+        "value": 1825784588.15,
+        "share": 5.8
+      },
+      {
+        "label": "FA-Plot1597-Abuja-AC Okoch",
+        "value": 1419291979.56,
+        "share": 4.5
+      },
+      {
+        "label": "FA-Plot1597-Abuja-AC Okoch 2",
+        "value": 1316930393.82,
+        "share": 4.2
+      },
+      {
+        "label": "FA - Motor Vehicle",
+        "value": 1209980004.99,
+        "share": 3.8
+      },
+      {
+        "label": "FA - Plot 7 Ligali Ayorinde",
+        "value": 628613171.89,
+        "share": 2.0
+      },
+      {
+        "label": "FA - Furniture & Fittings",
+        "value": 411325806.31,
+        "share": 1.3
+      }
+    ],
     "depreciation": [
       {
         "label": "Depreciation & Amortization",
@@ -1531,6 +1579,49 @@
         }
       ],
       "total_opex": 6081028383.98,
+      "capex": 16036600574.42,
+      "capex_breakdown": [
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 11741384776.83,
+          "share": 73.2
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 1242230935.71,
+          "share": 7.7
+        },
+        {
+          "label": "FA - Land",
+          "value": 1124645376.2,
+          "share": 7.0
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 937886676.81,
+          "share": 5.8
+        },
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 451448290.27,
+          "share": 2.8
+        },
+        {
+          "label": "FA - Plot 7 Ligali Ayorinde",
+          "value": 331897201.28,
+          "share": 2.1
+        },
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 140590620.84,
+          "share": 0.9
+        },
+        {
+          "label": "FA - Equipment",
+          "value": 66516696.48,
+          "share": 0.4
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -1938,6 +2029,54 @@
         }
       ],
       "total_opex": 8460158818.11,
+      "capex": 14810826527.31,
+      "capex_breakdown": [
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 8606539266.74,
+          "share": 58.1
+        },
+        {
+          "label": "FA - Equipment",
+          "value": 1828257566.92,
+          "share": 12.3
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 1340572117.08,
+          "share": 9.1
+        },
+        {
+          "label": "FA - Land",
+          "value": 1246700258.81,
+          "share": 8.4
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 1140953004.02,
+          "share": 7.7
+        },
+        {
+          "label": "FA - Plot 7 Ligali Ayorinde",
+          "value": 963778348.84,
+          "share": 6.5
+        },
+        {
+          "label": "FA - Building",
+          "value": 94664140.62,
+          "share": 0.6
+        },
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 77104694.11,
+          "share": 0.5
+        },
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": -487742869.83,
+          "share": -3.3
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -2335,6 +2474,49 @@
         }
       ],
       "total_opex": 9517542357.48,
+      "capex": 16367440386.99,
+      "capex_breakdown": [
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 3316596820.76,
+          "share": 20.3
+        },
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 3247508020.69,
+          "share": 19.8
+        },
+        {
+          "label": "FA - Plot 7 Ligali Ayorinde",
+          "value": 2309678965.21,
+          "share": 14.1
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 1875785216.04,
+          "share": 11.5
+        },
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 1841443756.12,
+          "share": 11.3
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 1807497112.81,
+          "share": 11.0
+        },
+        {
+          "label": "FA - Land",
+          "value": 1295807054.58,
+          "share": 7.9
+        },
+        {
+          "label": "FA - Motor Vehicle",
+          "value": 673123440.78,
+          "share": 4.1
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -2748,6 +2930,54 @@
         }
       ],
       "total_opex": 6064699562.65,
+      "capex": 30977393391.31,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 8731420539.86,
+          "share": 28.2
+        },
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 6940348442.77,
+          "share": 22.4
+        },
+        {
+          "label": "FA - Plot 7 Ligali Ayorinde",
+          "value": 6754731876.33,
+          "share": 21.8
+        },
+        {
+          "label": "FA - Equipment",
+          "value": 2285328494.85,
+          "share": 7.4
+        },
+        {
+          "label": "FA - Land",
+          "value": 1723476518.58,
+          "share": 5.6
+        },
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 1617573097.12,
+          "share": 5.2
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 1052305312.83,
+          "share": 3.4
+        },
+        {
+          "label": "FA - Building",
+          "value": 982325335.52,
+          "share": 3.2
+        },
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 889883773.45,
+          "share": 2.9
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -3165,6 +3395,54 @@
         }
       ],
       "total_opex": 5160315613.97,
+      "capex": 31500167375.25,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 11310429145.0,
+          "share": 35.9
+        },
+        {
+          "label": "FA - Building",
+          "value": 10714613977.84,
+          "share": 34.0
+        },
+        {
+          "label": "FA - Land",
+          "value": 2663198307.69,
+          "share": 8.5
+        },
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 1825784588.15,
+          "share": 5.8
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 1419291979.56,
+          "share": 4.5
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 1316930393.82,
+          "share": 4.2
+        },
+        {
+          "label": "FA - Motor Vehicle",
+          "value": 1209980004.99,
+          "share": 3.8
+        },
+        {
+          "label": "FA - Plot 7 Ligali Ayorinde",
+          "value": 628613171.89,
+          "share": 2.0
+        },
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 411325806.31,
+          "share": 1.3
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -3562,6 +3840,49 @@
         }
       ],
       "total_opex": 7904534674.62,
+      "capex": 15512964829.33,
+      "capex_breakdown": [
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 4076087367.13,
+          "share": 26.3
+        },
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 4000639199.95,
+          "share": 25.8
+        },
+        {
+          "label": "FA - Motor Vehicle",
+          "value": 2901961853.35,
+          "share": 18.7
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 1770901146.54,
+          "share": 11.4
+        },
+        {
+          "label": "FA - Land",
+          "value": 1597567818.55,
+          "share": 10.3
+        },
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 867133681.65,
+          "share": 5.6
+        },
+        {
+          "label": "FA - Building",
+          "value": 243151453.52,
+          "share": 1.6
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 55522308.64,
+          "share": 0.4
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -3969,6 +4290,59 @@
         }
       ],
       "total_opex": 5236656509.31,
+      "capex": 20144859420.33,
+      "capex_breakdown": [
+        {
+          "label": "FA - Building",
+          "value": 10982260325.55,
+          "share": 54.5
+        },
+        {
+          "label": "FA - Plot 7 Ligali Ayorinde",
+          "value": 1676822985.23,
+          "share": 8.3
+        },
+        {
+          "label": "FA - Land",
+          "value": 1506885211.48,
+          "share": 7.5
+        },
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 1446205380.37,
+          "share": 7.2
+        },
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 1177505400.94,
+          "share": 5.8
+        },
+        {
+          "label": "FA - Equipment",
+          "value": 1141048383.36,
+          "share": 5.7
+        },
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 941530396.1,
+          "share": 4.7
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 711282732.36,
+          "share": 3.5
+        },
+        {
+          "label": "FA - Motor Vehicle",
+          "value": 304991116.12,
+          "share": 1.5
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 256327488.82,
+          "share": 1.3
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -4387,6 +4761,54 @@
         }
       ],
       "total_opex": 8565497520.7,
+      "capex": 39299368469.31,
+      "capex_breakdown": [
+        {
+          "label": "FA - Equipment",
+          "value": 14753243648.34,
+          "share": 37.5
+        },
+        {
+          "label": "FA - Plot 7 Ligali Ayorinde",
+          "value": 11340285854.35,
+          "share": 28.9
+        },
+        {
+          "label": "FA - Land",
+          "value": 5810272165.41,
+          "share": 14.8
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 2197631549.49,
+          "share": 5.6
+        },
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 1575934204.77,
+          "share": 4.0
+        },
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 1363696062.6,
+          "share": 3.5
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 814272394.56,
+          "share": 2.1
+        },
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 797535257.95,
+          "share": 2.0
+        },
+        {
+          "label": "FA - Building",
+          "value": 646497331.84,
+          "share": 1.6
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -4804,6 +5226,54 @@
         }
       ],
       "total_opex": 6780425684.47,
+      "capex": 8235329452.03,
+      "capex_breakdown": [
+        {
+          "label": "FA - Building",
+          "value": 1500663865.29,
+          "share": 18.2
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 1321651712.63,
+          "share": 16.0
+        },
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 1177891221.66,
+          "share": 14.3
+        },
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 1134837795.69,
+          "share": 13.8
+        },
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 881224646.29,
+          "share": 10.7
+        },
+        {
+          "label": "FA - Land",
+          "value": 662950287.35,
+          "share": 8.1
+        },
+        {
+          "label": "FA - Plot 7 Ligali Ayorinde",
+          "value": 651852680.84,
+          "share": 7.9
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 607128630.1,
+          "share": 7.4
+        },
+        {
+          "label": "FA - Equipment",
+          "value": 297128612.18,
+          "share": 3.6
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -5201,6 +5671,49 @@
         }
       ],
       "total_opex": 7177407623.81,
+      "capex": 8246322734.51,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plot 7 Ligali Ayorinde",
+          "value": 2143536903.52,
+          "share": 26.0
+        },
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 2056947977.46,
+          "share": 24.9
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 1509941107.71,
+          "share": 18.3
+        },
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 1189134502.32,
+          "share": 14.4
+        },
+        {
+          "label": "FA - Land",
+          "value": 1086214624.21,
+          "share": 13.2
+        },
+        {
+          "label": "FA - Equipment",
+          "value": 203202459.29,
+          "share": 2.5
+        },
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 57345079.94,
+          "share": 0.7
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 80.06,
+          "share": 0.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -5594,6 +6107,54 @@
         }
       ],
       "total_opex": 5147474835.35,
+      "capex": 19017404256.95,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 7113810319.02,
+          "share": 37.4
+        },
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 2917240986.77,
+          "share": 15.3
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 2575887146.74,
+          "share": 13.5
+        },
+        {
+          "label": "FA - Building",
+          "value": 2106267604.43,
+          "share": 11.1
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 1671660301.91,
+          "share": 8.8
+        },
+        {
+          "label": "FA - Land",
+          "value": 1152596393.64,
+          "share": 6.1
+        },
+        {
+          "label": "FA - Motor Vehicle",
+          "value": 733140660.94,
+          "share": 3.9
+        },
+        {
+          "label": "FA - Plot 7 Ligali Ayorinde",
+          "value": 596117869.11,
+          "share": 3.1
+        },
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 150682974.39,
+          "share": 0.8
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -6026,6 +6587,49 @@
         }
       ],
       "total_opex": 6945297516.16,
+      "capex": 7702290815.42,
+      "capex_breakdown": [
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 2192552661.01,
+          "share": 28.5
+        },
+        {
+          "label": "FA - Land",
+          "value": 1028839783.83,
+          "share": 13.4
+        },
+        {
+          "label": "FA - Motor Vehicle",
+          "value": 976544493.82,
+          "share": 12.7
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 881350695.96,
+          "share": 11.4
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 847398039.73,
+          "share": 11.0
+        },
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 772262838.54,
+          "share": 10.0
+        },
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 769343114.71,
+          "share": 10.0
+        },
+        {
+          "label": "FA - Equipment",
+          "value": 233999187.82,
+          "share": 3.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -6088,6 +6692,8 @@
         }
       ],
       "total_opex": 750000.0,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -750000.0,
@@ -6189,6 +6795,8 @@
         }
       ],
       "total_opex": 87282199.29,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 23665646.69,
@@ -6302,6 +6910,14 @@
         }
       ],
       "total_opex": 529329695.29,
+      "capex": 331897201.28,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plot 7 Ligali Ayorinde",
+          "value": 331897201.28,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1368103118.53,
@@ -6450,6 +7066,8 @@
         }
       ],
       "total_opex": 1040045772.71,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -6554,6 +7172,8 @@
         }
       ],
       "total_opex": 104966680.46,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -6662,6 +7282,14 @@
         }
       ],
       "total_opex": 185090922.57,
+      "capex": 66516696.48,
+      "capex_breakdown": [
+        {
+          "label": "FA - Equipment",
+          "value": 66516696.48,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -280659878.49,
@@ -6770,6 +7398,8 @@
         }
       ],
       "total_opex": 267433173.32,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -6874,6 +7504,8 @@
         }
       ],
       "total_opex": 140504871.72,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 239441763.79,
@@ -6955,6 +7587,8 @@
         }
       ],
       "total_opex": 59666590.97,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -5061304163.29,
@@ -7063,6 +7697,14 @@
         }
       ],
       "total_opex": 315130734.77,
+      "capex": 821579474.16,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 821579474.16,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -334143833.68,
@@ -7108,6 +7750,8 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -7237,6 +7881,8 @@
         }
       ],
       "total_opex": 180118358.09,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -7408,6 +8054,14 @@
         }
       ],
       "total_opex": 425257028.38,
+      "capex": 11544544258.12,
+      "capex_breakdown": [
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 11544544258.12,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -7509,6 +8163,14 @@
         }
       ],
       "total_opex": 134645382.97,
+      "capex": 762918454.07,
+      "capex_breakdown": [
+        {
+          "label": "FA - Land",
+          "value": 762918454.07,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -213885885.85,
@@ -7645,6 +8307,8 @@
         }
       ],
       "total_opex": 178909547.6,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -219019784.7,
@@ -7756,6 +8420,8 @@
         }
       ],
       "total_opex": -122164574.71,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 53428606.07,
@@ -7832,6 +8498,14 @@
         }
       ],
       "total_opex": 47632629.81,
+      "capex": 361726922.13,
+      "capex_breakdown": [
+        {
+          "label": "FA - Land",
+          "value": 361726922.13,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -94691518.62,
@@ -7958,6 +8632,14 @@
         }
       ],
       "total_opex": 205203207.6,
+      "capex": 420651461.55,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 420651461.55,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 1488402.31,
@@ -8091,6 +8773,8 @@
         }
       ],
       "total_opex": 247552526.19,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1374528151.99,
@@ -8207,6 +8891,8 @@
         }
       ],
       "total_opex": 148657915.58,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -8308,6 +8994,8 @@
         }
       ],
       "total_opex": 173552419.3,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -203430361.12,
@@ -8406,6 +9094,8 @@
         }
       ],
       "total_opex": 304806868.68,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -457413247.9,
@@ -8494,6 +9184,14 @@
         }
       ],
       "total_opex": 119685998.63,
+      "capex": 937886676.81,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 937886676.81,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -173690841.22,
@@ -8605,6 +9303,8 @@
         }
       ],
       "total_opex": 110599917.46,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -8726,6 +9426,14 @@
         }
       ],
       "total_opex": 49984053.13,
+      "capex": 140590620.84,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 140590620.84,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -169499266.07,
@@ -8882,6 +9590,14 @@
         }
       ],
       "total_opex": 429572724.7,
+      "capex": 451448290.27,
+      "capex_breakdown": [
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 451448290.27,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -9003,6 +9719,14 @@
         }
       ],
       "total_opex": 235722750.63,
+      "capex": 196840518.71,
+      "capex_breakdown": [
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 196840518.71,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -9117,6 +9841,8 @@
         }
       ],
       "total_opex": 97653276.05,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -9253,6 +9979,8 @@
         }
       ],
       "total_opex": 146478266.02,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -9344,6 +10072,8 @@
         }
       ],
       "total_opex": 116227878.62,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -260473234.02,
@@ -9437,6 +10167,8 @@
         }
       ],
       "total_opex": 121481568.15,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -9528,6 +10260,14 @@
         }
       ],
       "total_opex": 165454782.17,
+      "capex": 529995383.16,
+      "capex_breakdown": [
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 529995383.16,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -243955634.39,
@@ -9674,6 +10414,8 @@
         }
       ],
       "total_opex": 223292018.27,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 241746119.62,
@@ -9788,6 +10530,14 @@
         }
       ],
       "total_opex": 1137733675.88,
+      "capex": 845888555.27,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 845888555.27,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -930703680.82,
@@ -9941,6 +10691,8 @@
         }
       ],
       "total_opex": 159327968.31,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -10084,6 +10836,8 @@
         }
       ],
       "total_opex": 340154052.79,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -444846514.66,
@@ -10204,6 +10958,8 @@
         }
       ],
       "total_opex": 64902395.08,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 1371328040.96,
@@ -10320,6 +11076,14 @@
         }
       ],
       "total_opex": 997280209.78,
+      "capex": 8076543883.58,
+      "capex_breakdown": [
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 8076543883.58,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -10433,6 +11197,19 @@
         }
       ],
       "total_opex": 747433565.61,
+      "capex": 916460765.99,
+      "capex_breakdown": [
+        {
+          "label": "FA - Equipment",
+          "value": 839356129.9,
+          "share": 91.6
+        },
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 77104636.09,
+          "share": 8.4
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -10579,6 +11356,8 @@
         }
       ],
       "total_opex": 96009847.63,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -10687,6 +11466,8 @@
         }
       ],
       "total_opex": 137231003.94,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -197182729.44,
@@ -10783,6 +11564,8 @@
         }
       ],
       "total_opex": 203013712.99,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -257099497.55,
@@ -10874,6 +11657,8 @@
         }
       ],
       "total_opex": 289608896.57,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 3847163.15,
@@ -11010,6 +11795,24 @@
         }
       ],
       "total_opex": 199546891.67,
+      "capex": 783365269.58,
+      "capex_breakdown": [
+        {
+          "label": "FA - Equipment",
+          "value": 396854104.19,
+          "share": 50.7
+        },
+        {
+          "label": "FA - Land",
+          "value": 386511107.37,
+          "share": 49.3
+        },
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 58.02,
+          "share": 0.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 427266785.82,
@@ -11121,6 +11924,14 @@
         }
       ],
       "total_opex": 112499067.87,
+      "capex": 394318352.8,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 394318352.8,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1203100772.59,
@@ -11252,6 +12063,19 @@
         }
       ],
       "total_opex": 169634760.0,
+      "capex": 840354715.86,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 661505789.72,
+          "share": 78.7
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 178848926.14,
+          "share": 21.3
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -11373,6 +12197,14 @@
         }
       ],
       "total_opex": 113602810.53,
+      "capex": 963778348.84,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plot 7 Ligali Ayorinde",
+          "value": 963778348.84,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -11476,6 +12308,8 @@
         }
       ],
       "total_opex": 156758236.98,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -279099673.78,
@@ -11612,6 +12446,14 @@
         }
       ],
       "total_opex": 320806387.84,
+      "capex": -487742869.83,
+      "capex_breakdown": [
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": -487742869.83,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 742349866.77,
@@ -11743,6 +12585,8 @@
         }
       ],
       "total_opex": 258002147.33,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -331592959.42,
@@ -11899,6 +12743,8 @@
         }
       ],
       "total_opex": 247279234.55,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -12012,6 +12858,14 @@
         }
       ],
       "total_opex": 161740990.86,
+      "capex": 315834635.67,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 315834635.67,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -675812759.86,
@@ -12158,6 +13012,14 @@
         }
       ],
       "total_opex": 319603816.98,
+      "capex": 592047332.83,
+      "capex_breakdown": [
+        {
+          "label": "FA - Equipment",
+          "value": 592047332.83,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -12309,6 +13171,8 @@
         }
       ],
       "total_opex": 337964857.74,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 9609755.81,
@@ -12427,6 +13291,8 @@
         }
       ],
       "total_opex": 192268782.8,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -12555,6 +13421,8 @@
         }
       ],
       "total_opex": 277473540.84,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -319497716.37,
@@ -12671,6 +13539,14 @@
         }
       ],
       "total_opex": 57848888.14,
+      "capex": 85128861.5,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 85128861.5,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -12809,6 +13685,14 @@
         }
       ],
       "total_opex": 324516206.75,
+      "capex": 665841853.76,
+      "capex_breakdown": [
+        {
+          "label": "FA - Land",
+          "value": 665841853.76,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -12935,6 +13819,19 @@
         }
       ],
       "total_opex": 649170068.21,
+      "capex": 289011438.3,
+      "capex_breakdown": [
+        {
+          "label": "FA - Land",
+          "value": 194347297.68,
+          "share": 67.2
+        },
+        {
+          "label": "FA - Building",
+          "value": 94664140.62,
+          "share": 32.8
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -793946441.07,
@@ -13051,6 +13948,14 @@
         }
       ],
       "total_opex": 84824670.06,
+      "capex": 995656708.62,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 995656708.62,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -13155,6 +14060,8 @@
         }
       ],
       "total_opex": 406534064.86,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -389755578.29,
@@ -13253,6 +14160,19 @@
         }
       ],
       "total_opex": 170603631.02,
+      "capex": 1086413305.07,
+      "capex_breakdown": [
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 918400903.11,
+          "share": 84.5
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 168012401.96,
+          "share": 15.5
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -263208337.71,
@@ -13359,6 +14279,8 @@
         }
       ],
       "total_opex": 178910537.15,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -13482,6 +14404,14 @@
         }
       ],
       "total_opex": 204886878.17,
+      "capex": 587043851.13,
+      "capex_breakdown": [
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 587043851.13,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -233576727.7,
@@ -13595,6 +14525,19 @@
         }
       ],
       "total_opex": 57182619.8,
+      "capex": 1094344078.41,
+      "capex_breakdown": [
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 686838235.92,
+          "share": 62.8
+        },
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 407505842.49,
+          "share": 37.2
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -13713,6 +14656,14 @@
         }
       ],
       "total_opex": 339163777.04,
+      "capex": 167488589.96,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 167488589.96,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -460043837.3,
@@ -13824,6 +14775,19 @@
         }
       ],
       "total_opex": 98141014.77,
+      "capex": 1873204856.44,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 982100407.35,
+          "share": 52.4
+        },
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 891104449.09,
+          "share": 47.6
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -13940,6 +14904,14 @@
         }
       ],
       "total_opex": 88204330.79,
+      "capex": 103889136.9,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 103889136.9,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 150491872.75,
@@ -14041,6 +15013,8 @@
         }
       ],
       "total_opex": 281756068.09,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -307450400.48,
@@ -14132,6 +15106,14 @@
         }
       ],
       "total_opex": 131995936.84,
+      "capex": 1448215575.42,
+      "capex_breakdown": [
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 1448215575.42,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 321224799.47,
@@ -14241,6 +15223,14 @@
         }
       ],
       "total_opex": 193400338.36,
+      "capex": 773217930.08,
+      "capex_breakdown": [
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 773217930.08,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -14370,6 +15360,14 @@
         }
       ],
       "total_opex": 800874889.84,
+      "capex": 877199194.52,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 877199194.52,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -584162483.23,
@@ -14488,6 +15486,8 @@
         }
       ],
       "total_opex": 217466275.25,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -14599,6 +15599,8 @@
         }
       ],
       "total_opex": 510902308.35,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -601805305.23,
@@ -14702,6 +15704,8 @@
         }
       ],
       "total_opex": 275389017.61,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -279844421.22,
@@ -14796,6 +15800,14 @@
         }
       ],
       "total_opex": 121920581.2,
+      "capex": 751164432.57,
+      "capex_breakdown": [
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 751164432.57,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -14915,6 +15927,19 @@
         }
       ],
       "total_opex": 2048098783.25,
+      "capex": 1399282214.1,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 859343348.77,
+          "share": 61.4
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 539938865.33,
+          "share": 38.6
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -14996,6 +16021,14 @@
         }
       ],
       "total_opex": 121966874.49,
+      "capex": 100613621.64,
+      "capex_breakdown": [
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 100613621.64,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -682506112.91,
@@ -15089,6 +16122,8 @@
         }
       ],
       "total_opex": 52066146.96,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -207643968.21,
@@ -15193,6 +16228,19 @@
         }
       ],
       "total_opex": 165709037.74,
+      "capex": 926607358.04,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plot 7 Ligali Ayorinde",
+          "value": 866043580.9,
+          "share": 93.5
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 60563777.14,
+          "share": 6.5
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -69010442.47,
@@ -15319,6 +16367,8 @@
         }
       ],
       "total_opex": 400076397.59,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -15432,6 +16482,14 @@
         }
       ],
       "total_opex": 27517590.79,
+      "capex": 400854037.68,
+      "capex_breakdown": [
+        {
+          "label": "FA - Land",
+          "value": 400854037.68,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -15523,6 +16581,8 @@
         }
       ],
       "total_opex": 913600817.24,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -911436926.44,
@@ -15651,6 +16711,8 @@
         }
       ],
       "total_opex": 159738882.73,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -314859991.24,
@@ -15732,6 +16794,8 @@
         }
       ],
       "total_opex": 790508217.91,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -15831,6 +16895,19 @@
         }
       ],
       "total_opex": 108186641.61,
+      "capex": 1568076457.68,
+      "capex_breakdown": [
+        {
+          "label": "FA - Land",
+          "value": 894953016.9,
+          "share": 57.1
+        },
+        {
+          "label": "FA - Motor Vehicle",
+          "value": 673123440.78,
+          "share": 42.9
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -348024441.87,
@@ -15982,6 +17059,14 @@
         }
       ],
       "total_opex": 202856217.36,
+      "capex": 644755073.19,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plot 7 Ligali Ayorinde",
+          "value": 644755073.19,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -16050,6 +17135,8 @@
         }
       ],
       "total_opex": 54884613.33,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -16166,6 +17253,14 @@
         }
       ],
       "total_opex": 234129073.72,
+      "capex": 798880311.12,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plot 7 Ligali Ayorinde",
+          "value": 798880311.12,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -320342894.93,
@@ -16234,6 +17329,14 @@
         }
       ],
       "total_opex": 76046123.56,
+      "capex": 770533654.42,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 770533654.42,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -16357,6 +17460,19 @@
         }
       ],
       "total_opex": 96115448.72,
+      "capex": 1595687994.78,
+      "capex_breakdown": [
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 859158610.96,
+          "share": 53.8
+        },
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 736529383.82,
+          "share": 46.2
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -16484,6 +17600,8 @@
         }
       ],
       "total_opex": 313158355.3,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -406132420.69,
@@ -16624,6 +17742,8 @@
         }
       ],
       "total_opex": 145793560.25,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -16727,6 +17847,19 @@
         }
       ],
       "total_opex": 40252041.62,
+      "capex": 956029488.96,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plot 7 Ligali Ayorinde",
+          "value": 651186205.64,
+          "share": 68.1
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 304843283.32,
+          "share": 31.9
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -135055344.56,
@@ -16825,6 +17958,14 @@
         }
       ],
       "total_opex": 195752149.49,
+      "capex": 881948836.56,
+      "capex_breakdown": [
+        {
+          "label": "FA - Land",
+          "value": 881948836.56,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -16923,6 +18064,8 @@
         }
       ],
       "total_opex": 101405723.49,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1064917075.53,
@@ -17084,6 +18227,24 @@
         }
       ],
       "total_opex": 208536637.44,
+      "capex": 2229077537.0,
+      "capex_breakdown": [
+        {
+          "label": "FA - Equipment",
+          "value": 876724747.36,
+          "share": 39.3
+        },
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 758414486.16,
+          "share": 34.0
+        },
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 593938303.48,
+          "share": 26.6
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -17203,6 +18364,8 @@
         }
       ],
       "total_opex": 1157513428.44,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1691688897.88,
@@ -17312,6 +18475,8 @@
         }
       ],
       "total_opex": 203990374.83,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -17469,6 +18634,8 @@
         }
       ],
       "total_opex": 195335966.24,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 50647496.06,
@@ -17567,6 +18734,19 @@
         }
       ],
       "total_opex": 22165119.11,
+      "capex": 762331237.78,
+      "capex_breakdown": [
+        {
+          "label": "FA - Land",
+          "value": 408295570.11,
+          "share": 53.6
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 354035667.67,
+          "share": 46.4
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -17638,6 +18818,8 @@
         }
       ],
       "total_opex": 28632544.29,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -17729,6 +18911,8 @@
         }
       ],
       "total_opex": 81279140.24,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -135294830.93,
@@ -17830,6 +19014,29 @@
         }
       ],
       "total_opex": 13095170.33,
+      "capex": 6277650571.54,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plot 7 Ligali Ayorinde",
+          "value": 5434334410.99,
+          "share": 86.6
+        },
+        {
+          "label": "FA - Land",
+          "value": 379601033.61,
+          "share": 6.0
+        },
+        {
+          "label": "FA - Equipment",
+          "value": 332300359.18,
+          "share": 5.3
+        },
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 131414767.76,
+          "share": 2.1
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -698535124.29,
@@ -17887,6 +19094,14 @@
         }
       ],
       "total_opex": 844976.7,
+      "capex": 167779945.75,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 167779945.75,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -18023,6 +19238,8 @@
         }
       ],
       "total_opex": 155344452.44,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -18166,6 +19383,8 @@
         }
       ],
       "total_opex": 376953693.6,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -18262,6 +19481,14 @@
         }
       ],
       "total_opex": 234707029.62,
+      "capex": 319475837.92,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plot 7 Ligali Ayorinde",
+          "value": 319475837.92,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -311978672.59,
@@ -18385,6 +19612,8 @@
         }
       ],
       "total_opex": 266578441.74,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -370641983.34,
@@ -18518,6 +19747,8 @@
         }
       ],
       "total_opex": 201982969.68,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -73535467.27,
@@ -18624,6 +19855,14 @@
         }
       ],
       "total_opex": 175335211.16,
+      "capex": -896603521.23,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": -896603521.23,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -268811816.6,
@@ -18740,6 +19979,14 @@
         }
       ],
       "total_opex": 414985917.22,
+      "capex": 164530702.21,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 164530702.21,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -18884,6 +20131,14 @@
         }
       ],
       "total_opex": 321927528.63,
+      "capex": 912369726.27,
+      "capex_breakdown": [
+        {
+          "label": "FA - Equipment",
+          "value": 912369726.27,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -18978,6 +20233,19 @@
         }
       ],
       "total_opex": 15787589.14,
+      "capex": 8265653264.71,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 8212022186.41,
+          "share": 99.4
+        },
+        {
+          "label": "FA - Land",
+          "value": 53631078.3,
+          "share": 0.6
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -19059,6 +20327,19 @@
         }
       ],
       "total_opex": 144431049.9,
+      "capex": 1007202043.13,
+      "capex_breakdown": [
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 657466621.35,
+          "share": 65.3
+        },
+        {
+          "label": "FA - Plot 7 Ligali Ayorinde",
+          "value": 349735421.78,
+          "share": 34.7
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -227943248.81,
@@ -19190,6 +20471,19 @@
         }
       ],
       "total_opex": 147491385.14,
+      "capex": 6528677740.45,
+      "capex_breakdown": [
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 5546352404.93,
+          "share": 85.0
+        },
+        {
+          "label": "FA - Building",
+          "value": 982325335.52,
+          "share": 15.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1176631569.86,
@@ -19331,6 +20625,14 @@
         }
       ],
       "total_opex": 148417317.64,
+      "capex": 163933662.04,
+      "capex_breakdown": [
+        {
+          "label": "FA - Equipment",
+          "value": 163933662.04,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -19455,6 +20757,14 @@
         }
       ],
       "total_opex": 327116682.33,
+      "capex": 579682083.76,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 579682083.76,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -19573,6 +20883,19 @@
         }
       ],
       "total_opex": 156955453.6,
+      "capex": 1061966239.68,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 1061966207.01,
+          "share": 100.0
+        },
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 32.67,
+          "share": 0.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -304260729.39,
@@ -19696,6 +21019,8 @@
         }
       ],
       "total_opex": 172814204.32,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -2406930535.19,
@@ -19794,6 +21119,8 @@
         }
       ],
       "total_opex": -135889065.44,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -19895,6 +21222,8 @@
         }
       ],
       "total_opex": 160715589.02,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -104827347.77,
@@ -19976,6 +21305,8 @@
         }
       ],
       "total_opex": 83374908.89,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 92776425.1,
@@ -20092,6 +21423,19 @@
         }
       ],
       "total_opex": 106244769.25,
+      "capex": 9424697952.79,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 9071846785.03,
+          "share": 96.3
+        },
+        {
+          "label": "FA - Land",
+          "value": 352851167.76,
+          "share": 3.7
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -20216,6 +21560,14 @@
         }
       ],
       "total_opex": 183304147.88,
+      "capex": 824855973.32,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 824855973.32,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 154519755.41,
@@ -20337,6 +21689,14 @@
         }
       ],
       "total_opex": 148523204.49,
+      "capex": 465071094.1,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 465071094.1,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 171307788.91,
@@ -20465,6 +21825,24 @@
         }
       ],
       "total_opex": 214041700.35,
+      "capex": 1829377836.11,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 898062849.5,
+          "share": 49.1
+        },
+        {
+          "label": "FA - Plot 7 Ligali Ayorinde",
+          "value": 628613171.89,
+          "share": 34.4
+        },
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 302701814.72,
+          "share": 16.5
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 140597534.79,
@@ -20541,6 +21919,19 @@
         }
       ],
       "total_opex": 118168111.6,
+      "capex": 716509048.94,
+      "capex_breakdown": [
+        {
+          "label": "FA - Motor Vehicle",
+          "value": 365641661.64,
+          "share": 51.0
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 350867387.3,
+          "share": 49.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -184920108.96,
@@ -20692,6 +22083,8 @@
         }
       ],
       "total_opex": 243736956.04,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -828704306.29,
@@ -20838,6 +22231,8 @@
         }
       ],
       "total_opex": 651907724.09,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -664561446.55,
@@ -20942,6 +22337,14 @@
         }
       ],
       "total_opex": 123331615.74,
+      "capex": 574457047.29,
+      "capex_breakdown": [
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 574457047.29,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 197379643.98,
@@ -21051,6 +22454,24 @@
         }
       ],
       "total_opex": 538004242.85,
+      "capex": 1212470722.32,
+      "capex_breakdown": [
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 681540116.64,
+          "share": 56.2
+        },
+        {
+          "label": "FA - Land",
+          "value": 446982356.04,
+          "share": 36.9
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 83948249.64,
+          "share": 6.9
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -539790859.61,
@@ -21165,6 +22586,14 @@
         }
       ],
       "total_opex": 131081493.45,
+      "capex": 91449709.63,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 91449709.63,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 249562729.89,
@@ -21269,6 +22698,8 @@
         }
       ],
       "total_opex": 40621529.79,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -171842174.21,
@@ -21397,6 +22828,14 @@
         }
       ],
       "total_opex": 282526625.11,
+      "capex": 487914134.67,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 487914134.67,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -21498,6 +22937,14 @@
         }
       ],
       "total_opex": 121189125.24,
+      "capex": 466520147.07,
+      "capex_breakdown": [
+        {
+          "label": "FA - Land",
+          "value": 466520147.07,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -144736613.88,
@@ -21621,6 +23068,14 @@
         }
       ],
       "total_opex": 177847369.36,
+      "capex": 491750854.83,
+      "capex_breakdown": [
+        {
+          "label": "FA - Motor Vehicle",
+          "value": 491750854.83,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -116910316.84,
@@ -21724,6 +23179,19 @@
         }
       ],
       "total_opex": 11544083.23,
+      "capex": 1307353973.74,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 737566549.52,
+          "share": 56.4
+        },
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 569787424.22,
+          "share": 43.6
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -78098915.26,
@@ -21845,6 +23313,14 @@
         }
       ],
       "total_opex": 306649372.15,
+      "capex": 10714613977.84,
+      "capex_breakdown": [
+        {
+          "label": "FA - Building",
+          "value": 10714613977.84,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -171809617.77,
@@ -21931,6 +23407,8 @@
         }
       ],
       "total_opex": 279547375.92,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -22061,6 +23539,14 @@
         }
       ],
       "total_opex": 103662162.0,
+      "capex": 462944929.53,
+      "capex_breakdown": [
+        {
+          "label": "FA - Land",
+          "value": 462944929.53,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -22187,6 +23673,19 @@
         }
       ],
       "total_opex": 74135048.76,
+      "capex": 763913294.83,
+      "capex_breakdown": [
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 411325806.31,
+          "share": 53.8
+        },
+        {
+          "label": "FA - Motor Vehicle",
+          "value": 352587488.52,
+          "share": 46.2
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -279128257.45,
@@ -22285,6 +23784,8 @@
         }
       ],
       "total_opex": 106275308.15,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -239924639.62,
@@ -22376,6 +23877,14 @@
         }
       ],
       "total_opex": 46515988.64,
+      "capex": 645953477.83,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 645953477.83,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -22454,6 +23963,8 @@
         }
       ],
       "total_opex": 122513199.27,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -122513199.27,
@@ -22566,6 +24077,14 @@
         }
       ],
       "total_opex": 94063968.71,
+      "capex": 86413493.12,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 86413493.12,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -199788921.27,
@@ -22682,6 +24201,8 @@
         }
       ],
       "total_opex": 47424324.96,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -84252108.22,
@@ -22801,6 +24322,14 @@
         }
       ],
       "total_opex": 324629392.62,
+      "capex": 933899707.29,
+      "capex_breakdown": [
+        {
+          "label": "FA - Land",
+          "value": 933899707.29,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -22920,6 +24449,8 @@
         }
       ],
       "total_opex": 205691149.6,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 270597343.88,
@@ -23008,6 +24539,8 @@
         }
       ],
       "total_opex": 117274847.99,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -23149,6 +24682,8 @@
         }
       ],
       "total_opex": 131659344.26,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -23268,6 +24803,8 @@
         }
       ],
       "total_opex": 108073831.35,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -664421859.1,
@@ -23371,6 +24908,14 @@
         }
       ],
       "total_opex": 127010926.03,
+      "capex": 540290397.12,
+      "capex_breakdown": [
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 540290397.12,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -650485712.57,
@@ -23502,6 +25047,8 @@
         }
       ],
       "total_opex": 277919810.24,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -295441958.95,
@@ -23621,6 +25168,19 @@
         }
       ],
       "total_opex": 309284311.61,
+      "capex": 1213659476.3,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 883587164.19,
+          "share": 72.8
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 330072312.11,
+          "share": 27.2
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -23742,6 +25302,8 @@
         }
       ],
       "total_opex": 43181465.62,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -210869108.1,
@@ -23813,6 +25375,19 @@
         }
       ],
       "total_opex": 97946737.09,
+      "capex": 1189131295.96,
+      "capex_breakdown": [
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 597025618.41,
+          "share": 50.2
+        },
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 592105677.55,
+          "share": 49.8
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -121132291.85,
@@ -23922,6 +25497,14 @@
         }
       ],
       "total_opex": 924768526.98,
+      "capex": 880327257.47,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 880327257.47,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -603708058.53,
@@ -24055,6 +25638,8 @@
         }
       ],
       "total_opex": 281372057.43,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -446635296.63,
@@ -24176,6 +25761,8 @@
         }
       ],
       "total_opex": 198199576.16,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 85165275.38,
@@ -24287,6 +25874,8 @@
         }
       ],
       "total_opex": 299486447.59,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -24403,6 +25992,14 @@
         }
       ],
       "total_opex": 192325078.86,
+      "capex": 848010357.62,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 848010357.62,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -350807472.66,
@@ -24494,6 +26091,14 @@
         }
       ],
       "total_opex": 210817292.7,
+      "capex": 517294685.41,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 517294685.41,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -212660124.68,
@@ -24565,6 +26170,14 @@
         }
       ],
       "total_opex": 53874915.41,
+      "capex": 2047805867.02,
+      "capex_breakdown": [
+        {
+          "label": "FA - Motor Vehicle",
+          "value": 2047805867.02,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -24689,6 +26302,14 @@
         }
       ],
       "total_opex": 1341818691.88,
+      "capex": 973464358.56,
+      "capex_breakdown": [
+        {
+          "label": "FA - Land",
+          "value": 973464358.56,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -24792,6 +26413,14 @@
         }
       ],
       "total_opex": 76870490.23,
+      "capex": -828064855.55,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": -828064855.55,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -298743388.55,
@@ -24899,6 +26528,8 @@
         }
       ],
       "total_opex": 33807220.23,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -542140911.86,
@@ -25042,6 +26673,14 @@
         }
       ],
       "total_opex": 164488653.05,
+      "capex": 923534149.02,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 923534149.02,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -25145,6 +26784,14 @@
         }
       ],
       "total_opex": 44110465.17,
+      "capex": 244913179.97,
+      "capex_breakdown": [
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 244913179.97,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -25311,6 +26958,14 @@
         }
       ],
       "total_opex": 102603859.85,
+      "capex": 854155986.33,
+      "capex_breakdown": [
+        {
+          "label": "FA - Motor Vehicle",
+          "value": 854155986.33,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -137890961.46,
@@ -25415,6 +27070,14 @@
         }
       ],
       "total_opex": 196227867.96,
+      "capex": 672498715.93,
+      "capex_breakdown": [
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 672498715.93,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -8423112147.22,
@@ -25549,6 +27212,14 @@
         }
       ],
       "total_opex": 212060651.15,
+      "capex": 914779000.03,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 914779000.03,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 1436649.66,
@@ -25652,6 +27323,8 @@
         }
       ],
       "total_opex": 130008469.27,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -581247867.76,
@@ -25810,6 +27483,8 @@
         }
       ],
       "total_opex": 151970612.05,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -80685324.75,
@@ -25956,6 +27631,8 @@
         }
       ],
       "total_opex": 1178694569.99,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -26097,6 +27774,14 @@
         }
       ],
       "total_opex": 216379629.48,
+      "capex": 624103459.99,
+      "capex_breakdown": [
+        {
+          "label": "FA - Land",
+          "value": 624103459.99,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 562302760.72,
@@ -26201,6 +27886,8 @@
         }
       ],
       "total_opex": 33819698.01,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 7660136776.59,
@@ -26337,6 +28024,8 @@
         }
       ],
       "total_opex": 443735661.64,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -596395733.06,
@@ -26488,6 +28177,19 @@
         }
       ],
       "total_opex": 180277340.77,
+      "capex": 1442491962.23,
+      "capex_breakdown": [
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 820271460.55,
+          "share": 56.9
+        },
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 622220501.68,
+          "share": 43.1
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -26629,6 +28331,14 @@
         }
       ],
       "total_opex": 260978187.95,
+      "capex": 854066239.38,
+      "capex_breakdown": [
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 854066239.38,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -162534325.26,
@@ -26712,6 +28422,24 @@
         }
       ],
       "total_opex": 12421628.87,
+      "capex": 1600503296.54,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 765416907.28,
+          "share": 47.8
+        },
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 591934935.74,
+          "share": 37.0
+        },
+        {
+          "label": "FA - Building",
+          "value": 243151453.52,
+          "share": 15.2
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -217984485.68,
@@ -26806,6 +28534,8 @@
         }
       ],
       "total_opex": 144961973.45,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -26900,6 +28630,14 @@
         }
       ],
       "total_opex": 14803400.13,
+      "capex": 619456627.24,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 619456627.24,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -26986,6 +28724,24 @@
         }
       ],
       "total_opex": 290211087.6,
+      "capex": 1598174928.26,
+      "capex_breakdown": [
+        {
+          "label": "FA - Land",
+          "value": 593699323.08,
+          "share": 37.1
+        },
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 539559938.05,
+          "share": 33.8
+        },
+        {
+          "label": "FA - Plot 7 Ligali Ayorinde",
+          "value": 464915667.13,
+          "share": 29.1
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -27100,6 +28856,14 @@
         }
       ],
       "total_opex": 189693561.48,
+      "capex": 506640619.56,
+      "capex_breakdown": [
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 506640619.56,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -651054486.0,
@@ -27199,6 +28963,19 @@
         }
       ],
       "total_opex": 42199590.36,
+      "capex": 375010714.59,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 256327488.82,
+          "share": 68.4
+        },
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 118683225.77,
+          "share": 31.6
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -117071793.88,
@@ -27292,6 +29069,14 @@
         }
       ],
       "total_opex": 169067546.76,
+      "capex": 10742359877.04,
+      "capex_breakdown": [
+        {
+          "label": "FA - Building",
+          "value": 10742359877.04,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -196585728.06,
@@ -27416,6 +29201,14 @@
         }
       ],
       "total_opex": 301871918.89,
+      "capex": 202608857.18,
+      "capex_breakdown": [
+        {
+          "label": "FA - Equipment",
+          "value": 202608857.18,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 4026742970.97,
@@ -27519,6 +29312,19 @@
         }
       ],
       "total_opex": 88472719.19,
+      "capex": 639440448.64,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 334449332.52,
+          "share": 52.3
+        },
+        {
+          "label": "FA - Motor Vehicle",
+          "value": 304991116.12,
+          "share": 47.7
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -27660,6 +29466,14 @@
         }
       ],
       "total_opex": 147898593.39,
+      "capex": 711910943.94,
+      "capex_breakdown": [
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 711910943.94,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -492202423.98,
@@ -27758,6 +29572,8 @@
         }
       ],
       "total_opex": 139730417.73,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -180148724.99,
@@ -27867,6 +29683,8 @@
         }
       ],
       "total_opex": 220952050.95,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -188159923.2,
@@ -27965,6 +29783,14 @@
         }
       ],
       "total_opex": 173281279.51,
+      "capex": 376833399.84,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 376833399.84,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -28089,6 +29915,8 @@
         }
       ],
       "total_opex": 181365462.47,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -185079013.43,
@@ -28182,6 +30010,14 @@
         }
       ],
       "total_opex": 78123856.74,
+      "capex": 194734498.38,
+      "capex_breakdown": [
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 194734498.38,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -214840915.18,
@@ -28280,6 +30116,14 @@
         }
       ],
       "total_opex": 36070865.99,
+      "capex": 938439526.18,
+      "capex_breakdown": [
+        {
+          "label": "FA - Equipment",
+          "value": 938439526.18,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -28413,6 +30257,8 @@
         }
       ],
       "total_opex": 207500417.69,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -373368363.47,
@@ -28539,6 +30385,8 @@
         }
       ],
       "total_opex": 46739406.83,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -637299945.15,
@@ -28653,6 +30501,8 @@
         }
       ],
       "total_opex": 104135426.41,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -465122092.53,
@@ -28751,6 +30601,14 @@
         }
       ],
       "total_opex": 81390444.82,
+      "capex": 568588128.02,
+      "capex_breakdown": [
+        {
+          "label": "FA - Land",
+          "value": 568588128.02,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1742946077.85,
@@ -28870,6 +30728,8 @@
         }
       ],
       "total_opex": 210834766.68,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -503899980.55,
@@ -28968,6 +30828,14 @@
         }
       ],
       "total_opex": 65010863.6,
+      "capex": 16.8,
+      "capex_breakdown": [
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 16.8,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -157198198.99,
@@ -29054,6 +30922,14 @@
         }
       ],
       "total_opex": 42111638.94,
+      "capex": 444400329.13,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plot 7 Ligali Ayorinde",
+          "value": 444400329.13,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -81412307.4,
@@ -29160,6 +31036,8 @@
         }
       ],
       "total_opex": 155940898.04,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 261129471.4,
@@ -29256,6 +31134,8 @@
         }
       ],
       "total_opex": 164822782.63,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -29369,6 +31249,14 @@
         }
       ],
       "total_opex": 542571103.46,
+      "capex": 767506988.97,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plot 7 Ligali Ayorinde",
+          "value": 767506988.97,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -29492,6 +31380,8 @@
         }
       ],
       "total_opex": 183732657.48,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -184516304.67,
@@ -29610,6 +31500,14 @@
         }
       ],
       "total_opex": 146940342.76,
+      "capex": 344597760.38,
+      "capex_breakdown": [
+        {
+          "label": "FA - Land",
+          "value": 344597760.38,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 98645500.46,
@@ -29759,6 +31657,14 @@
         }
       ],
       "total_opex": 473753247.95,
+      "capex": 239900448.51,
+      "capex_breakdown": [
+        {
+          "label": "FA - Building",
+          "value": 239900448.51,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -404442468.03,
@@ -29892,6 +31798,8 @@
         }
       ],
       "total_opex": 229162290.83,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -30006,6 +31914,19 @@
         }
       ],
       "total_opex": 64773894.52,
+      "capex": 874255307.67,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 558048773.7,
+          "share": 63.8
+        },
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 316206533.97,
+          "share": 36.2
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 309221451.8,
@@ -30119,6 +32040,8 @@
         }
       ],
       "total_opex": 298532002.03,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -395093620.09,
@@ -30232,6 +32155,14 @@
         }
       ],
       "total_opex": 189482143.2,
+      "capex": 600351014.05,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 600351014.05,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -221822755.14,
@@ -30363,6 +32294,8 @@
         }
       ],
       "total_opex": 197906787.05,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 622599539.61,
@@ -30449,6 +32382,14 @@
         }
       ],
       "total_opex": 70652545.73,
+      "capex": 222827126.07,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 222827126.07,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -123771094.93,
@@ -30563,6 +32504,14 @@
         }
       ],
       "total_opex": 157757818.51,
+      "capex": 951005836.1,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 951005836.1,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -216502095.09,
@@ -30649,6 +32598,14 @@
         }
       ],
       "total_opex": 58241045.6,
+      "capex": 251495557.45,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 251495557.45,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -30769,6 +32726,14 @@
         }
       ],
       "total_opex": 201874967.11,
+      "capex": 529564388.55,
+      "capex_breakdown": [
+        {
+          "label": "FA - Equipment",
+          "value": 529564388.55,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -324333478.55,
@@ -30883,6 +32848,19 @@
         }
       ],
       "total_opex": 96819315.36,
+      "capex": 911894482.93,
+      "capex_breakdown": [
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 617161550.78,
+          "share": 67.7
+        },
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 294732932.15,
+          "share": 32.3
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -50992700.79,
@@ -31024,6 +33002,8 @@
         }
       ],
       "total_opex": 222044000.62,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -439485288.11,
@@ -31120,6 +33100,24 @@
         }
       ],
       "total_opex": 153140562.94,
+      "capex": 15697199475.86,
+      "capex_breakdown": [
+        {
+          "label": "FA - Equipment",
+          "value": 14223679259.79,
+          "share": 90.6
+        },
+        {
+          "label": "FA - Land",
+          "value": 970717890.27,
+          "share": 6.2
+        },
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 502802325.8,
+          "share": 3.2
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -31221,6 +33219,8 @@
         }
       ],
       "total_opex": 150035569.06,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -81950037.02,
@@ -31322,6 +33322,8 @@
         }
       ],
       "total_opex": 101141287.46,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -31431,6 +33433,14 @@
         }
       ],
       "total_opex": 214697197.45,
+      "capex": 738150638.54,
+      "capex_breakdown": [
+        {
+          "label": "FA - Land",
+          "value": 738150638.54,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -31575,6 +33585,8 @@
         }
       ],
       "total_opex": 626688691.4,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -31713,6 +33725,8 @@
         }
       ],
       "total_opex": 750213988.24,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -31857,6 +33871,8 @@
         }
       ],
       "total_opex": 917951298.09,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1074287842.78,
@@ -31973,6 +33989,8 @@
         }
       ],
       "total_opex": 129758950.11,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -32084,6 +34102,14 @@
         }
       ],
       "total_opex": 210493050.01,
+      "capex": 646497331.84,
+      "capex_breakdown": [
+        {
+          "label": "FA - Building",
+          "value": 646497331.84,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -230711614.59,
@@ -32180,6 +34206,8 @@
         }
       ],
       "total_opex": 79835884.74,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -105363964.32,
@@ -32296,6 +34324,14 @@
         }
       ],
       "total_opex": 240526907.81,
+      "capex": 646274699.34,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 646274699.34,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -597182052.42,
@@ -32437,6 +34473,19 @@
         }
       ],
       "total_opex": 145213410.74,
+      "capex": 15176686021.17,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plot 7 Ligali Ayorinde",
+          "value": 11340285854.35,
+          "share": 74.7
+        },
+        {
+          "label": "FA - Land",
+          "value": 3836400166.82,
+          "share": 25.3
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -549975247.14,
@@ -32553,6 +34602,14 @@
         }
       ],
       "total_opex": 276513826.05,
+      "capex": 486727381.09,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 486727381.09,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -324617502.38,
@@ -32714,6 +34771,24 @@
         }
       ],
       "total_opex": 190047562.2,
+      "capex": 1737305677.0,
+      "capex_breakdown": [
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 746534511.82,
+          "share": 43.0
+        },
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 725767695.4,
+          "share": 41.8
+        },
+        {
+          "label": "FA - Land",
+          "value": 265003469.78,
+          "share": 15.3
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -32797,6 +34872,8 @@
         }
       ],
       "total_opex": 226832288.13,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -226832288.13,
@@ -32883,6 +34960,8 @@
         }
       ],
       "total_opex": 612236329.92,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -32996,6 +35075,8 @@
         }
       ],
       "total_opex": 193409063.19,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -33144,6 +35225,8 @@
         }
       ],
       "total_opex": 254310363.84,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 5210210114.13,
@@ -33285,6 +35368,8 @@
         }
       ],
       "total_opex": 232862524.79,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -33428,6 +35513,14 @@
         }
       ],
       "total_opex": 109105419.86,
+      "capex": 598670951.92,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 598670951.92,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 373498677.21,
@@ -33506,6 +35599,14 @@
         }
       ],
       "total_opex": 88197395.9,
+      "capex": 104717887.4,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 104717887.4,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1155467800.52,
@@ -33592,6 +35693,8 @@
         }
       ],
       "total_opex": 1357424185.89,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -33668,6 +35771,8 @@
         }
       ],
       "total_opex": 110083139.7,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -626866150.28,
@@ -33794,6 +35899,8 @@
         }
       ],
       "total_opex": 148315891.89,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 79972244.65,
@@ -33877,6 +35984,8 @@
         }
       ],
       "total_opex": 613848709.83,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -34038,6 +36147,14 @@
         }
       ],
       "total_opex": 268893330.7,
+      "capex": 107693976.05,
+      "capex_breakdown": [
+        {
+          "label": "FA - Building",
+          "value": 107693976.05,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -223415557.31,
@@ -34149,6 +36266,8 @@
         }
       ],
       "total_opex": 283520624.82,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -397192363.31,
@@ -34250,6 +36369,14 @@
         }
       ],
       "total_opex": 181423429.66,
+      "capex": 607128630.1,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 607128630.1,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -34376,6 +36503,8 @@
         }
       ],
       "total_opex": 138301442.71,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -34522,6 +36651,14 @@
         }
       ],
       "total_opex": 221629676.84,
+      "capex": 541193302.88,
+      "capex_breakdown": [
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 541193302.88,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -332430830.87,
@@ -34615,6 +36752,8 @@
         }
       ],
       "total_opex": 79931338.4,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -34756,6 +36895,14 @@
         }
       ],
       "total_opex": 181964310.97,
+      "capex": 152799777.25,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 152799777.25,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -434626949.83,
@@ -34879,6 +37026,8 @@
         }
       ],
       "total_opex": 468163873.37,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -6274226243.03,
@@ -35020,6 +37169,19 @@
         }
       ],
       "total_opex": 229244752.51,
+      "capex": 585093099.61,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 448903887.08,
+          "share": 76.7
+        },
+        {
+          "label": "FA - Equipment",
+          "value": 136189212.53,
+          "share": 23.3
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -35126,6 +37288,14 @@
         }
       ],
       "total_opex": 226217393.83,
+      "capex": 662950287.35,
+      "capex_breakdown": [
+        {
+          "label": "FA - Land",
+          "value": 662950287.35,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -103879482.41,
@@ -35230,6 +37400,8 @@
         }
       ],
       "total_opex": 162953173.33,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -35347,6 +37519,8 @@
         }
       ],
       "total_opex": 100128464.14,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -260567910.03,
@@ -35438,6 +37612,8 @@
         }
       ],
       "total_opex": 77629999.59,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -35556,6 +37732,19 @@
         }
       ],
       "total_opex": 282518430.19,
+      "capex": 812792080.49,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plot 7 Ligali Ayorinde",
+          "value": 651852680.84,
+          "share": 80.2
+        },
+        {
+          "label": "FA - Equipment",
+          "value": 160939399.65,
+          "share": 19.8
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -35675,6 +37864,14 @@
         }
       ],
       "total_opex": 153845849.96,
+      "capex": 234051152.47,
+      "capex_breakdown": [
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 234051152.47,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 17121331.02,
@@ -35806,6 +38003,8 @@
         }
       ],
       "total_opex": 243726238.44,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -350625975.34,
@@ -35887,6 +38086,8 @@
         }
       ],
       "total_opex": 160083144.2,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -380879600.81,
@@ -35960,6 +38161,8 @@
         }
       ],
       "total_opex": 1249427505.8,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -36046,6 +38249,8 @@
         }
       ],
       "total_opex": 103033949.52,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -116761535.84,
@@ -36109,6 +38314,8 @@
         }
       ],
       "total_opex": 114416497.95,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -114416497.95,
@@ -36220,6 +38427,8 @@
         }
       ],
       "total_opex": 137241089.5,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 2934697203.21,
@@ -36321,6 +38530,14 @@
         }
       ],
       "total_opex": 16712748.61,
+      "capex": 414880459.33,
+      "capex_breakdown": [
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 414880459.33,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -130946444.42,
@@ -36454,6 +38671,24 @@
         }
       ],
       "total_opex": 114533086.7,
+      "capex": 1088018296.99,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 728424869.04,
+          "share": 66.9
+        },
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 359593340.34,
+          "share": 33.1
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 87.61,
+          "share": 0.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -36550,6 +38785,14 @@
         }
       ],
       "total_opex": 162220268.74,
+      "capex": 220684822.99,
+      "capex_breakdown": [
+        {
+          "label": "FA - Building",
+          "value": 220684822.99,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 31066854.2,
@@ -36639,6 +38882,8 @@
         }
       ],
       "total_opex": 9044435.13,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1056000886.88,
@@ -36760,6 +39005,14 @@
         }
       ],
       "total_opex": 137964879.87,
+      "capex": 253425766.53,
+      "capex_breakdown": [
+        {
+          "label": "FA - Building",
+          "value": 253425766.53,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -74985815.14,
@@ -36864,6 +39117,14 @@
         }
       ],
       "total_opex": 154472062.82,
+      "capex": 918859299.72,
+      "capex_breakdown": [
+        {
+          "label": "FA - Building",
+          "value": 918859299.72,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -36980,6 +39241,19 @@
         }
       ],
       "total_opex": 359019084.45,
+      "capex": 1635758500.27,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 872747737.94,
+          "share": 53.4
+        },
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 763010762.33,
+          "share": 46.6
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -37038,6 +39312,8 @@
         }
       ],
       "total_opex": 25764496.97,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -37106,6 +39382,8 @@
         }
       ],
       "total_opex": 152496425.32,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -37179,6 +39457,14 @@
         }
       ],
       "total_opex": 84435782.38,
+      "capex": 284017230.96,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 284017230.96,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -37285,6 +39571,8 @@
         }
       ],
       "total_opex": 263012156.09,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -37368,6 +39656,8 @@
         }
       ],
       "total_opex": 1539778101.99,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -37449,6 +39739,19 @@
         }
       ],
       "total_opex": 37978998.0,
+      "capex": 414512385.96,
+      "capex_breakdown": [
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 211309926.67,
+          "share": 51.0
+        },
+        {
+          "label": "FA - Equipment",
+          "value": 203202459.29,
+          "share": 49.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -97540480.6,
@@ -37550,6 +39853,8 @@
         }
       ],
       "total_opex": 69138619.01,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -37669,6 +39974,8 @@
         }
       ],
       "total_opex": 115760654.22,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -117075784.2,
@@ -37722,6 +40029,14 @@
         }
       ],
       "total_opex": 62664133.76,
+      "capex": 80.06,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 80.06,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -37833,6 +40148,14 @@
         }
       ],
       "total_opex": 854429406.21,
+      "capex": 713837448.91,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plot 7 Ligali Ayorinde",
+          "value": 713837448.91,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -939559364.64,
@@ -37946,6 +40269,8 @@
         }
       ],
       "total_opex": 269122771.59,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -298817831.52,
@@ -38095,6 +40420,8 @@
         }
       ],
       "total_opex": 306573808.55,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -38234,6 +40561,8 @@
         }
       ],
       "total_opex": 219347328.47,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -206146974.95,
@@ -38332,6 +40661,14 @@
         }
       ],
       "total_opex": 44279917.19,
+      "capex": 752375082.28,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 752375082.28,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -136849735.64,
@@ -38453,6 +40790,19 @@
         }
       ],
       "total_opex": 232107484.95,
+      "capex": 814911105.37,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 757566025.43,
+          "share": 93.0
+        },
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 57345079.94,
+          "share": 7.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 163088772.95,
@@ -38584,6 +40934,8 @@
         }
       ],
       "total_opex": 258009745.13,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -275876326.88,
@@ -38725,6 +41077,8 @@
         }
       ],
       "total_opex": 63752059.67,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -38856,6 +41210,19 @@
         }
       ],
       "total_opex": 204998258.26,
+      "capex": 1271276848.9,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 905117271.36,
+          "share": 71.2
+        },
+        {
+          "label": "FA - Land",
+          "value": 366159577.54,
+          "share": 28.8
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -316667170.63,
@@ -38977,6 +41344,8 @@
         }
       ],
       "total_opex": 123281776.3,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 137527411.14,
@@ -39093,6 +41462,8 @@
         }
       ],
       "total_opex": 92312722.37,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1142760591.4,
@@ -39224,6 +41595,8 @@
         }
       ],
       "total_opex": 252770026.81,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -39330,6 +41703,8 @@
         }
       ],
       "total_opex": 51619366.15,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -39451,6 +41826,8 @@
         }
       ],
       "total_opex": 204212007.93,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -212257636.39,
@@ -39587,6 +41964,14 @@
         }
       ],
       "total_opex": 305206978.4,
+      "capex": 848008465.31,
+      "capex_breakdown": [
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 848008465.31,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -39695,6 +42080,8 @@
         }
       ],
       "total_opex": 196241013.35,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -271893939.23,
@@ -39784,6 +42171,8 @@
         }
       ],
       "total_opex": 67584214.19,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -61918849.09,
@@ -39902,6 +42291,14 @@
         }
       ],
       "total_opex": 199643995.97,
+      "capex": 722580004.87,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plot 7 Ligali Ayorinde",
+          "value": 722580004.87,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -181869916.75,
@@ -40045,6 +42442,8 @@
         }
       ],
       "total_opex": 174868176.8,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 202883035.41,
@@ -40194,6 +42593,19 @@
         }
       ],
       "total_opex": 263176921.52,
+      "capex": 1427174496.41,
+      "capex_breakdown": [
+        {
+          "label": "FA - Land",
+          "value": 720055046.67,
+          "share": 50.5
+        },
+        {
+          "label": "FA - Plot 7 Ligali Ayorinde",
+          "value": 707119449.74,
+          "share": 49.5
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -211482372.9,
@@ -40265,6 +42677,14 @@
         }
       ],
       "total_opex": 202162589.75,
+      "capex": 997629585.48,
+      "capex_breakdown": [
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 997629585.48,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -267959378.06,
@@ -40411,6 +42831,8 @@
         }
       ],
       "total_opex": 240677686.51,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -375255670.42,
@@ -40520,6 +42942,14 @@
         }
       ],
       "total_opex": 138577547.95,
+      "capex": 823848143.31,
+      "capex_breakdown": [
+        {
+          "label": "FA - Building",
+          "value": 823848143.31,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 1124305984.27,
@@ -40623,6 +43053,24 @@
         }
       ],
       "total_opex": 85406126.84,
+      "capex": 2622806721.51,
+      "capex_breakdown": [
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 1722398278.49,
+          "share": 65.7
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 528285068.84,
+          "share": 20.1
+        },
+        {
+          "label": "FA - Land",
+          "value": 372123374.18,
+          "share": 14.2
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -40759,6 +43207,8 @@
         }
       ],
       "total_opex": 729961532.43,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -515238723.79,
@@ -40877,6 +43327,8 @@
         }
       ],
       "total_opex": 394396765.48,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -40985,6 +43437,8 @@
         }
       ],
       "total_opex": 271263769.8,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1495392724.65,
@@ -41053,6 +43507,19 @@
         }
       ],
       "total_opex": 125541137.88,
+      "capex": 868069796.56,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 659305233.95,
+          "share": 76.0
+        },
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 208764562.61,
+          "share": 24.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -125541137.88,
@@ -41151,6 +43618,24 @@
         }
       ],
       "total_opex": 64278104.31,
+      "capex": 1094392702.31,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 956707227.25,
+          "share": 87.4
+        },
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 295869787.63,
+          "share": 27.0
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": -158184312.57,
+          "share": -14.5
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -185692675.86,
@@ -41282,6 +43767,14 @@
         }
       ],
       "total_opex": 142024988.15,
+      "capex": 687345124.37,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 687345124.37,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 83671186.6,
@@ -41403,6 +43896,8 @@
         }
       ],
       "total_opex": 264422233.41,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -38845437.87,
@@ -41502,6 +43997,8 @@
         }
       ],
       "total_opex": 14848125.04,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -41615,6 +44112,19 @@
         }
       ],
       "total_opex": 42949036.23,
+      "capex": 5963485903.86,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 5018273698.46,
+          "share": 84.2
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 945212205.4,
+          "share": 15.8
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -41701,6 +44211,8 @@
         }
       ],
       "total_opex": 116075425.75,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -41797,6 +44309,8 @@
         }
       ],
       "total_opex": 81417517.97,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -157542014.66,
@@ -41910,6 +44424,14 @@
         }
       ],
       "total_opex": 152679044.13,
+      "capex": 690208358.04,
+      "capex_breakdown": [
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 690208358.04,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1692571388.14,
@@ -42009,6 +44531,14 @@
         }
       ],
       "total_opex": 130999730.0,
+      "capex": 780473019.46,
+      "capex_breakdown": [
+        {
+          "label": "FA - Land",
+          "value": 780473019.46,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -42107,6 +44637,14 @@
         }
       ],
       "total_opex": 232867742.09,
+      "capex": 859494541.32,
+      "capex_breakdown": [
+        {
+          "label": "FA - Building",
+          "value": 859494541.32,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1063377437.04,
@@ -42235,6 +44773,14 @@
         }
       ],
       "total_opex": 155084288.1,
+      "capex": 251290692.11,
+      "capex_breakdown": [
+        {
+          "label": "FA - Building",
+          "value": 251290692.11,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -910365529.74,
@@ -42373,6 +44919,8 @@
         }
       ],
       "total_opex": 60297688.8,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 224411970.32,
@@ -42511,6 +45059,8 @@
         }
       ],
       "total_opex": 263350951.63,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -42642,6 +45192,8 @@
         }
       ],
       "total_opex": 52702693.69,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -51147094.09,
@@ -42730,6 +45282,8 @@
         }
       ],
       "total_opex": 90114321.66,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -521770925.16,
@@ -42886,6 +45440,14 @@
         }
       ],
       "total_opex": 322943760.38,
+      "capex": 150682974.39,
+      "capex_breakdown": [
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 150682974.39,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -375086483.58,
@@ -42990,6 +45552,8 @@
         }
       ],
       "total_opex": 89130232.63,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 293885300.09,
@@ -43131,6 +45695,14 @@
         }
       ],
       "total_opex": 269607899.68,
+      "capex": 451484268.94,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 451484268.94,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 600749640.03,
@@ -43262,6 +45834,19 @@
         }
       ],
       "total_opex": 61527734.31,
+      "capex": 616227119.29,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 444592891.6,
+          "share": 72.1
+        },
+        {
+          "label": "FA - Building",
+          "value": 171634227.69,
+          "share": 27.9
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -31746174.12,
@@ -43361,6 +45946,19 @@
         }
       ],
       "total_opex": 83168867.79,
+      "capex": 1480750278.19,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 884632409.08,
+          "share": 59.7
+        },
+        {
+          "label": "FA - Plot 7 Ligali Ayorinde",
+          "value": 596117869.11,
+          "share": 40.3
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -43497,6 +46095,8 @@
         }
       ],
       "total_opex": 57002976.33,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1354873731.85,
@@ -43593,6 +46193,14 @@
         }
       ],
       "total_opex": 121058467.22,
+      "capex": 733140660.94,
+      "capex_breakdown": [
+        {
+          "label": "FA - Motor Vehicle",
+          "value": 733140660.94,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 367923092.71,
@@ -43719,6 +46327,8 @@
         }
       ],
       "total_opex": 395533112.29,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -457348607.9,
@@ -43833,6 +46443,14 @@
         }
       ],
       "total_opex": 138243013.38,
+      "capex": 943703952.35,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 943703952.35,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -43936,6 +46554,8 @@
         }
       ],
       "total_opex": 131606776.43,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -44022,6 +46642,14 @@
         }
       ],
       "total_opex": 60601466.7,
+      "capex": 104387404.7,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 104387404.7,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -198898576.72,
@@ -44098,6 +46726,19 @@
         }
       ],
       "total_opex": 115387110.82,
+      "capex": 1576543510.77,
+      "capex_breakdown": [
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 807200396.06,
+          "share": 51.2
+        },
+        {
+          "label": "FA - GAC Ogba Construction",
+          "value": 769343114.71,
+          "share": 48.8
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -44226,6 +46867,14 @@
         }
       ],
       "total_opex": 265237394.49,
+      "capex": 233999187.82,
+      "capex_breakdown": [
+        {
+          "label": "FA - Equipment",
+          "value": 233999187.82,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -334836301.83,
@@ -44352,6 +47001,8 @@
         }
       ],
       "total_opex": 178872812.19,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -269423149.12,
@@ -44476,6 +47127,14 @@
         }
       ],
       "total_opex": 212185680.41,
+      "capex": 83076589.07,
+      "capex_breakdown": [
+        {
+          "label": "FA - Motor Vehicle",
+          "value": 83076589.07,
+          "share": 100.0
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -44572,6 +47231,8 @@
         }
       ],
       "total_opex": 134563191.52,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1558565913.81,
@@ -44673,6 +47334,14 @@
         }
       ],
       "total_opex": 194705960.24,
+      "capex": 893467904.75,
+      "capex_breakdown": [
+        {
+          "label": "FA - Motor Vehicle",
+          "value": 893467904.75,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -233071994.51,
@@ -44782,6 +47451,8 @@
         }
       ],
       "total_opex": 252270567.92,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -44876,6 +47547,8 @@
         }
       ],
       "total_opex": 95060810.12,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 312916374.05,
@@ -44970,6 +47643,14 @@
         }
       ],
       "total_opex": 20461102.98,
+      "capex": 881350695.96,
+      "capex_breakdown": [
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch",
+          "value": 881350695.96,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 456500329.82,
@@ -45096,6 +47777,8 @@
         }
       ],
       "total_opex": 403794712.44,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -419533779.38,
@@ -45214,6 +47897,8 @@
         }
       ],
       "total_opex": 229869959.29,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -537224060.69,
@@ -45333,6 +48018,14 @@
         }
       ],
       "total_opex": 70989772.73,
+      "capex": 772262838.54,
+      "capex_breakdown": [
+        {
+          "label": "FA - Plant & Machinery",
+          "value": 772262838.54,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 1006380872.55,
@@ -45466,6 +48159,8 @@
         }
       ],
       "total_opex": 202338485.16,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1074182035.39,
@@ -45557,6 +48252,14 @@
         }
       ],
       "total_opex": 91921024.37,
+      "capex": 230183619.51,
+      "capex_breakdown": [
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 230183619.51,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 767841482.21,
@@ -45703,6 +48406,14 @@
         }
       ],
       "total_opex": 556986774.22,
+      "capex": 856416698.25,
+      "capex_breakdown": [
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 856416698.25,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -811382166.17,
@@ -45824,6 +48535,14 @@
         }
       ],
       "total_opex": 325437963.32,
+      "capex": 76692288.51,
+      "capex_breakdown": [
+        {
+          "label": "FA - Land",
+          "value": 76692288.51,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -485364955.83,
@@ -45932,6 +48651,8 @@
         }
       ],
       "total_opex": 97939043.07,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -46070,6 +48791,8 @@
         }
       ],
       "total_opex": 101964481.12,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -187102808.78,
@@ -46211,6 +48934,8 @@
         }
       ],
       "total_opex": 282432353.17,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -46305,6 +49030,8 @@
         }
       ],
       "total_opex": 15817238.1,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -28621253.42,
@@ -46433,6 +49160,8 @@
         }
       ],
       "total_opex": 715035854.97,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -865772513.47,
@@ -46527,6 +49256,8 @@
         }
       ],
       "total_opex": 1275979381.85,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -46620,6 +49351,8 @@
         }
       ],
       "total_opex": 55915659.32,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -46741,6 +49474,19 @@
         }
       ],
       "total_opex": 56826546.88,
+      "capex": 1695158130.35,
+      "capex_breakdown": [
+        {
+          "label": "FA - Land",
+          "value": 952147495.32,
+          "share": 56.2
+        },
+        {
+          "label": "FA-Plot1597-Abuja-AC Okoch 2",
+          "value": 743010635.03,
+          "share": 43.8
+        }
+      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -46844,6 +49590,8 @@
         }
       ],
       "total_opex": 140343485.78,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -302982322.43,
@@ -46943,6 +49691,8 @@
         }
       ],
       "total_opex": 133017505.57,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -171849991.2,
@@ -47074,6 +49824,14 @@
         }
       ],
       "total_opex": 295405013.51,
+      "capex": 298751947.19,
+      "capex_breakdown": [
+        {
+          "label": "FA - Furniture & Fittings",
+          "value": 298751947.19,
+          "share": 100.0
+        }
+      ],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -358570521.42,
@@ -47192,6 +49950,8 @@
         }
       ],
       "total_opex": 232329387.47,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -379085657.9,
@@ -47230,6 +49990,8 @@
         }
       ],
       "total_opex": 750000.0,
+      "capex": 0.0,
+      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -750000.0,
