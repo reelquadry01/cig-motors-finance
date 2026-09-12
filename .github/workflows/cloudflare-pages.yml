@@ -1,0 +1,38 @@
+name: Deploy to Cloudflare Pages
+
+# Optional alternative to GitHub Pages. Enable by setting, in the repo:
+#   Settings ▸ Secrets and variables ▸ Actions
+#     Variables:  DEPLOY_CLOUDFLARE = true
+#                 CF_PAGES_PROJECT  = <your-cloudflare-pages-project-name>   (this is the *.pages.dev name)
+#     Secrets:    CLOUDFLARE_API_TOKEN   (token with "Cloudflare Pages: Edit")
+#                 CLOUDFLARE_ACCOUNT_ID
+# Create the Pages project once (Cloudflare dashboard ▸ Workers & Pages ▸ Create ▸ Pages),
+# choosing the name you want — that name becomes the URL.
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  deploy:
+    if: ${{ vars.DEPLOY_CLOUDFLARE == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: dashboard/package-lock.json
+      - name: Install & build
+        working-directory: dashboard
+        run: |
+          npm ci
+          npm run build
+          cp dist/index.html dist/404.html
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dashboard/dist --project-name=${{ vars.CF_PAGES_PROJECT }}
