@@ -33,18 +33,29 @@ def tb_group(section: str, fs_heading: str):
 
 
 def build_tb_meta(merged: pd.DataFrame) -> dict:
-    """Stable per-account metadata: {code: {name, group, segment}}."""
+    """Stable per-account metadata.
+
+    {code: {name, group, line, note, cf, segment}} where `line` is the
+    statement line (FS heading), `note` the note heading and `cf` the cash-flow
+    category. These become columns on the exported trial balance so every
+    statement, note and schedule can be a SUMIF against it.
+    """
     out = {}
-    cols = ["GL_Code", "Account_Description", "Statement_Section", "FS_Heading", "Segment"]
+    cols = ["GL_Code", "Account_Description", "Statement_Section", "FS_Heading",
+            "Note_Heading", "CF_Category", "Segment"]
     df = merged[cols].drop_duplicates(subset=["GL_Code"])
     for _, r in df.iterrows():
         g = tb_group(r["Statement_Section"], r["FS_Heading"])
         if not g:
             continue
+        s = lambda v, d="": str(v) if pd.notna(v) else d
         out[str(r["GL_Code"])] = {
-            "name": str(r["Account_Description"]) if pd.notna(r["Account_Description"]) else str(r["GL_Code"]),
+            "name": s(r["Account_Description"], str(r["GL_Code"])),
             "group": g,
-            "segment": str(r["Segment"]) if pd.notna(r["Segment"]) else "Corporate",
+            "line": s(r["FS_Heading"], g),
+            "note": s(r["Note_Heading"], s(r["FS_Heading"], g)),
+            "cf": s(r["CF_Category"], ""),
+            "segment": s(r["Segment"], "Corporate"),
         }
     return out
 
@@ -298,6 +309,12 @@ def build_balance_sheet(merged: pd.DataFrame, account_summary: pd.DataFrame) -> 
         amount = row["Net"]
         if heading == "Unclassified":
             continue
+
+        # Liabilities and equity are credit balances (negative Net). Present
+        # them as positive magnitudes, as a balance sheet is normally read,
+        # so working capital and the current ratio come out with the right sign.
+        if section in ("Liabilities", "Equity"):
+            amount = -amount
 
         item = {"label": heading, "value": round(amount, 2)}
 
