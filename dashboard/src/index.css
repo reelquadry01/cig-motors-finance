@@ -143,17 +143,7 @@
     overflow: hidden;
     transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s, background 0.25s;
   }
-  .kpi-card::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 3px;
-    background: var(--brand);
-    opacity: 0;
-    transition: opacity 0.25s;
-  }
   .kpi-card:hover { border-color: var(--border-strong); box-shadow: var(--shadow-card); }
-  .kpi-card:hover::before { opacity: 1; }
 
   /* ── Tables ── */
   .data-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13.5px; }

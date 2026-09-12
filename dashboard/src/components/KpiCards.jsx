@@ -7,10 +7,14 @@ export default function KpiCards({ items }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       {items.map((item, i) => {
+        const hasDelta = item.delta !== undefined && item.delta !== null
         const deltaPos = item.delta >= 0
-        const sparkColor = item.accent || (deltaPos ? CHART.green : CHART.red)
+        // Semantic colour: green when the metric is improving, red when
+        // worsening, neutral when there is no trend to judge.
+        const signVar = !hasDelta ? 'var(--text-muted)' : (deltaPos ? 'var(--fav)' : 'var(--unfav)')
+        const sparkColor = !hasDelta ? CHART.grey : (deltaPos ? CHART.green : CHART.red)
         return (
-          <div key={i} className="kpi-card animate-in" style={{ animationDelay: `${i * 55}ms`, background: `color-mix(in srgb, ${item.accent || 'var(--accent)'} 5%, var(--surface-1))`, borderColor: `color-mix(in srgb, ${item.accent || 'var(--accent)'} 16%, var(--border))` }}>
+          <div key={i} className="kpi-card animate-in" style={{ animationDelay: `${i * 55}ms`, borderLeft: `3px solid ${signVar}` }}>
             <div className="label-caps" style={{ fontSize: 10.5, fontWeight: 600, color: 'var(--text-muted)', marginBottom: 10 }}>
               {item.label}
             </div>

@@ -209,20 +209,13 @@ export function MarginGauge({ label, value, color = CHART.brand, max = 100 }) {
   )
 }
 
-let sparkId = 0
 export function Sparkline({ data, color = CHART.brand, height = 32 }) {
   if (!data || data.length < 2) return null
-  const gid = `spark-${sparkId++}`
+  // Flat translucent fill (no gradient) + solid stroke
   return (
     <ResponsiveContainer width="100%" height={height}>
       <AreaChart data={data} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
-        <defs>
-          <linearGradient id={gid} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={color} stopOpacity={0.28} />
-            <stop offset="100%" stopColor={color} stopOpacity={0} />
-          </linearGradient>
-        </defs>
-        <Area type="monotone" dataKey="v" stroke={color} strokeWidth={1.5} fill={`url(#${gid})`} dot={false} isAnimationActive={false} />
+        <Area type="monotone" dataKey="v" stroke={color} strokeWidth={1.5} fill={color} fillOpacity={0.1} dot={false} isAnimationActive={false} />
       </AreaChart>
     </ResponsiveContainer>
   )
