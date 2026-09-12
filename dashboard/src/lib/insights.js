@@ -1,6 +1,7 @@
 // Derives editorial KPIs and dynamic "things to watch" readings from the
 // dashboard data. Everything here is computed live, so it re-derives whenever
 // the active period / date range changes.
+import fmt from './fmt'
 
 export function ngSplit(v) {
   if (v === null || v === undefined || isNaN(v)) return { text: '—', unit: '' }
@@ -84,8 +85,8 @@ export function buildReadings(data) {
   const pk = data._periodKey
   const out = []
 
-  const fmtB = v => `₦${(Math.abs(v) / 1e9).toFixed(2)}B`
-  const fmtM = v => `₦${(Math.abs(v) / 1e6).toFixed(0)}M`
+  const fmtB = v => fmt.money(v)
+  const fmtM = v => fmt.money(v)
 
   // Revenue momentum
   const revD = momDelta(monthly, 'revenue', pk)
@@ -115,8 +116,8 @@ export function buildReadings(data) {
     out.push({
       tone: profitable ? 'fav' : 'unfav',
       title: profitable
-        ? `Net profit of ${fmtM(pl.pat)} (${(pl.pat_margin ?? 0).toFixed(1)}% margin)`
-        : `Net loss of ${fmtM(pl.pat)} for the period`,
+        ? `Net profit of ${fmtM(Math.abs(pl.pat))} (${(pl.pat_margin ?? 0).toFixed(1)}% margin)`
+        : `Net loss of ${fmtM(Math.abs(pl.pat))} for the period`,
       detail: `Operating expenses of ${fmtM(pl.total_opex)} absorbed ${pl.total_revenue ? (pl.total_opex / pl.total_revenue * 100).toFixed(0) : '—'}% of revenue; operating margin ${(pl.op_margin ?? 0).toFixed(1)}%.`,
     })
   }
@@ -138,7 +139,7 @@ export function buildReadings(data) {
     const up = cf.net_change >= 0
     out.push({
       tone: up ? 'fav' : 'warn',
-      title: `Cash ${up ? 'rose' : 'fell'} ${fmtM(cf.net_change)} in the period`,
+      title: `Cash ${up ? 'rose' : 'fell'} ${fmtM(Math.abs(cf.net_change))} in the period`,
       detail: `Operating ${fmtM(cf.operating?.total)}, investing ${fmtM(cf.investing?.total)}, financing ${fmtM(cf.financing?.total)}.`,
     })
   }

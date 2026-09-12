@@ -3,10 +3,12 @@
 // judgement is derived from the numbers in `data`, so it re-writes itself when
 // the period / date range changes.
 
-const B = v => `₦${(Math.abs(v || 0) / 1e9).toFixed(2)}B`
-const M = v => `₦${(Math.abs(v || 0) / 1e6).toFixed(0)}M`
+import fmt from './fmt'
+
+const B = v => fmt.money(v)   // readable ₦ figure, auto-scaled
+const M = v => fmt.money(v)
 const P = (v, d = 1) => `${(v ?? 0).toFixed(d)}%`
-const signed = v => (v >= 0 ? '' : '−') // minus glyph for narrative
+const signed = v => (v >= 0 ? '' : '−') // minus glyph for percentages
 
 function momDelta(monthly, key, pk) {
   if (!monthly || monthly.length < 2 || !pk) return null
@@ -44,7 +46,7 @@ export function buildCfoCommentary(data) {
     const paras = []
     const verdict = pat >= 0
       ? `${period} was profitable, with net income of ${M(pat)} on revenue of ${B(rev)} (${P(pl.pat_margin)} net margin).`
-      : `${period} closed in a loss of ${M(pat)} despite revenue of ${B(rev)}; the ${P(pl.pat_margin)} net margin reflects costs below the gross line outrunning trading profit.`
+      : `${period} closed in a loss of ${M(Math.abs(pat))} despite revenue of ${B(rev)}; the ${P(pl.pat_margin)} net margin reflects costs below the gross line outrunning trading profit.`
     paras.push(verdict)
     if (gp >= 0) {
       paras.push(`The business converts revenue to gross profit at ${P(pl.gp_margin)}, but operating margin lands at ${P(pl.op_margin)} — a ${P(Math.abs(pl.gp_margin - pl.op_margin))} gap driven by operating expenses of ${M(opex)} (${P(opexRatio)} of revenue).`)
@@ -67,18 +69,19 @@ export function buildCfoCommentary(data) {
     }
     paras.push(oi >= 0
       ? `After ${M(opex)} of operating expenses and ${M(pl.total_depreciation)} of depreciation, operating profit is ${M(oi)} (${P(pl.op_margin)} margin).`
-      : `Operating expenses of ${M(opex)} — ${P(opexRatio)} of revenue — pull the business to an operating loss of ${M(oi)}; controlling overhead is the clearest lever on profitability.`)
+      : `Operating expenses of ${M(opex)} — ${P(opexRatio)} of revenue — pull the business to an operating loss of ${M(Math.abs(oi))}; controlling overhead is the clearest lever on profitability.`)
     sections.push({ key: 'profitability', title: 'Revenue & profitability', icon: 'trending', tone: gp >= 0 && pl.gp_margin >= 15 ? 'fav' : 'warn', paras })
   }
 
   /* ── Balance sheet & liquidity ── */
   {
     const paras = []
-    paras.push(`The balance sheet carries ${B(bs.total_assets)} of assets against ${B(bs.total_liabilities)} of liabilities, leaving ${bs.total_equity >= 0 ? 'shareholders’ equity' : 'a net equity deficit'} of ${B(bs.total_equity)}.`)
-    if (bs.current_ratio !== undefined && bs.current_ratio !== null) {
-      paras.push(bs.current_ratio >= 1
-        ? `Liquidity is adequate: a current ratio of ${bs.current_ratio.toFixed(2)}× and ${M(bs.working_capital)} of working capital mean current assets cover near-term obligations.`
-        : `Liquidity is tight: a current ratio of ${bs.current_ratio.toFixed(2)}× and working capital of ${signed(bs.working_capital)}${M(bs.working_capital)} indicate current liabilities exceed current assets — a near-term funding watch-point.`)
+    paras.push(`The balance sheet carries ${B(Math.abs(bs.total_assets))} of assets against ${B(Math.abs(bs.total_liabilities))} of liabilities, leaving ${bs.total_equity >= 0 ? 'shareholders’ equity' : 'a net equity deficit'} of ${B(Math.abs(bs.total_equity))}.`)
+    if (bs.working_capital !== undefined && bs.working_capital !== null) {
+      const cr = (bs.current_ratio !== undefined && bs.current_ratio !== null) ? ` (current ratio ${bs.current_ratio.toFixed(2)}×)` : ''
+      paras.push(bs.working_capital >= 0
+        ? `Working capital is positive at ${M(bs.working_capital)}${cr}, so current assets broadly cover near-term obligations.`
+        : `Working capital is negative at ${M(bs.working_capital)}${cr} — current liabilities exceed current assets, a near-term funding watch-point.`)
     }
     if (bs.total_equity < 0) {
       paras.push(`Negative equity is a solvency flag: liabilities exceed assets, so recapitalisation or a return to sustained profitability is needed to rebuild the balance sheet.`)
@@ -90,8 +93,8 @@ export function buildCfoCommentary(data) {
   {
     const paras = []
     const nc = cf.net_change || 0
-    paras.push(`Cash ${nc >= 0 ? 'increased' : 'decreased'} by ${M(nc)} over the period.`)
-    paras.push(`Operating activities ${(cf.operating?.total || 0) >= 0 ? 'generated' : 'consumed'} ${M(cf.operating?.total)}, investing ${(cf.investing?.total || 0) >= 0 ? 'released' : 'absorbed'} ${M(cf.investing?.total)}, and financing ${(cf.financing?.total || 0) >= 0 ? 'raised' : 'repaid'} ${M(cf.financing?.total)}.`)
+    paras.push(`Cash ${nc >= 0 ? 'increased' : 'decreased'} by ${M(Math.abs(nc))} over the period.`)
+    paras.push(`Operating activities ${(cf.operating?.total || 0) >= 0 ? 'generated' : 'consumed'} ${M(Math.abs(cf.operating?.total))}, investing ${(cf.investing?.total || 0) >= 0 ? 'released' : 'absorbed'} ${M(Math.abs(cf.investing?.total))}, and financing ${(cf.financing?.total || 0) >= 0 ? 'raised' : 'repaid'} ${M(Math.abs(cf.financing?.total))}.`)
     if ((cf.operating?.total || 0) < 0) {
       paras.push(`Negative operating cash flow means day-to-day trading is not yet self-funding; the gap is being bridged by financing rather than operations.`)
     }

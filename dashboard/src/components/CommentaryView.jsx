@@ -12,7 +12,7 @@ export default function CommentaryView({ data }) {
 
   return (
     <div className="animate-in">
-      <ViewHeader icon={FileText} title="Commentary" sub="CFO review & actions" accent="var(--brand)" meta={data.period} />
+      <ViewHeader icon={FileText} title="Commentary" sub="review & actions" accent="var(--brand)" meta={`${data.period} · figures in Naira (bn = billion, m = million)`} />
 
       <div className="pl-grid">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>

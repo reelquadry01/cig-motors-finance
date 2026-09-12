@@ -8,7 +8,7 @@ function LeafRow({ label, value, revenueTotal, indent = 44 }) {
   return (
     <tr style={{ animation: 'fadeIn 0.15s ease-out' }}>
       <td style={{ paddingLeft: indent, color: 'var(--text-secondary)' }}>{label}</td>
-      <td style={{ textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{fmt.ng0(value)}</td>
+      <td style={{ textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{fmt.acc0(value)}</td>
       <td style={{ textAlign: 'right' }}>—</td>
       <td style={{ textAlign: 'right' }}>—</td>
       <td style={{ textAlign: 'right' }}>
@@ -36,7 +36,7 @@ function GroupRow({ group, sectionTotal, revenueTotal }) {
             <span style={{ fontSize: 10, color: 'var(--text-muted)', opacity: 0.6 }}>({items.length})</span>
           </span>
         </td>
-        <td style={{ textAlign: 'right', fontVariantNumeric: 'tabular-nums', fontWeight: 500 }}>{fmt.ng0(group.value)}</td>
+        <td style={{ textAlign: 'right', fontVariantNumeric: 'tabular-nums', fontWeight: 500 }}>{fmt.acc0(group.value)}</td>
         <td style={{ textAlign: 'right' }}>—</td>
         <td style={{ textAlign: 'right' }}>—</td>
         <td style={{ textAlign: 'right' }}>
@@ -75,7 +75,7 @@ function SectionRow({ title, items, breakdown, total, margin, bold, revenueTotal
     return (
       <tr className={bold ? 'row-subtotal' : ''}>
         <td style={labelStyle}>{title}</td>
-        <td style={{ textAlign: 'right', fontWeight: bold ? 700 : 400, fontVariantNumeric: 'tabular-nums' }}>{fmt.ng0(total)}</td>
+        <td style={{ textAlign: 'right', fontWeight: bold ? 700 : 400, fontVariantNumeric: 'tabular-nums' }}>{fmt.acc0(total)}</td>
         <td style={{ textAlign: 'right' }}>{margin !== undefined && <span className="badge badge-neutral">{fmt.pct(margin)}</span>}</td>
         <td style={{ textAlign: 'right' }}>—</td>
         <td style={{ textAlign: 'right' }}>—</td>
@@ -95,7 +95,7 @@ function SectionRow({ title, items, breakdown, total, margin, bold, revenueTotal
             <span style={{ fontSize: 10, color: 'var(--text-muted)', opacity: 0.6 }}>({childCount})</span>
           </span>
         </td>
-        <td style={{ textAlign: 'right', fontWeight: bold ? 700 : 500, fontVariantNumeric: 'tabular-nums' }}>{fmt.ng0(total)}</td>
+        <td style={{ textAlign: 'right', fontWeight: bold ? 700 : 500, fontVariantNumeric: 'tabular-nums' }}>{fmt.acc0(total)}</td>
         <td style={{ textAlign: 'right' }}>{margin !== undefined && <span className="badge badge-neutral">{fmt.pct(margin)}</span>}</td>
         <td style={{ textAlign: 'right' }}>—</td>
         <td style={{ textAlign: 'right' }}>{total !== 0 && <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>100%</span>}</td>
@@ -132,7 +132,7 @@ export default function PLView({ data }) {
   return (
     <div className="animate-in">
       <ViewHeader icon={FileText} title="Income statement" sub="profit or loss" accent="var(--brand)"
-        meta={`${data.period} · ₦ millions · expand Revenue or Cost of Sales for the segment & product-line breakdown`} />
+        meta={`${data.period} · in Naira (₦) · expand Revenue or Cost of Sales for the segment & product-line breakdown`} />
 
       <div className="pl-grid">
         <div className="card tinted" style={{ padding: 0, overflow: 'hidden', '--tint': 'var(--brand)' }}>
@@ -170,7 +170,7 @@ export default function PLView({ data }) {
             ].map((row, i) => (
               <div key={i} className="side-row">
                 <span className="side-label">{row.label}</span>
-                <span className="side-value">{fmt.ng0(row.value)}</span>
+                <span className="side-value">{fmt.acc0(row.value)}</span>
               </div>
             ))}
           </div>

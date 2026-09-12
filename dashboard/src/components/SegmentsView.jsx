@@ -33,7 +33,7 @@ export default function SegmentsView({ data }) {
                     <div style={{ width: 60, height: 4, background: 'var(--hover-bg)', borderRadius: 2, overflow: 'hidden' }}>
                       <div style={{ height: '100%', width: (c.share || 0) + '%', background: 'var(--brand)', borderRadius: 2, opacity: 0.85 }} />
                     </div>
-                    <span className="side-value" style={{ minWidth: 60, textAlign: 'right' }}>{fmt.ng0(c.value)}</span>
+                    <span className="side-value" style={{ minWidth: 60, textAlign: 'right' }}>{fmt.acc0(c.value)}</span>
                     <span style={{ fontSize: 11, color: 'var(--text-muted)', minWidth: 32, textAlign: 'right' }}>{fmt.pct(c.share)}</span>
                   </div>
                 </div>
@@ -41,7 +41,7 @@ export default function SegmentsView({ data }) {
               <div style={{ height: 1, background: 'var(--border)', margin: '12px 0' }} />
               <div className="side-row" style={{ fontWeight: 600 }}>
                 <span>Total Opex</span>
-                <span className="side-value">{fmt.ng0(data.pl?.total_opex)}</span>
+                <span className="side-value">{fmt.acc0(data.pl?.total_opex)}</span>
               </div>
             </>
           ) : (
