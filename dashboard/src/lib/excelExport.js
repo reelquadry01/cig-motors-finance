@@ -100,35 +100,97 @@ async function newWorkbook() {
 }
 
 /* ── shared styling ── */
-const base = ws => { ws.views = [{ showGridLines: false }]; ws.properties.defaultRowHeight = 15 }
-function title(ws, text, sub) {
-  ws.addRow([text]).getCell(1).font = { name: FONT, bold: true, size: 15, color: { argb: BRAND } }
-  if (sub) ws.addRow([sub]).getCell(1).font = { name: FONT, italic: true, size: 9, color: { argb: MUTED } }
-  ws.addRow([])
+// A page header block written to every content sheet — the firm identity that
+// appears on every page of a Big-4 pack ("CIG MOTORS | MANAGEMENT REPORT | May 2025")
+// plus the sheet title and units line. Also sets print header/footer, gridlines
+// off, and reasonable page setup (fit-to-width, repeat header on print).
+const base = ws => {
+  ws.views = [{ showGridLines: false }]
+  ws.properties.defaultRowHeight = 15
+  ws.properties.defaultColWidth = 12
+  ws.pageSetup = ws.pageSetup || {}
+  Object.assign(ws.pageSetup, {
+    paperSize: 9,                    // A4
+    orientation: 'landscape',
+    fitToPage: true,
+    fitToWidth: 1,
+    fitToHeight: 0,
+    horizontalCentered: true,
+    margins: { left: 0.4, right: 0.4, top: 0.6, bottom: 0.6, header: 0.3, footer: 0.3 },
+  })
+  ws.headerFooter = {
+    oddHeader: '&L&"Calibri,Bold"&K1A1A1ACIG MOTORS  &"Calibri,Regular"&K7A736C|  Management Report&R&"Calibri,Regular"&K7A736C&D',
+    oddFooter: '&L&"Calibri,Regular"&K7A736CConfidential — for management use&C&P of &N&RCIG Motors — Finance',
+  }
 }
+// Firm identity block placed at the top of every content sheet. Two rows:
+// small red "CIG MOTORS" wordmark on the first, "MANAGEMENT REPORT · [period]"
+// on the second. Followed by the sheet title.
+function pageHeader(ws, sheetTitle, sub, period) {
+  const r1 = ws.addRow(['CIG MOTORS'])
+  r1.getCell(1).font = { name: FONT, bold: true, size: 10, color: { argb: BRAND } }
+  r1.getCell(1).alignment = { vertical: 'middle' }
+  r1.height = 16
+  const r2 = ws.addRow([`MANAGEMENT REPORT${period ? '  ·  ' + period : ''}`])
+  r2.getCell(1).font = { name: FONT, bold: true, size: 9, color: { argb: MUTED } }
+  r2.height = 14
+  // thin brand rule under the identity block
+  const ruleRow = ws.addRow([''])
+  ruleRow.height = 4
+  ruleRow.eachCell(c => { c.border = { bottom: { style: 'medium', color: { argb: BRAND } } } })
+  ws.getCell(`A${ruleRow.number}`).border = { bottom: { style: 'medium', color: { argb: BRAND } } }
+  // Ensure the rule spans the visible width by writing a placeholder value to a
+  // handful of columns so ExcelJS emits the border on each.
+  for (let c = 1; c <= 12; c++) { ws.getCell(ruleRow.number, c).border = { bottom: { style: 'medium', color: { argb: BRAND } } } }
+  // Sheet title
+  const tRow = ws.addRow([sheetTitle])
+  tRow.getCell(1).font = { name: FONT, bold: true, size: 14, color: { argb: INK } }
+  tRow.height = 22
+  if (sub) {
+    const s = ws.addRow([sub])
+    s.getCell(1).font = { name: FONT, italic: true, size: 9, color: { argb: MUTED } }
+  }
+  ws.addRow([])   // breathing room
+  return ws.rowCount   // last row of the header block
+}
+// Kept for backwards compat within this file — sheets that were calling title()
+// now route through pageHeader() with the firm identity.
+function title(ws, text, sub, period) { pageHeader(ws, text, sub, period) }
+
 function backLink(ws) {
   const c = ws.getCell('N1')
   c.value = { text: '← Cover', hyperlink: `#${q('Cover')}!A1` }
   c.font = { name: FONT, size: 9, color: { argb: C_HYPER }, underline: true }
+  c.alignment = { horizontal: 'right' }
   ws.getColumn(14).width = 11
 }
 function headerRow(ws, cells, rightFrom = 2) {
   const r = ws.addRow(cells)
+  r.height = 18
   r.font = { name: FONT, bold: true, size: 9, color: { argb: INK } }
   r.eachCell((cell, i) => {
     cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: HEADFILL } }
     cell.border = { bottom: { style: 'thin', color: { argb: RULE } } }
-    if (i >= rightFrom) cell.alignment = { horizontal: 'right' }
+    cell.alignment = { vertical: 'middle', horizontal: i >= rightFrom ? 'right' : 'left' }
   })
   return r
 }
 const styleCell = (cell, { color = C_CALC, fmt = NUMFMT, bold = false } = {}) => {
   cell.numFmt = fmt
   cell.font = { name: FONT, size: 10, bold, color: { argb: color } }
+  cell.alignment = { vertical: 'middle', horizontal: 'right' }
 }
 const ruleAbove = row => row.eachCell(c => { c.border = { ...(c.border || {}), top: { style: 'thin', color: { argb: RULE } } } })
 const ruleDouble = row => row.eachCell(c => { c.border = { ...(c.border || {}), top: { style: 'thin', color: { argb: RULE } }, bottom: { style: 'double', color: { argb: RULE } } } })
 const noteKey = line => `Total — ${line}`
+// Section header — small caps grey label used to break sheets into logical blocks
+const sectionLabel = (ws, text) => {
+  const r = ws.addRow([text])
+  r.getCell(1).font = { name: FONT, bold: true, size: 9, color: { argb: MUTED } }
+  r.getCell(1).alignment = { vertical: 'middle' }
+  r.height = 18
+  return r
+}
 
 /* ── Resolve the trial balance for the displayed period ── */
 function resolveTB(data) {
@@ -221,7 +283,7 @@ function sheetTrialBalance(ws, data, tb) {
   const openNote = tb.openAvailable
     ? `opening balances rolled forward from Account_Summary`
     : `opening balances not available in this GL — current-period movements only`
-  title(ws, 'Trial Balance', `${UNITS} · period ${tb.label} · ${openNote}`)
+  title(ws, 'Trial Balance', `${UNITS} · period ${tb.label} · ${openNote}`, data.period)
   backLink(ws)
   const h = headerRow(ws, ['GL code', 'Account', 'Statement line', 'Note', 'Group', 'Cash flow', 'Segment',
     'Opening', 'Debit', 'Credit', 'Closing'], 8)
@@ -259,7 +321,7 @@ function sheetTrialBalance(ws, data, tb) {
 /* ── Notes to the accounts ── */
 function sheetNotes(ws, data, tb, ref) {
   base(ws)
-  title(ws, 'Notes to the accounts', `${UNITS} · ${data.period} · each line is a SUMIFS to the Trial Balance`)
+  title(ws, 'Notes to the accounts', `${UNITS} · ${data.period} · each line is a SUMIFS to the Trial Balance`, data.period)
   backLink(ws)
   const notes = {}
   let n = 0
@@ -305,7 +367,7 @@ function sheetIncome(ws, data, ctx) {
   base(ws)
   const priorLbl = prior ? fmtMonth(prior) : 'Prior'
   const actualLbl = pk ? fmtMonth(pk) : 'Actual'
-  title(ws, 'Income statement', `${UNITS} · ${actualLbl}${prior ? ` vs ${priorLbl}` : ''}${ytdMonths.length > 1 ? ` · YTD ${ytdMonths.length} months` : ''}`)
+  title(ws, 'Income statement', `${UNITS} · ${actualLbl}${prior ? ` vs ${priorLbl}` : ''}${ytdMonths.length > 1 ? ` · YTD ${ytdMonths.length} months` : ''}`, data.period)
   backLink(ws)
   const h = headerRow(ws, ['', 'Note', actualLbl, priorLbl, 'MoM ₦', 'MoM %', 'YTD'], 3)
   const R = {}
@@ -388,7 +450,7 @@ function sheetIncome(ws, data, ctx) {
 /* ── Balance sheet ── */
 function sheetBalance(ws, data, ctx) {
   const { notes } = ctx
-  base(ws); title(ws, 'Balance sheet', `${UNITS} · ${data.period}`); backLink(ws)
+  base(ws); title(ws, 'Balance sheet', `${UNITS} · ${data.period}`, data.period); backLink(ws)
   const h = headerRow(ws, ['', 'Note', "₦'000"], 2)
   const R = {}
   const section = (heading, group, key) => {
@@ -438,7 +500,7 @@ function sheetBalance(ws, data, ctx) {
 /* ── Cash flow ── */
 function sheetCash(ws, data, ctx) {
   const { ref, tb } = ctx
-  base(ws); title(ws, 'Cash flow', `${UNITS} · ${data.period} · classified by GL cash-flow category`); backLink(ws)
+  base(ws); title(ws, 'Cash flow', `${UNITS} · ${data.period} · classified by GL cash-flow category`, data.period); backLink(ws)
   const h = headerRow(ws, ['', "₦'000"], 2)
   const marks = []
   const sec = (label, cat) => {
@@ -468,7 +530,7 @@ function sheetCash(ws, data, ctx) {
 function sheetManagementPL(ws, data, ctx) {
   const { ref, tb, refs } = ctx
   const isRef = refs.income
-  base(ws); title(ws, 'Management P&L', `${UNITS} · ${data.period} · segmented for decision-making`); backLink(ws)
+  base(ws); title(ws, 'Management P&L', `${UNITS} · ${data.period} · segmented for decision-making`, data.period); backLink(ws)
   const h = headerRow(ws, ['', "₦'000", '% of revenue'])
   const R = {}
   const segments = [...new Set(tb.rows.filter(r => ['Revenue', 'Cost of sales'].includes(r.group)).map(r => r.segment))].filter(Boolean)
@@ -539,7 +601,7 @@ function sheetManagementPL(ws, data, ctx) {
 /* ── Segments schedule ── */
 function sheetSegments(ws, data, ctx) {
   const { ref, tb } = ctx
-  base(ws); title(ws, 'Segment performance', `${UNITS} · ${data.period}`); backLink(ws)
+  base(ws); title(ws, 'Segment performance', `${UNITS} · ${data.period}`, data.period); backLink(ws)
   const h = headerRow(ws, ['Segment', 'Revenue', 'Cost of sales', 'Gross profit', 'GP margin', 'Rev mix'])
   const segs = [...new Set(tb.rows.filter(r => ['Revenue', 'Cost of sales'].includes(r.group)).map(r => r.segment))].filter(Boolean)
   const first = ws.rowCount + 1
@@ -572,7 +634,7 @@ function sheetSegments(ws, data, ctx) {
 /* ── Costs (opex + capex) ── */
 function sheetCosts(ws, data, ctx) {
   const { ref, tb } = ctx
-  base(ws); title(ws, 'Costs & expenditure', `${UNITS} · ${data.period}`); backLink(ws)
+  base(ws); title(ws, 'Costs & expenditure', `${UNITS} · ${data.period}`, data.period); backLink(ws)
   const block = (heading, rows, totalLabel, grp) => {
     ws.addRow([heading]).getCell(1).font = { name: FONT, bold: true, size: 10, color: { argb: BRAND } }
     headerRow(ws, ['GL code', 'Account', "₦'000", 'Share'], 3)
@@ -602,7 +664,7 @@ function sheetCosts(ws, data, ctx) {
 /* ── Working capital ── */
 function sheetWorkingCapital(ws, data, ctx) {
   const { ref, tb, refs } = ctx
-  base(ws); title(ws, 'Working capital', `${UNITS} · ${data.period} · cycle on a 30-day period`); backLink(ws)
+  base(ws); title(ws, 'Working capital', `${UNITS} · ${data.period} · cycle on a 30-day period`, data.period); backLink(ws)
   const h = headerRow(ws, ['Metric', 'Value'])
   const w = workingCapital(data)
   const linesMatching = kw => [...new Set(tb.rows.filter(r => new RegExp(kw, 'i').test(r.line)).map(r => r.line))]
@@ -651,7 +713,7 @@ function sheetRatios(ws, data, ctx) {
   const { refs } = ctx
   const inc = refs.income, bal = refs.balancesheet
   const r = data.ratios || {}
-  base(ws); title(ws, 'Ratio analysis', `${data.period} · direct references to the statement rows above`); backLink(ws)
+  base(ws); title(ws, 'Ratio analysis', `${data.period} · direct references to the statement rows above`, data.period); backLink(ws)
   const h = headerRow(ws, ['Ratio', 'Value'])
   // Direct cross-sheet cell references
   const cell = (tab, row, col = 'C') => `${q(tab)}!$${col}$${row}`
@@ -690,7 +752,7 @@ function sheetRatios(ws, data, ctx) {
 
 /* ── Monthly Trend: months across columns ── */
 function sheetMonthlyTrend(ws, data) {
-  base(ws); title(ws, 'Monthly trend', `${UNITS} · every month in the file`); backLink(ws)
+  base(ws); title(ws, 'Monthly trend', `${UNITS} · every month in the file`, data.period); backLink(ws)
   const monthly = data.monthly || []
   if (!monthly.length) { ws.addRow(['No monthly data available']); return {} }
   const header = ['Metric', ...monthly.map(m => fmtMonth(m.period)), 'Total']
@@ -740,7 +802,7 @@ function colLetter(n) { let s = ''; while (n > 0) { const r = (n - 1) % 26; s = 
 
 /* ── Budget vs Actual ── */
 function sheetBudget(ws, data, ctx) {
-  base(ws); title(ws, 'Budget vs Actual', data.period); backLink(ws)
+  base(ws); title(ws, 'Budget vs Actual', data.period, data.period); backLink(ws)
   const has = data.available_data?.budget && data.budget_by_period?.[ctx.tb.pk]
   if (!has) {
     ws.addRow(['No budget loaded for this period.']).getCell(1).font = { name: FONT, italic: true, size: 10, color: { argb: MUTED } }
@@ -775,7 +837,7 @@ function sheetBudget(ws, data, ctx) {
 
 /* ── Commentary ── */
 function sheetCommentary(ws, data, buildCommentary) {
-  base(ws); title(ws, 'Commentary', data.period); backLink(ws)
+  base(ws); title(ws, 'Commentary', data.period, data.period); backLink(ws)
   ;(buildCommentary ? buildCommentary(data) : []).forEach(sec => {
     ws.addRow([sec.title]).getCell(1).font = { name: FONT, bold: true, size: 11, color: { argb: BRAND } }
     sec.paras.forEach(p => {
@@ -794,7 +856,7 @@ function sheetDashboard(ws, data, ctx) {
   const { refs } = ctx
   const inc = refs.income, bal = refs.balancesheet, cf = refs.cashflow
   base(ws)
-  title(ws, `Executive Dashboard`, `CIG Motors · ${data.period}`)
+  title(ws, `Executive Dashboard`, `CIG Motors · ${data.period}`, data.period)
   backLink(ws)
 
   // Financial KPI section
