@@ -1,4 +1,6 @@
-import { Sun, Moon } from 'lucide-react'
+import { useState } from 'react'
+import { Sun, Moon, Download } from 'lucide-react'
+import ExportCenter from './ExportCenter'
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 
@@ -9,6 +11,7 @@ function fmtMonth(key) {
 }
 
 export default function Header({ data, periodFilter, onPeriodChange, theme, onToggleTheme }) {
+  const [exportOpen, setExportOpen] = useState(false)
   const mode = periodFilter?.mode || 'latest'
   const months = data?.available_periods?.months || []
   const years = data?.available_periods?.years || []
@@ -104,6 +107,12 @@ export default function Header({ data, periodFilter, onPeriodChange, theme, onTo
             </div>
           )}
 
+          <button className="btn-mode" onClick={() => setExportOpen(true)}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 6, border: '1px solid var(--border)', background: 'var(--surface-2)', padding: '6px 12px' }}
+            title="Export reports to Excel or PDF">
+            <Download size={14} /> Export
+          </button>
+
           <button
             className="icon-btn"
             onClick={onToggleTheme}
@@ -114,6 +123,8 @@ export default function Header({ data, periodFilter, onPeriodChange, theme, onTo
           </button>
         </div>
       </div>
+
+      <ExportCenter open={exportOpen} onClose={() => setExportOpen(false)} data={data} />
 
       <div className="divider-brand" />
 
