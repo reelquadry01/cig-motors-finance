@@ -17,6 +17,7 @@ const REPORTS = [
   { id: 'ratios', label: 'Ratios' },
   { id: 'trend', label: 'Monthly trend' },
   { id: 'commentary', label: 'Commentary' },
+  { id: 'disclosures', label: 'Notes & disclosures' },
 ]
 
 export default function ExportCenter({ open, onClose, data }) {

@@ -14,6 +14,10 @@
 //     8.5pt, section title 14pt, page title 20pt on cover.
 import fmt from './fmt'
 import { segmentPL, branchPerf, workingCapital } from './sections'
+import { CIG_LOGO_DATA_URL } from './logoAsset'
+
+// Logo native aspect ratio (289 × 84 px)
+const LOGO_RATIO = 289 / 84
 
 const BRAND = [200, 16, 46]
 const NAVY = [31, 58, 95]
@@ -36,7 +40,7 @@ function bIncome(data) {
   const p = data.pl || {}
   const R = (label, val, o = {}) => ({ cells: [label, t(val)], neg: val < 0 ? [1] : [], ...o })
   return {
-    title: 'Income statement', columns: ['Line item', "NGN'000"],
+    title: 'Income statement', columns: ['', "NGN'000"],
     rows: [
       R('Revenue', p.total_revenue),
       R('Cost of sales', p.total_cogs),
@@ -71,7 +75,7 @@ function bBalance(data) {
   rows.push({ cells: ['Total liabilities', t(bs.total_liabilities)], bold: true, top: true })
   sec('Total equity', bs.equity, bs.total_equity)
   rows.push({ cells: ['Total liabilities & equity', t((bs.total_liabilities || 0) + (bs.total_equity || 0))], bold: true, top: true, dbl: true })
-  return { title: 'Balance sheet', columns: ['Line item', "NGN'000"], rows }
+  return { title: 'Balance sheet', columns: ['', "NGN'000"], rows }
 }
 
 function bCash(data) {
@@ -85,7 +89,7 @@ function bCash(data) {
   sec('Net cash from investing activities', cf.investing)
   sec('Net cash from financing activities', cf.financing)
   rows.push({ cells: ['Net change in cash', t(cf.net_change)], bold: true, top: true, dbl: true, neg: (cf.net_change || 0) < 0 ? [1] : [] })
-  return { title: 'Cash flow', columns: ['Line item', "NGN'000"], rows }
+  return { title: 'Cash flow', columns: ['', "NGN'000"], rows }
 }
 
 function bSegments(data) {
@@ -105,7 +109,7 @@ function bCosts(data) {
   rows.push({ cells: ['Capital expenditure — additions to PP&E', '', ''], bold: true })
   ;(p.capex_breakdown || []).forEach(i => rows.push({ cells: [`   ${i.label}`, t(i.value), pct(i.share)] }))
   rows.push({ cells: ['Total capital expenditure', t(p.capex), '100%'], bold: true, top: true, dbl: true })
-  return { title: 'Costs & expenditure', columns: ['Line', "NGN'000", 'Share'], rows }
+  return { title: 'Costs & expenditure', columns: ['', "NGN'000", 'Share'], rows }
 }
 
 function bWorkingCapital(data) {
@@ -158,15 +162,20 @@ const LABELS = {
 }
 
 /* ─── Page identity + section title band ─── */
+// The CIG / GAC lockup floats top-right; the "MANAGEMENT REPORT · <period>"
+// mark sits top-left. Both are separated from the body by a thin brand rule.
 function pageIdentity(doc, period) {
   const W = doc.internal.pageSize.getWidth()
   doc.setFillColor(...BRAND); doc.rect(0, 0, W, 3, 'F')
-  doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(...BRAND)
-  doc.text('CIG MOTORS', PAGE_MARGIN, 22)
-  doc.setFont('helvetica', 'normal'); doc.setTextColor(...MUTED)
-  doc.text(`|  MANAGEMENT REPORT${period ? '  ·  ' + period : ''}`, PAGE_MARGIN + 65, 22)
+  // logo top-right (native aspect ratio maintained)
+  try {
+    const h = 20, w = h * LOGO_RATIO
+    doc.addImage(CIG_LOGO_DATA_URL, 'PNG', W - PAGE_MARGIN - w, 8, w, h, undefined, 'FAST')
+  } catch { /* logo optional — never fail the page */ }
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(...MUTED)
+  doc.text(`MANAGEMENT REPORT${period ? '  ·  ' + period : ''}`, PAGE_MARGIN, 22)
   doc.setDrawColor(...RULE); doc.setLineWidth(0.4)
-  doc.line(PAGE_MARGIN, 30, W - PAGE_MARGIN, 30)
+  doc.line(PAGE_MARGIN, 34, W - PAGE_MARGIN, 34)
 }
 function sectionTitle(doc, title, subtitle) {
   doc.setFont('helvetica', 'bold'); doc.setFontSize(14); doc.setTextColor(...INK)
@@ -188,17 +197,24 @@ function pageFooter(doc, W, H) {
 async function renderCover(doc, data, selected) {
   const W = doc.internal.pageSize.getWidth()
   const H = doc.internal.pageSize.getHeight()
-  // Big brand band
-  doc.setFillColor(...BRAND); doc.rect(0, 0, W, 90, 'F')
-  doc.setTextColor(255, 255, 255); doc.setFont('helvetica', 'bold'); doc.setFontSize(11)
-  doc.text('CIG MOTORS', PAGE_MARGIN, 42)
-  doc.setFont('helvetica', 'normal'); doc.setFontSize(9)
-  doc.text('MANAGEMENT REPORT', PAGE_MARGIN, 58)
+  // Full-width brand rule at top
+  doc.setFillColor(...BRAND); doc.rect(0, 0, W, 4, 'F')
+  // Large logo lockup, generously sized
+  try {
+    const h = 74, w = h * LOGO_RATIO
+    doc.addImage(CIG_LOGO_DATA_URL, 'PNG', PAGE_MARGIN, 44, w, h, undefined, 'FAST')
+  } catch { /* logo optional */ }
+  // Small "MANAGEMENT REPORT" subtitle under the logo
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(...MUTED)
+  doc.text('MANAGEMENT REPORT', PAGE_MARGIN, 136)
+  // A thin brand rule separates the header block from the title
+  doc.setDrawColor(...BRAND); doc.setLineWidth(1)
+  doc.line(PAGE_MARGIN, 150, W - PAGE_MARGIN, 150)
   // Title
   doc.setTextColor(...INK); doc.setFont('helvetica', 'bold'); doc.setFontSize(30)
-  doc.text('Management Report', PAGE_MARGIN, 170)
+  doc.text('Management Report', PAGE_MARGIN, 195)
   doc.setFont('helvetica', 'normal'); doc.setFontSize(16); doc.setTextColor(...NAVY)
-  doc.text(data.period || '', PAGE_MARGIN, 200)
+  doc.text(data.period || '', PAGE_MARGIN, 222)
   // Meta block
   doc.setFontSize(10); doc.setTextColor(...MUTED); doc.setFont('helvetica', 'bold')
   const meta = [

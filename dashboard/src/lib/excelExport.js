@@ -36,7 +36,7 @@
 // number format, gridlines off, frozen headers, internal hyperlinks.
 import { workingCapital } from './sections'
 
-const FONT = 'Calibri'
+const FONT = 'Aptos Narrow'
 const NUMFMT = "#,##0,;(#,##0,)"   // stores full ₦, displays ₦'000
 const PCTFMT = '0.0%'
 const PCTPPT = '+0.0"ppt";-0.0"ppt";"—"'
@@ -96,7 +96,31 @@ async function newWorkbook() {
   const ExcelJS = mod.default || mod
   const wb = new ExcelJS.Workbook()
   wb.creator = 'CIG Motors — Finance'
+  wb._cigLogoId = null   // set once the logo is fetched, reused on every sheet
   return wb
+}
+
+// Fetch the CIG / GAC lockup once per workbook and cache its ExcelJS image id.
+// In Node (SSR / model generation) we read from disk; in the browser we fetch
+// the public asset. Falls back silently if the logo is unavailable.
+async function ensureLogo(wb) {
+  if (wb._cigLogoId !== null) return wb._cigLogoId
+  try {
+    let buffer
+    if (typeof window === 'undefined') {
+      const fs = await import('fs'); const path = await import('path')
+      const p = path.resolve('public/assets/cig-gac-logo.png')
+      if (fs.existsSync(p)) buffer = fs.readFileSync(p)
+    } else {
+      const resp = await fetch('/assets/cig-gac-logo.png')
+      if (resp.ok) buffer = new Uint8Array(await resp.arrayBuffer())
+    }
+    if (!buffer) { wb._cigLogoId = -1; return -1 }
+    wb._cigLogoId = wb.addImage({ buffer, extension: 'png' })
+  } catch {
+    wb._cigLogoId = -1
+  }
+  return wb._cigLogoId
 }
 
 /* ── shared styling ── */
@@ -119,13 +143,13 @@ const base = ws => {
     margins: { left: 0.4, right: 0.4, top: 0.6, bottom: 0.6, header: 0.3, footer: 0.3 },
   })
   ws.headerFooter = {
-    oddHeader: '&L&"Calibri,Bold"&K1A1A1ACIG MOTORS  &"Calibri,Regular"&K7A736C|  Management Report&R&"Calibri,Regular"&K7A736C&D',
-    oddFooter: '&L&"Calibri,Regular"&K7A736CConfidential — for management use&C&P of &N&RCIG Motors — Finance',
+    oddHeader: '&L&"Aptos Narrow,Bold"&K1A1A1ACIG MOTORS  &"Aptos Narrow,Regular"&K7A736C|  Management Report&R&"Aptos Narrow,Regular"&K7A736C&D',
+    oddFooter: '&L&"Aptos Narrow,Regular"&K7A736CConfidential — for management use&C&P of &N&RCIG Motors — Finance',
   }
 }
-// Firm identity block placed at the top of every content sheet. Two rows:
-// small red "CIG MOTORS" wordmark on the first, "MANAGEMENT REPORT · [period]"
-// on the second. Followed by the sheet title.
+// Firm identity block placed at the top of every content sheet. The CIG / GAC
+// lockup is anchored top-right so the sheet title reads naturally on the left.
+// When the workbook has cached a logo image, it floats over these header rows.
 function pageHeader(ws, sheetTitle, sub, period) {
   const r1 = ws.addRow(['CIG MOTORS'])
   r1.getCell(1).font = { name: FONT, bold: true, size: 10, color: { argb: BRAND } }
@@ -134,15 +158,9 @@ function pageHeader(ws, sheetTitle, sub, period) {
   const r2 = ws.addRow([`MANAGEMENT REPORT${period ? '  ·  ' + period : ''}`])
   r2.getCell(1).font = { name: FONT, bold: true, size: 9, color: { argb: MUTED } }
   r2.height = 14
-  // thin brand rule under the identity block
   const ruleRow = ws.addRow([''])
   ruleRow.height = 4
-  ruleRow.eachCell(c => { c.border = { bottom: { style: 'medium', color: { argb: BRAND } } } })
-  ws.getCell(`A${ruleRow.number}`).border = { bottom: { style: 'medium', color: { argb: BRAND } } }
-  // Ensure the rule spans the visible width by writing a placeholder value to a
-  // handful of columns so ExcelJS emits the border on each.
   for (let c = 1; c <= 12; c++) { ws.getCell(ruleRow.number, c).border = { bottom: { style: 'medium', color: { argb: BRAND } } } }
-  // Sheet title
   const tRow = ws.addRow([sheetTitle])
   tRow.getCell(1).font = { name: FONT, bold: true, size: 14, color: { argb: INK } }
   tRow.height = 22
@@ -150,8 +168,16 @@ function pageHeader(ws, sheetTitle, sub, period) {
     const s = ws.addRow([sub])
     s.getCell(1).font = { name: FONT, italic: true, size: 9, color: { argb: MUTED } }
   }
-  ws.addRow([])   // breathing room
-  return ws.rowCount   // last row of the header block
+  ws.addRow([])
+  // Float the logo over the top-right of the identity band (columns L–N, rows 1–3).
+  // ExcelJS uses zero-indexed coordinates; ranges are inclusive.
+  const wb = ws.workbook
+  if (wb && wb._cigLogoId !== null && wb._cigLogoId !== -1) {
+    ws.addImage(wb._cigLogoId, {
+      tl: { col: 11, row: 0 }, ext: { width: 130, height: 38 }, editAs: 'oneCell',
+    })
+  }
+  return ws.rowCount
 }
 // Kept for backwards compat within this file — sheets that were calling title()
 // now route through pageHeader() with the firm identity.
@@ -851,6 +877,84 @@ function sheetCommentary(ws, data, buildCommentary) {
   return {}
 }
 
+/* ── Notes & disclosures — policies, sign convention, sources, limitations ── */
+function sheetDisclosures(ws, data, ctx) {
+  const tb = ctx?.tb
+  base(ws); title(ws, 'Notes & disclosures', 'Basis of preparation, accounting conventions & limitations', data.period); backLink(ws)
+
+  const block = (heading, paras) => {
+    const h = ws.addRow([heading])
+    h.getCell(1).font = { name: FONT, bold: true, size: 11, color: { argb: BRAND } }
+    h.height = 20
+    paras.forEach(p => {
+      const r = ws.addRow([p])
+      r.getCell(1).font = { name: FONT, size: 10, color: { argb: INK } }
+      r.getCell(1).alignment = { wrapText: true, vertical: 'top' }
+      r.height = Math.max(15, Math.ceil(p.length / 110) * 14)
+    })
+    ws.addRow([])
+  }
+
+  block('1. Basis of preparation', [
+    'This management reporting pack is prepared from the underlying general ledger for the period shown. It is intended for internal management review and is not a set of statutory financial statements. Figures are un-audited unless otherwise stated.',
+    "All figures are presented in Nigerian Naira ('₦), scaled to thousands (₦'000) unless otherwise indicated. Totals may not sum exactly due to rounding.",
+  ])
+
+  block('2. Source of data', [
+    'The source of every figure is the Trial Balance sheet at the back of this pack, which itself is built from the underlying GL transactions and the account-to-statement-line mapping maintained by Finance.',
+    'The Trial Balance is presented with Opening, Debit, Credit and Closing columns per account. Closing = Opening + Debit − Credit. Where the source GL does not supply opening balances, the Opening column is zero and the pack shows period movements only.',
+    'Every note on the "Notes" tab, and every line on the statements, is a formula (SUMIFS or direct cell reference) into the Trial Balance. No numbers are hard-coded outside the Trial Balance.',
+  ])
+
+  block('3. Sign convention', [
+    'Assets, expenses and outflows carry natural debit balances and are shown as positive numbers.',
+    'Liabilities, equity, revenue, other income and inflows carry natural credit balances and are shown as positive numbers on the face of the statements (the underlying credit is negated for presentation).',
+    'Adverse variances are highlighted in red; favourable variances in green.',
+  ])
+
+  block('4. Formula convention', [
+    'Blue font — a hard input (only appears on the Trial Balance).',
+    'Black font — a calculation on the same sheet.',
+    'Green font — a link to another sheet in this workbook.',
+    'The model uses SUMIFS on the Trial Balance and direct cell references between sheets. It is compatible with any Excel version that supports SUMIFS (Excel 2007 onward).',
+  ])
+
+  block('5. Segmental & branch reporting', [
+    'Business segments are derived from the "Segment" column on the account mapping (Motor Vehicles Sales; Spare Parts & After-Sales; Corporate). Any account not explicitly segmented is treated as Corporate.',
+    'Branch analysis is inferred from account descriptions (Victoria Island, Ojota, Abuja, SKD/Assembly) and is indicative rather than exhaustive; accounts without a location keyword are grouped as "Unspecified / group".',
+  ])
+
+  block('6. Cash flow', [
+    'The cash flow statement is classified according to the "CF_Category" column on the account mapping (Operating / Investing / Financing). It is a movement view derived from the period ledger, not a full indirect-method reconciliation.',
+  ])
+
+  block('7. Budget vs actual', [
+    'Variance analysis is populated only when a budget file (Budget_Template.xlsx keyed by GL code and month) has been provided to the pipeline. Where no budget exists, the section is intentionally left blank.',
+    'Variance sign convention: for revenue and profit, higher than budget is favourable. For cost lines, higher than budget is adverse.',
+  ])
+
+  block('8. Known limitations', [
+    tb && !tb.openAvailable
+      ? 'The current data source does not supply reliable opening balances (opening debits do not equal opening credits, or the "opening" values duplicate source-period totals). The balance sheet therefore reflects period movements only and will not foot until proper opening balances are loaded.'
+      : 'Opening balances are loaded from Account_Summary and rolled forward month by month.',
+    'This pack is management-reporting only. It does not contain valuation, DCF, transaction, or investor analysis.',
+    'Where the underlying GL classification for a line is disputed or under review, the note on that line uses the current mapping; changes to the mapping are picked up automatically on the next pipeline run.',
+  ])
+
+  block('9. Currency & rounding', [
+    'Nigerian Naira (NGN, ₦). Figures displayed in ₦\'000 via a scaling number format; underlying cells store the full-precision Naira value so downstream calculations are not affected.',
+    'Percentages are rounded to one decimal place. Days ratios are rounded to whole days.',
+  ])
+
+  block('10. Confidentiality', [
+    'This pack is confidential and intended for internal management use only. Please do not distribute externally.',
+  ])
+
+  ws.getColumn(1).width = 115
+  ws.views = [{ showGridLines: false, state: 'frozen', ySplit: 5 }]
+  return {}
+}
+
 /* ── Executive Dashboard ── */
 function sheetDashboard(ws, data, ctx) {
   const { refs } = ctx
@@ -927,9 +1031,21 @@ function sheetDashboard(ws, data, ctx) {
 /* ── Cover ── */
 function coverSheet(ws, data, tabs) {
   base(ws)
-  ws.addRow(['CIG Motors']).getCell(1).font = { name: FONT, bold: true, size: 24, color: { argb: BRAND } }
-  ws.addRow(['Management Report']).getCell(1).font = { name: FONT, size: 14, color: { argb: NAVY } }
-  ws.addRow([data.period]).getCell(1).font = { name: FONT, size: 12, color: { argb: INK } }
+  // Large branded lockup — logo top-left, brand band underneath, then title
+  const wb = ws.workbook
+  if (wb && wb._cigLogoId !== null && wb._cigLogoId !== -1) {
+    ws.addImage(wb._cigLogoId, { tl: { col: 0, row: 0 }, ext: { width: 260, height: 76 }, editAs: 'oneCell' })
+    // reserve vertical space for the image
+    for (let r = 1; r <= 4; r++) ws.getRow(r).height = 22
+    ws.addRow([]); ws.addRow([])
+  }
+  // Brand rule across the top of the page
+  const brandRule = ws.addRow([''])
+  brandRule.height = 4
+  for (let c = 1; c <= 8; c++) ws.getCell(brandRule.number, c).border = { bottom: { style: 'medium', color: { argb: BRAND } } }
+  ws.addRow([])
+  ws.addRow(['Management Report']).getCell(1).font = { name: FONT, bold: true, size: 26, color: { argb: BRAND } }
+  ws.addRow([data.period]).getCell(1).font = { name: FONT, size: 14, color: { argb: NAVY } }
   ws.addRow([])
   ;[['Currency', 'Nigerian Naira (₦)'], ['Presentation', "₦'000 (thousands)"],
   ['Basis of preparation', 'Extracted from the general ledger. The Trial Balance is the source; the Notes roll up from it and the statements roll up from the Notes.'],
@@ -977,6 +1093,7 @@ const CATALOG = [
   { id: 'ratios', label: 'Ratios', tab: 'Ratios', build: sheetRatios, phase: 2, needsTB: true },
   { id: 'trend', label: 'Monthly trend', tab: 'Monthly trend', build: sheetMonthlyTrend, phase: 2 },
   { id: 'commentary', label: 'Commentary', tab: 'Commentary', build: null, phase: 2 },
+  { id: 'disclosures', label: 'Notes & disclosures', tab: 'Disclosures', build: sheetDisclosures, phase: 2, needsTB: true },
 ]
 
 async function download(wb, name) {
@@ -990,6 +1107,7 @@ async function download(wb, name) {
 
 export async function buildWorkbook(ids, data, buildCommentary, { withSummary = true, withCover = true } = {}) {
   const wb = await newWorkbook()
+  await ensureLogo(wb)   // preloads the CIG/GAC lockup used on every sheet's identity block
   // Preserve catalog order (skill spec) regardless of selection order
   const chosen = CATALOG.filter(s => ids.includes(s.id))
   const tb = chosen.some(s => s.needsTB) ? resolveTB(data) : null
