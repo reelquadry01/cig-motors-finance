@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/broadsheet-0713ecdc-935b-4a1e-941d-64c3200048c2/styles.css">
+<script src="_ds/broadsheet-0713ecdc-935b-4a1e-941d-64c3200048c2/_ds_bundle.js"></script>
+<style>
+:root { --brand: #c8102e; --brand-deep: #17181c; --fav: #0f5f47; --unfav: #9e1039; --favbg: rgba(15,95,71,0.10); --unfavbg: rgba(158,16,57,0.10); --soft: #605d5d; --hair: rgba(32,30,29,0.09);
+  --note: var(--color-accent-700);
+  --s1: var(--color-accent-700); --s2: var(--color-accent-500); --s3: var(--color-accent-300);
+  --n1: var(--color-neutral-800); --n2: var(--color-neutral-600); --n3: var(--color-neutral-500); --n4: var(--color-neutral-400); }
+html[data-theme="dark"] {
+  --brand: #f04a60; --brand-deep: #f1eeea;
+  --color-bg: #17181c; --color-surface: #232120; --color-text: #f1eeea;
+  --color-divider: rgba(241,238,234,0.22); --color-accent: #4fbde3;
+  --fav: #6fcda2; --unfav: #f2879f; --favbg: rgba(111,205,162,0.14); --unfavbg: rgba(242,135,159,0.14);
+  --soft: #a19b95; --hair: rgba(241,238,234,0.13);
+  --note: #7fd0ec;
+  --s1: #6fc9e8; --s2: #3f93b3; --s3: #256278;
+  --n1: #ded9d3; --n2: #a49d96; --n3: #8d8781; --n4: #6a635d;
+}
+body { margin: 0; background: var(--color-bg); color: var(--color-text); font-variant-numeric: tabular-nums; }
+html[data-theme="dark"] img[alt="CIG Motors · GAC Motor"] { filter: invert(1) brightness(1.6) hue-rotate(180deg); }
+a { color: var(--color-accent); }
+a:hover { color: var(--color-accent-600); }
+</style>
+</helmet>
+<div style="max-width:1600px;margin:0 auto;padding:34px 40px 72px;font-family:var(--font-body);font-size:15px;line-height:1.5">
+
+  <header style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px">
+    <div>
+      <img src="assets/cig-gac-logo.png" alt="CIG Motors · GAC Motor" style="height: 44px; width: 147px; display: block; margin-bottom: 14px">
+      <div style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--soft)">Monthly management report</div>
+      <h1 style="font-size:40px;margin:4px 0 0;letter-spacing:-0.02em"><span style="color:var(--brand)">CIG Motors</span> <span style="color:var(--soft)">— Finance</span></h1>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <label style="display:flex;align-items:center;gap:8px;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:var(--soft)">Period
+        <select style="font-family:var(--font-body);font-size:14px;letter-spacing:0;text-transform:none;color:var(--color-text);background:transparent;border:1px solid var(--color-divider);border-radius:2px;padding:6px 8px">
+          <option>August 2026</option>
+          <option>July 2026</option>
+          <option>June 2026</option>
+        </select>
+      </label>
+      <button type="button" onClick="{{ toggleTheme }}" class="btn btn-secondary" style="font-family:var(--font-body);font-size:13px">{{ themeLabel }}</button>
+    </div>
+  </header>
+
+  <div style="border-top:4px solid var(--brand);margin-top:18px"></div>
+  <div style="display:flex;flex-wrap:wrap;gap:8px 26px;align-items:baseline;padding:8px 0;font-size:12.5px;color:var(--soft);border-bottom:1px solid var(--color-text)">
+    <span style="color:var(--color-text);font-weight:600">August 2026</span>
+    <span>FY2026 (Jul–Jun) · Month 2 of 12</span>
+    <span>Figures tie to the trial balance · ₦ millions unless stated</span>
+    <span style="margin-left:auto;white-space:nowrap;color:var(--note)">Illustrative sample data — mockup for layout review</span>
+  </div>
+
+  <nav style="display:flex;flex-wrap:wrap;gap:2px 22px;margin-top:14px;border-bottom:1px solid var(--hair)">
+    <button type="button" onClick="{{ goDash }}" style="{{ tabDash }}">Dashboard</button>
+    <button type="button" onClick="{{ goOverview }}" style="{{ tabOverview }}">Overview</button>
+    <button type="button" onClick="{{ goPl }}" style="{{ tabPl }}">Income statement</button>
+    <button type="button" onClick="{{ goBs }}" style="{{ tabBs }}">Balance sheet</button>
+    <button type="button" onClick="{{ goCf }}" style="{{ tabCf }}">Cash flow</button>
+    <button type="button" onClick="{{ goRatios }}" style="{{ tabRatios }}">Ratio analysis</button>
+    <button type="button" onClick="{{ goDetail }}" style="{{ tabDetail }}">Segments &amp; expenses</button>
+    <button type="button" onClick="{{ goNotes }}" style="{{ tabNotes }}">Notes &amp; actions</button>
+  </nav>
+
+  <sc-if value="{{ pDash }}" hint-placeholder-val="{{ true }}">
+  <div>
+  <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:16px;margin-top:26px"><h2 style="font-size:26px;margin:0">{{ dashTitle }}</h2><div style="display:flex;gap:14px;margin-left:auto"><button type="button" onClick="{{ goDash1 }}" style="{{ subDash1 }}">1 · Performance</button><button type="button" onClick="{{ goDash2 }}" style="{{ subDash2 }}">2 · Position &amp; cash</button></div></div>
+  <sc-if value="{{ dash1 }}" hint-placeholder-val="{{ true }}"><div>
+  <div style="display:flex;flex-wrap:wrap;gap:44px;margin-top:26px"><div style="flex:1 1 420px;min-width:0"><div style="border-top:1px solid var(--color-text);padding-top:10px;display:flex;flex-wrap:wrap;align-items:baseline;gap:10px"><h3 style="font-size:18px;margin:0">Revenue against budget</h3><span style="font-size:12px;color:var(--soft)">FY2026 by month · ₦B</span></div><div style="margin-top:16px"><div style="display:flex;align-items:flex-end;gap:8px"><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;align-items:flex-end;gap:2px;height:132px;width:100%"><span style="width:100%;height:102.8px;background:var(--s1)"></span><span style="width:100%;height:106.3px;background:var(--n4)"></span></div><span style="font-size:11px;color:var(--soft)">Jul</span></div><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;align-items:flex-end;gap:2px;height:132px;width:100%"><span style="width:100%;height:105px;background:var(--s1)"></span><span style="width:100%;height:108.3px;background:var(--n4)"></span></div><span style="font-size:11px;color:var(--color-text);font-weight:600">Aug</span></div><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;align-items:flex-end;gap:2px;height:132px;width:100%"><span style="width:100%;height:110px;background:var(--n4)"></span></div><span style="font-size:11px;color:var(--soft)">Sep</span></div><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;align-items:flex-end;gap:2px;height:132px;width:100%"><span style="width:100%;height:113.8px;background:var(--n4)"></span></div><span style="font-size:11px;color:var(--soft)">Oct</span></div><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;align-items:flex-end;gap:2px;height:132px;width:100%"><span style="width:100%;height:117.5px;background:var(--n4)"></span></div><span style="font-size:11px;color:var(--soft)">Nov</span></div><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;align-items:flex-end;gap:2px;height:132px;width:100%"><span style="width:100%;height:127.5px;background:var(--n4)"></span></div><span style="font-size:11px;color:var(--soft)">Dec</span></div><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;align-items:flex-end;gap:2px;height:132px;width:100%"><span style="width:100%;height:108.8px;background:var(--n4)"></span></div><span style="font-size:11px;color:var(--soft)">Jan</span></div><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;align-items:flex-end;gap:2px;height:132px;width:100%"><span style="width:100%;height:110px;background:var(--n4)"></span></div><span style="font-size:11px;color:var(--soft)">Feb</span></div><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;align-items:flex-end;gap:2px;height:132px;width:100%"><span style="width:100%;height:115px;background:var(--n4)"></span></div><span style="font-size:11px;color:var(--soft)">Mar</span></div><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;align-items:flex-end;gap:2px;height:132px;width:100%"><span style="width:100%;height:116.3px;background:var(--n4)"></span></div><span style="font-size:11px;color:var(--soft)">Apr</span></div><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;align-items:flex-end;gap:2px;height:132px;width:100%"><span style="width:100%;height:120px;background:var(--n4)"></span></div><span style="font-size:11px;color:var(--soft)">May</span></div><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;align-items:flex-end;gap:2px;height:132px;width:100%"><span style="width:100%;height:130px;background:var(--n4)"></span></div><span style="font-size:11px;color:var(--soft)">Jun</span></div></div><div style="display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px;font-size:12px;color:var(--soft)"><span><span style="display:inline-block;width:8px;height:8px;background:var(--s1);margin-right:6px"></span>Actual</span><span><span style="display:inline-block;width:8px;height:8px;background:var(--n4);margin-right:6px"></span>Budget</span></div></div><div style="font-size:12.5px;color:var(--soft);margin-top:10px;text-wrap:pretty">Two months of actuals, both marginally behind plan. The budget curve assumes a December and June peak the business has yet to demonstrate this year.</div></div><div style="flex:1 1 420px;min-width:0"><div style="border-top:1px solid var(--color-text);padding-top:10px;display:flex;flex-wrap:wrap;align-items:baseline;gap:10px"><h3 style="font-size:18px;margin:0">Margins</h3><span style="font-size:12px;color:var(--soft)">August · actual, budget and prior year · % of revenue</span></div><div style="margin-top:16px"><div style="display:flex;align-items:flex-end;gap:24px"><div style="flex:1 1 0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;align-items:flex-end;gap:6px;height:132px;width:100%;justify-content:center"><span style="width:26px;height:121.8px;background:var(--s1)"></span><span style="width:26px;height:123px;background:var(--n4)"></span><span style="width:26px;height:119px;background:var(--n3)"></span></div><span style="font-size:12px;color:var(--soft)">Gross</span></div><div style="flex:1 1 0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;align-items:flex-end;gap:6px;height:132px;width:100%;justify-content:center"><span style="width:26px;height:53.2px;background:var(--s1)"></span><span style="width:26px;height:60.1px;background:var(--n4)"></span><span style="width:26px;height:51.2px;background:var(--n3)"></span></div><span style="font-size:12px;color:var(--soft)">Operating</span></div><div style="flex:1 1 0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;align-items:flex-end;gap:6px;height:132px;width:100%;justify-content:center"><span style="width:26px;height:37.8px;background:var(--s1)"></span><span style="width:26px;height:42.2px;background:var(--n4)"></span><span style="width:26px;height:34.9px;background:var(--n3)"></span></div><span style="font-size:12px;color:var(--soft)">Net</span></div></div><div style="display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px;font-size:12px;color:var(--soft)"><span><span style="display:inline-block;width:8px;height:8px;background:var(--s1);margin-right:6px"></span>Aug actual</span><span><span style="display:inline-block;width:8px;height:8px;background:var(--n4);margin-right:6px"></span>Budget</span><span><span style="display:inline-block;width:8px;height:8px;background:var(--n3);margin-right:6px"></span>Aug 2025</span></div></div><div style="font-size:12.5px;color:var(--soft);margin-top:10px;text-wrap:pretty">Gross margin is the resilient one — ahead of last year, a whisker behind plan. The gap widens down the statement: operating margin is 1.7pt short on the opex overrun.</div></div></div>
+  <div style="display:flex;flex-wrap:wrap;gap:44px;margin-top:44px"><div style="flex:1 1 420px;min-width:0"><div style="border-top:1px solid var(--color-text);padding-top:10px;display:flex;flex-wrap:wrap;align-items:baseline;gap:10px"><h3 style="font-size:18px;margin:0">Net profit bridge</h3><span style="font-size:12px;color:var(--soft)">Budget ₦451m to actual ₦391m · ₦m</span></div><div style="margin-top:16px"><div style="display:flex;align-items:flex-end;gap:8px"><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="position:relative;height:150px;width:100%"><span style="position:absolute;left:12%;right:12%;bottom:0px;height:135.3px;background:var(--n2)"></span></div><span style="font-size:11px;color:var(--soft);text-align:center">Budget</span></div><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="position:relative;height:150px;width:100%"><span style="position:absolute;left:12%;right:12%;bottom:123.6px;height:11.7px;background:var(--unfav)"></span></div><span style="font-size:11px;color:var(--soft);text-align:center">Volume</span></div><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="position:relative;height:150px;width:100%"><span style="position:absolute;left:12%;right:12%;bottom:110.1px;height:13.5px;background:var(--unfav)"></span></div><span style="font-size:11px;color:var(--soft);text-align:center">Rebates</span></div><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="position:relative;height:150px;width:100%"><span style="position:absolute;left:12%;right:12%;bottom:110.1px;height:9.6px;background:var(--fav)"></span></div><span style="font-size:11px;color:var(--soft);text-align:center">Landed</span></div><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="position:relative;height:150px;width:100%"><span style="position:absolute;left:12%;right:12%;bottom:107.7px;height:12px;background:var(--unfav)"></span></div><span style="font-size:11px;color:var(--soft);text-align:center">Opex</span></div><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="position:relative;height:150px;width:100%"><span style="position:absolute;left:12%;right:12%;bottom:105.9px;height:1.8px;background:var(--unfav)"></span></div><span style="font-size:11px;color:var(--soft);text-align:center">Fin/FX</span></div><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="position:relative;height:150px;width:100%"><span style="position:absolute;left:12%;right:12%;bottom:105.9px;height:11.4px;background:var(--fav)"></span></div><span style="font-size:11px;color:var(--soft);text-align:center">Tax</span></div><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="position:relative;height:150px;width:100%"><span style="position:absolute;left:12%;right:12%;bottom:0px;height:117.3px;background:var(--s1)"></span></div><span style="font-size:11px;color:var(--soft);text-align:center">Actual</span></div></div><div style="display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px;font-size:12px;color:var(--soft)"><span><span style="display:inline-block;width:8px;height:8px;background:var(--fav);margin-right:6px"></span>Favourable</span><span><span style="display:inline-block;width:8px;height:8px;background:var(--unfav);margin-right:6px"></span>Unfavourable</span></div></div><div style="font-size:12.5px;color:var(--soft);margin-top:10px;text-wrap:pretty">Rebates and the logistics overrun cost ₦85m between them; a lower tax charge and landed-cost saving gave ₦70m back.</div></div><div style="flex:1 1 420px;min-width:0"><div style="border-top:1px solid var(--color-text);padding-top:10px;display:flex;flex-wrap:wrap;align-items:baseline;gap:10px"><h3 style="font-size:18px;margin:0">Revenue and margin by segment</h3><span style="font-size:12px;color:var(--soft)">August · bars are revenue ₦m</span></div><div style="margin-top:16px"><div style="display:grid;grid-template-columns:minmax(120px,1.2fr) 58px minmax(70px,1.5fr) 56px;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--hair);font-size:13.5px"><span>GAC vehicles</span><span style="text-align:right">1,740</span><span style="position:relative;height:9px;background:var(--hair)"><span style="position:absolute;inset:0 auto 0 0;width:100%;background:var(--s1)"></span></span><span style="text-align:right;color:var(--soft)">26.0%</span></div><div style="display:grid;grid-template-columns:minmax(120px,1.2fr) 58px minmax(70px,1.5fr) 56px;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--hair);font-size:13.5px"><span>GNI vehicles</span><span style="text-align:right">985</span><span style="position:relative;height:9px;background:var(--hair)"><span style="position:absolute;inset:0 auto 0 0;width:56.6%;background:var(--s1)"></span></span><span style="text-align:right;color:var(--soft)">25.0%</span></div><div style="display:grid;grid-template-columns:minmax(120px,1.2fr) 58px minmax(70px,1.5fr) 56px;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--hair);font-size:13.5px"><span>WEIVA &amp; commercial</span><span style="text-align:right">485</span><span style="position:relative;height:9px;background:var(--hair)"><span style="position:absolute;inset:0 auto 0 0;width:27.9%;background:var(--s1)"></span></span><span style="text-align:right;color:var(--soft)">24.1%</span></div><div style="display:grid;grid-template-columns:minmax(120px,1.2fr) 58px minmax(70px,1.5fr) 56px;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--hair);font-size:13.5px"><span>Spare parts</span><span style="text-align:right">565</span><span style="position:relative;height:9px;background:var(--hair)"><span style="position:absolute;inset:0 auto 0 0;width:32.5%;background:var(--s1)"></span></span><span style="text-align:right;color:var(--soft)">33.6%</span></div><div style="display:grid;grid-template-columns:minmax(120px,1.2fr) 58px minmax(70px,1.5fr) 56px;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--hair);font-size:13.5px"><span>Service &amp; labour</span><span style="text-align:right">425</span><span style="position:relative;height:9px;background:var(--hair)"><span style="position:absolute;inset:0 auto 0 0;width:24.4%;background:var(--s1)"></span></span><span style="text-align:right;color:var(--soft)">72.2%</span></div></div><div style="font-size:12.5px;color:var(--soft);margin-top:10px;text-wrap:pretty">Aftersales is 23% of revenue and 39% of gross profit. The shortfall against budget sits entirely in new vehicle units.</div></div></div>
+  </div></sc-if>
+  <sc-if value="{{ dash2 }}"><div>
+  <div style="display:flex;flex-wrap:wrap;gap:44px;margin-top:26px"><div style="flex:1 1 420px;min-width:0"><div style="border-top:1px solid var(--color-text);padding-top:10px;display:flex;flex-wrap:wrap;align-items:baseline;gap:10px"><h3 style="font-size:18px;margin:0">Closing cash balance</h3><span style="font-size:12px;color:var(--soft)">Last six months · ₦m</span></div><div style="margin-top:16px"><div style="display:flex;align-items:flex-end;gap:10px"><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;align-items:flex-end;gap:2px;height:132px;width:100%"><span style="width:100%;height:65.8px;background:var(--n3)"></span></div><span style="font-size:11px;color:var(--soft)">Mar</span></div><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;align-items:flex-end;gap:2px;height:132px;width:100%"><span style="width:100%;height:60.2px;background:var(--n3)"></span></div><span style="font-size:11px;color:var(--soft)">Apr</span></div><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;align-items:flex-end;gap:2px;height:132px;width:100%"><span style="width:100%;height:70px;background:var(--n3)"></span></div><span style="font-size:11px;color:var(--soft)">May</span></div><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;align-items:flex-end;gap:2px;height:132px;width:100%"><span style="width:100%;height:46.3px;background:var(--n3)"></span></div><span style="font-size:11px;color:var(--soft)">Jun</span></div><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;align-items:flex-end;gap:2px;height:132px;width:100%"><span style="width:100%;height:88.8px;background:var(--n3)"></span></div><span style="font-size:11px;color:var(--soft)">Jul</span></div><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;align-items:flex-end;gap:2px;height:132px;width:100%"><span style="width:100%;height:130px;background:var(--s1)"></span></div><span style="font-size:11px;color:var(--color-text);font-weight:600">Aug</span></div></div></div><div style="font-size:12.5px;color:var(--soft);margin-top:10px;text-wrap:pretty">August is the strongest close in six months, but ₦170m of the ₦260m rise came from running stock down rather than from trading.</div></div><div style="flex:1 1 420px;min-width:0"><div style="border-top:1px solid var(--color-text);padding-top:10px;display:flex;flex-wrap:wrap;align-items:baseline;gap:10px"><h3 style="font-size:18px;margin:0">Cash flow bridge</h3><span style="font-size:12px;color:var(--soft)">August · ₦m</span></div><div style="margin-top:16px"><div style="display:flex;align-items:flex-end;gap:10px"><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="position:relative;height:150px;width:100%"><span style="position:absolute;left:18%;right:18%;bottom:0px;height:70px;background:var(--n2)"></span></div><span style="font-size:11px;color:var(--soft)">Opening</span></div><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="position:relative;height:150px;width:100%"><span style="position:absolute;left:18%;right:18%;bottom:70px;height:77.5px;background:var(--fav)"></span></div><span style="font-size:11px;color:var(--soft)">Operating</span></div><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="position:relative;height:150px;width:100%"><span style="position:absolute;left:18%;right:18%;bottom:121.25px;height:26.25px;background:var(--unfav)"></span></div><span style="font-size:11px;color:var(--soft)">Investing</span></div><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="position:relative;height:150px;width:100%"><span style="position:absolute;left:18%;right:18%;bottom:102.5px;height:18.75px;background:var(--unfav)"></span></div><span style="font-size:11px;color:var(--soft)">Financing</span></div><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="position:relative;height:150px;width:100%"><span style="position:absolute;left:18%;right:18%;bottom:0px;height:102.5px;background:var(--s1)"></span></div><span style="font-size:11px;color:var(--soft)">Closing</span></div></div><div style="display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px;font-size:12px;color:var(--soft)"><span><span style="display:inline-block;width:8px;height:8px;background:var(--fav);margin-right:6px"></span>Inflow</span><span><span style="display:inline-block;width:8px;height:8px;background:var(--unfav);margin-right:6px"></span>Outflow</span></div></div><div style="font-size:12.5px;color:var(--soft);margin-top:10px;text-wrap:pretty">Operating inflow of ₦620m funded ₦210m of capex and ₦150m of debt service with ₦260m left over.</div></div></div>
+  <div style="display:flex;flex-wrap:wrap;gap:44px;margin-top:44px"><div style="flex:1 1 420px;min-width:0"><div style="border-top:1px solid var(--color-text);padding-top:10px;display:flex;flex-wrap:wrap;align-items:baseline;gap:10px"><h3 style="font-size:18px;margin:0">Working capital days</h3><span style="font-size:12px;color:var(--soft)">July against August · days</span></div><div style="margin-top:16px"><div style="display:flex;align-items:flex-end;gap:24px"><div style="flex:1 1 0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;align-items:flex-end;gap:6px;height:132px;width:100%;justify-content:center"><span style="width:24px;height:115px;background:var(--n3)"></span><span style="width:24px;height:130px;background:var(--s1)"></span></div><span style="font-size:12px;color:var(--soft)">DSO</span></div><div style="flex:1 1 0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;align-items:flex-end;gap:6px;height:132px;width:100%;justify-content:center"><span style="width:24px;height:67.5px;background:var(--n3)"></span><span style="width:24px;height:60px;background:var(--s1)"></span></div><span style="font-size:12px;color:var(--soft)">DIO</span></div><div style="flex:1 1 0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;align-items:flex-end;gap:6px;height:132px;width:100%;justify-content:center"><span style="width:24px;height:97.5px;background:var(--n3)"></span><span style="width:24px;height:102.5px;background:var(--s1)"></span></div><span style="font-size:12px;color:var(--soft)">DPO</span></div><div style="flex:1 1 0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;align-items:flex-end;gap:6px;height:132px;width:100%;justify-content:center"><span style="width:24px;height:85px;background:var(--n3)"></span><span style="width:24px;height:87.5px;background:var(--s1)"></span></div><span style="font-size:12px;color:var(--soft)">CCC</span></div></div><div style="display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px;font-size:12px;color:var(--soft)"><span><span style="display:inline-block;width:8px;height:8px;background:var(--n3);margin-right:6px"></span>July</span><span><span style="display:inline-block;width:8px;height:8px;background:var(--s1);margin-right:6px"></span>August</span></div></div><div style="font-size:12.5px;color:var(--soft);margin-top:10px;text-wrap:pretty">Stock days improved by three, but six extra days of DSO more than absorbed it — the cash conversion cycle is a day longer at 35 days against a 30-day policy.</div></div><div style="flex:1 1 420px;min-width:0"><div style="border-top:1px solid var(--color-text);padding-top:10px;display:flex;flex-wrap:wrap;align-items:baseline;gap:10px"><h3 style="font-size:18px;margin:0">Net debt and gearing</h3><span style="font-size:12px;color:var(--soft)">Bars are net debt ₦m · labels show gearing</span></div><div style="margin-top:16px"><div style="display:flex;align-items:flex-end;gap:10px"><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;align-items:flex-end;gap:2px;height:132px;width:100%"><span style="width:100%;height:130px;background:var(--n3)"></span></div><span style="font-size:11px;color:var(--soft)">Jun · 57%</span></div><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;align-items:flex-end;gap:2px;height:132px;width:100%"><span style="width:100%;height:120.2px;background:var(--n3)"></span></div><span style="font-size:11px;color:var(--soft)">Jul · 53%</span></div><div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;align-items:flex-end;gap:2px;height:132px;width:100%"><span style="width:100%;height:102.4px;background:var(--s1)"></span></div><span style="font-size:11px;color:var(--color-text);font-weight:600">Aug · 44%</span></div></div></div><div style="font-size:12.5px;color:var(--soft);margin-top:10px;text-wrap:pretty">Net debt is down ₦462m in two months and gearing is 11pt inside the 55% covenant. Interest cover holds at 4.7×.</div></div></div>
+  </div></sc-if>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ pOverview }}">
+  <div>
+  <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(214px,1fr));margin-top:26px">
+    <div style="padding:2px 18px 6px;border-left:1px solid var(--hair)">
+      <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--soft)">Revenue</div>
+      <div style="font-size:31px;letter-spacing:-0.02em;margin-top:6px">₦4.20<span style="font-size:19px;color:var(--soft)">B</span></div>
+      <div style="font-size:12.5px;color:var(--soft);margin-top:2px">Budget ₦4.33B · YTD ₦8.31B</div>
+      <div style="margin-top:8px;display:inline-flex;align-items:center;gap:5px;font-size:11.5px;padding:2px 7px;border-radius:2px;white-space:nowrap;background:var(--unfavbg);color:var(--unfav)">▼ 3.0% vs budget</div>
+    </div>
+    <div style="padding:2px 18px 6px;border-left:1px solid var(--hair)">
+      <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--soft)">Gross profit</div>
+      <div style="font-size:31px;letter-spacing:-0.02em;margin-top:6px">₦1.26<span style="font-size:19px;color:var(--soft)">B</span></div>
+      <div style="font-size:12.5px;color:var(--soft);margin-top:2px">30.0% margin · budget 30.3%</div>
+      <div style="margin-top:8px;display:inline-flex;align-items:center;gap:5px;font-size:11.5px;padding:2px 7px;border-radius:2px;white-space:nowrap;background:var(--unfavbg);color:var(--unfav)">▼ ₦52m vs budget</div>
+    </div>
+    <div style="padding:2px 18px 6px;border-left:1px solid var(--hair)">
+      <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--soft)">Operating profit</div>
+      <div style="font-size:31px;letter-spacing:-0.02em;margin-top:6px">₦0.55<span style="font-size:19px;color:var(--soft)">B</span></div>
+      <div style="font-size:12.5px;color:var(--soft);margin-top:2px">13.1% of revenue · budget 14.8%</div>
+      <div style="margin-top:8px;display:inline-flex;align-items:center;gap:5px;font-size:11.5px;padding:2px 7px;border-radius:2px;white-space:nowrap;background:var(--unfavbg);color:var(--unfav)">▼ 14.3% vs budget</div>
+    </div>
+    <div style="padding:2px 18px 6px;border-left:1px solid var(--hair)">
+      <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--soft)">Net profit</div>
+      <div style="font-size:31px;letter-spacing:-0.02em;margin-top:6px">₦0.39<span style="font-size:19px;color:var(--soft)">B</span></div>
+      <div style="font-size:12.5px;color:var(--soft);margin-top:2px">9.3% of revenue · budget 10.4%</div>
+      <div style="margin-top:8px;display:inline-flex;align-items:center;gap:5px;font-size:11.5px;padding:2px 7px;border-radius:2px;white-space:nowrap;background:var(--unfavbg);color:var(--unfav)">▼ 13.3% vs budget</div>
+    </div>
+    <div style="padding:2px 18px 6px;border-left:1px solid var(--hair)">
+      <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--soft)">Cash &amp; equivalents</div>
+      <div style="font-size:31px;letter-spacing:-0.02em;margin-top:6px">₦0.82<span style="font-size:19px;color:var(--soft)">B</span></div>
+      <div style="font-size:12.5px;color:var(--soft);margin-top:2px">Opened ₦0.56B · 11 bank accounts</div>
+      <div style="margin-top:8px;display:inline-flex;align-items:center;gap:5px;font-size:11.5px;padding:2px 7px;border-radius:2px;white-space:nowrap;background:var(--favbg);color:var(--fav)">▲ ₦260m in month</div>
+    </div>
+    <div style="padding:2px 18px 6px;border-left:1px solid var(--hair)">
+      <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--soft)">Current ratio</div>
+      <div style="font-size:31px;letter-spacing:-0.02em;margin-top:6px">1.6<span style="font-size:19px;color:var(--soft)">×</span></div>
+      <div style="font-size:12.5px;color:var(--soft);margin-top:2px">Jul 1.58× · covenant floor 1.25×</div>
+      <div style="margin-top:8px;display:inline-flex;align-items:center;gap:5px;font-size:11.5px;padding:2px 7px;border-radius:2px;white-space:nowrap;background:var(--favbg);color:var(--fav)">▲ 0.35× covenant headroom</div>
+    </div>
+  </section>
+
+  <div style="display:flex;flex-wrap:wrap;gap:44px;margin-top:46px">
+    <div style="flex:3 1 620px;min-width:0">
+      <div style="border-top:1px solid var(--color-text);padding-top:10px;display:flex;flex-wrap:wrap;align-items:baseline;gap:12px">
+        <h2 style="font-size:23px;margin:0">Budget vs actual</h2>
+        <span style="font-size:12.5px;color:var(--soft)">₦ millions · brackets are outflows and unfavourable variances</span>
+      </div>
+      <table class="table" style="margin-top:14px;font-size:13.5px">
+        <thead>
+          <tr>
+            <th style="padding-left:0">Line item</th>
+            <th style="text-align:right">Actual Aug</th>
+            <th style="text-align:right">Budget Aug</th>
+            <th style="text-align:right">Var ₦m</th>
+            <th style="text-align:right">Var %</th>
+            <th style="text-align:right;border-left:1px solid var(--color-divider)">YTD actual</th>
+            <th style="text-align:right">YTD budget</th>
+            <th style="text-align:right;padding-right:0">YTD var %</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding-left:0">Revenue</td>
+            <td style="text-align:right">4,200</td>
+            <td style="text-align:right;color:var(--soft)">4,330</td>
+            <td style="text-align:right;color:var(--unfav)">(130)</td>
+            <td style="text-align:right;color:var(--unfav)">(3.0%)</td>
+            <td style="text-align:right;border-left:1px solid var(--color-divider)">8,310</td>
+            <td style="text-align:right;color:var(--soft)">8,580</td>
+            <td style="text-align:right;padding-right:0;color:var(--unfav)">(3.1%)</td>
+          </tr>
+          <tr>
+            <td style="padding-left:0">Cost of sales</td>
+            <td style="text-align:right">(2,940)</td>
+            <td style="text-align:right;color:var(--soft)">(3,018)</td>
+            <td style="text-align:right;color:var(--fav)">78</td>
+            <td style="text-align:right;color:var(--fav)">2.6%</td>
+            <td style="text-align:right;border-left:1px solid var(--color-divider)">(5,829)</td>
+            <td style="text-align:right;color:var(--soft)">(5,980)</td>
+            <td style="text-align:right;padding-right:0;color:var(--fav)">2.5%</td>
+          </tr>
+          <tr style="font-weight:600">
+            <td style="padding-left:0;border-top:1px solid var(--color-text)">Gross profit <span style="font-weight:400;color:var(--soft)">· 30.0% margin</span></td>
+            <td style="text-align:right;border-top:1px solid var(--color-text)">1,260</td>
+            <td style="text-align:right;border-top:1px solid var(--color-text);color:var(--soft)">1,312</td>
+            <td style="text-align:right;border-top:1px solid var(--color-text);color:var(--unfav)">(52)</td>
+            <td style="text-align:right;border-top:1px solid var(--color-text);color:var(--unfav)">(4.0%)</td>
+            <td style="text-align:right;border-top:1px solid var(--color-text);border-left:1px solid var(--color-divider)">2,481</td>
+            <td style="text-align:right;border-top:1px solid var(--color-text);color:var(--soft)">2,600</td>
+            <td style="text-align:right;padding-right:0;border-top:1px solid var(--color-text);color:var(--unfav)">(4.6%)</td>
+          </tr>
+          <tr>
+            <td style="padding-left:0">Operating expenses</td>
+            <td style="text-align:right">(710)</td>
+            <td style="text-align:right;color:var(--soft)">(670)</td>
+            <td style="text-align:right;color:var(--unfav)">(40)</td>
+            <td style="text-align:right;color:var(--unfav)">(6.0%)</td>
+            <td style="text-align:right;border-left:1px solid var(--color-divider)">(1,392)</td>
+            <td style="text-align:right;color:var(--soft)">(1,335)</td>
+            <td style="text-align:right;padding-right:0;color:var(--unfav)">(4.3%)</td>
+          </tr>
+          <tr style="font-weight:600">
+            <td style="padding-left:0;border-top:1px solid var(--color-text)">Operating profit <span style="font-weight:400;color:var(--soft)">· 13.1%</span></td>
+            <td style="text-align:right;border-top:1px solid var(--color-text)">550</td>
+            <td style="text-align:right;border-top:1px solid var(--color-text);color:var(--soft)">642</td>
+            <td style="text-align:right;border-top:1px solid var(--color-text);color:var(--unfav)">(92)</td>
+            <td style="text-align:right;border-top:1px solid var(--color-text);color:var(--unfav)">(14.3%)</td>
+            <td style="text-align:right;border-top:1px solid var(--color-text);border-left:1px solid var(--color-divider)">1,089</td>
+            <td style="text-align:right;border-top:1px solid var(--color-text);color:var(--soft)">1,265</td>
+            <td style="text-align:right;padding-right:0;border-top:1px solid var(--color-text);color:var(--unfav)">(13.9%)</td>
+          </tr>
+          <tr>
+            <td style="padding-left:0">Net finance cost &amp; tax</td>
+            <td style="text-align:right">(159)</td>
+            <td style="text-align:right;color:var(--soft)">(191)</td>
+            <td style="text-align:right;color:var(--fav)">32</td>
+            <td style="text-align:right;color:var(--fav)">16.8%</td>
+            <td style="text-align:right;border-left:1px solid var(--color-divider)">(338)</td>
+            <td style="text-align:right;color:var(--soft)">(369)</td>
+            <td style="text-align:right;padding-right:0;color:var(--fav)">8.4%</td>
+          </tr>
+          <tr style="font-weight:600;font-size:14.5px">
+            <td style="padding-left:0;border-top:2px solid var(--color-text);border-bottom:none">Net profit <span style="font-weight:400;font-size:13.5px;color:var(--soft)">· 9.3% of revenue</span></td>
+            <td style="text-align:right;border-top:2px solid var(--color-text);border-bottom:none">391</td>
+            <td style="text-align:right;border-top:2px solid var(--color-text);border-bottom:none;color:var(--soft)">451</td>
+            <td style="text-align:right;border-top:2px solid var(--color-text);border-bottom:none;color:var(--unfav)">(60)</td>
+            <td style="text-align:right;border-top:2px solid var(--color-text);border-bottom:none;color:var(--unfav)">(13.3%)</td>
+            <td style="text-align:right;border-top:2px solid var(--color-text);border-bottom:none;border-left:1px solid var(--color-divider)">751</td>
+            <td style="text-align:right;border-top:2px solid var(--color-text);border-bottom:none;color:var(--soft)">896</td>
+            <td style="text-align:right;padding-right:0;border-top:2px solid var(--color-text);border-bottom:none;color:var(--unfav)">(16.2%)</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="font-size:12.5px;color:var(--soft);margin-top:10px">Full line detail by account group on the <a href="#" onClick="{{ goPl }}">income statement</a> page.</div>
+    </div>
+
+    <div style="flex:1 1 300px;min-width:0">
+      <div style="border-top:1px solid var(--color-text);padding-top:10px">
+        <h2 style="font-size:23px;margin:0">Things to watch</h2>
+        <span style="font-size:12.5px;color:var(--soft)">Prepared by Group FP&amp;A · 3 Sep 2026</span>
+      </div>
+      <ol style="list-style:none;margin:16px 0 0;padding:0;display:flex;flex-direction:column;gap:18px">
+        <li style="display:flex;gap:12px">
+          <span style="font-size:13px;color:var(--brand);padding-top:3px">01</span>
+          <div>
+            <div style="font-weight:600">Opex ran ₦40m (6%) over budget</div>
+            <div style="font-size:13.5px;color:var(--soft);text-wrap:pretty">Logistics is ₦25m of it — third-party haulage rates on the Lagos–Abuja lane rose ahead of the freight tender closing in October.</div>
+          </div>
+        </li>
+        <li style="display:flex;gap:12px">
+          <span style="font-size:13px;color:var(--brand);padding-top:3px">02</span>
+          <div>
+            <div style="font-weight:600">DSO climbed to 52 days, up from 46</div>
+            <div style="font-size:13.5px;color:var(--soft);text-wrap:pretty">₦180m more cash is tied up in receivables than last month, concentrated in two fleet accounts now past 60 days.</div>
+          </div>
+        </li>
+        <li style="display:flex;gap:12px">
+          <span style="font-size:13px;color:var(--brand);padding-top:3px">03</span>
+          <div>
+            <div style="font-weight:600">Gross margin held at 30.0%</div>
+            <div style="font-size:13.5px;color:var(--soft);text-wrap:pretty">Despite the ₦130m revenue shortfall, pricing discipline and a softer landed-cost mix kept margin within 0.3pt of budget.</div>
+          </div>
+        </li>
+        <li style="display:flex;gap:12px">
+          <span style="font-size:13px;color:var(--brand);padding-top:3px">04</span>
+          <div>
+            <div style="font-weight:600">Cash closed ₦0.82B, up ₦260m</div>
+            <div style="font-size:13.5px;color:var(--soft);text-wrap:pretty">A ₦170m stock drawdown funded the ₦210m capex spend; short-term borrowings rose ₦60m to bridge the receivables build.</div>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:44px;margin-top:46px">
+    <div style="flex:3 1 620px;min-width:0">
+      <div style="border-top:1px solid var(--color-text);padding-top:10px;display:flex;flex-wrap:wrap;align-items:baseline;gap:12px">
+        <h2 style="font-size:23px;margin:0">Revenue and net profit by month</h2>
+        <span style="font-size:12.5px;color:var(--soft)">FY2026 · actuals to August, budget thereafter</span>
+        <span style="margin-left:auto;display:flex;gap:16px;font-size:12px;color:var(--soft)">
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:18px;height:2px;background:var(--color-accent)"></span>Actual</span>
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:18px;border-top:2px dashed var(--soft)"></span>Budget</span>
+        </span>
+      </div>
+
+      <div style="position:relative;margin-top:16px">
+        <div style="position:absolute;left:8.33%;width:8.33%;top:0;bottom:0;background:color-mix(in srgb, var(--color-accent) 8%, transparent)"></div>
+        <div style="position:relative">
+          <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--soft);margin-bottom:2px">Revenue ₦B</div>
+          <svg viewBox="0 0 1000 180" preserveAspectRatio="none" style="display:block;width:100%;height:180px;overflow:visible">
+            <line x1="0" y1="41.8" x2="1000" y2="41.8" stroke="var(--hair)" stroke-width="1" vector-effect="non-scaling-stroke"></line>
+            <line x1="0" y1="100.9" x2="1000" y2="100.9" stroke="var(--hair)" stroke-width="1" vector-effect="non-scaling-stroke"></line>
+            <line x1="0" y1="160" x2="1000" y2="160" stroke="var(--color-divider)" stroke-width="1" vector-effect="non-scaling-stroke"></line>
+            <polygon points="41.7,160 41.7,62.9 125,60.7 125,160" fill="color-mix(in srgb, var(--color-accent) 16%, transparent)"></polygon>
+            <sc-if value="{{ projection }}" hint-placeholder-val="{{ true }}">
+              <polyline points="41.7,59.6 125,57.7 208.3,56.0 291.7,52.5 375,48.9 458.3,39.5 541.7,57.2 625,56.0 708.3,51.3 791.7,50.1 875,46.5 958.3,37.1" fill="none" stroke="var(--soft)" stroke-width="1.5" stroke-dasharray="5 4" vector-effect="non-scaling-stroke"></polyline>
+            </sc-if>
+            <polyline points="41.7,62.9 125,60.7" fill="none" stroke="var(--color-accent)" stroke-width="2.5" vector-effect="non-scaling-stroke"></polyline>
+          </svg>
+          <div style="position:absolute;right:0;top:52px;font-size:11px;color:var(--soft);background:var(--color-bg);padding:0 3px">5.0</div>
+          <div style="position:absolute;right:0;top:111px;font-size:11px;color:var(--soft);background:var(--color-bg);padding:0 3px">2.5</div>
+          <div style="position:absolute;left:12.5%;top:78.7px;width:9px;height:9px;border-radius:50%;background:var(--color-accent);transform:translate(-50%,-50%)"></div>
+          <div style="position:absolute;left:15%;top:58px;font-size:12.5px;font-weight:600;white-space:nowrap;background:var(--color-bg);padding:1px 6px">₦4.20B <span style="font-weight:400;color:var(--unfav)">(3.0%) vs budget</span></div>
+        </div>
+
+        <div style="position:relative;margin-top:14px">
+          <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--soft);margin-bottom:2px">Net profit ₦B</div>
+          <svg viewBox="0 0 1000 110" preserveAspectRatio="none" style="display:block;width:100%;height:110px;overflow:visible">
+            <line x1="0" y1="43.3" x2="1000" y2="43.3" stroke="var(--hair)" stroke-width="1" vector-effect="non-scaling-stroke"></line>
+            <line x1="0" y1="90" x2="1000" y2="90" stroke="var(--color-divider)" stroke-width="1" vector-effect="non-scaling-stroke"></line>
+            <polygon points="41.7,90 41.7,48 125,44.5 125,90" fill="color-mix(in srgb, var(--color-accent-2) 14%, transparent)"></polygon>
+            <sc-if value="{{ projection }}" hint-placeholder-val="{{ true }}">
+              <polyline points="41.7,41.0 125,38.7 208.3,37.5 291.7,35.2 375,32.8 458.3,25.8 541.7,41.0 625,39.8 708.3,36.3 791.7,35.2 875,32.8 958.3,27.0" fill="none" stroke="var(--soft)" stroke-width="1.5" stroke-dasharray="5 4" vector-effect="non-scaling-stroke"></polyline>
+            </sc-if>
+            <polyline points="41.7,48 125,44.5" fill="none" stroke="var(--color-accent-2)" stroke-width="2.5" vector-effect="non-scaling-stroke"></polyline>
+          </svg>
+          <div style="position:absolute;right:0;top:53px;font-size:11px;color:var(--soft);background:var(--color-bg);padding:0 3px">0.4</div>
+          <div style="position:absolute;left:12.5%;top:62.5px;width:9px;height:9px;border-radius:50%;background:var(--color-accent-2);transform:translate(-50%,-50%)"></div>
+          <div style="position:absolute;left:15%;top:42px;font-size:12.5px;font-weight:600;white-space:nowrap;background:var(--color-bg);padding:1px 6px">₦0.39B</div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(12,1fr);margin-top:6px;font-size:11.5px;text-align:center;color:var(--soft)">
+          <span>Jul</span><span style="color:var(--color-text);font-weight:600">Aug</span><span style="opacity:0.55">Sep</span><span style="opacity:0.55">Oct</span><span style="opacity:0.55">Nov</span><span style="opacity:0.55">Dec</span><span style="opacity:0.55">Jan</span><span style="opacity:0.55">Feb</span><span style="opacity:0.55">Mar</span><span style="opacity:0.55">Apr</span><span style="opacity:0.55">May</span><span style="opacity:0.55">Jun</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="flex:1 1 300px;min-width:0">
+      <div style="border-top:1px solid var(--color-text);padding-top:10px">
+        <h2 style="font-size:23px;margin:0">Cash flow, August</h2>
+        <span style="font-size:12.5px;color:var(--soft)">Summary · indirect method</span>
+      </div>
+      <div style="margin-top:14px;display:flex;flex-direction:column">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;white-space:nowrap;padding:7px 0;border-bottom:1px solid var(--hair);color:var(--soft);font-size:13.5px">
+          <span>Opening cash, 1 Aug</span><span>560</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;white-space:nowrap;padding:7px 0;border-bottom:1px solid var(--hair)">
+          <span>Operating</span><span style="color:var(--fav)">+620</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;white-space:nowrap;padding:7px 0;border-bottom:1px solid var(--hair)">
+          <span>Investing</span><span>(210)</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;white-space:nowrap;padding:7px 0;border-bottom:1px solid var(--hair)">
+          <span>Financing</span><span>(150)</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;white-space:nowrap;padding:8px 0;border-top:1px solid var(--color-text);font-weight:600">
+          <span>Net movement</span><span style="color:var(--fav)">+260</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;white-space:nowrap;padding:8px 0;border-top:2px solid var(--color-text);font-weight:600;font-size:15.5px">
+          <span>Closing cash, 31 Aug</span><span>820</span>
+        </div>
+        <div style="font-size:12.5px;color:var(--soft);margin-top:14px;text-wrap:pretty">Investing is the Ikeja service-bay fit-out (₦180m) plus fleet additions. Financing is interest and scheduled term-loan amortisation, net of a ₦60m short-term drawdown.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:44px;margin-top:46px">
+    <div style="flex:1 1 420px;min-width:0">
+      <div style="border-top:1px solid var(--color-text);padding-top:10px;display:flex;flex-wrap:wrap;align-items:baseline;gap:12px">
+        <h2 style="font-size:23px;margin:0">Operating expenses</h2>
+        <span style="font-size:12.5px;color:var(--soft)">Bars are % of revenue · tick marks budget</span>
+      </div>
+      <div style="margin-top:16px;display:flex;flex-direction:column">
+        <div style="display:grid;grid-template-columns:1.1fr 62px 56px minmax(90px,1.6fr) 74px;gap:12px;align-items:center;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--soft);padding-bottom:6px;border-bottom:1px solid var(--color-divider)">
+          <span>Category</span><span style="text-align:right">₦m</span><span style="text-align:right">% rev</span><span></span><span style="text-align:right">vs bud</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1.1fr 62px 56px minmax(90px,1.6fr) 74px;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid var(--hair);font-size:14px">
+          <span>Staff costs</span><span style="text-align:right">296</span><span style="text-align:right">7.0%</span>
+          <span style="position:relative;height:9px;background:var(--hair)"><span style="position:absolute;inset:0 auto 0 0;width:93.3%;background:var(--s1)"></span><span style="position:absolute;left:88.7%;top:-3px;bottom:-3px;width:1.5px;background:var(--color-text)"></span></span>
+          <span style="text-align:right;color:var(--unfav)">(8)</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1.1fr 62px 56px minmax(90px,1.6fr) 74px;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid var(--hair);font-size:14px">
+          <span>Logistics</span><span style="text-align:right">121</span><span style="text-align:right">2.9%</span>
+          <span style="position:relative;height:9px;background:var(--hair)"><span style="position:absolute;inset:0 auto 0 0;width:38.4%;background:var(--s1)"></span><span style="position:absolute;left:29.6%;top:-3px;bottom:-3px;width:1.5px;background:var(--color-text)"></span></span>
+          <span style="text-align:right;color:var(--unfav)">(25)</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1.1fr 62px 56px minmax(90px,1.6fr) 74px;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid var(--hair);font-size:14px">
+          <span>Occupancy</span><span style="text-align:right">92</span><span style="text-align:right">2.2%</span>
+          <span style="position:relative;height:9px;background:var(--hair)"><span style="position:absolute;inset:0 auto 0 0;width:29.2%;background:var(--s1)"></span><span style="position:absolute;left:27.7%;top:-3px;bottom:-3px;width:1.5px;background:var(--color-text)"></span></span>
+          <span style="text-align:right;color:var(--unfav)">(2)</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1.1fr 62px 56px minmax(90px,1.6fr) 74px;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid var(--hair);font-size:14px">
+          <span>Marketing</span><span style="text-align:right">78</span><span style="text-align:right">1.9%</span>
+          <span style="position:relative;height:9px;background:var(--hair)"><span style="position:absolute;inset:0 auto 0 0;width:24.8%;background:var(--s1)"></span><span style="position:absolute;left:25.9%;top:-3px;bottom:-3px;width:1.5px;background:var(--color-text)"></span></span>
+          <span style="text-align:right;color:var(--fav)">6</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1.1fr 62px 56px minmax(90px,1.6fr) 74px;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid var(--hair);font-size:14px">
+          <span>Admin &amp; professional</span><span style="text-align:right">66</span><span style="text-align:right">1.6%</span>
+          <span style="position:relative;height:9px;background:var(--hair)"><span style="position:absolute;inset:0 auto 0 0;width:20.9%;background:var(--s1)"></span><span style="position:absolute;left:18.5%;top:-3px;bottom:-3px;width:1.5px;background:var(--color-text)"></span></span>
+          <span style="text-align:right;color:var(--unfav)">(6)</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1.1fr 62px 56px minmax(90px,1.6fr) 74px;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid var(--hair);font-size:14px">
+          <span>Depreciation</span><span style="text-align:right">57</span><span style="text-align:right">1.4%</span>
+          <span style="position:relative;height:9px;background:var(--hair)"><span style="position:absolute;inset:0 auto 0 0;width:18.1%;background:var(--s1)"></span><span style="position:absolute;left:16.0%;top:-3px;bottom:-3px;width:1.5px;background:var(--color-text)"></span></span>
+          <span style="text-align:right;color:var(--unfav)">(5)</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1.1fr 62px 56px minmax(90px,1.6fr) 74px;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--color-text);font-weight:600;font-size:14px">
+          <span>Total operating expenses</span><span style="text-align:right">710</span><span style="text-align:right">16.9%</span><span></span>
+          <span style="text-align:right;color:var(--unfav)">(40)</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="flex:1 1 420px;min-width:0">
+      <div style="border-top:1px solid var(--color-text);padding-top:10px;display:flex;flex-wrap:wrap;align-items:baseline;gap:12px">
+        <h2 style="font-size:23px;margin:0">Receivables &amp; payables</h2>
+        <span style="font-size:12.5px;color:var(--soft)">Ageing at 31 Aug · ₦ millions</span>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:12px 28px;margin-top:16px">
+        <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--soft)">DSO</span><span style="font-size:20px;font-weight:600">52 days</span><span style="font-size:11.5px;padding:2px 7px;border-radius:2px;white-space:nowrap;background:var(--unfavbg);color:var(--unfav)">▲ 6 vs July</span></div>
+        <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--soft)">DPO</span><span style="font-size:20px;font-weight:600">41 days</span><span style="font-size:11.5px;padding:2px 7px;border-radius:2px;white-space:nowrap;background:var(--favbg);color:var(--fav)">▲ 2 vs July</span></div>
+      </div>
+
+      <div style="margin-top:22px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline">
+          <span style="font-weight:600">Trade receivables</span><span style="font-weight:600">₦1,100m</span>
+        </div>
+        <div style="display:flex;height:14px;margin-top:8px">
+          <span style="width:58.2%;background:var(--s1)"></span>
+          <span style="width:22.7%;background:var(--s2)"></span>
+          <span style="width:11.8%;background:var(--s3)"></span>
+          <span style="width:7.3%;background:var(--unfav)"></span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:8px;font-size:12.5px;color:var(--soft)">
+          <span><span style="display:inline-block;width:8px;height:8px;background:var(--s1);margin-right:6px"></span>Current 640</span>
+          <span><span style="display:inline-block;width:8px;height:8px;background:var(--s2);margin-right:6px"></span>1–30 days 250</span>
+          <span><span style="display:inline-block;width:8px;height:8px;background:var(--s3);margin-right:6px"></span>31–60 days 130</span>
+          <span style="color:var(--unfav)"><span style="display:inline-block;width:8px;height:8px;background:var(--unfav);margin-right:6px"></span>60+ days 80</span>
+        </div>
+      </div>
+
+      <div style="margin-top:26px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline">
+          <span style="font-weight:600">Trade payables</span><span style="font-weight:600">₦740m</span>
+        </div>
+        <div style="display:flex;height:14px;margin-top:8px">
+          <span style="width:58.1%;background:var(--n1)"></span>
+          <span style="width:24.3%;background:var(--n2)"></span>
+          <span style="width:12.2%;background:var(--n3)"></span>
+          <span style="width:5.4%;background:var(--n4)"></span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:8px;font-size:12.5px;color:var(--soft)">
+          <span><span style="display:inline-block;width:8px;height:8px;background:var(--n1);margin-right:6px"></span>Current 430</span>
+          <span><span style="display:inline-block;width:8px;height:8px;background:var(--n2);margin-right:6px"></span>1–30 days 180</span>
+          <span><span style="display:inline-block;width:8px;height:8px;background:var(--n3);margin-right:6px"></span>31–60 days 90</span>
+          <span><span style="display:inline-block;width:8px;height:8px;background:var(--n4);margin-right:6px"></span>60+ days 40</span>
+        </div>
+        <div style="font-size:12.5px;color:var(--soft);margin-top:14px;text-wrap:pretty">Net working capital ₦1,779m. DSO is measured on credit sales (₦643m in month — retail units settle on delivery); DPO on local vendor purchases, excluding OEM shipments settled by letter of credit.</div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </sc-if>
+
+
+  <sc-if value="{{ pPl }}">
+  <div>
+  <div style="display:flex;flex-wrap:wrap;gap:44px;margin-top:30px">
+    <div style="flex:3 1 660px;min-width:0">
+      <div style="border-top:1px solid var(--color-text);padding-top:10px;display:flex;flex-wrap:wrap;align-items:baseline;gap:12px"><h2 style="font-size:26px;margin:0">Statement of profit or loss</h2><span style="font-size:12.5px;color:var(--soft)">Month ended 31 August 2026 · ₦ millions</span><span style="margin-left:auto;font-size:12.5px;color:var(--brand)">Click a group to expand its accounts</span></div>
+      <div style="margin-top:14px;display:flex;flex-direction:column"><div style="display:grid;grid-template-columns:minmax(190px,2.6fr) repeat(6,minmax(62px,0.72fr));gap:10px;align-items:baseline;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--soft);padding-bottom:6px;border-bottom:1px solid var(--color-divider)"><span>Account group</span><span style="text-align:right;">Aug actual</span><span style="text-align:right;">Aug budget</span><span style="text-align:right;">Var ₦m</span><span style="text-align:right;border-left:1px solid var(--color-divider);padding-left:10px">YTD actual</span><span style="text-align:right;">YTD budget</span><span style="text-align:right;">PY Aug</span></div><div role="button" tabindex="0" aria-expanded="{{ oRev }}" onClick="{{ tRev }}" onKeyDown="{{ kRev }}" style="display:grid;grid-template-columns:minmax(190px,2.6fr) repeat(6,minmax(62px,0.72fr));gap:10px;align-items:baseline;cursor:pointer;padding:11px 0;border-bottom:1px solid var(--hair);font-weight:600" style-hover="background:var(--hair)"><span><span style="display:inline-block;width:14px;color:var(--brand)">{{ cRev }}</span>Revenue <span style="font-weight:400;font-size:11.5px;color:var(--soft)">40000–40990</span></span><span style="text-align:right;">4,200</span><span style="text-align:right;">4,330</span><span style="text-align:right;color:var(--unfav)">(130)</span><span style="text-align:right;border-left:1px solid var(--color-divider);padding-left:10px">8,310</span><span style="text-align:right;color:var(--soft)">8,580</span><span style="text-align:right;color:var(--soft)">3,860</span></div><sc-if value="{{ oRev }}"><div><div style="display:grid;grid-template-columns:minmax(190px,2.6fr) repeat(6,minmax(62px,0.72fr));gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Vehicle sales <span style="font-size:11.5px">40100</span></span><span style="text-align:right;color:var(--color-text)">3,210</span><span style="text-align:right;">3,320</span><span style="text-align:right;color:var(--unfav)">(110)</span><span style="text-align:right;color:var(--color-text);border-left:1px solid var(--color-divider);padding-left:10px">6,340</span><span style="text-align:right;">6,580</span><span style="text-align:right;">2,960</span></div><div style="display:grid;grid-template-columns:minmax(190px,2.6fr) repeat(6,minmax(62px,0.72fr));gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Spare parts sales <span style="font-size:11.5px">40300</span></span><span style="text-align:right;color:var(--color-text)">565</span><span style="text-align:right;">560</span><span style="text-align:right;color:var(--fav)">5</span><span style="text-align:right;color:var(--color-text);border-left:1px solid var(--color-divider);padding-left:10px">1,118</span><span style="text-align:right;">1,110</span><span style="text-align:right;">505</span></div><div style="display:grid;grid-template-columns:minmax(190px,2.6fr) repeat(6,minmax(62px,0.72fr));gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Service income <span style="font-size:11.5px">40400</span></span><span style="text-align:right;color:var(--color-text)">275</span><span style="text-align:right;">268</span><span style="text-align:right;color:var(--fav)">7</span><span style="text-align:right;color:var(--color-text);border-left:1px solid var(--color-divider);padding-left:10px">545</span><span style="text-align:right;">531</span><span style="text-align:right;">238</span></div><div style="display:grid;grid-template-columns:minmax(190px,2.6fr) repeat(6,minmax(62px,0.72fr));gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Labour income <span style="font-size:11.5px">40200</span></span><span style="text-align:right;color:var(--color-text)">150</span><span style="text-align:right;">142</span><span style="text-align:right;color:var(--fav)">8</span><span style="text-align:right;color:var(--color-text);border-left:1px solid var(--color-divider);padding-left:10px">297</span><span style="text-align:right;">282</span><span style="text-align:right;">126</span></div><div style="display:grid;grid-template-columns:minmax(190px,2.6fr) repeat(6,minmax(62px,0.72fr));gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Other operating income <span style="font-size:11.5px">40900</span></span><span style="text-align:right;color:var(--color-text)">60</span><span style="text-align:right;">55</span><span style="text-align:right;color:var(--fav)">5</span><span style="text-align:right;color:var(--color-text);border-left:1px solid var(--color-divider);padding-left:10px">118</span><span style="text-align:right;">109</span><span style="text-align:right;">48</span></div><div style="display:grid;grid-template-columns:minmax(190px,2.6fr) repeat(6,minmax(62px,0.72fr));gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Customer rebates &amp; discounts <span style="font-size:11.5px">40950</span></span><span style="text-align:right;color:var(--color-text)">(60)</span><span style="text-align:right;">(15)</span><span style="text-align:right;color:var(--unfav)">(45)</span><span style="text-align:right;color:var(--color-text);border-left:1px solid var(--color-divider);padding-left:10px">(108)</span><span style="text-align:right;">(32)</span><span style="text-align:right;">(17)</span></div></div></sc-if><div role="button" tabindex="0" aria-expanded="{{ oCos }}" onClick="{{ tCos }}" onKeyDown="{{ kCos }}" style="display:grid;grid-template-columns:minmax(190px,2.6fr) repeat(6,minmax(62px,0.72fr));gap:10px;align-items:baseline;cursor:pointer;padding:11px 0;border-bottom:1px solid var(--hair);font-weight:600" style-hover="background:var(--hair)"><span><span style="display:inline-block;width:14px;color:var(--brand)">{{ cCos }}</span>Cost of sales <span style="font-weight:400;font-size:11.5px;color:var(--soft)">50000–59990</span></span><span style="text-align:right;">(2,940)</span><span style="text-align:right;">(3,018)</span><span style="text-align:right;color:var(--fav)">78</span><span style="text-align:right;border-left:1px solid var(--color-divider);padding-left:10px">(5,829)</span><span style="text-align:right;color:var(--soft)">(5,980)</span><span style="text-align:right;color:var(--soft)">(2,728)</span></div><sc-if value="{{ oCos }}"><div><div style="display:grid;grid-template-columns:minmax(190px,2.6fr) repeat(6,minmax(62px,0.72fr));gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Vehicles <span style="font-size:11.5px">50100</span></span><span style="text-align:right;color:var(--color-text)">(2,395)</span><span style="text-align:right;">(2,470)</span><span style="text-align:right;color:var(--fav)">75</span><span style="text-align:right;color:var(--color-text);border-left:1px solid var(--color-divider);padding-left:10px">(4,742)</span><span style="text-align:right;">(4,890)</span><span style="text-align:right;">(2,240)</span></div><div style="display:grid;grid-template-columns:minmax(190px,2.6fr) repeat(6,minmax(62px,0.72fr));gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Spare parts <span style="font-size:11.5px">50200</span></span><span style="text-align:right;color:var(--color-text)">(375)</span><span style="text-align:right;">(372)</span><span style="text-align:right;color:var(--unfav)">(3)</span><span style="text-align:right;color:var(--color-text);border-left:1px solid var(--color-divider);padding-left:10px">(742)</span><span style="text-align:right;">(738)</span><span style="text-align:right;">(342)</span></div><div style="display:grid;grid-template-columns:minmax(190px,2.6fr) repeat(6,minmax(62px,0.72fr));gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Service &amp; labour <span style="font-size:11.5px">50300</span></span><span style="text-align:right;color:var(--color-text)">(118)</span><span style="text-align:right;">(114)</span><span style="text-align:right;color:var(--unfav)">(4)</span><span style="text-align:right;color:var(--color-text);border-left:1px solid var(--color-divider);padding-left:10px">(233)</span><span style="text-align:right;">(226)</span><span style="text-align:right;">(104)</span></div><div style="display:grid;grid-template-columns:minmax(190px,2.6fr) repeat(6,minmax(62px,0.72fr));gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Landed costs — freight, duty, clearing <span style="font-size:11.5px">50400–50900</span></span><span style="text-align:right;color:var(--color-text)">(52)</span><span style="text-align:right;">(62)</span><span style="text-align:right;color:var(--fav)">10</span><span style="text-align:right;color:var(--color-text);border-left:1px solid var(--color-divider);padding-left:10px">(112)</span><span style="text-align:right;">(126)</span><span style="text-align:right;">(42)</span></div></div></sc-if><div style="display:grid;grid-template-columns:minmax(190px,2.6fr) repeat(6,minmax(62px,0.72fr));gap:10px;align-items:baseline;padding:11px 0;border-top:1px solid var(--color-text);font-weight:600"><span>Gross profit <span style="font-weight:400;font-size:12.5px;color:var(--soft)">· 30.0% (bud 30.3%, PY 29.3%)</span></span><span style="text-align:right;">1,260</span><span style="text-align:right;color:var(--soft)">1,312</span><span style="text-align:right;color:var(--unfav)">(52)</span><span style="text-align:right;border-left:1px solid var(--color-divider);padding-left:10px">2,481</span><span style="text-align:right;color:var(--soft)">2,600</span><span style="text-align:right;color:var(--soft)">1,132</span></div><div role="button" tabindex="0" aria-expanded="{{ oOpx }}" onClick="{{ tOpx }}" onKeyDown="{{ kOpx }}" style="display:grid;grid-template-columns:minmax(190px,2.6fr) repeat(6,minmax(62px,0.72fr));gap:10px;align-items:baseline;cursor:pointer;padding:11px 0;border-bottom:1px solid var(--hair);font-weight:600" style-hover="background:var(--hair)"><span><span style="display:inline-block;width:14px;color:var(--brand)">{{ cOpx }}</span>Operating expenses <span style="font-weight:400;font-size:11.5px;color:var(--soft)">60000–69990</span></span><span style="text-align:right;">(710)</span><span style="text-align:right;">(670)</span><span style="text-align:right;color:var(--unfav)">(40)</span><span style="text-align:right;border-left:1px solid var(--color-divider);padding-left:10px">(1,392)</span><span style="text-align:right;color:var(--soft)">(1,335)</span><span style="text-align:right;color:var(--soft)">(606)</span></div><sc-if value="{{ oOpx }}"><div><div style="display:grid;grid-template-columns:minmax(190px,2.6fr) repeat(6,minmax(62px,0.72fr));gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Staff costs — salaries, welfare, pension <span style="font-size:11.5px">60000–60990</span></span><span style="text-align:right;color:var(--color-text)">(296)</span><span style="text-align:right;">(288)</span><span style="text-align:right;color:var(--unfav)">(8)</span><span style="text-align:right;color:var(--color-text);border-left:1px solid var(--color-divider);padding-left:10px">(584)</span><span style="text-align:right;">(576)</span><span style="text-align:right;">(262)</span></div><div style="display:grid;grid-template-columns:minmax(190px,2.6fr) repeat(6,minmax(62px,0.72fr));gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Logistics &amp; vehicle transfer <span style="font-size:11.5px">64000–64990</span></span><span style="text-align:right;color:var(--color-text)">(121)</span><span style="text-align:right;">(96)</span><span style="text-align:right;color:var(--unfav)">(25)</span><span style="text-align:right;color:var(--color-text);border-left:1px solid var(--color-divider);padding-left:10px">(232)</span><span style="text-align:right;">(192)</span><span style="text-align:right;">(88)</span></div><div style="display:grid;grid-template-columns:minmax(190px,2.6fr) repeat(6,minmax(62px,0.72fr));gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Occupancy &amp; utilities <span style="font-size:11.5px">63000–63990</span></span><span style="text-align:right;color:var(--color-text)">(92)</span><span style="text-align:right;">(90)</span><span style="text-align:right;color:var(--unfav)">(2)</span><span style="text-align:right;color:var(--color-text);border-left:1px solid var(--color-divider);padding-left:10px">(182)</span><span style="text-align:right;">(180)</span><span style="text-align:right;">(84)</span></div><div style="display:grid;grid-template-columns:minmax(190px,2.6fr) repeat(6,minmax(62px,0.72fr));gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Marketing &amp; after-sales <span style="font-size:11.5px">62000–62990</span></span><span style="text-align:right;color:var(--color-text)">(78)</span><span style="text-align:right;">(84)</span><span style="text-align:right;color:var(--fav)">6</span><span style="text-align:right;color:var(--color-text);border-left:1px solid var(--color-divider);padding-left:10px">(156)</span><span style="text-align:right;">(168)</span><span style="text-align:right;">(71)</span></div><div style="display:grid;grid-template-columns:minmax(190px,2.6fr) repeat(6,minmax(62px,0.72fr));gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Admin, professional &amp; insurance <span style="font-size:11.5px">65000–68990</span></span><span style="text-align:right;color:var(--color-text)">(66)</span><span style="text-align:right;">(60)</span><span style="text-align:right;color:var(--unfav)">(6)</span><span style="text-align:right;color:var(--color-text);border-left:1px solid var(--color-divider);padding-left:10px">(126)</span><span style="text-align:right;">(120)</span><span style="text-align:right;">(57)</span></div><div style="display:grid;grid-template-columns:minmax(190px,2.6fr) repeat(6,minmax(62px,0.72fr));gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Depreciation &amp; amortisation <span style="font-size:11.5px">69000–69990</span></span><span style="text-align:right;color:var(--color-text)">(57)</span><span style="text-align:right;">(52)</span><span style="text-align:right;color:var(--unfav)">(5)</span><span style="text-align:right;color:var(--color-text);border-left:1px solid var(--color-divider);padding-left:10px">(112)</span><span style="text-align:right;">(99)</span><span style="text-align:right;">(44)</span></div></div></sc-if><div style="display:grid;grid-template-columns:minmax(190px,2.6fr) repeat(6,minmax(62px,0.72fr));gap:10px;align-items:baseline;padding:11px 0;border-top:1px solid var(--color-text);font-weight:600"><span>Operating profit <span style="font-weight:400;font-size:12.5px;color:var(--soft)">· 13.1% (bud 14.8%)</span></span><span style="text-align:right;">550</span><span style="text-align:right;color:var(--soft)">642</span><span style="text-align:right;color:var(--unfav)">(92)</span><span style="text-align:right;border-left:1px solid var(--color-divider);padding-left:10px">1,089</span><span style="text-align:right;color:var(--soft)">1,265</span><span style="text-align:right;color:var(--soft)">486</span></div><div role="button" tabindex="0" aria-expanded="{{ oFin }}" onClick="{{ tFin }}" onKeyDown="{{ kFin }}" style="display:grid;grid-template-columns:minmax(190px,2.6fr) repeat(6,minmax(62px,0.72fr));gap:10px;align-items:baseline;cursor:pointer;padding:11px 0;border-bottom:1px solid var(--hair);font-weight:600" style-hover="background:var(--hair)"><span><span style="display:inline-block;width:14px;color:var(--brand)">{{ cFin }}</span>Net finance cost &amp; tax <span style="font-weight:400;font-size:11.5px;color:var(--soft)">70000–75990</span></span><span style="text-align:right;">(159)</span><span style="text-align:right;">(191)</span><span style="text-align:right;color:var(--fav)">32</span><span style="text-align:right;border-left:1px solid var(--color-divider);padding-left:10px">(338)</span><span style="text-align:right;color:var(--soft)">(369)</span><span style="text-align:right;color:var(--soft)">(155)</span></div><sc-if value="{{ oFin }}"><div><div style="display:grid;grid-template-columns:minmax(190px,2.6fr) repeat(6,minmax(62px,0.72fr));gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Finance income <span style="font-size:11.5px">70100</span></span><span style="text-align:right;color:var(--color-text)">4</span><span style="text-align:right;">3</span><span style="text-align:right;color:var(--fav)">1</span><span style="text-align:right;color:var(--color-text);border-left:1px solid var(--color-divider);padding-left:10px">7</span><span style="text-align:right;">6</span><span style="text-align:right;">3</span></div><div style="display:grid;grid-template-columns:minmax(190px,2.6fr) repeat(6,minmax(62px,0.72fr));gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Interest on loans &amp; leases <span style="font-size:11.5px">71000</span></span><span style="text-align:right;color:var(--color-text)">(112)</span><span style="text-align:right;">(108)</span><span style="text-align:right;color:var(--unfav)">(4)</span><span style="text-align:right;color:var(--color-text);border-left:1px solid var(--color-divider);padding-left:10px">(224)</span><span style="text-align:right;">(216)</span><span style="text-align:right;">(96)</span></div><div style="display:grid;grid-template-columns:minmax(190px,2.6fr) repeat(6,minmax(62px,0.72fr));gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Net exchange loss <span style="font-size:11.5px">72000</span></span><span style="text-align:right;color:var(--color-text)">(9)</span><span style="text-align:right;">(6)</span><span style="text-align:right;color:var(--unfav)">(3)</span><span style="text-align:right;color:var(--color-text);border-left:1px solid var(--color-divider);padding-left:10px">(17)</span><span style="text-align:right;">(12)</span><span style="text-align:right;">(14)</span></div><div style="display:grid;grid-template-columns:minmax(190px,2.6fr) repeat(6,minmax(62px,0.72fr));gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Income tax expense <span style="font-size:11.5px">75000</span></span><span style="text-align:right;color:var(--color-text)">(42)</span><span style="text-align:right;">(80)</span><span style="text-align:right;color:var(--fav)">38</span><span style="text-align:right;color:var(--color-text);border-left:1px solid var(--color-divider);padding-left:10px">(104)</span><span style="text-align:right;">(147)</span><span style="text-align:right;">(48)</span></div></div></sc-if><div style="display:grid;grid-template-columns:minmax(190px,2.6fr) repeat(6,minmax(62px,0.72fr));gap:10px;align-items:baseline;padding:11px 0;border-top:2px solid var(--color-text);font-weight:600;font-size:15px"><span>Profit for the period <span style="font-weight:400;font-size:12.5px;color:var(--soft)">· 9.3% of revenue</span></span><span style="text-align:right;">391</span><span style="text-align:right;color:var(--soft)">451</span><span style="text-align:right;color:var(--unfav)">(60)</span><span style="text-align:right;border-left:1px solid var(--color-divider);padding-left:10px">751</span><span style="text-align:right;color:var(--soft)">896</span><span style="text-align:right;color:var(--soft)">331</span></div><div style="display:grid;grid-template-columns:minmax(190px,2.6fr) repeat(6,minmax(62px,0.72fr));gap:10px;align-items:baseline;padding:9px 0;font-size:13px;color:var(--soft)"><span>EBITDA · operating profit plus D&amp;A</span><span style="text-align:right;">607</span><span style="text-align:right;">694</span><span style="text-align:right;">(87)</span><span style="text-align:right;border-left:1px solid var(--color-divider);padding-left:10px">1,201</span><span style="text-align:right;">1,364</span><span style="text-align:right;">530</span></div>      </div>
+    </div>
+    <div style="flex:1 1 280px;min-width:0">
+      <div style="border-top:1px solid var(--color-text);padding-top:10px">
+        <h2 style="font-size:23px;margin:0">How the month was lost</h2>
+        <span style="font-size:12.5px;color:var(--soft)">Net profit, budget to actual · ₦m</span>
+      </div>
+      <div style="margin-top:16px;display:flex;flex-direction:column;font-size:13.5px">
+        <div style="display:flex;justify-content:space-between;gap:16px;white-space:nowrap;padding:7px 0;border-bottom:1px solid var(--hair);font-weight:600"><span>Budget net profit</span><span>451</span></div>
+        <div style="display:flex;justify-content:space-between;gap:16px;white-space:nowrap;padding:7px 0;border-bottom:1px solid var(--hair)"><span>Volume &amp; mix shortfall</span><span style="color:var(--unfav)">(39)</span></div>
+        <div style="display:flex;justify-content:space-between;gap:16px;white-space:nowrap;padding:7px 0;border-bottom:1px solid var(--hair)"><span>Rebates above plan</span><span style="color:var(--unfav)">(45)</span></div>
+        <div style="display:flex;justify-content:space-between;gap:16px;white-space:nowrap;padding:7px 0;border-bottom:1px solid var(--hair)"><span>Landed-cost saving</span><span style="color:var(--fav)">32</span></div>
+        <div style="display:flex;justify-content:space-between;gap:16px;white-space:nowrap;padding:7px 0;border-bottom:1px solid var(--hair)"><span>Opex overrun (logistics led)</span><span style="color:var(--unfav)">(40)</span></div>
+        <div style="display:flex;justify-content:space-between;gap:16px;white-space:nowrap;padding:7px 0;border-bottom:1px solid var(--hair)"><span>Finance cost &amp; FX</span><span style="color:var(--unfav)">(6)</span></div>
+        <div style="display:flex;justify-content:space-between;gap:16px;white-space:nowrap;padding:7px 0;border-bottom:1px solid var(--hair)"><span>Lower tax charge</span><span style="color:var(--fav)">38</span></div>
+        <div style="display:flex;justify-content:space-between;gap:16px;white-space:nowrap;padding:9px 0;border-top:1px solid var(--color-text);font-weight:600;font-size:15px"><span>Actual net profit</span><span>391</span></div>
+      </div>
+      <div style="font-size:12.5px;color:var(--soft);margin-top:14px;text-wrap:pretty">Rebates and the logistics overrun are the two controllable items; together they cost ₦85m against a ₦60m total miss.</div>
+    </div>
+  </div>
+  </div>
+  </sc-if>
+
+
+  <sc-if value="{{ pBs }}">
+  <div>
+  <div style="display:flex;flex-wrap:wrap;gap:44px;margin-top:30px">
+    <div style="flex:3 1 620px;min-width:0">
+      <div style="border-top:1px solid var(--color-text);padding-top:10px;display:flex;flex-wrap:wrap;align-items:baseline;gap:12px"><h2 style="font-size:26px;margin:0">Statement of financial position</h2><span style="font-size:12.5px;color:var(--soft)">As at 31 August 2026 · ₦ millions</span><span style="margin-left:auto;font-size:12.5px;color:var(--brand)">Click a group to expand its accounts</span></div>
+      <div style="margin-top:14px;display:flex;flex-direction:column"><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--soft);padding-bottom:6px;border-bottom:1px solid var(--color-divider)"><span>Account group</span><span style="text-align:right;">31 Aug</span><span style="text-align:right;">31 Jul</span><span style="text-align:right;">Movement</span></div><div role="button" tabindex="0" aria-expanded="{{ oNca }}" onClick="{{ tNca }}" onKeyDown="{{ kNca }}" style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;cursor:pointer;padding:11px 0;border-bottom:1px solid var(--hair);font-weight:600"><span><span style="display:inline-block;width:14px;color:var(--brand)">{{ cNca }}</span>Non-current assets <span style="font-weight:400;font-size:11.5px;color:var(--soft)">16000–17990</span></span><span style="text-align:right;">1,829</span><span style="text-align:right;color:var(--soft)">1,676</span><span style="text-align:right;">+153</span></div><sc-if value="{{ oNca }}"><div><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Land &amp; building <span style="font-size:11.5px">16200</span></span><span style="text-align:right;color:var(--color-text)">1,269</span><span style="text-align:right;">1,269</span><span style="text-align:right;">—</span></div><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Plant &amp; machinery <span style="font-size:11.5px">16300</span></span><span style="text-align:right;color:var(--color-text)">385</span><span style="text-align:right;">385</span><span style="text-align:right;">—</span></div><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Motor vehicles <span style="font-size:11.5px">16400</span></span><span style="text-align:right;color:var(--color-text)">225</span><span style="text-align:right;">231</span><span style="text-align:right;">(6)</span></div><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Furniture, fittings &amp; equipment <span style="font-size:11.5px">16100</span></span><span style="text-align:right;color:var(--color-text)">140</span><span style="text-align:right;">140</span><span style="text-align:right;">—</span></div><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Capital work in progress <span style="font-size:11.5px">16800</span></span><span style="text-align:right;color:var(--color-text)">320</span><span style="text-align:right;">140</span><span style="text-align:right;">+180</span></div><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Right-of-use assets <span style="font-size:11.5px">17100</span></span><span style="text-align:right;color:var(--color-text)">210</span><span style="text-align:right;">210</span><span style="text-align:right;">—</span></div><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Accumulated depreciation <span style="font-size:11.5px">17900</span></span><span style="text-align:right;color:var(--color-text)">(742)</span><span style="text-align:right;">(721)</span><span style="text-align:right;">(21)</span></div><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Intangibles &amp; other assets <span style="font-size:11.5px">17500</span></span><span style="text-align:right;color:var(--color-text)">22</span><span style="text-align:right;">22</span><span style="text-align:right;">—</span></div></div></sc-if><div role="button" tabindex="0" aria-expanded="{{ oCa }}" onClick="{{ tCa }}" onKeyDown="{{ kCa }}" style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;cursor:pointer;padding:11px 0;border-bottom:1px solid var(--hair);font-weight:600"><span><span style="display:inline-block;width:14px;color:var(--brand)">{{ cCa }}</span>Current assets <span style="font-weight:400;font-size:11.5px;color:var(--soft)">10000–15990</span></span><span style="text-align:right;">4,745</span><span style="text-align:right;color:var(--soft)">4,466</span><span style="text-align:right;">+279</span></div><sc-if value="{{ oCa }}"><div><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Inventory — vehicles <span style="font-size:11.5px">12100</span></span><span style="text-align:right;color:var(--color-text)">1,760</span><span style="text-align:right;">1,910</span><span style="text-align:right;">(150)</span></div><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Inventory — spare parts <span style="font-size:11.5px">13100</span></span><span style="text-align:right;color:var(--color-text)">400</span><span style="text-align:right;">414</span><span style="text-align:right;">(14)</span></div><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Goods in transit <span style="font-size:11.5px">13500</span></span><span style="text-align:right;color:var(--color-text)">144</span><span style="text-align:right;">150</span><span style="text-align:right;">(6)</span></div><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Trade receivables <span style="font-size:11.5px">11100</span></span><span style="text-align:right;color:var(--color-text)">1,100</span><span style="text-align:right;">920</span><span style="text-align:right;color:var(--unfav)">+180</span></div><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Other receivables, VAT &amp; WHT <span style="font-size:11.5px">11200–11500</span></span><span style="text-align:right;color:var(--color-text)">185</span><span style="text-align:right;">178</span><span style="text-align:right;">+7</span></div><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Prepayments — rent, insurance <span style="font-size:11.5px">14000–14990</span></span><span style="text-align:right;color:var(--color-text)">96</span><span style="text-align:right;">102</span><span style="text-align:right;">(6)</span></div><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Advances &amp; deposits to suppliers <span style="font-size:11.5px">15000–15990</span></span><span style="text-align:right;color:var(--color-text)">240</span><span style="text-align:right;">232</span><span style="text-align:right;">+8</span></div><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Cash &amp; bank balances <span style="font-size:11.5px">10000–10990</span></span><span style="text-align:right;color:var(--color-text)">820</span><span style="text-align:right;">560</span><span style="text-align:right;color:var(--fav)">+260</span></div></div></sc-if><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:11px 0;border-top:2px solid var(--color-text);font-weight:600;font-size:15px"><span>Total assets</span><span style="text-align:right;">6,574</span><span style="text-align:right;color:var(--soft)">6,142</span><span style="text-align:right;">+432</span></div><div role="button" tabindex="0" aria-expanded="{{ oCl }}" onClick="{{ tCl }}" onKeyDown="{{ kCl }}" style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;cursor:pointer;padding:11px 0;border-bottom:1px solid var(--hair);font-weight:600"><span><span style="display:inline-block;width:14px;color:var(--brand)">{{ cCl }}</span>Current liabilities <span style="font-weight:400;font-size:11.5px;color:var(--soft)">21000–24990</span></span><span style="text-align:right;">(2,966)</span><span style="text-align:right;color:var(--soft)">(2,827)</span><span style="text-align:right;">(139)</span></div><sc-if value="{{ oCl }}"><div><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Trade payables <span style="font-size:11.5px">21000</span></span><span style="text-align:right;color:var(--color-text)">(740)</span><span style="text-align:right;">(705)</span><span style="text-align:right;">(35)</span></div><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Accruals &amp; other payables <span style="font-size:11.5px">22000</span></span><span style="text-align:right;color:var(--color-text)">(265)</span><span style="text-align:right;">(250)</span><span style="text-align:right;">(15)</span></div><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Customer deposits on orders <span style="font-size:11.5px">22400</span></span><span style="text-align:right;color:var(--color-text)">(410)</span><span style="text-align:right;">(395)</span><span style="text-align:right;">(15)</span></div><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">VAT, WHT, PAYE &amp; pension payable <span style="font-size:11.5px">21500–21900</span></span><span style="text-align:right;color:var(--color-text)">(138)</span><span style="text-align:right;">(129)</span><span style="text-align:right;">(9)</span></div><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Intercompany payable <span style="font-size:11.5px">22900</span></span><span style="text-align:right;color:var(--color-text)">(190)</span><span style="text-align:right;">(185)</span><span style="text-align:right;">(5)</span></div><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Short-term borrowings <span style="font-size:11.5px">24100</span></span><span style="text-align:right;color:var(--color-text)">(903)</span><span style="text-align:right;">(843)</span><span style="text-align:right;color:var(--unfav)">(60)</span></div><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Current portion of term loan <span style="font-size:11.5px">24200</span></span><span style="text-align:right;color:var(--color-text)">(320)</span><span style="text-align:right;">(320)</span><span style="text-align:right;">—</span></div></div></sc-if><div role="button" tabindex="0" aria-expanded="{{ oNcl }}" onClick="{{ tNcl }}" onKeyDown="{{ kNcl }}" style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;cursor:pointer;padding:11px 0;border-bottom:1px solid var(--hair);font-weight:600"><span><span style="display:inline-block;width:14px;color:var(--brand)">{{ cNcl }}</span>Non-current liabilities <span style="font-weight:400;font-size:11.5px;color:var(--soft)">23000–24990</span></span><span style="text-align:right;">(1,435)</span><span style="text-align:right;color:var(--soft)">(1,533)</span><span style="text-align:right;color:var(--fav)">+98</span></div><sc-if value="{{ oNcl }}"><div><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Term loan <span style="font-size:11.5px">24300</span></span><span style="text-align:right;color:var(--color-text)">(1,150)</span><span style="text-align:right;">(1,228)</span><span style="text-align:right;color:var(--fav)">+78</span></div><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Lease liabilities <span style="font-size:11.5px">24500</span></span><span style="text-align:right;color:var(--color-text)">(165)</span><span style="text-align:right;">(185)</span><span style="text-align:right;color:var(--fav)">+20</span></div><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Deferred tax <span style="font-size:11.5px">23900</span></span><span style="text-align:right;color:var(--color-text)">(120)</span><span style="text-align:right;">(120)</span><span style="text-align:right;">—</span></div></div></sc-if><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:11px 0;border-top:1px solid var(--color-text);font-weight:600"><span>Total liabilities</span><span style="text-align:right;">(4,401)</span><span style="text-align:right;color:var(--soft)">(4,360)</span><span style="text-align:right;">(41)</span></div><div role="button" tabindex="0" aria-expanded="{{ oEq }}" onClick="{{ tEq }}" onKeyDown="{{ kEq }}" style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;cursor:pointer;padding:11px 0;border-bottom:1px solid var(--hair);font-weight:600"><span><span style="display:inline-block;width:14px;color:var(--brand)">{{ cEq }}</span>Equity <span style="font-weight:400;font-size:11.5px;color:var(--soft)">25000–30990</span></span><span style="text-align:right;">2,173</span><span style="text-align:right;color:var(--soft)">1,782</span><span style="text-align:right;color:var(--fav)">+391</span></div><sc-if value="{{ oEq }}"><div><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Share capital <span style="font-size:11.5px">30000</span></span><span style="text-align:right;color:var(--color-text)">500</span><span style="text-align:right;">500</span><span style="text-align:right;">—</span></div><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Capital reserve <span style="font-size:11.5px">30500</span></span><span style="text-align:right;color:var(--color-text)">120</span><span style="text-align:right;">120</span><span style="text-align:right;">—</span></div><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--hair);font-size:13px;color:var(--soft)"><span style="padding-left:14px">Retained earnings <span style="font-size:11.5px">25000</span></span><span style="text-align:right;color:var(--color-text)">1,553</span><span style="text-align:right;">1,162</span><span style="text-align:right;color:var(--fav)">+391</span></div></div></sc-if><div style="display:grid;grid-template-columns:minmax(220px,3fr) repeat(3,minmax(76px,0.8fr));gap:12px;align-items:baseline;padding:11px 0;border-top:2px solid var(--color-text);font-weight:600;font-size:15px"><span>Total liabilities and equity</span><span style="text-align:right;">6,574</span><span style="text-align:right;color:var(--soft)">6,142</span><span style="text-align:right;">+432</span></div>      </div>
+    </div>
+    <div style="flex:1 1 300px;min-width:0">
+      <div style="border-top:1px solid var(--color-text);padding-top:10px">
+        <h2 style="font-size:23px;margin:0">Balance sheet reading</h2>
+        <span style="font-size:12.5px;color:var(--soft)">Structure and quality of the position</span>
+      </div>
+      <div style="margin-top:16px;display:flex;flex-direction:column;gap:16px">
+        <div>
+          <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--soft)">Working capital</div>
+          <div style="font-size:26px;margin-top:2px">₦1,779m</div>
+          <div style="font-size:13px;color:var(--soft)">Jul ₦1,639m · +₦140m, of which receivables +₦180m</div>
+        </div>
+        <div>
+          <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--soft)">Net debt</div>
+          <div style="font-size:26px;margin-top:2px">₦1,718m</div>
+          <div style="font-size:13px;color:var(--soft)">Borrowings ₦2,373m + leases ₦165m less cash ₦820m</div>
+        </div>
+        <div>
+          <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--soft)">Asset mix</div>
+          <div style="display:flex;height:14px;margin-top:8px">
+            <span style="width:35.0%;background:var(--s1)"></span>
+            <span style="width:16.7%;background:var(--s2)"></span>
+            <span style="width:12.5%;background:var(--s3)"></span>
+            <span style="width:27.8%;background:var(--n2)"></span>
+            <span style="width:8.0%;background:var(--n4)"></span>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:8px;font-size:12.5px;color:var(--soft)">
+            <span><span style="display:inline-block;width:8px;height:8px;background:var(--s1);margin-right:6px"></span>Inventory 2,304</span>
+            <span><span style="display:inline-block;width:8px;height:8px;background:var(--s2);margin-right:6px"></span>Receivables 1,100</span>
+            <span><span style="display:inline-block;width:8px;height:8px;background:var(--s3);margin-right:6px"></span>Cash 820</span>
+            <span><span style="display:inline-block;width:8px;height:8px;background:var(--n2);margin-right:6px"></span>Fixed &amp; ROU 1,829</span>
+            <span><span style="display:inline-block;width:8px;height:8px;background:var(--n4);margin-right:6px"></span>Other 521</span>
+          </div>
+        </div>
+        <div style="font-size:13.5px;color:var(--soft);text-wrap:pretty">Trial balance agrees; assets ₦6,574m equal liabilities and equity. The ₦180m capital work in progress addition is the Ikeja service bay, due to transfer to land &amp; building on commissioning in November.</div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ pCf }}">
+  <div>
+  <div style="display:flex;flex-wrap:wrap;gap:44px;margin-top:30px">
+    <div style="flex:3 1 620px;min-width:0">
+      <div style="border-top:1px solid var(--color-text);padding-top:10px;display:flex;flex-wrap:wrap;align-items:baseline;gap:12px">
+        <h2 style="font-size:26px;margin:0">Statement of cash flows</h2>
+        <span style="font-size:12.5px;color:var(--soft)">Indirect method · ₦ millions</span>
+      </div>
+      <table class="table" style="margin-top:14px;font-size:13.5px">
+        <thead>
+          <tr><th style="padding-left:0">Line</th><th style="text-align:right">August</th><th style="text-align:right;padding-right:0">YTD (2 months)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td colspan="3" style="padding-left:0;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--soft);border-bottom:none;padding-bottom:2px">Operating activities</td></tr>
+          <tr><td style="padding-left:0">Profit before tax</td><td style="text-align:right">433</td><td style="text-align:right;padding-right:0">855</td></tr>
+          <tr><td style="padding-left:0">Depreciation &amp; amortisation</td><td style="text-align:right">57</td><td style="text-align:right;padding-right:0">112</td></tr>
+          <tr><td style="padding-left:0">Net finance cost and unrealised FX</td><td style="text-align:right">117</td><td style="text-align:right;padding-right:0">234</td></tr>
+          <tr style="font-weight:600"><td style="padding-left:0;border-top:1px solid var(--color-text)">Operating profit before working capital</td><td style="text-align:right;border-top:1px solid var(--color-text)">607</td><td style="text-align:right;padding-right:0;border-top:1px solid var(--color-text)">1,201</td></tr>
+          <tr><td style="padding-left:0">Decrease in inventory</td><td style="text-align:right;color:var(--fav)">170</td><td style="text-align:right;padding-right:0;color:var(--fav)">286</td></tr>
+          <tr><td style="padding-left:0">Increase in trade receivables</td><td style="text-align:right;color:var(--unfav)">(180)</td><td style="text-align:right;padding-right:0;color:var(--unfav)">(295)</td></tr>
+          <tr><td style="padding-left:0">Increase in other receivables</td><td style="text-align:right">(7)</td><td style="text-align:right;padding-right:0">(12)</td></tr>
+          <tr><td style="padding-left:0">Decrease in prepayments</td><td style="text-align:right">6</td><td style="text-align:right;padding-right:0">14</td></tr>
+          <tr><td style="padding-left:0">Increase in supplier advances</td><td style="text-align:right">(8)</td><td style="text-align:right;padding-right:0">(18)</td></tr>
+          <tr><td style="padding-left:0">Increase in trade payables</td><td style="text-align:right">35</td><td style="text-align:right;padding-right:0">52</td></tr>
+          <tr><td style="padding-left:0">Increase in accruals &amp; other payables</td><td style="text-align:right">15</td><td style="text-align:right;padding-right:0">26</td></tr>
+          <tr><td style="padding-left:0">Increase in customer deposits</td><td style="text-align:right">15</td><td style="text-align:right;padding-right:0">34</td></tr>
+          <tr><td style="padding-left:0">Increase in statutory &amp; pension payables</td><td style="text-align:right">9</td><td style="text-align:right;padding-right:0">18</td></tr>
+          <tr><td style="padding-left:0">Increase in intercompany payable</td><td style="text-align:right">5</td><td style="text-align:right;padding-right:0">9</td></tr>
+          <tr style="font-weight:600"><td style="padding-left:0;border-top:1px solid var(--color-text)">Cash generated from operations</td><td style="text-align:right;border-top:1px solid var(--color-text)">667</td><td style="text-align:right;padding-right:0;border-top:1px solid var(--color-text)">1,315</td></tr>
+          <tr><td style="padding-left:0">Income tax paid</td><td style="text-align:right">(47)</td><td style="text-align:right;padding-right:0">(92)</td></tr>
+          <tr style="font-weight:600"><td style="padding-left:0;border-top:1px solid var(--color-text)">Net cash from operating activities</td><td style="text-align:right;border-top:1px solid var(--color-text);color:var(--fav)">620</td><td style="text-align:right;padding-right:0;border-top:1px solid var(--color-text);color:var(--fav)">1,223</td></tr>
+
+          <tr><td colspan="3" style="padding-left:0;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--soft);border-bottom:none;padding:14px 0 2px">Investing activities</td></tr>
+          <tr><td style="padding-left:0">Property &amp; service-bay fit-out</td><td style="text-align:right">(180)</td><td style="text-align:right;padding-right:0">(340)</td></tr>
+          <tr><td style="padding-left:0">Fleet, plant &amp; equipment additions</td><td style="text-align:right">(39)</td><td style="text-align:right;padding-right:0">(66)</td></tr>
+          <tr><td style="padding-left:0">Proceeds on disposal of motor vehicles</td><td style="text-align:right">9</td><td style="text-align:right;padding-right:0">11</td></tr>
+          <tr style="font-weight:600"><td style="padding-left:0;border-top:1px solid var(--color-text)">Net cash used in investing</td><td style="text-align:right;border-top:1px solid var(--color-text)">(210)</td><td style="text-align:right;padding-right:0;border-top:1px solid var(--color-text)">(395)</td></tr>
+
+          <tr><td colspan="3" style="padding-left:0;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--soft);border-bottom:none;padding:14px 0 2px">Financing activities</td></tr>
+          <tr><td style="padding-left:0">Interest paid</td><td style="text-align:right">(112)</td><td style="text-align:right;padding-right:0">(224)</td></tr>
+          <tr><td style="padding-left:0">Term loan repayment</td><td style="text-align:right">(78)</td><td style="text-align:right;padding-right:0">(156)</td></tr>
+          <tr><td style="padding-left:0">Lease payments</td><td style="text-align:right">(20)</td><td style="text-align:right;padding-right:0">(40)</td></tr>
+          <tr><td style="padding-left:0">Short-term borrowings drawn</td><td style="text-align:right">60</td><td style="text-align:right;padding-right:0">120</td></tr>
+          <tr style="font-weight:600"><td style="padding-left:0;border-top:1px solid var(--color-text)">Net cash used in financing</td><td style="text-align:right;border-top:1px solid var(--color-text)">(150)</td><td style="text-align:right;padding-right:0;border-top:1px solid var(--color-text)">(300)</td></tr>
+
+          <tr style="font-weight:600"><td style="padding-left:0;border-top:1px solid var(--color-text)">Net increase in cash</td><td style="text-align:right;border-top:1px solid var(--color-text);color:var(--fav)">260</td><td style="text-align:right;padding-right:0;border-top:1px solid var(--color-text);color:var(--fav)">528</td></tr>
+          <tr><td style="padding-left:0">Cash at beginning of period</td><td style="text-align:right;color:var(--soft)">560</td><td style="text-align:right;padding-right:0;color:var(--soft)">292</td></tr>
+          <tr style="font-weight:600;font-size:14.5px"><td style="padding-left:0;border-top:2px solid var(--color-text);border-bottom:none">Cash at end of period</td><td style="text-align:right;border-top:2px solid var(--color-text);border-bottom:none">820</td><td style="text-align:right;padding-right:0;border-top:2px solid var(--color-text);border-bottom:none">820</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="flex:1 1 300px;min-width:0">
+      <div style="border-top:1px solid var(--color-text);padding-top:10px">
+        <h2 style="font-size:23px;margin:0">Cash quality</h2>
+        <span style="font-size:12.5px;color:var(--soft)">How much of profit turned into cash</span>
+      </div>
+      <div style="margin-top:16px;display:flex;flex-direction:column;gap:16px">
+        <div>
+          <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--soft)">Cash conversion</div>
+          <div style="font-size:26px;margin-top:2px">102%</div>
+          <div style="font-size:13px;color:var(--soft)">Operating cash ₦620m ÷ EBITDA ₦607m</div>
+        </div>
+        <div>
+          <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--soft)">Free cash flow</div>
+          <div style="font-size:26px;margin-top:2px">₦410m</div>
+          <div style="font-size:13px;color:var(--soft)">Operating ₦620m less net capex ₦210m</div>
+        </div>
+        <div>
+          <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--soft)">Liquidity headroom</div>
+          <div style="font-size:26px;margin-top:2px">₦1.42B</div>
+          <div style="font-size:13px;color:var(--soft)">Cash ₦820m plus ₦600m undrawn facility</div>
+        </div>
+        <div style="font-size:13.5px;color:var(--soft);text-wrap:pretty">The month's inflow is stock-funded rather than earnings-funded: a ₦170m inventory drawdown offset the ₦180m receivables build. If units are restocked in September at the planned rate, operating cash falls back towards ₦350–400m.</div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ pRatios }}">
+  <div>
+  <div style="border-top:1px solid var(--color-text);padding-top:10px;margin-top:30px;display:flex;flex-wrap:wrap;align-items:baseline;gap:12px">
+    <h2 style="font-size:26px;margin:0">Ratio analysis</h2>
+    <span style="font-size:12.5px;color:var(--soft)">August 2026 against July and budget · returns stated YTD, not annualised</span>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:44px;margin-top:20px">
+    <div style="flex:1 1 460px;min-width:0">
+      <h3 style="font-size:17px;margin:0 0 6px">Profitability</h3>
+      <table class="table" style="font-size:13.5px">
+        <thead><tr><th style="padding-left:0">Measure</th><th style="text-align:right">Aug</th><th style="text-align:right">Jul</th><th style="text-align:right">Budget</th><th style="text-align:right;padding-right:0">Basis</th></tr></thead>
+        <tbody>
+          <tr><td style="padding-left:0">Gross margin</td><td style="text-align:right">30.0%</td><td style="text-align:right;color:var(--soft)">29.7%</td><td style="text-align:right;color:var(--soft)">30.3%</td><td style="text-align:right;padding-right:0;color:var(--soft);font-size:12px">GP ÷ revenue</td></tr>
+          <tr><td style="padding-left:0">EBITDA margin</td><td style="text-align:right">14.5%</td><td style="text-align:right;color:var(--soft)">14.5%</td><td style="text-align:right;color:var(--soft)">16.0%</td><td style="text-align:right;padding-right:0;color:var(--soft);font-size:12px">EBITDA ÷ revenue</td></tr>
+          <tr><td style="padding-left:0">Operating margin</td><td style="text-align:right">13.1%</td><td style="text-align:right;color:var(--soft)">13.1%</td><td style="text-align:right;color:var(--soft)">14.8%</td><td style="text-align:right;padding-right:0;color:var(--soft);font-size:12px">OP ÷ revenue</td></tr>
+          <tr><td style="padding-left:0">Net margin</td><td style="text-align:right">9.3%</td><td style="text-align:right;color:var(--soft)">8.8%</td><td style="text-align:right;color:var(--soft)">10.4%</td><td style="text-align:right;padding-right:0;color:var(--soft);font-size:12px">PAT ÷ revenue</td></tr>
+          <tr><td style="padding-left:0">Opex ratio</td><td style="text-align:right;color:var(--unfav)">16.9%</td><td style="text-align:right;color:var(--soft)">16.6%</td><td style="text-align:right;color:var(--soft)">15.5%</td><td style="text-align:right;padding-right:0;color:var(--soft);font-size:12px">Opex ÷ revenue</td></tr>
+          <tr><td style="padding-left:0">Return on equity, YTD</td><td style="text-align:right">34.6%</td><td style="text-align:right;color:var(--soft)">—</td><td style="text-align:right;color:var(--soft)">41.3%</td><td style="text-align:right;padding-right:0;color:var(--soft);font-size:12px">PAT ÷ closing equity</td></tr>
+          <tr><td style="padding-left:0">Return on capital employed, YTD</td><td style="text-align:right">24.8%</td><td style="text-align:right;color:var(--soft)">—</td><td style="text-align:right;color:var(--soft)">28.8%</td><td style="text-align:right;padding-right:0;color:var(--soft);font-size:12px">OP ÷ equity + debt</td></tr>
+          <tr><td style="padding-left:0;border-bottom:none">Return on assets, YTD</td><td style="text-align:right;border-bottom:none">11.4%</td><td style="text-align:right;border-bottom:none;color:var(--soft)">—</td><td style="text-align:right;border-bottom:none;color:var(--soft)">13.6%</td><td style="text-align:right;padding-right:0;border-bottom:none;color:var(--soft);font-size:12px">PAT ÷ total assets</td></tr>
+        </tbody>
+      </table>
+
+      <h3 style="font-size:17px;margin:28px 0 6px">Liquidity</h3>
+      <table class="table" style="font-size:13.5px">
+        <thead><tr><th style="padding-left:0">Measure</th><th style="text-align:right">Aug</th><th style="text-align:right">Jul</th><th style="text-align:right">Target</th><th style="text-align:right;padding-right:0">Basis</th></tr></thead>
+        <tbody>
+          <tr><td style="padding-left:0">Current ratio</td><td style="text-align:right">1.60×</td><td style="text-align:right;color:var(--soft)">1.58×</td><td style="text-align:right;color:var(--soft)">≥ 1.25×</td><td style="text-align:right;padding-right:0;color:var(--soft);font-size:12px">CA ÷ CL</td></tr>
+          <tr><td style="padding-left:0">Quick ratio</td><td style="text-align:right">0.79×</td><td style="text-align:right;color:var(--soft)">0.67×</td><td style="text-align:right;color:var(--soft)">≥ 0.70×</td><td style="text-align:right;padding-right:0;color:var(--soft);font-size:12px">CA less stock &amp; prepaid ÷ CL</td></tr>
+          <tr><td style="padding-left:0">Cash ratio</td><td style="text-align:right">0.28×</td><td style="text-align:right;color:var(--soft)">0.20×</td><td style="text-align:right;color:var(--soft)">≥ 0.20×</td><td style="text-align:right;padding-right:0;color:var(--soft);font-size:12px">Cash ÷ CL</td></tr>
+          <tr><td style="padding-left:0;border-bottom:none">Working capital</td><td style="text-align:right;border-bottom:none">₦1,779m</td><td style="text-align:right;border-bottom:none;color:var(--soft)">₦1,639m</td><td style="text-align:right;border-bottom:none;color:var(--soft)">—</td><td style="text-align:right;padding-right:0;border-bottom:none;color:var(--soft);font-size:12px">CA less CL</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="flex:1 1 460px;min-width:0">
+      <h3 style="font-size:17px;margin:0 0 6px">Efficiency &amp; working capital</h3>
+      <table class="table" style="font-size:13.5px">
+        <thead><tr><th style="padding-left:0">Measure</th><th style="text-align:right">Aug</th><th style="text-align:right">Jul</th><th style="text-align:right">Target</th><th style="text-align:right;padding-right:0">Basis</th></tr></thead>
+        <tbody>
+          <tr><td style="padding-left:0">Days sales outstanding</td><td style="text-align:right;color:var(--unfav)">52 days</td><td style="text-align:right;color:var(--soft)">46 days</td><td style="text-align:right;color:var(--soft)">≤ 45 days</td><td style="text-align:right;padding-right:0;color:var(--soft);font-size:12px">AR ÷ credit sales/day</td></tr>
+          <tr><td style="padding-left:0">Days inventory outstanding</td><td style="text-align:right">24 days</td><td style="text-align:right;color:var(--soft)">27 days</td><td style="text-align:right;color:var(--soft)">≤ 30 days</td><td style="text-align:right;padding-right:0;color:var(--soft);font-size:12px">Stock ÷ COGS/day</td></tr>
+          <tr><td style="padding-left:0">Days payable outstanding</td><td style="text-align:right">41 days</td><td style="text-align:right;color:var(--soft)">39 days</td><td style="text-align:right;color:var(--soft)">45 days</td><td style="text-align:right;padding-right:0;color:var(--soft);font-size:12px">AP ÷ local purchases/day</td></tr>
+          <tr><td style="padding-left:0">Cash conversion cycle</td><td style="text-align:right">35 days</td><td style="text-align:right;color:var(--soft)">34 days</td><td style="text-align:right;color:var(--soft)">≤ 30 days</td><td style="text-align:right;padding-right:0;color:var(--soft);font-size:12px">DSO + DIO − DPO</td></tr>
+          <tr><td style="padding-left:0;border-bottom:none">Inventory turns, annualised</td><td style="text-align:right;border-bottom:none">15.3×</td><td style="text-align:right;border-bottom:none;color:var(--soft)">14.0×</td><td style="text-align:right;border-bottom:none;color:var(--soft)">≥ 12×</td><td style="text-align:right;padding-right:0;border-bottom:none;color:var(--soft);font-size:12px">COGS × 12 ÷ stock</td></tr>
+        </tbody>
+      </table>
+
+      <h3 style="font-size:17px;margin:28px 0 6px">Leverage &amp; cover</h3>
+      <table class="table" style="font-size:13.5px">
+        <thead><tr><th style="padding-left:0">Measure</th><th style="text-align:right">Aug</th><th style="text-align:right">Jul</th><th style="text-align:right">Covenant</th><th style="text-align:right;padding-right:0">Status</th></tr></thead>
+        <tbody>
+          <tr><td style="padding-left:0">Net debt</td><td style="text-align:right">₦1,718m</td><td style="text-align:right;color:var(--soft)">₦2,016m</td><td style="text-align:right;color:var(--soft)">—</td><td style="text-align:right;padding-right:0;color:var(--fav)">Improved</td></tr>
+          <tr><td style="padding-left:0">Net debt ÷ equity</td><td style="text-align:right">79%</td><td style="text-align:right;color:var(--soft)">113%</td><td style="text-align:right;color:var(--soft)">≤ 150%</td><td style="text-align:right;padding-right:0;color:var(--fav)">Pass</td></tr>
+          <tr><td style="padding-left:0">Gearing</td><td style="text-align:right">44%</td><td style="text-align:right;color:var(--soft)">53%</td><td style="text-align:right;color:var(--soft)">≤ 55%</td><td style="text-align:right;padding-right:0;color:var(--fav)">Pass</td></tr>
+          <tr><td style="padding-left:0">Interest cover</td><td style="text-align:right">4.7×</td><td style="text-align:right;color:var(--soft)">4.7×</td><td style="text-align:right;color:var(--soft)">≥ 3.0×</td><td style="text-align:right;padding-right:0;color:var(--fav)">Pass</td></tr>
+          <tr><td style="padding-left:0;border-bottom:none">Net debt ÷ EBITDA, annualised</td><td style="text-align:right;border-bottom:none">0.2×</td><td style="text-align:right;border-bottom:none;color:var(--soft)">0.3×</td><td style="text-align:right;border-bottom:none;color:var(--soft)">≤ 2.5×</td><td style="text-align:right;padding-right:0;border-bottom:none;color:var(--fav)">Pass</td></tr>
+        </tbody>
+      </table>
+
+      <div style="margin-top:28px;border-top:1px solid var(--color-text);padding-top:10px">
+        <h3 style="font-size:17px;margin:0 0 8px">Covenant &amp; policy summary</h3>
+        <div style="display:flex;flex-direction:column;font-size:13.5px">
+          <div style="display:flex;justify-content:space-between;gap:16px;padding:7px 0;border-bottom:1px solid var(--hair)"><span>Four bank covenants tested at 31 August</span><span style="color:var(--fav)">All passed</span></div>
+          <div style="display:flex;justify-content:space-between;gap:16px;padding:7px 0;border-bottom:1px solid var(--hair)"><span>Internal DSO policy (≤ 45 days)</span><span style="color:var(--unfav)">Breached — 52 days</span></div>
+          <div style="display:flex;justify-content:space-between;gap:16px;padding:7px 0;border-bottom:1px solid var(--hair)"><span>Cash conversion cycle policy (≤ 30 days)</span><span style="color:var(--unfav)">Breached — 35 days</span></div>
+          <div style="display:flex;justify-content:space-between;gap:16px;padding:7px 0"><span>Quick ratio floor (≥ 0.70×)</span><span style="color:var(--fav)">Restored — 0.79×</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ pDetail }}">
+  <div>
+  <div style="display:flex;flex-wrap:wrap;gap:44px;margin-top:30px">
+    <div style="flex:1 1 440px;min-width:0">
+      <div style="border-top:1px solid var(--color-text);padding-top:10px;display:flex;flex-wrap:wrap;align-items:baseline;gap:12px">
+        <h2 style="font-size:23px;margin:0">Revenue by segment</h2>
+        <span style="font-size:12.5px;color:var(--soft)">August · ₦ millions</span>
+      </div>
+      <table class="table" style="margin-top:12px;font-size:13.5px">
+        <thead><tr><th style="padding-left:0">Segment</th><th style="text-align:right">Revenue</th><th style="text-align:right">Mix</th><th style="text-align:right">GP</th><th style="text-align:right;padding-right:0">Margin</th></tr></thead>
+        <tbody>
+          <tr><td style="padding-left:0">Vehicle sales — GAC</td><td style="text-align:right">1,740</td><td style="text-align:right;color:var(--soft)">41%</td><td style="text-align:right">452</td><td style="text-align:right;padding-right:0">26.0%</td></tr>
+          <tr><td style="padding-left:0">Vehicle sales — Wuling</td><td style="text-align:right">985</td><td style="text-align:right;color:var(--soft)">23%</td><td style="text-align:right">246</td><td style="text-align:right;padding-right:0">25.0%</td></tr>
+          <tr><td style="padding-left:0">Vehicle sales — JMC</td><td style="text-align:right">485</td><td style="text-align:right;color:var(--soft)">12%</td><td style="text-align:right">117</td><td style="text-align:right;padding-right:0">24.1%</td></tr>
+          <tr><td style="padding-left:0">Spare parts</td><td style="text-align:right">565</td><td style="text-align:right;color:var(--soft)">13%</td><td style="text-align:right">190</td><td style="text-align:right;padding-right:0;color:var(--fav)">33.6%</td></tr>
+          <tr><td style="padding-left:0">Service &amp; labour</td><td style="text-align:right">425</td><td style="text-align:right;color:var(--soft)">10%</td><td style="text-align:right">307</td><td style="text-align:right;padding-right:0;color:var(--fav)">72.2%</td></tr>
+          <tr><td style="padding-left:0">Other operating income</td><td style="text-align:right">60</td><td style="text-align:right;color:var(--soft)">1%</td><td style="text-align:right">60</td><td style="text-align:right;padding-right:0">—</td></tr>
+          <tr><td style="padding-left:0">Rebates &amp; discounts</td><td style="text-align:right">(60)</td><td style="text-align:right;color:var(--soft)">—</td><td style="text-align:right">(60)</td><td style="text-align:right;padding-right:0">—</td></tr>
+          <tr style="font-weight:600"><td style="padding-left:0;border-top:1px solid var(--color-text);border-bottom:none">Total</td><td style="text-align:right;border-top:1px solid var(--color-text);border-bottom:none">4,200</td><td style="text-align:right;border-top:1px solid var(--color-text);border-bottom:none;color:var(--soft)">100%</td><td style="text-align:right;border-top:1px solid var(--color-text);border-bottom:none">1,260</td><td style="text-align:right;padding-right:0;border-top:1px solid var(--color-text);border-bottom:none">30.0%</td></tr>
+        </tbody>
+      </table>
+      <div style="font-size:12.5px;color:var(--soft);margin-top:10px;text-wrap:pretty">Aftersales — parts and service — is 23% of revenue but 39% of gross profit. The revenue shortfall sits entirely in new vehicle units.</div>
+
+      <div style="border-top:1px solid var(--color-text);padding-top:10px;margin-top:36px">
+        <h2 style="font-size:23px;margin:0">Operating expenses in detail</h2>
+        <span style="font-size:12.5px;color:var(--soft)">August actual vs budget · ₦ millions</span>
+      </div>
+      <table class="table" style="margin-top:12px;font-size:13.5px">
+        <thead><tr><th style="padding-left:0">Account</th><th style="text-align:right">Actual</th><th style="text-align:right">Budget</th><th style="text-align:right;padding-right:0">Var</th></tr></thead>
+        <tbody>
+          <tr><td style="padding-left:0">Salaries &amp; wages <span style="color:var(--soft);font-size:11.5px">60100</span></td><td style="text-align:right">214</td><td style="text-align:right;color:var(--soft)">210</td><td style="text-align:right;padding-right:0;color:var(--unfav)">(4)</td></tr>
+          <tr><td style="padding-left:0">Bonus &amp; sales incentive <span style="color:var(--soft);font-size:11.5px">60300</span></td><td style="text-align:right">28</td><td style="text-align:right;color:var(--soft)">26</td><td style="text-align:right;padding-right:0;color:var(--unfav)">(2)</td></tr>
+          <tr><td style="padding-left:0">Staff welfare &amp; feeding <span style="color:var(--soft);font-size:11.5px">60500</span></td><td style="text-align:right">28</td><td style="text-align:right;color:var(--soft)">27</td><td style="text-align:right;padding-right:0;color:var(--unfav)">(1)</td></tr>
+          <tr><td style="padding-left:0">Pension &amp; group life <span style="color:var(--soft);font-size:11.5px">60700</span></td><td style="text-align:right">26</td><td style="text-align:right;color:var(--soft)">25</td><td style="text-align:right;padding-right:0;color:var(--unfav)">(1)</td></tr>
+          <tr><td style="padding-left:0">Haulage &amp; third-party transport <span style="color:var(--soft);font-size:11.5px">64100</span></td><td style="text-align:right">74</td><td style="text-align:right;color:var(--soft)">55</td><td style="text-align:right;padding-right:0;color:var(--unfav)">(19)</td></tr>
+          <tr><td style="padding-left:0">Vehicle transfer &amp; delivery <span style="color:var(--soft);font-size:11.5px">64300</span></td><td style="text-align:right">29</td><td style="text-align:right;color:var(--soft)">25</td><td style="text-align:right;padding-right:0;color:var(--unfav)">(4)</td></tr>
+          <tr><td style="padding-left:0">Handling &amp; local clearing <span style="color:var(--soft);font-size:11.5px">64500</span></td><td style="text-align:right">18</td><td style="text-align:right;color:var(--soft)">16</td><td style="text-align:right;padding-right:0;color:var(--unfav)">(2)</td></tr>
+          <tr><td style="padding-left:0">Rent &amp; service charge <span style="color:var(--soft);font-size:11.5px">63100</span></td><td style="text-align:right">46</td><td style="text-align:right;color:var(--soft)">46</td><td style="text-align:right;padding-right:0;color:var(--soft)">—</td></tr>
+          <tr><td style="padding-left:0">Electricity, diesel &amp; water <span style="color:var(--soft);font-size:11.5px">63300</span></td><td style="text-align:right">33</td><td style="text-align:right;color:var(--soft)">31</td><td style="text-align:right;padding-right:0;color:var(--unfav)">(2)</td></tr>
+          <tr><td style="padding-left:0">Security services <span style="color:var(--soft);font-size:11.5px">63500</span></td><td style="text-align:right">13</td><td style="text-align:right;color:var(--soft)">13</td><td style="text-align:right;padding-right:0;color:var(--soft)">—</td></tr>
+          <tr><td style="padding-left:0">Marketing &amp; brand <span style="color:var(--soft);font-size:11.5px">62100</span></td><td style="text-align:right">44</td><td style="text-align:right;color:var(--soft)">50</td><td style="text-align:right;padding-right:0;color:var(--fav)">6</td></tr>
+          <tr><td style="padding-left:0">After-sales support &amp; warranty <span style="color:var(--soft);font-size:11.5px">62300</span></td><td style="text-align:right">21</td><td style="text-align:right;color:var(--soft)">21</td><td style="text-align:right;padding-right:0;color:var(--soft)">—</td></tr>
+          <tr><td style="padding-left:0">Entertainment &amp; events <span style="color:var(--soft);font-size:11.5px">62500</span></td><td style="text-align:right">13</td><td style="text-align:right;color:var(--soft)">13</td><td style="text-align:right;padding-right:0;color:var(--soft)">—</td></tr>
+          <tr><td style="padding-left:0">Professional &amp; audit fees <span style="color:var(--soft);font-size:11.5px">65100</span></td><td style="text-align:right">22</td><td style="text-align:right;color:var(--soft)">18</td><td style="text-align:right;padding-right:0;color:var(--unfav)">(4)</td></tr>
+          <tr><td style="padding-left:0">Insurance <span style="color:var(--soft);font-size:11.5px">65300</span></td><td style="text-align:right">12</td><td style="text-align:right;color:var(--soft)">12</td><td style="text-align:right;padding-right:0;color:var(--soft)">—</td></tr>
+          <tr><td style="padding-left:0">Telephone, internet &amp; IT <span style="color:var(--soft);font-size:11.5px">66100</span></td><td style="text-align:right">11</td><td style="text-align:right;color:var(--soft)">10</td><td style="text-align:right;padding-right:0;color:var(--unfav)">(1)</td></tr>
+          <tr><td style="padding-left:0">Travel &amp; accommodation <span style="color:var(--soft);font-size:11.5px">66300</span></td><td style="text-align:right">9</td><td style="text-align:right;color:var(--soft)">8</td><td style="text-align:right;padding-right:0;color:var(--unfav)">(1)</td></tr>
+          <tr><td style="padding-left:0">Bank charges <span style="color:var(--soft);font-size:11.5px">66500</span></td><td style="text-align:right">6</td><td style="text-align:right;color:var(--soft)">6</td><td style="text-align:right;padding-right:0;color:var(--soft)">—</td></tr>
+          <tr><td style="padding-left:0">Printing &amp; stationery <span style="color:var(--soft);font-size:11.5px">66700</span></td><td style="text-align:right">6</td><td style="text-align:right;color:var(--soft)">6</td><td style="text-align:right;padding-right:0;color:var(--soft)">—</td></tr>
+          <tr><td style="padding-left:0">Depreciation of PPE <span style="color:var(--soft);font-size:11.5px">69100</span></td><td style="text-align:right">44</td><td style="text-align:right;color:var(--soft)">40</td><td style="text-align:right;padding-right:0;color:var(--unfav)">(4)</td></tr>
+          <tr><td style="padding-left:0">Amortisation of right-of-use assets <span style="color:var(--soft);font-size:11.5px">69300</span></td><td style="text-align:right">13</td><td style="text-align:right;color:var(--soft)">12</td><td style="text-align:right;padding-right:0;color:var(--unfav)">(1)</td></tr>
+          <tr style="font-weight:600"><td style="padding-left:0;border-top:1px solid var(--color-text);border-bottom:none">Total operating expenses</td><td style="text-align:right;border-top:1px solid var(--color-text);border-bottom:none">710</td><td style="text-align:right;border-top:1px solid var(--color-text);border-bottom:none;color:var(--soft)">670</td><td style="text-align:right;padding-right:0;border-top:1px solid var(--color-text);border-bottom:none;color:var(--unfav)">(40)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="flex:1 1 380px;min-width:0">
+      <div style="border-top:1px solid var(--color-text);padding-top:10px">
+        <h2 style="font-size:23px;margin:0">Bank balances</h2>
+        <span style="font-size:12.5px;color:var(--soft)">At 31 August · accounts 10000–10990 · ₦ millions</span>
+      </div>
+      <table class="table" style="margin-top:12px;font-size:13.5px">
+        <thead><tr><th style="padding-left:0">Account</th><th style="text-align:right">Purpose</th><th style="text-align:right;padding-right:0">Balance</th></tr></thead>
+        <tbody>
+          <tr><td style="padding-left:0">Zenith Bank <span style="color:var(--soft);font-size:11.5px">10100</span></td><td style="text-align:right;color:var(--soft)">Main operating</td><td style="text-align:right;padding-right:0">186</td></tr>
+          <tr><td style="padding-left:0">Access Bank <span style="color:var(--soft);font-size:11.5px">10120</span></td><td style="text-align:right;color:var(--soft)">Collections</td><td style="text-align:right;padding-right:0">142</td></tr>
+          <tr><td style="padding-left:0">GTBank <span style="color:var(--soft);font-size:11.5px">10140</span></td><td style="text-align:right;color:var(--soft)">Operations</td><td style="text-align:right;padding-right:0">118</td></tr>
+          <tr><td style="padding-left:0">Stanbic IBTC <span style="color:var(--soft);font-size:11.5px">10310</span></td><td style="text-align:right;color:var(--soft)">Domiciliary, USD</td><td style="text-align:right;padding-right:0">88</td></tr>
+          <tr><td style="padding-left:0">First Bank <span style="color:var(--soft);font-size:11.5px">10160</span></td><td style="text-align:right;color:var(--soft)">Payroll</td><td style="text-align:right;padding-right:0">74</td></tr>
+          <tr><td style="padding-left:0">UBA <span style="color:var(--soft);font-size:11.5px">10180</span></td><td style="text-align:right;color:var(--soft)">Spare parts</td><td style="text-align:right;padding-right:0">63</td></tr>
+          <tr><td style="padding-left:0">Fidelity Bank <span style="color:var(--soft);font-size:11.5px">10200</span></td><td style="text-align:right;color:var(--soft)">Service centres</td><td style="text-align:right;padding-right:0">51</td></tr>
+          <tr><td style="padding-left:0">Providus Bank <span style="color:var(--soft);font-size:11.5px">10220</span></td><td style="text-align:right;color:var(--soft)">Customer deposits</td><td style="text-align:right;padding-right:0">46</td></tr>
+          <tr><td style="padding-left:0">Ecobank <span style="color:var(--soft);font-size:11.5px">10240</span></td><td style="text-align:right;color:var(--soft)">Abuja branch</td><td style="text-align:right;padding-right:0">24</td></tr>
+          <tr><td style="padding-left:0">Wema Bank <span style="color:var(--soft);font-size:11.5px">10260</span></td><td style="text-align:right;color:var(--soft)">Port Harcourt</td><td style="text-align:right;padding-right:0">17</td></tr>
+          <tr><td style="padding-left:0">Petty cash &amp; cash in transit <span style="color:var(--soft);font-size:11.5px">10700</span></td><td style="text-align:right;color:var(--soft)">Branches</td><td style="text-align:right;padding-right:0">11</td></tr>
+          <tr style="font-weight:600"><td style="padding-left:0;border-top:1px solid var(--color-text);border-bottom:none">Total cash &amp; equivalents</td><td style="text-align:right;border-top:1px solid var(--color-text);border-bottom:none"></td><td style="text-align:right;padding-right:0;border-top:1px solid var(--color-text);border-bottom:none">820</td></tr>
+        </tbody>
+      </table>
+
+      <div style="border-top:1px solid var(--color-text);padding-top:10px;margin-top:36px">
+        <h2 style="font-size:23px;margin:0">Inventory</h2>
+        <span style="font-size:12.5px;color:var(--soft)">Accounts 12000–13990 · ₦ millions</span>
+      </div>
+      <table class="table" style="margin-top:12px;font-size:13.5px">
+        <thead><tr><th style="padding-left:0">Line</th><th style="text-align:right">31 Aug</th><th style="text-align:right">31 Jul</th><th style="text-align:right;padding-right:0">Days</th></tr></thead>
+        <tbody>
+          <tr><td style="padding-left:0">Vehicles — GAC</td><td style="text-align:right">742</td><td style="text-align:right;color:var(--soft)">812</td><td style="text-align:right;padding-right:0;color:var(--soft)">21</td></tr>
+          <tr><td style="padding-left:0">Vehicles — GNI</td><td style="text-align:right">486</td><td style="text-align:right;color:var(--soft)">528</td><td style="text-align:right;padding-right:0;color:var(--soft)">24</td></tr>
+          <tr><td style="padding-left:0">Vehicles — WEIVA</td><td style="text-align:right">318</td><td style="text-align:right;color:var(--soft)">340</td><td style="text-align:right;padding-right:0;color:var(--soft)">29</td></tr>
+          <tr><td style="padding-left:0">Buses &amp; trucks</td><td style="text-align:right">214</td><td style="text-align:right;color:var(--soft)">230</td><td style="text-align:right;padding-right:0;color:var(--unfav)">46</td></tr>
+          <tr><td style="padding-left:0">Spare parts</td><td style="text-align:right">400</td><td style="text-align:right;color:var(--soft)">414</td><td style="text-align:right;padding-right:0;color:var(--soft)">32</td></tr>
+          <tr><td style="padding-left:0">Goods in transit</td><td style="text-align:right">144</td><td style="text-align:right;color:var(--soft)">150</td><td style="text-align:right;padding-right:0;color:var(--soft)">—</td></tr>
+          <tr style="font-weight:600"><td style="padding-left:0;border-top:1px solid var(--color-text);border-bottom:none">Total inventory</td><td style="text-align:right;border-top:1px solid var(--color-text);border-bottom:none">2,304</td><td style="text-align:right;border-top:1px solid var(--color-text);border-bottom:none;color:var(--soft)">2,474</td><td style="text-align:right;padding-right:0;border-top:1px solid var(--color-text);border-bottom:none">24</td></tr>
+        </tbody>
+      </table>
+
+      <div style="border-top:1px solid var(--color-text);padding-top:10px;margin-top:36px">
+        <h2 style="font-size:23px;margin:0">Largest receivable accounts</h2>
+        <span style="font-size:12.5px;color:var(--soft)">Credit accounts over ₦50m · ₦ millions</span>
+      </div>
+      <table class="table" style="margin-top:12px;font-size:13.5px">
+        <thead><tr><th style="padding-left:0">Customer</th><th style="text-align:right">Balance</th><th style="text-align:right">Oldest</th><th style="text-align:right;padding-right:0">Status</th></tr></thead>
+        <tbody>
+          <tr><td style="padding-left:0">Federal fleet contract — tranche 2</td><td style="text-align:right">232</td><td style="text-align:right;color:var(--soft)">74 days</td><td style="text-align:right;padding-right:0;color:var(--unfav)">Escalated</td></tr>
+          <tr><td style="padding-left:0">State transport corporation</td><td style="text-align:right">168</td><td style="text-align:right;color:var(--soft)">61 days</td><td style="text-align:right;padding-right:0;color:var(--unfav)">Escalated</td></tr>
+          <tr><td style="padding-left:0">Corporate lease partner</td><td style="text-align:right">124</td><td style="text-align:right;color:var(--soft)">38 days</td><td style="text-align:right;padding-right:0">On terms</td></tr>
+          <tr><td style="padding-left:0">Dealer network — north</td><td style="text-align:right">96</td><td style="text-align:right;color:var(--soft)">26 days</td><td style="text-align:right;padding-right:0">On terms</td></tr>
+          <tr><td style="padding-left:0;border-bottom:none">Logistics operator — bus fleet</td><td style="text-align:right;border-bottom:none">58</td><td style="text-align:right;border-bottom:none;color:var(--soft)">19 days</td><td style="text-align:right;padding-right:0;border-bottom:none">On terms</td></tr>
+        </tbody>
+      </table>
+      <div style="font-size:12.5px;color:var(--soft);margin-top:10px;text-wrap:pretty">The two escalated public-sector accounts are ₦400m — 36% of the receivables book and the whole of the DSO deterioration.</div>
+    </div>
+  </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ pNotes }}">
+  <div>
+  <div style="display:flex;flex-wrap:wrap;gap:44px;margin-top:30px">
+    <div style="flex:2 1 520px;min-width:0">
+      <div style="border-top:1px solid var(--color-text);padding-top:10px">
+        <h2 style="font-size:26px;margin:0">Management commentary</h2>
+        <span style="font-size:12.5px;color:var(--soft)">August 2026 · prepared by Group FP&amp;A, reviewed by the Financial Controller</span>
+      </div>
+      <div style="margin-top:18px;max-width:64ch;display:flex;flex-direction:column;gap:16px">
+        <p style="margin:0;text-wrap:pretty">Revenue of ₦4.20B was ₦130m (3.0%) below budget. The shortfall is entirely in new vehicle units — 41 fewer than plan, concentrated in the GAC passenger range where two shipments arrived late in the month and could not be invoiced before period close. Aftersales was ahead of plan on both parts and labour.</p>
+        <p style="margin:0;text-wrap:pretty">Gross margin held at 30.0% against budget of 30.3%. Landed costs came in ₦10m under plan as the naira was stable through the month, offsetting a ₦45m overspend on customer rebates used to clear ageing GNI stock. Excluding those rebates, margin would have read 31.1%.</p>
+        <p style="margin:0;text-wrap:pretty">Operating expenses of ₦710m were ₦40m (6.0%) over budget, of which ₦25m is logistics: third-party haulage rates on the Lagos–Abuja lane rose in the month and two out-of-cycle deliveries were made at spot rates. Professional fees are ₦4m over on the interim audit fieldwork brought forward from September.</p>
+        <p style="margin:0;text-wrap:pretty">Cash closed at ₦0.82B, ₦260m up on the month, but the inflow is stock-funded rather than earnings-funded: a ₦170m inventory drawdown offset the ₦180m receivables build. Receivables are the single balance-sheet concern — DSO of 52 days against a 45-day policy, with ₦400m sitting in two public-sector accounts now past 60 days.</p>
+      </div>
+
+      <div style="border-top:1px solid var(--color-text);padding-top:10px;margin-top:36px">
+        <h2 style="font-size:23px;margin:0">Actions agreed</h2>
+        <span style="font-size:12.5px;color:var(--soft)">For review at the September management meeting</span>
+      </div>
+      <table class="table" style="margin-top:12px;font-size:13.5px">
+        <thead><tr><th style="padding-left:0">Action</th><th style="text-align:right">Owner</th><th style="text-align:right">Due</th><th style="text-align:right;padding-right:0">Value</th></tr></thead>
+        <tbody>
+          <tr><td style="padding-left:0">Collections plan on the two escalated public-sector accounts</td><td style="text-align:right;color:var(--soft)">Credit Control</td><td style="text-align:right;color:var(--soft)">19 Sep</td><td style="text-align:right;padding-right:0">₦400m</td></tr>
+          <tr><td style="padding-left:0">Close the freight tender and lock lane rates for H2</td><td style="text-align:right;color:var(--soft)">Supply Chain</td><td style="text-align:right;color:var(--soft)">31 Oct</td><td style="text-align:right;padding-right:0">₦18m/mth</td></tr>
+          <tr><td style="padding-left:0">Rebate policy — approval threshold and monthly cap</td><td style="text-align:right;color:var(--soft)">Sales &amp; Finance</td><td style="text-align:right;color:var(--soft)">12 Sep</td><td style="text-align:right;padding-right:0">₦45m</td></tr>
+          <tr><td style="padding-left:0">Clear the ageing bus &amp; truck stock (46 days)</td><td style="text-align:right;color:var(--soft)">Commercial</td><td style="text-align:right;color:var(--soft)">30 Sep</td><td style="text-align:right;padding-right:0">₦214m</td></tr>
+          <tr><td style="padding-left:0;border-bottom:none">Reforecast FY2026 on two months' actuals</td><td style="text-align:right;border-bottom:none;color:var(--soft)">FP&amp;A</td><td style="text-align:right;border-bottom:none;color:var(--soft)">26 Sep</td><td style="text-align:right;padding-right:0;border-bottom:none">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="flex:1 1 300px;min-width:0">
+      <div style="border-top:1px solid var(--color-text);padding-top:10px">
+        <h2 style="font-size:23px;margin:0">Basis of preparation</h2>
+      </div>
+      <div style="margin-top:14px;display:flex;flex-direction:column;gap:14px;font-size:13.5px;color:var(--soft)">
+        <div><span style="color:var(--color-text);font-weight:600">Source.</span> Extracted from the general ledger trial balance at 31 August 2026. Account groupings follow the company chart of accounts; ranges are shown against each line.</div>
+        <div><span style="color:var(--color-text);font-weight:600">Currency.</span> Naira, ₦ millions unless stated. Foreign-currency balances translated at the month-end NAFEM closing rate; domiciliary balances shown in naira equivalent.</div>
+        <div><span style="color:var(--color-text);font-weight:600">Basis.</span> Management basis, unaudited. Revenue is net of rebates and discounts. Leases are accounted for under IFRS 16; right-of-use assets and lease liabilities are shown separately.</div>
+        <div><span style="color:var(--color-text);font-weight:600">Ratios.</span> DSO is measured on credit sales (₦643m in the month); retail units settle on delivery. DPO is measured on local vendor purchases and excludes OEM shipments settled by letter of credit. Returns are stated YTD (two months) and are not annualised.</div>
+        <div><span style="color:var(--color-text);font-weight:600">Estimates.</span> Tax at the effective FY2026 rate of 9.7%; warranty and rebate accruals per policy. No adjusting post-balance-sheet events identified.</div>
+      </div>
+
+      <div style="border-top:1px solid var(--color-text);padding-top:10px;margin-top:36px">
+        <h2 style="font-size:23px;margin:0">Sign-off</h2>
+      </div>
+      <div style="margin-top:14px;display:flex;flex-direction:column;gap:14px;font-size:13.5px">
+        <div style="display:flex;justify-content:space-between;gap:16px;padding-bottom:7px;border-bottom:1px solid var(--hair)"><span>Prepared</span><span style="color:var(--soft)">Group FP&amp;A · 3 Sep 2026</span></div>
+        <div style="display:flex;justify-content:space-between;gap:16px;padding-bottom:7px;border-bottom:1px solid var(--hair)"><span>Reviewed</span><span style="color:var(--soft)">Financial Controller · 4 Sep 2026</span></div>
+        <div style="display:flex;justify-content:space-between;gap:16px;padding-bottom:7px;border-bottom:1px solid var(--hair)"><span>Approved</span><span style="color:var(--soft)">Chief Financial Officer · pending</span></div>
+        <div style="display:flex;justify-content:space-between;gap:16px"><span>Next report</span><span style="color:var(--soft)">September 2026 · 6 Oct</span></div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </sc-if>
+
+  <footer style="margin-top:56px;border-top:1px solid var(--color-divider);padding-top:10px;display:flex;flex-wrap:wrap;gap:8px 24px;font-size:12px;color:var(--soft)">
+    <span>CIG Motors — Finance · Management accounts, August 2026 · Unaudited</span>
+    <span>Green denotes a favourable variance, red unfavourable — cost underspend reads green.</span>
+    <span style="margin-left:auto">All figures illustrative sample data.</span>
+  </footer>
+</div>
+
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#17181c"></rect><rect x="60" y="52" width="80" height="5" fill="#c8102e"></rect><text x="100" y="112" text-anchor="middle" font-family="Georgia,serif" font-size="52" fill="#f3f2f2">CIG</text><text x="100" y="140" text-anchor="middle" font-family="Georgia,serif" font-size="15" letter-spacing="3" fill="#a19b95">FINANCE</text></svg></template></x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;startDark&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Display&quot;},&quot;showBudgetProjection&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Display&quot;}}">
+class Component extends DCLogic {
+  state = { dark: false, page: 'dash', dash: 1, open: {} };
+  componentDidMount() {
+    const dark = !!this.props.startDark;
+    this.setState({ dark });
+    this.apply(dark);
+  }
+  componentDidUpdate(prev) {
+    if (prev.startDark !== this.props.startDark) {
+      const dark = !!this.props.startDark;
+      this.setState({ dark });
+      this.apply(dark);
+    }
+  }
+  apply(dark) {
+    document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+  }
+  tab(id) {
+    const on = this.state.page === id;
+    return 'font-family:var(--font-body);font-size:14.5px;background:transparent;border:none;cursor:pointer;padding:8px 0 9px;'
+      + 'color:' + (on ? 'var(--color-text)' : 'var(--soft)') + ';'
+      + 'font-weight:' + (on ? '600' : '400') + ';'
+      + 'box-shadow:' + (on ? 'inset 0 -3px 0 var(--brand)' : 'none');
+  }
+  sub(n) {
+    const on = this.state.dash === n;
+    return 'font-family:var(--font-body);font-size:13px;letter-spacing:0.04em;cursor:pointer;padding:4px 10px;border-radius:2px;'
+      + 'border:1px solid ' + (on ? 'var(--color-text)' : 'var(--color-divider)') + ';'
+      + 'background:' + (on ? 'var(--color-text)' : 'transparent') + ';'
+      + 'color:' + (on ? 'var(--color-bg)' : 'var(--soft)');
+  }
+  go(page) {
+    return (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ page }); };
+  }
+  goDashPage(n) {
+    return (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ dash: n }); };
+  }
+  tog(k) {
+    return (e) => {
+      if (e && e.preventDefault) e.preventDefault();
+      this.setState(s => {
+        const open = Object.assign({}, s.open);
+        open[k] = !open[k];
+        return { open };
+      });
+    };
+  }
+  key(k) {
+    return (e) => {
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+        e.preventDefault();
+        this.tog(k)();
+      }
+    };
+  }
+  renderVals() {
+    const p = this.state.page;
+    const vals = {
+      projection: this.props.showBudgetProjection ?? true,
+      themeLabel: this.state.dark ? 'Light' : 'Dark',
+      toggleTheme: () => this.setState(s => {
+        const dark = !s.dark;
+        this.apply(dark);
+        return { dark };
+      }),
+      pDash: p === 'dash', pOverview: p === 'overview', pPl: p === 'pl', pBs: p === 'bs', pCf: p === 'cf',
+      pRatios: p === 'ratios', pDetail: p === 'detail', pNotes: p === 'notes',
+      goDash: this.go('dash'), goOverview: this.go('overview'), goPl: this.go('pl'), goBs: this.go('bs'), goCf: this.go('cf'),
+      goRatios: this.go('ratios'), goDetail: this.go('detail'), goNotes: this.go('notes'),
+      tabDash: this.tab('dash'), tabOverview: this.tab('overview'), tabPl: this.tab('pl'), tabBs: this.tab('bs'), tabCf: this.tab('cf'),
+      tabRatios: this.tab('ratios'), tabDetail: this.tab('detail'), tabNotes: this.tab('notes'),
+      dash1: this.state.dash === 1, dash2: this.state.dash === 2,
+      goDash1: this.goDashPage(1), goDash2: this.goDashPage(2),
+      subDash1: this.sub(1), subDash2: this.sub(2),
+      dashTitle: this.state.dash === 1 ? 'Performance at a glance' : 'Position and cash at a glance'
+    };
+    ['Rev', 'Cos', 'Opx', 'Fin', 'Nca', 'Ca', 'Cl', 'Ncl', 'Eq'].forEach(k => {
+      vals['o' + k] = !!this.state.open[k];
+      vals['t' + k] = this.tog(k);
+      vals['k' + k] = this.key(k);
+      vals['c' + k] = this.state.open[k] ? '\u2212' : '+';
+    });
+    return vals;
+  }
+}
+</script>
+</body>
+</html>
