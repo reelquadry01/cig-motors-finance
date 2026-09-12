@@ -24,7 +24,6 @@ jobs:
         run: |
           npm ci
           npm run build
-          cp -r public/data dist/data
           cp dist/index.html dist/404.html
 
       - name: Deploy to GitHub Pages

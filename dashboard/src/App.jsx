@@ -34,7 +34,7 @@ export default function App() {
   const [periodFilter, setPeriodFilter] = useState({ mode: 'latest' })
 
   useEffect(() => {
-    fetch('/data/dashboard_data.json')
+    fetch(`${import.meta.env.BASE_URL}data/dashboard_data.json`)
       .then(r => { if (!r.ok) throw new Error('Data not found'); return r.json() })
       .then(d => { setRawData(d); setLoading(false) })
       .catch(e => { setError(e.message); setLoading(false) })

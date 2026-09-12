@@ -1,4 +1,5 @@
 import fmt from '../lib/fmt'
+import KpiCards from './KpiCards'
 import { MonthlyTrendChart, RevenueDonut, MarginGauge } from './Charts'
 
 export default function Dashboard({ data }) {
