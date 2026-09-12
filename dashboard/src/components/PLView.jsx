@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { ChevronRight } from 'lucide-react'
+import { ChevronRight, FileText } from 'lucide-react'
 import fmt from '../lib/fmt'
+import ViewHeader from './ui/ViewHeader'
 
 /* Account-level leaf row (deepest level of a breakdown) */
 function LeafRow({ label, value, revenueTotal, indent = 44 }) {
@@ -130,15 +131,11 @@ export default function PLView({ data }) {
 
   return (
     <div className="animate-in">
-      <div style={{ marginBottom: 28 }}>
-        <h1 className="section-header">
-          Income statement <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>— profit or loss</span>
-        </h1>
-        <div className="section-sub">{data.period} · ₦ millions · expand Revenue or Cost of Sales for the segment &amp; product-line breakdown</div>
-      </div>
+      <ViewHeader icon={FileText} title="Income statement" sub="profit or loss" accent="var(--brand)"
+        meta={`${data.period} · ₦ millions · expand Revenue or Cost of Sales for the segment & product-line breakdown`} />
 
       <div className="pl-grid">
-        <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div className="card tinted" style={{ padding: 0, overflow: 'hidden', '--tint': 'var(--brand)' }}>
           <div style={{ padding: '16px 24px', overflowX: 'auto' }}>
             <table className="data-table">
               <thead>
@@ -158,7 +155,7 @@ export default function PLView({ data }) {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <div className="side-panel">
+          <div className="side-panel tinted" style={{ '--tint': 'var(--brand)' }}>
             <div className="side-panel-title">P&L summary</div>
             {[
               { label: 'Revenue', value: pl?.total_revenue },
@@ -178,7 +175,7 @@ export default function PLView({ data }) {
             ))}
           </div>
 
-          <div className="side-panel">
+          <div className="side-panel tinted" style={{ '--tint': 'var(--brand)' }}>
             <div className="side-panel-title">Margins</div>
             {[
               { label: 'Gross', value: pl?.gp_margin, color: 'var(--accent)' },

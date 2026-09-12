@@ -33,7 +33,7 @@ export default function App() {
   const [error, setError] = useState(null)
   const [periodFilter, setPeriodFilter] = useState({ mode: 'latest' })
   const [theme, setTheme] = useState(() => {
-    try { return localStorage.getItem('cig-theme') || 'dark' } catch { return 'dark' }
+    try { return localStorage.getItem('cig-theme') || 'light' } catch { return 'light' }
   })
 
   useEffect(() => {
@@ -89,31 +89,31 @@ export default function App() {
 }
 
 function applyPeriodFilter(raw, filter) {
-  if (!filter || filter.mode === 'latest') return raw
+  if (!filter || filter.mode === 'latest') return { ...raw, _periodKey: raw.period }
   const plByPeriod = raw.pl_by_period || {}
   const plByDay = raw.pl_by_day || {}
   const months = raw.available_periods?.months || []
   const days = raw.available_periods?.days || []
 
   if (filter.mode === 'monthly' && filter.period) {
-    if (plByPeriod[filter.period]) return { ...raw, pl: plByPeriod[filter.period], period: fmtMonth(filter.period) }
+    if (plByPeriod[filter.period]) return { ...raw, pl: plByPeriod[filter.period], period: fmtMonth(filter.period), _periodKey: filter.period }
     return raw
   }
   if (filter.mode === 'daily' && filter.period) {
-    if (plByDay[filter.period]) return { ...raw, pl: plByDay[filter.period], period: fmtDate(filter.period) }
-    return { ...raw, pl: emptyPl(raw.pl), period: fmtDate(filter.period) }
+    if (plByDay[filter.period]) return { ...raw, pl: plByDay[filter.period], period: fmtDate(filter.period), _periodKey: null }
+    return { ...raw, pl: emptyPl(raw.pl), period: fmtDate(filter.period), _periodKey: null }
   }
   if (filter.mode === 'yearly' && filter.period) {
     const ym = months.filter(m => m.startsWith(filter.period))
-    if (ym.length > 0) return { ...raw, pl: mergePeriods(ym, plByPeriod), period: filter.period }
+    if (ym.length > 0) return { ...raw, pl: mergePeriods(ym, plByPeriod), period: filter.period, _periodKey: null }
     return raw
   }
   if (filter.mode === 'range' && filter.periodFrom && filter.periodTo) {
     // Day-level range: merge every active day in [from, to]
     const rd = days.filter(d => d >= filter.periodFrom && d <= filter.periodTo)
     const label = `${fmtDate(filter.periodFrom)} – ${fmtDate(filter.periodTo)}`
-    if (rd.length > 0) return { ...raw, pl: mergePeriods(rd, plByDay), period: label }
-    return { ...raw, pl: emptyPl(raw.pl), period: label }
+    if (rd.length > 0) return { ...raw, pl: mergePeriods(rd, plByDay), period: label, _periodKey: null }
+    return { ...raw, pl: emptyPl(raw.pl), period: label, _periodKey: null }
   }
   return raw
 }

@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { ChevronRight } from 'lucide-react'
+import { ChevronRight, Scale } from 'lucide-react'
 import fmt from '../lib/fmt'
+import ViewHeader from './ui/ViewHeader'
 
 function SectionRow({ title, items, total, bold, defaultOpen = false }) {
   const [open, setOpen] = useState(defaultOpen)
@@ -69,15 +70,11 @@ export default function BSView({ data }) {
 
   return (
     <div className="animate-in">
-      <div style={{ marginBottom: 28 }}>
-        <h1 className="section-header">
-          Balance sheet <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>— financial position</span>
-        </h1>
-        <div className="section-sub">{data.period} · ₦ millions</div>
-      </div>
+      <ViewHeader icon={Scale} title="Balance sheet" sub="financial position" accent="var(--accent)"
+        meta={`${data.period} · ₦ millions`} />
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 28 }}>
-        <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
+      <div className="pl-grid">
+        <div className="card tinted" style={{ padding: 0, overflow: 'hidden', '--tint': 'var(--accent)' }}>
           <div style={{ padding: '16px 24px' }}>
             <table className="data-table">
               <thead>
@@ -95,7 +92,7 @@ export default function BSView({ data }) {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <div className="side-panel">
+          <div className="side-panel tinted" style={{ '--tint': 'var(--accent)' }}>
             <div className="side-panel-title">Snapshot</div>
             {[
               { label: 'Total Assets', value: bs?.total_assets },
@@ -110,7 +107,7 @@ export default function BSView({ data }) {
             ))}
           </div>
 
-          <div className="side-panel">
+          <div className="side-panel tinted" style={{ '--tint': 'var(--accent)' }}>
             <div className="side-panel-title">Liquidity</div>
             {[
               { label: 'Current Assets', value: bs?.total_current_assets },

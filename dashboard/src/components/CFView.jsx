@@ -1,9 +1,11 @@
 import { useState } from 'react'
-import { ChevronRight } from 'lucide-react'
+import { ChevronRight, ArrowLeftRight } from 'lucide-react'
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 import fmt from '../lib/fmt'
+import ViewHeader from './ui/ViewHeader'
+import { CHART } from './Charts'
 
-const COLORS = ['#c8102e', '#4fbde3', '#34d399', '#fbbf24', '#a78bfa']
+const COLORS = [CHART.brand, CHART.accent, CHART.green, CHART.amber, CHART.magenta]
 
 function SectionRow({ title, items, total, bold, defaultOpen = false }) {
   const [open, setOpen] = useState(defaultOpen)
@@ -71,16 +73,12 @@ export default function CFView({ data }) {
 
   return (
     <div className="animate-in">
-      <div style={{ marginBottom: 28 }}>
-        <h1 className="section-header">
-          Cash flow <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>— movements</span>
-        </h1>
-        <div className="section-sub">{data.period} · ₦ millions</div>
-      </div>
+      <ViewHeader icon={ArrowLeftRight} title="Cash flow" sub="movements" accent="var(--fav)"
+        meta={`${data.period} · ₦ millions`} />
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 28 }}>
+      <div className="pl-grid">
         <div>
-          <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
+          <div className="card tinted" style={{ padding: 0, overflow: 'hidden', '--tint': 'var(--fav)' }}>
             <div style={{ padding: '16px 24px' }}>
               <table className="data-table">
                 <thead>
@@ -151,7 +149,7 @@ export default function CFView({ data }) {
             </div>
           </div>
 
-          <div className="side-panel">
+          <div className="side-panel tinted" style={{ '--tint': 'var(--fav)' }}>
             <div className="side-panel-title">Cash summary</div>
             {[
               { label: 'Opening', value: cf?.opening_cash },
