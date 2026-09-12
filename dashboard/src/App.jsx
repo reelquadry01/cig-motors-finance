@@ -8,6 +8,10 @@ import CFView from './components/CFView'
 import RatiosView from './components/RatiosView'
 import SegmentsView from './components/SegmentsView'
 import CommentaryView from './components/CommentaryView'
+import WorkingCapitalView from './components/WorkingCapitalView'
+import BranchesView from './components/BranchesView'
+import ExpensesView from './components/ExpensesView'
+import BudgetView from './components/BudgetView'
 
 class ErrorBoundary extends Component {
   constructor(props) { super(props); this.state = { error: null } }
@@ -69,8 +73,12 @@ export default function App() {
     pnl: PLView,
     bs: BSView,
     cashflow: CFView,
+    workingcapital: WorkingCapitalView,
     ratios: RatiosView,
     segments: SegmentsView,
+    branches: BranchesView,
+    expenses: ExpensesView,
+    budget: BudgetView,
     commentary: CommentaryView,
   }
   const ViewComponent = viewMap[activeTab]

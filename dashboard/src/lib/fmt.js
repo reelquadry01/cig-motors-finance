@@ -13,6 +13,20 @@ const fmt = {
   acc0: (v) => isNil(v) ? '—' : v < 0
     ? '(' + Math.round(Math.abs(v)).toLocaleString() + ')'
     : Math.round(v).toLocaleString(),
+  // Statement figures in ₦ millions, 1 dp, accounting parentheses (no symbol)
+  mm: (v) => {
+    if (isNil(v)) return '—'
+    const m = v / 1e6
+    const s = Math.abs(m).toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })
+    return m < 0 ? `(${s})` : s
+  },
+  // ₦ thousands variant, if ever needed
+  th: (v) => {
+    if (isNil(v)) return '—'
+    const t = v / 1e3
+    const s = Math.abs(t).toLocaleString(undefined, { maximumFractionDigits: 0 })
+    return t < 0 ? `(${s})` : s
+  },
   numM: (v) => isNil(v) ? '—' : (v / 1e6).toLocaleString(undefined, { maximumFractionDigits: 0 }) + 'M',
   numB: (v) => isNil(v) ? '—' : (v / 1e9).toFixed(2) + 'B',
 

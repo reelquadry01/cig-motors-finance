@@ -3,8 +3,12 @@ const tabs = [
   { id: 'pnl', label: 'Income statement' },
   { id: 'bs', label: 'Balance sheet' },
   { id: 'cashflow', label: 'Cash flow' },
-  { id: 'ratios', label: 'Ratios' },
+  { id: 'workingcapital', label: 'Working capital' },
   { id: 'segments', label: 'Segments' },
+  { id: 'branches', label: 'Branches' },
+  { id: 'expenses', label: 'Expenses' },
+  { id: 'ratios', label: 'Ratios' },
+  { id: 'budget', label: 'Budget' },
   { id: 'commentary', label: 'Commentary' },
 ]
 

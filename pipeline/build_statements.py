@@ -78,6 +78,41 @@ def build_breakdown(merged: pd.DataFrame, section_names, credit_positive: bool) 
     return groups
 
 
+def build_flat(merged: pd.DataFrame, section_names, credit_positive: bool, top: int = 20) -> list:
+    """Account-level breakdown for a P&L section (flat, no segment grouping).
+
+    Returns [{label, value, share}] sorted desc by value, capped at `top`
+    with the remainder rolled into an "Other" line.
+    """
+    if isinstance(section_names, str):
+        section_names = [section_names]
+    df = merged[merged["Statement_Section"].isin(section_names)].copy()
+    if df.empty:
+        return []
+    df["Amount"] = (df["Credit"] - df["Debit"]) if credit_positive else (df["Debit"] - df["Credit"])
+    total = float(df["Amount"].sum())
+    acct = df.groupby("Account_Description")["Amount"].sum()
+    items = []
+    for desc, amount in acct.items():
+        amount = float(amount)
+        if abs(amount) < 1:
+            continue
+        items.append({
+            "label": _clean_account_label(desc),
+            "value": round(amount, 2),
+            "share": round(safe_div(amount, total) * 100, 1),
+        })
+    items.sort(key=lambda x: x["value"], reverse=True)
+    if len(items) > top:
+        head = items[:top]
+        rest = sum(i["value"] for i in items[top:])
+        head.append({"label": f"Other ({len(items) - top} accounts)",
+                     "value": round(rest, 2),
+                     "share": round(safe_div(rest, total) * 100, 1)})
+        items = head
+    return items
+
+
 def build_pl(merged: pd.DataFrame) -> dict:
     """Build P&L from merged GL data. Expects pre-filtered data."""
     pl_sections = ["Revenue", "COGS", "Cost of Sales", "Operating Expenses",
@@ -132,6 +167,7 @@ def build_pl(merged: pd.DataFrame) -> dict:
         "total_cogs": round(cogs, 2),
         "gross_profit": round(gp, 2),
         "opex": items_for("Operating Expenses"),
+        "opex_breakdown": build_flat(df, "Operating Expenses", credit_positive=False),
         "total_opex": round(opex, 2),
         "depreciation": items_for("Depreciation"),
         "total_depreciation": round(depreciation, 2),
@@ -268,6 +304,37 @@ def build_segments(merged: pd.DataFrame) -> list:
         })
 
     return segments
+
+
+def build_budget(budget_df: pd.DataFrame, mapping: pd.DataFrame) -> dict:
+    """Aggregate GL-level budget figures into per-period statement lines.
+
+    Returns {period: {total_revenue, total_cogs, gross_profit, total_opex,
+    operating_profit}} or {} when no budget has been supplied.
+    """
+    if budget_df is None or budget_df.empty:
+        return {}
+    m = budget_df.merge(mapping[["GL_Code", "Statement_Section"]], on="GL_Code", how="left")
+    m["Statement_Section"] = m["Statement_Section"].fillna("Unclassified")
+    out = {}
+    for period, pdf in m.groupby("Period"):
+        def s(*sections):
+            return float(pdf[pdf["Statement_Section"].isin(sections)]["Budget"].sum())
+        rev = s("Revenue")
+        cogs = s("COGS", "Cost of Sales")
+        opex = s("Operating Expenses")
+        dep = s("Depreciation")
+        gp = rev - cogs
+        op = gp - opex - dep
+        out[str(period)] = {
+            "total_revenue": round(rev, 2),
+            "total_cogs": round(cogs, 2),
+            "gross_profit": round(gp, 2),
+            "total_opex": round(opex, 2),
+            "total_depreciation": round(dep, 2),
+            "operating_profit": round(op, 2),
+        }
+    return out
 
 
 def build_monthly_summary(merged: pd.DataFrame) -> list:

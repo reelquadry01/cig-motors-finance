@@ -7,10 +7,10 @@ from datetime import datetime
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from pipeline.read_data import read_gl_clean, read_statement_mapping, read_account_summary
+from pipeline.read_data import read_gl_clean, read_statement_mapping, read_account_summary, read_budget
 from pipeline.build_statements import (
     merge_mapping, build_pl, build_balance_sheet, build_cash_flow,
-    build_segments, build_monthly_summary,
+    build_segments, build_monthly_summary, build_budget,
 )
 from pipeline.ratios import calculate_ratios
 from pipeline.commentary import generate_commentary
@@ -19,6 +19,7 @@ from pipeline.commentary import generate_commentary
 def run_pipeline(
     gl_path: str = "Sample GL_clean.xlsx",
     mapping_path: str = "Statement_Mapping.xlsx",
+    budget_path: str = "Budget_Template.xlsx",
     output_path: str = "dashboard/public/data/dashboard_data.json",
     period: str | None = None,
     period_from: str | None = None,
@@ -102,6 +103,15 @@ def run_pipeline(
             pl_by_day[day] = pl_d
     active_days = sorted(pl_by_day.keys())
 
+    # Budget (blank until Budget_Template.xlsx is populated)
+    try:
+        budget_df = read_budget(base / budget_path)
+    except Exception:
+        budget_df = None
+    budget_by_period = build_budget(budget_df, sm)
+    has_budget = len(budget_by_period) > 0
+    print(f"  Budget: {'loaded ' + str(len(budget_by_period)) + ' periods' if has_budget else 'none supplied (blank)'}")
+
     # Format segments
     total_rev = pl["total_revenue"]
     revenue_by_segment = [
@@ -155,10 +165,11 @@ def run_pipeline(
         "monthly": monthly,
         "pl_by_period": pl_by_period,
         "pl_by_day": pl_by_day,
+        "budget_by_period": budget_by_period,
         "ratios": ratios,
         "commentary": commentary,
         "available_data": {
-            "budget": False,
+            "budget": has_budget,
             "covenants": False,
             "prior_period": len(all_periods) > 1,
             "commentary_manual": False,
@@ -180,6 +191,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Generate dashboard data from GL")
     parser.add_argument("--gl", default="Sample GL_complete_dirty.xlsx")
     parser.add_argument("--mapping", default="Statement_Mapping.xlsx")
+    parser.add_argument("--budget", default="Budget_Template.xlsx")
     parser.add_argument("--output", default="dashboard/public/data/dashboard_data.json")
     parser.add_argument("--mode", default="latest",
                         choices=["latest", "monthly", "yearly", "range"])
@@ -187,5 +199,6 @@ if __name__ == "__main__":
     parser.add_argument("--period-from", default=None, help="Start month (YYYY-MM)")
     parser.add_argument("--period-to", default=None, help="End month (YYYY-MM)")
     args = parser.parse_args()
-    run_pipeline(args.gl, args.mapping, args.output, args.period,
-                 args.period_from, args.period_to, args.mode)
+    run_pipeline(gl_path=args.gl, mapping_path=args.mapping, budget_path=args.budget,
+                 output_path=args.output, period=args.period,
+                 period_from=args.period_from, period_to=args.period_to, mode=args.mode)

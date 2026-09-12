@@ -122,7 +122,7 @@ export default function Header({ data, periodFilter, onPeriodChange, theme, onTo
         <span>·</span>
         <span>Figures tie to the trial balance</span>
         <span>·</span>
-        <span>Figures in Naira (₦)</span>
+        <span>Figures in ₦ millions</span>
         <span style={{ marginLeft: 'auto', fontVariantNumeric: 'tabular-nums', color: 'var(--text-muted)' }}>
           {data.data_sources?.gl_transactions?.toLocaleString()} txns · {data.data_sources?.gl_accounts} accounts
         </span>
