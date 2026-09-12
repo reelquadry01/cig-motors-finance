@@ -3,7 +3,7 @@
   "company": "CIG Motors",
   "currency": "NGN",
   "unit": "millions",
-  "generated_at": "2026-09-12T18:17:54.443768",
+  "generated_at": "2026-09-12T18:39:54.280321",
   "data_sources": {
     "gl_transactions": 10252,
     "gl_accounts": 372,
@@ -408,66 +408,66 @@
     ],
     "revenue_breakdown": [
       {
-        "group": "Motor Vehicles Sales",
-        "value": 4070349219.73,
-        "share": 58.0,
+        "group": "Spare Parts & After-Sales",
+        "value": 5851082509.0,
+        "share": 83.3,
         "items": [
           {
             "label": "Spare Parts",
             "value": 2901491859.69,
-            "share": 71.3
+            "share": 49.6
           },
-          {
-            "label": "Vehicle Sales",
-            "value": 1168857360.04,
-            "share": 28.7
-          }
-        ]
-      },
-      {
-        "group": "Spare Parts & After-Sales",
-        "value": 2949590649.31,
-        "share": 42.0,
-        "items": [
           {
             "label": "Spare Parts-VI",
             "value": 2068765192.19,
-            "share": 70.1
+            "share": 35.4
           },
           {
             "label": "Labour Income-VI",
             "value": 346130498.63,
-            "share": 11.7
+            "share": 5.9
           },
           {
             "label": "Labour Income-OJOTA",
             "value": 248302254.7,
-            "share": 8.4
+            "share": 4.2
           },
           {
             "label": "Spare Parts-Ojota",
             "value": 102169450.14,
-            "share": 3.5
+            "share": 1.7
           },
           {
             "label": "Revenue  Int Sales- Veh. Mtce",
             "value": 89310185.05,
-            "share": 3.0
+            "share": 1.5
           },
           {
             "label": "Warranty-Fee Service",
             "value": 52861566.93,
-            "share": 1.8
+            "share": 0.9
           },
           {
             "label": "Insurance Claim",
             "value": 21777938.59,
-            "share": 0.7
+            "share": 0.4
           },
           {
             "label": "Spare Parts-Abuja",
             "value": 20273563.08,
-            "share": 0.7
+            "share": 0.3
+          }
+        ]
+      },
+      {
+        "group": "Motor Vehicles Sales",
+        "value": 1168857360.04,
+        "share": 16.7,
+        "items": [
+          {
+            "label": "Vehicle Sales",
+            "value": 1168857360.04,
+            "share": 100.0
           }
         ]
       }
@@ -1083,13 +1083,13 @@
     "revenue_by_segment": [
       {
         "name": "Motor Vehicles Sales",
-        "value": 4070349219.73,
-        "share": 58.0
+        "value": 1168857360.04,
+        "share": 16.7
       },
       {
         "name": "Spare Parts & After-Sales",
-        "value": 2949590649.31,
-        "share": 42.0
+        "value": 5851082509.0,
+        "share": 83.3
       }
     ],
     "opex_by_category": [
@@ -1217,33 +1217,38 @@
       "revenue_breakdown": [
         {
           "group": "Spare Parts & After-Sales",
-          "value": 5605219864.64,
-          "share": 81.5,
+          "value": 6343320950.01,
+          "share": 92.2,
           "items": [
             {
               "label": "Labour Income-OJOTA",
               "value": 3161583564.07,
-              "share": 56.4
+              "share": 49.8
             },
             {
               "label": "Spare Parts-VI",
               "value": 1175911046.98,
-              "share": 21.0
+              "share": 18.5
             },
             {
               "label": "Labour Income-VI",
               "value": 917783500.62,
-              "share": 16.4
+              "share": 14.5
+            },
+            {
+              "label": "Spare Parts",
+              "value": 738101085.37,
+              "share": 11.6
             },
             {
               "label": "Revenue  Int Sales- Veh. Mtce",
               "value": 275224687.87,
-              "share": 4.9
+              "share": 4.3
             },
             {
               "label": "Warranty-Fee Service",
               "value": 33841665.36,
-              "share": 0.6
+              "share": 0.5
             },
             {
               "label": "Spare Parts-Ojota",
@@ -1259,18 +1264,13 @@
         },
         {
           "group": "Motor Vehicles Sales",
-          "value": 1271852372.97,
-          "share": 18.5,
+          "value": 533751287.6,
+          "share": 7.8,
           "items": [
-            {
-              "label": "Spare Parts",
-              "value": 738101085.37,
-              "share": 58.0
-            },
             {
               "label": "Vehicle Sales",
               "value": 533751287.6,
-              "share": 42.0
+              "share": 100.0
             }
           ]
         }
@@ -1672,28 +1672,33 @@
       "revenue_breakdown": [
         {
           "group": "Spare Parts & After-Sales",
-          "value": 3908211749.29,
-          "share": 52.9,
+          "value": 5003294754.22,
+          "share": 67.7,
           "items": [
             {
               "label": "Spare Parts-VI",
               "value": 2199904975.22,
-              "share": 56.3
+              "share": 44.0
+            },
+            {
+              "label": "Spare Parts",
+              "value": 1095083004.93,
+              "share": 21.9
             },
             {
               "label": "Labour Income-VI",
               "value": 920688843.48,
-              "share": 23.6
+              "share": 18.4
             },
             {
               "label": "Labour Income-OJOTA",
               "value": 658361315.27,
-              "share": 16.8
+              "share": 13.2
             },
             {
               "label": "Warranty-Fee Service",
               "value": 134568031.03,
-              "share": 3.4
+              "share": 2.7
             },
             {
               "label": "Labour Income-Abuja",
@@ -1708,24 +1713,19 @@
             {
               "label": "Revenue  Int Sales- Veh. Mtce",
               "value": -17039793.42,
-              "share": -0.4
+              "share": -0.3
             }
           ]
         },
         {
           "group": "Motor Vehicles Sales",
-          "value": 3485678524.21,
-          "share": 47.1,
+          "value": 2390595519.28,
+          "share": 32.3,
           "items": [
             {
               "label": "Vehicle Sales",
               "value": 2390595519.28,
-              "share": 68.6
-            },
-            {
-              "label": "Spare Parts",
-              "value": 1095083004.93,
-              "share": 31.4
+              "share": 100.0
             }
           ]
         }
@@ -2127,43 +2127,48 @@
       "revenue_breakdown": [
         {
           "group": "Spare Parts & After-Sales",
-          "value": 3799625846.82,
-          "share": 85.0,
+          "value": 4282162629.47,
+          "share": 95.7,
           "items": [
             {
               "label": "Spare Parts-VI",
               "value": 1005415140.39,
-              "share": 26.5
+              "share": 23.5
             },
             {
               "label": "Labour Income-OJOTA",
               "value": 947060519.43,
-              "share": 24.9
+              "share": 22.1
             },
             {
               "label": "Spare Parts-Ojota",
               "value": 845893957.56,
-              "share": 22.3
+              "share": 19.8
             },
             {
               "label": "Labour Income-VI",
               "value": 655666294.55,
-              "share": 17.3
+              "share": 15.3
+            },
+            {
+              "label": "Spare Parts",
+              "value": 482536782.65,
+              "share": 11.3
             },
             {
               "label": "Insurance Claim",
               "value": 214263170.85,
-              "share": 5.6
+              "share": 5.0
             },
             {
               "label": "Warranty-Fee Service",
               "value": 108159157.48,
-              "share": 2.8
+              "share": 2.5
             },
             {
               "label": "Revenue  Int Sales- Veh. Mtce",
               "value": 22011613.07,
-              "share": 0.6
+              "share": 0.5
             },
             {
               "label": "Spare Parts-Abuja",
@@ -2174,18 +2179,13 @@
         },
         {
           "group": "Motor Vehicles Sales",
-          "value": 672624139.68,
-          "share": 15.0,
+          "value": 190087357.03,
+          "share": 4.3,
           "items": [
-            {
-              "label": "Spare Parts",
-              "value": 482536782.65,
-              "share": 71.7
-            },
             {
               "label": "Vehicle Sales",
               "value": 190087357.03,
-              "share": 28.3
+              "share": 100.0
             }
           ]
         }
@@ -2563,65 +2563,65 @@
       "revenue_breakdown": [
         {
           "group": "Spare Parts & After-Sales",
-          "value": 3331889957.33,
-          "share": 73.6,
+          "value": 3493086189.61,
+          "share": 77.2,
           "items": [
             {
               "label": "Spare Parts-VI",
               "value": 1346934870.4,
-              "share": 40.4
+              "share": 38.6
             },
             {
               "label": "Labour Income-VI",
               "value": 858911755.13,
-              "share": 25.8
+              "share": 24.6
             },
             {
               "label": "Spare Parts-Ojota",
               "value": 382745080.69,
-              "share": 11.5
+              "share": 11.0
             },
             {
               "label": "Spare Parts-Abuja",
               "value": 199385447.89,
-              "share": 6.0
+              "share": 5.7
             },
             {
               "label": "Insurance Claim",
               "value": 165134520.38,
-              "share": 5.0
+              "share": 4.7
+            },
+            {
+              "label": "Spare Parts",
+              "value": 161196232.28,
+              "share": 4.6
             },
             {
               "label": "Warranty-Fee Service",
               "value": 155258884.67,
-              "share": 4.7
+              "share": 4.4
             },
             {
               "label": "Revenue  Int Sales- Veh. Mtce",
               "value": 138861039.29,
-              "share": 4.2
+              "share": 4.0
             },
             {
               "label": "Labour Income-OJOTA",
               "value": 84658358.88,
-              "share": 2.5
+              "share": 2.4
             }
           ]
         },
         {
           "group": "Motor Vehicles Sales",
-          "value": 1193344522.91,
-          "share": 26.4,
+          "value": 1032148290.63,
+          "share": 22.8,
           "items": [
             {
               "label": "Vehicle Sales",
               "value": 1032148290.63,
-              "share": 86.5
-            },
-            {
-              "label": "Spare Parts",
-              "value": 161196232.28,
-              "share": 13.5
+              "share": 100.0
             }
           ]
         }
@@ -3027,66 +3027,66 @@
       ],
       "revenue_breakdown": [
         {
-          "group": "Motor Vehicles Sales",
-          "value": 4070349219.73,
-          "share": 58.0,
+          "group": "Spare Parts & After-Sales",
+          "value": 5851082509.0,
+          "share": 83.3,
           "items": [
             {
               "label": "Spare Parts",
               "value": 2901491859.69,
-              "share": 71.3
+              "share": 49.6
             },
-            {
-              "label": "Vehicle Sales",
-              "value": 1168857360.04,
-              "share": 28.7
-            }
-          ]
-        },
-        {
-          "group": "Spare Parts & After-Sales",
-          "value": 2949590649.31,
-          "share": 42.0,
-          "items": [
             {
               "label": "Spare Parts-VI",
               "value": 2068765192.19,
-              "share": 70.1
+              "share": 35.4
             },
             {
               "label": "Labour Income-VI",
               "value": 346130498.63,
-              "share": 11.7
+              "share": 5.9
             },
             {
               "label": "Labour Income-OJOTA",
               "value": 248302254.7,
-              "share": 8.4
+              "share": 4.2
             },
             {
               "label": "Spare Parts-Ojota",
               "value": 102169450.14,
-              "share": 3.5
+              "share": 1.7
             },
             {
               "label": "Revenue  Int Sales- Veh. Mtce",
               "value": 89310185.05,
-              "share": 3.0
+              "share": 1.5
             },
             {
               "label": "Warranty-Fee Service",
               "value": 52861566.93,
-              "share": 1.8
+              "share": 0.9
             },
             {
               "label": "Insurance Claim",
               "value": 21777938.59,
-              "share": 0.7
+              "share": 0.4
             },
             {
               "label": "Spare Parts-Abuja",
               "value": 20273563.08,
-              "share": 0.7
+              "share": 0.3
+            }
+          ]
+        },
+        {
+          "group": "Motor Vehicles Sales",
+          "value": 1168857360.04,
+          "share": 16.7,
+          "items": [
+            {
+              "label": "Vehicle Sales",
+              "value": 1168857360.04,
+              "share": 100.0
             }
           ]
         }
@@ -3493,28 +3493,33 @@
       "revenue_breakdown": [
         {
           "group": "Spare Parts & After-Sales",
-          "value": 11995526019.11,
-          "share": 96.9,
+          "value": 12348392728.7,
+          "share": 99.7,
           "items": [
             {
               "label": "Labour Income-VI",
               "value": 10038132188.34,
-              "share": 83.7
+              "share": 81.3
             },
             {
               "label": "Labour Income-OJOTA",
               "value": 900520007.55,
-              "share": 7.5
+              "share": 7.3
             },
             {
               "label": "Spare Parts-VI",
               "value": 581240314.69,
-              "share": 4.8
+              "share": 4.7
+            },
+            {
+              "label": "Spare Parts",
+              "value": 352866709.59,
+              "share": 2.9
             },
             {
               "label": "Warranty-Fee Service",
               "value": 251420159.74,
-              "share": 2.1
+              "share": 2.0
             },
             {
               "label": "Insurance Claim",
@@ -3535,18 +3540,13 @@
         },
         {
           "group": "Motor Vehicles Sales",
-          "value": 386163519.68,
-          "share": 3.1,
+          "value": 33296810.09,
+          "share": 0.3,
           "items": [
-            {
-              "label": "Spare Parts",
-              "value": 352866709.59,
-              "share": 91.4
-            },
             {
               "label": "Vehicle Sales",
               "value": 33296810.09,
-              "share": 8.6
+              "share": 100.0
             }
           ]
         }
@@ -4389,23 +4389,28 @@
       "revenue_breakdown": [
         {
           "group": "Spare Parts & After-Sales",
-          "value": 6346503484.43,
-          "share": 80.2,
+          "value": 6567112858.47,
+          "share": 83.0,
           "items": [
             {
               "label": "Labour Income-VI",
               "value": 6293524937.01,
-              "share": 99.2
+              "share": 95.8
+            },
+            {
+              "label": "Spare Parts",
+              "value": 220609374.04,
+              "share": 3.4
             },
             {
               "label": "Spare Parts-Ojota",
               "value": 171639736.71,
-              "share": 2.7
+              "share": 2.6
             },
             {
               "label": "Warranty-Fee Service",
               "value": 125993465.92,
-              "share": 2.0
+              "share": 1.9
             },
             {
               "label": "Spare Parts-VI",
@@ -4430,24 +4435,19 @@
             {
               "label": "Labour Income-OJOTA",
               "value": -259199170.32,
-              "share": -4.1
+              "share": -3.9
             }
           ]
         },
         {
           "group": "Motor Vehicles Sales",
-          "value": 1570436460.55,
-          "share": 19.8,
+          "value": 1349827086.51,
+          "share": 17.0,
           "items": [
             {
               "label": "Vehicle Sales",
               "value": 1349827086.51,
-              "share": 86.0
-            },
-            {
-              "label": "Spare Parts",
-              "value": 220609374.04,
-              "share": 14.0
+              "share": 100.0
             }
           ]
         }
@@ -4859,45 +4859,45 @@
       "revenue_breakdown": [
         {
           "group": "Motor Vehicles Sales",
-          "value": 3389803517.37,
-          "share": 57.2,
+          "value": 3196516394.43,
+          "share": 53.9,
           "items": [
             {
               "label": "Vehicle Sales",
               "value": 3196516394.43,
-              "share": 94.3
-            },
-            {
-              "label": "Spare Parts",
-              "value": 193287122.94,
-              "share": 5.7
+              "share": 100.0
             }
           ]
         },
         {
           "group": "Spare Parts & After-Sales",
-          "value": 2540817232.62,
-          "share": 42.8,
+          "value": 2734104355.56,
+          "share": 46.1,
           "items": [
             {
               "label": "Labour Income-VI",
               "value": 1125582978.22,
-              "share": 44.3
+              "share": 41.2
             },
             {
               "label": "Spare Parts-VI",
               "value": 974854972.12,
-              "share": 38.4
+              "share": 35.7
             },
             {
               "label": "Warranty-Fee Service",
               "value": 213704244.27,
-              "share": 8.4
+              "share": 7.8
             },
             {
               "label": "Revenue  Int Sales- Veh. Mtce",
               "value": 211600046.34,
-              "share": 8.3
+              "share": 7.7
+            },
+            {
+              "label": "Spare Parts",
+              "value": 193287122.94,
+              "share": 7.1
             },
             {
               "label": "Insurance Claim",
@@ -5760,38 +5760,43 @@
       "revenue_breakdown": [
         {
           "group": "Spare Parts & After-Sales",
-          "value": 4201549013.15,
-          "share": 63.9,
+          "value": 4824644531.01,
+          "share": 73.3,
           "items": [
             {
               "label": "Insurance Claim",
               "value": 1891123037.92,
-              "share": 45.0
+              "share": 39.2
             },
             {
               "label": "Labour Income-VI",
               "value": 1135419399.79,
-              "share": 27.0
+              "share": 23.5
+            },
+            {
+              "label": "Spare Parts",
+              "value": 623095517.86,
+              "share": 12.9
             },
             {
               "label": "Spare Parts-VI",
               "value": 484591306.31,
-              "share": 11.5
+              "share": 10.0
             },
             {
               "label": "Warranty-Fee Service",
               "value": 279513777.73,
-              "share": 6.7
+              "share": 5.8
             },
             {
               "label": "Spare Parts-Ojota",
               "value": 275060854.36,
-              "share": 6.5
+              "share": 5.7
             },
             {
               "label": "Revenue  Int Sales- Veh. Mtce",
               "value": 117146645.77,
-              "share": 2.8
+              "share": 2.4
             },
             {
               "label": "Labour Income-Abuja",
@@ -5802,18 +5807,13 @@
         },
         {
           "group": "Motor Vehicles Sales",
-          "value": 2378011778.28,
-          "share": 36.1,
+          "value": 1754916260.42,
+          "share": 26.7,
           "items": [
             {
               "label": "Vehicle Sales",
               "value": 1754916260.42,
-              "share": 73.8
-            },
-            {
-              "label": "Spare Parts",
-              "value": 623095517.86,
-              "share": 26.2
+              "share": 100.0
             }
           ]
         }
@@ -6205,38 +6205,43 @@
       "revenue_breakdown": [
         {
           "group": "Spare Parts & After-Sales",
-          "value": 3667981126.58,
-          "share": 78.8,
+          "value": 3812926721.27,
+          "share": 81.9,
           "items": [
             {
               "label": "Labour Income-VI",
               "value": 1782674996.25,
-              "share": 48.6
+              "share": 46.8
             },
             {
               "label": "Spare Parts-VI",
               "value": 827376331.78,
-              "share": 22.6
+              "share": 21.7
             },
             {
               "label": "Labour Income-OJOTA",
               "value": 702195992.41,
-              "share": 19.1
+              "share": 18.4
             },
             {
               "label": "Warranty-Fee Service",
               "value": 171889735.14,
-              "share": 4.7
+              "share": 4.5
+            },
+            {
+              "label": "Spare Parts",
+              "value": 144945594.69,
+              "share": 3.8
             },
             {
               "label": "Insurance Claim",
               "value": 126199001.86,
-              "share": 3.4
+              "share": 3.3
             },
             {
               "label": "Revenue  Int Sales- Veh. Mtce",
               "value": 28195647.4,
-              "share": 0.8
+              "share": 0.7
             },
             {
               "label": "Spare Parts-Abuja",
@@ -6252,18 +6257,13 @@
         },
         {
           "group": "Motor Vehicles Sales",
-          "value": 987123835.62,
-          "share": 21.2,
+          "value": 842178240.93,
+          "share": 18.1,
           "items": [
             {
               "label": "Vehicle Sales",
               "value": 842178240.93,
-              "share": 85.3
-            },
-            {
-              "label": "Spare Parts",
-              "value": 144945594.69,
-              "share": 14.7
+              "share": 100.0
             }
           ]
         }
@@ -7430,7 +7430,7 @@
       ],
       "revenue_breakdown": [
         {
-          "group": "Motor Vehicles Sales",
+          "group": "Spare Parts & After-Sales",
           "value": 425539935.36,
           "share": 100.0,
           "items": [
@@ -7792,7 +7792,7 @@
       ],
       "revenue_breakdown": [
         {
-          "group": "Motor Vehicles Sales",
+          "group": "Spare Parts & After-Sales",
           "value": 312561150.01,
           "share": 100.0,
           "items": [
@@ -10563,26 +10563,19 @@
       ],
       "revenue_breakdown": [
         {
-          "group": "Motor Vehicles Sales",
-          "value": 203350183.91,
-          "share": 75.1,
+          "group": "Spare Parts & After-Sales",
+          "value": 270815020.12,
+          "share": 100.0,
           "items": [
             {
               "label": "Spare Parts",
               "value": 203350183.91,
-              "share": 100.0
-            }
-          ]
-        },
-        {
-          "group": "Spare Parts & After-Sales",
-          "value": 67464836.21,
-          "share": 24.9,
-          "items": [
+              "share": 75.1
+            },
             {
               "label": "Labour Income-VI",
               "value": 67464836.21,
-              "share": 100.0
+              "share": 24.9
             }
           ]
         }
@@ -11838,7 +11831,7 @@
       ],
       "revenue_breakdown": [
         {
-          "group": "Motor Vehicles Sales",
+          "group": "Spare Parts & After-Sales",
           "value": 124471244.93,
           "share": 100.0,
           "items": [
@@ -12896,7 +12889,7 @@
       ],
       "revenue_breakdown": [
         {
-          "group": "Motor Vehicles Sales",
+          "group": "Spare Parts & After-Sales",
           "value": 417151039.85,
           "share": 100.0,
           "items": [
@@ -13055,41 +13048,41 @@
       ],
       "revenue_breakdown": [
         {
-          "group": "Motor Vehicles Sales",
-          "value": 401019728.71,
-          "share": 97.2,
+          "group": "Spare Parts & After-Sales",
+          "value": 361838999.82,
+          "share": 87.7,
           "items": [
             {
               "label": "Spare Parts",
               "value": 350110536.24,
-              "share": 87.3
+              "share": 96.8
             },
-            {
-              "label": "Vehicle Sales",
-              "value": 50909192.47,
-              "share": 12.7
-            }
-          ]
-        },
-        {
-          "group": "Spare Parts & After-Sales",
-          "value": 11728463.58,
-          "share": 2.8,
-          "items": [
             {
               "label": "Labour Income-Abuja",
               "value": 8128449.21,
-              "share": 69.3
+              "share": 2.2
             },
             {
               "label": "Insurance Claim",
               "value": 3599928.5,
-              "share": 30.7
+              "share": 1.0
             },
             {
               "label": "Warranty-Fee Service",
               "value": 85.87,
               "share": 0.0
+            }
+          ]
+        },
+        {
+          "group": "Motor Vehicles Sales",
+          "value": 50909192.47,
+          "share": 12.3,
+          "items": [
+            {
+              "label": "Vehicle Sales",
+              "value": 50909192.47,
+              "share": 100.0
             }
           ]
         }
@@ -16738,7 +16731,7 @@
       ],
       "revenue_breakdown": [
         {
-          "group": "Motor Vehicles Sales",
+          "group": "Spare Parts & After-Sales",
           "value": 482536782.65,
           "share": 100.0,
           "items": [
@@ -18516,30 +18509,30 @@
       ],
       "revenue_breakdown": [
         {
-          "group": "Motor Vehicles Sales",
-          "value": 374317167.5,
-          "share": 78.8,
+          "group": "Spare Parts & After-Sales",
+          "value": 262060713.87,
+          "share": 55.1,
           "items": [
-            {
-              "label": "Vehicle Sales",
-              "value": 213120935.22,
-              "share": 56.9
-            },
             {
               "label": "Spare Parts",
               "value": 161196232.28,
-              "share": 43.1
+              "share": 61.5
+            },
+            {
+              "label": "Revenue  Int Sales- Veh. Mtce",
+              "value": 100864481.59,
+              "share": 38.5
             }
           ]
         },
         {
-          "group": "Spare Parts & After-Sales",
-          "value": 100864481.59,
-          "share": 21.2,
+          "group": "Motor Vehicles Sales",
+          "value": 213120935.22,
+          "share": 44.9,
           "items": [
             {
-              "label": "Revenue  Int Sales- Veh. Mtce",
-              "value": 100864481.59,
+              "label": "Vehicle Sales",
+              "value": 213120935.22,
               "share": 100.0
             }
           ]
@@ -23453,26 +23446,19 @@
       ],
       "revenue_breakdown": [
         {
-          "group": "Motor Vehicles Sales",
-          "value": 2901491859.69,
-          "share": 98.2,
+          "group": "Spare Parts & After-Sales",
+          "value": 2954353426.62,
+          "share": 100.0,
           "items": [
             {
               "label": "Spare Parts",
               "value": 2901491859.69,
-              "share": 100.0
-            }
-          ]
-        },
-        {
-          "group": "Spare Parts & After-Sales",
-          "value": 52861566.93,
-          "share": 1.8,
-          "items": [
+              "share": 98.2
+            },
             {
               "label": "Warranty-Fee Service",
               "value": 52861566.93,
-              "share": 100.0
+              "share": 1.8
             }
           ]
         }
@@ -25418,7 +25404,7 @@
       ],
       "revenue_breakdown": [
         {
-          "group": "Motor Vehicles Sales",
+          "group": "Spare Parts & After-Sales",
           "value": 333660210.69,
           "share": 100.0,
           "items": [
@@ -27356,25 +27342,18 @@
       "revenue_breakdown": [
         {
           "group": "Spare Parts & After-Sales",
-          "value": 256120918.17,
-          "share": 93.0,
+          "value": 275327417.07,
+          "share": 100.0,
           "items": [
             {
               "label": "Spare Parts-VI",
               "value": 256120918.17,
-              "share": 100.0
-            }
-          ]
-        },
-        {
-          "group": "Motor Vehicles Sales",
-          "value": 19206498.9,
-          "share": 7.0,
-          "items": [
+              "share": 93.0
+            },
             {
               "label": "Spare Parts",
               "value": 19206498.9,
-              "share": 100.0
+              "share": 7.0
             }
           ]
         }
@@ -35405,36 +35384,36 @@
       ],
       "revenue_breakdown": [
         {
-          "group": "Motor Vehicles Sales",
-          "value": 444293452.37,
-          "share": 78.8,
+          "group": "Spare Parts & After-Sales",
+          "value": 340068793.66,
+          "share": 60.3,
           "items": [
-            {
-              "label": "Vehicle Sales",
-              "value": 223684078.33,
-              "share": 50.3
-            },
             {
               "label": "Spare Parts",
               "value": 220609374.04,
-              "share": 49.7
-            }
-          ]
-        },
-        {
-          "group": "Spare Parts & After-Sales",
-          "value": 119459419.62,
-          "share": 21.2,
-          "items": [
+              "share": 64.9
+            },
             {
               "label": "Spare Parts-Ojota",
               "value": 65648345.0,
-              "share": 55.0
+              "share": 19.3
             },
             {
               "label": "Spare Parts-VI",
               "value": 53811074.62,
-              "share": 45.0
+              "share": 15.8
+            }
+          ]
+        },
+        {
+          "group": "Motor Vehicles Sales",
+          "value": 223684078.33,
+          "share": 39.7,
+          "items": [
+            {
+              "label": "Vehicle Sales",
+              "value": 223684078.33,
+              "share": 100.0
             }
           ]
         }
@@ -38724,7 +38703,7 @@
       ],
       "revenue_breakdown": [
         {
-          "group": "Motor Vehicles Sales",
+          "group": "Spare Parts & After-Sales",
           "value": 193287122.94,
           "share": 100.0,
           "items": [
@@ -44811,30 +44790,30 @@
       ],
       "revenue_breakdown": [
         {
-          "group": "Motor Vehicles Sales",
-          "value": 232884174.27,
-          "share": 51.0,
-          "items": [
-            {
-              "label": "Vehicle Sales",
-              "value": 123426702.59,
-              "share": 53.0
-            },
-            {
-              "label": "Spare Parts",
-              "value": 109457471.68,
-              "share": 47.0
-            }
-          ]
-        },
-        {
           "group": "Spare Parts & After-Sales",
-          "value": 223810273.08,
-          "share": 49.0,
+          "value": 333267744.76,
+          "share": 73.0,
           "items": [
             {
               "label": "Labour Income-VI",
               "value": 223810273.08,
+              "share": 67.2
+            },
+            {
+              "label": "Spare Parts",
+              "value": 109457471.68,
+              "share": 32.8
+            }
+          ]
+        },
+        {
+          "group": "Motor Vehicles Sales",
+          "value": 123426702.59,
+          "share": 27.0,
+          "items": [
+            {
+              "label": "Vehicle Sales",
+              "value": 123426702.59,
               "share": 100.0
             }
           ]
@@ -45585,18 +45564,25 @@
       "revenue_breakdown": [
         {
           "group": "Motor Vehicles Sales",
-          "value": 924888279.8,
-          "share": 100.0,
+          "value": 489999987.15,
+          "share": 53.0,
           "items": [
             {
               "label": "Vehicle Sales",
               "value": 489999987.15,
-              "share": 53.0
-            },
+              "share": 100.0
+            }
+          ]
+        },
+        {
+          "group": "Spare Parts & After-Sales",
+          "value": 434888292.65,
+          "share": 47.0,
+          "items": [
             {
               "label": "Spare Parts",
               "value": 434888292.65,
-              "share": 47.0
+              "share": 100.0
             }
           ]
         }
@@ -46226,7 +46212,7 @@
       ],
       "revenue_breakdown": [
         {
-          "group": "Motor Vehicles Sales",
+          "group": "Spare Parts & After-Sales",
           "value": 78749753.53,
           "share": 100.0,
           "items": [
@@ -49718,7 +49704,7 @@
       ],
       "revenue_breakdown": [
         {
-          "group": "Motor Vehicles Sales",
+          "group": "Spare Parts & After-Sales",
           "value": 144945594.69,
           "share": 100.0,
           "items": [
@@ -51055,9 +51041,9 @@
       "name": "Revenue - Spare Parts",
       "group": "Revenue",
       "line": "Revenue",
-      "note": "Motor vehicles",
+      "note": "Spare parts and labour",
       "cf": "Operating",
-      "segment": "Motor Vehicles Sales"
+      "segment": "Spare Parts & After-Sales"
     },
     "68500": {
       "name": "IE- Waste disposal expense",
