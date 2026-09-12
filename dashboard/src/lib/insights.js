@@ -30,6 +30,27 @@ function momDelta(monthly, key, periodKey) {
 // Concrete chart colors (recharts can't resolve CSS vars in SVG attrs)
 const C = { brand: '#d81a37', accent: '#1394bd', green: '#2f9e6f', red: '#d94b6a' }
 
+// Sum a P&L field across all months in the current year up to and including
+// the anchored period — a proper YTD figure. Returns null when the anchor is
+// not a specific month.
+function ytdSum(data, field) {
+  const pk = data._periodKey
+  if (!pk) return null
+  const pbp = data.pl_by_period || {}
+  const [y] = pk.split('-')
+  const months = Object.keys(pbp).filter(m => m.startsWith(y) && m <= pk).sort()
+  if (months.length < 2) return null
+  return months.reduce((s, m) => s + (pbp[m]?.[field] || 0), 0)
+}
+const ytdLabel = data => {
+  const pk = data._periodKey
+  if (!pk) return null
+  const pbp = data.pl_by_period || {}
+  const [y] = pk.split('-')
+  const n = Object.keys(pbp).filter(m => m.startsWith(y) && m <= pk).length
+  return n > 1 ? `YTD ${n}M ${y}` : null
+}
+
 export function buildKpis(data) {
   const pl = data.pl || {}
   const bs = data.bs || {}
@@ -40,6 +61,11 @@ export function buildKpis(data) {
   const gp = ngSplit(pl.gross_profit)
   const ni = ngSplit(pl.pat)
   const ta = ngSplit(bs.total_assets)
+  const ytdRev = ytdSum(data, 'total_revenue')
+  const ytdGp = ytdSum(data, 'gross_profit')
+  const ytdPat = ytdSum(data, 'pat')
+  const ytdLbl = ytdLabel(data)
+  const fmtYtd = v => v == null ? undefined : `${ytdLbl}: ${ngSplit(v).text}${ngSplit(v).unit}`
 
   return [
     {
@@ -47,6 +73,7 @@ export function buildKpis(data) {
       valueText: rev.text, unit: rev.unit, value: pl.total_revenue,
       sub: `${(pl.gp_margin ?? 0).toFixed(1)}% gross margin`,
       delta: momDelta(monthly, 'revenue', pk), deltaLabel: 'MoM',
+      note: fmtYtd(ytdRev),
       accent: C.brand,
       sparkData: monthly.map(m => ({ v: m.revenue })),
     },
@@ -55,6 +82,7 @@ export function buildKpis(data) {
       valueText: gp.text, unit: gp.unit, value: pl.gross_profit,
       sub: `${(pl.gp_margin ?? 0).toFixed(1)}% of revenue`,
       delta: momDelta(monthly, 'gross_profit', pk), deltaLabel: 'MoM',
+      note: fmtYtd(ytdGp),
       accent: C.accent,
       sparkData: monthly.map(m => ({ v: m.gross_profit })),
     },
@@ -63,6 +91,7 @@ export function buildKpis(data) {
       valueText: ni.text, unit: ni.unit, value: pl.pat,
       sub: `${(pl.pat_margin ?? 0).toFixed(1)}% net margin`,
       delta: momDelta(monthly, 'operating_profit', pk), deltaLabel: 'MoM',
+      note: fmtYtd(ytdPat),
       accent: pl.pat >= 0 ? C.green : C.red,
       sparkData: monthly.map(m => ({ v: m.operating_profit })),
     },

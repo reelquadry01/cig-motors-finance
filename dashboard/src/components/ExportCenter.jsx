@@ -5,13 +5,17 @@ import { exportPdf } from '../lib/pdfExport'
 import { buildCfoCommentary } from '../lib/cfoCommentary'
 
 const REPORTS = [
+  { id: 'dashboard', label: 'Dashboard' },
+  { id: 'management-pl', label: 'Management P&L' },
   { id: 'income', label: 'Income statement' },
   { id: 'balancesheet', label: 'Balance sheet' },
   { id: 'cashflow', label: 'Cash flow' },
-  { id: 'segments', label: 'Segment performance' },
-  { id: 'costs', label: 'Costs (opex + capex)' },
   { id: 'workingcapital', label: 'Working capital' },
+  { id: 'costs', label: 'Costs (opex + capex)' },
+  { id: 'segments', label: 'Segment performance' },
+  { id: 'budget', label: 'Budget vs Actual' },
   { id: 'ratios', label: 'Ratios' },
+  { id: 'trend', label: 'Monthly trend' },
   { id: 'commentary', label: 'Commentary' },
 ]
 
