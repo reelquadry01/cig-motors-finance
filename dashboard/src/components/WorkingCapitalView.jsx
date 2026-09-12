@@ -23,7 +23,7 @@ export default function WorkingCapitalView({ data }) {
   return (
     <div className="animate-in">
       <ViewHeader icon={RefreshCcw} title="Working capital" sub="liquidity & cash conversion" accent="var(--accent)"
-        meta={`${data.period} · balances in ₦ millions`} />
+        meta={`${data.period} · balances in ₦ thousands`} />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" style={{ marginBottom: 24 }}>
         <CycleTile label="Days sales outstanding" days={w.dso} hint="Time to collect receivables" accent="var(--accent)" />
@@ -45,7 +45,7 @@ export default function WorkingCapitalView({ data }) {
           ].map((row, i) => (
             <div key={i} className="side-row" style={row.strong ? { fontWeight: 600 } : undefined}>
               <span className="side-label">{row.label}</span>
-              <span className="side-value" style={{ color: row.value < 0 ? 'var(--unfav)' : undefined }}>{fmt.mm(row.value)}</span>
+              <span className="side-value" style={{ color: row.value < 0 ? 'var(--unfav)' : undefined }}>{fmt.th(row.value)}</span>
             </div>
           ))}
         </div>

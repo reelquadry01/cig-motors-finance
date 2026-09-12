@@ -12,7 +12,7 @@ export default function BranchesView({ data }) {
   return (
     <div className="animate-in">
       <ViewHeader icon={MapPin} title="Branch performance" sub="by location" accent="var(--fav)"
-        meta={`${data.period} · in ₦ millions · locations inferred from account descriptions`} />
+        meta={`${data.period} · in ₦ thousands · locations inferred from account descriptions`} />
 
       <div className="card tinted" style={{ padding: 0, overflow: 'hidden', '--tint': 'var(--fav)' }}>
         <div style={{ padding: '16px 24px', overflowX: 'auto' }}>
@@ -31,9 +31,9 @@ export default function BranchesView({ data }) {
               {rows.map((r, i) => (
                 <tr key={i}>
                   <td style={{ fontWeight: 500, color: 'var(--text-primary)' }}>{r.branch}</td>
-                  <td style={{ textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{fmt.mm(r.revenue)}</td>
-                  <td style={{ textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{fmt.mm(r.cogs)}</td>
-                  <td style={{ textAlign: 'right', fontVariantNumeric: 'tabular-nums', color: r.gross_profit < 0 ? 'var(--unfav)' : undefined }}>{fmt.mm(r.gross_profit)}</td>
+                  <td style={{ textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{fmt.th(r.revenue)}</td>
+                  <td style={{ textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{fmt.th(r.cogs)}</td>
+                  <td style={{ textAlign: 'right', fontVariantNumeric: 'tabular-nums', color: r.gross_profit < 0 ? 'var(--unfav)' : undefined }}>{fmt.th(r.gross_profit)}</td>
                   <td style={{ textAlign: 'right' }}><span className={`badge ${r.gp_margin >= 0 ? 'badge-fav' : 'badge-unfav'}`}>{fmt.pct(r.gp_margin)}</span></td>
                   <td>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -47,9 +47,9 @@ export default function BranchesView({ data }) {
               ))}
               <tr className="row-total">
                 <td style={{ fontWeight: 700 }}>Total</td>
-                <td style={{ textAlign: 'right', fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>{fmt.mm(tot.revenue)}</td>
-                <td style={{ textAlign: 'right', fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>{fmt.mm(tot.cogs)}</td>
-                <td style={{ textAlign: 'right', fontWeight: 700, fontVariantNumeric: 'tabular-nums', color: tot.gross_profit < 0 ? 'var(--unfav)' : undefined }}>{fmt.mm(tot.gross_profit)}</td>
+                <td style={{ textAlign: 'right', fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>{fmt.th(tot.revenue)}</td>
+                <td style={{ textAlign: 'right', fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>{fmt.th(tot.cogs)}</td>
+                <td style={{ textAlign: 'right', fontWeight: 700, fontVariantNumeric: 'tabular-nums', color: tot.gross_profit < 0 ? 'var(--unfav)' : undefined }}>{fmt.th(tot.gross_profit)}</td>
                 <td style={{ textAlign: 'right', fontWeight: 700 }}>{fmt.pct(tot.revenue ? tot.gross_profit / tot.revenue * 100 : 0)}</td>
                 <td></td>
               </tr>

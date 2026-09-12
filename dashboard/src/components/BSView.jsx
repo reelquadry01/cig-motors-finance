@@ -14,7 +14,7 @@ function SectionRow({ title, items, total, bold, defaultOpen = false }) {
           {title}
         </td>
         <td style={{ textAlign: 'right', fontWeight: bold ? 700 : 400, fontVariantNumeric: 'tabular-nums' }}>
-          {fmt.mm(total)}
+          {fmt.th(total)}
         </td>
         <td style={{ textAlign: 'right' }}>—</td>
       </tr>
@@ -32,7 +32,7 @@ function SectionRow({ title, items, total, bold, defaultOpen = false }) {
           <span style={{ fontSize: 10, color: 'var(--text-muted)', opacity: 0.6 }}>({items.length})</span>
         </td>
         <td style={{ textAlign: 'right', fontWeight: bold ? 700 : 500, fontVariantNumeric: 'tabular-nums' }}>
-          {fmt.mm(total)}
+          {fmt.th(total)}
         </td>
         <td style={{ textAlign: 'right' }}>
           {total > 0 && <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>100%</span>}
@@ -41,7 +41,7 @@ function SectionRow({ title, items, total, bold, defaultOpen = false }) {
       {open && items.map((item, i) => (
         <tr key={i} style={{ animation: 'fadeIn 0.15s ease-out' }}>
           <td style={{ paddingLeft: 28, color: 'var(--text-secondary)' }}>{item.label}</td>
-          <td style={{ textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{fmt.mm(item.value)}</td>
+          <td style={{ textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{fmt.th(item.value)}</td>
           <td style={{ textAlign: 'right' }}>
             <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>
               {total > 0 ? fmt.pct(item.value / total * 100) : '—'}
@@ -71,7 +71,7 @@ export default function BSView({ data }) {
   return (
     <div className="animate-in">
       <ViewHeader icon={Scale} title="Balance sheet" sub="financial position" accent="var(--accent)"
-        meta={`${data.period} · in ₦ millions`} />
+        meta={`${data.period} · in ₦ thousands`} />
 
       <div className="pl-grid">
         <div className="card tinted" style={{ padding: 0, overflow: 'hidden', '--tint': 'var(--accent)' }}>
@@ -102,7 +102,7 @@ export default function BSView({ data }) {
             ].map((row, i) => (
               <div key={i} className="side-row">
                 <span className="side-label">{row.label}</span>
-                <span className="side-value">{fmt.mm(row.value)}</span>
+                <span className="side-value">{fmt.th(row.value)}</span>
               </div>
             ))}
           </div>
@@ -118,7 +118,7 @@ export default function BSView({ data }) {
             ].map((row, i) => (
               <div key={i} className="side-row">
                 <span className="side-label">{row.label}</span>
-                <span className="side-value">{row.fmt ? row.fmt(row.value) : fmt.mm(row.value)}</span>
+                <span className="side-value">{row.fmt ? row.fmt(row.value) : fmt.th(row.value)}</span>
               </div>
             ))}
           </div>

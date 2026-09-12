@@ -10,7 +10,7 @@ export default function BudgetView({ data }) {
   return (
     <div className="animate-in">
       <ViewHeader icon={Target} title="Budget vs actual" sub="variance analysis" accent="var(--accent)"
-        meta={`${data.period}${lines ? ' · in ₦ millions' : ''}`} />
+        meta={`${data.period}${lines ? ' · in ₦ thousands' : ''}`} />
 
       {!lines ? (
         <div className="card" style={{ padding: '48px 32px', textAlign: 'center' }}>
@@ -41,9 +41,9 @@ export default function BudgetView({ data }) {
                   return (
                     <tr key={i}>
                       <td style={{ fontWeight: 500, color: 'var(--text-primary)' }}>{l.label}</td>
-                      <td style={{ textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{fmt.mm(l.actual)}</td>
-                      <td style={{ textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{fmt.mm(l.budget)}</td>
-                      <td style={{ textAlign: 'right', fontVariantNumeric: 'tabular-nums', color: fav ? 'var(--fav)' : 'var(--unfav)' }}>{fmt.mm(l.var_abs)}</td>
+                      <td style={{ textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{fmt.th(l.actual)}</td>
+                      <td style={{ textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{fmt.th(l.budget)}</td>
+                      <td style={{ textAlign: 'right', fontVariantNumeric: 'tabular-nums', color: fav ? 'var(--fav)' : 'var(--unfav)' }}>{fmt.th(l.var_abs)}</td>
                       <td style={{ textAlign: 'right' }}>{l.var_pct === null ? '—' : <span className={`badge ${fav ? 'badge-fav' : 'badge-unfav'}`}>{fmt.pct(l.var_pct)}</span>}</td>
                     </tr>
                   )

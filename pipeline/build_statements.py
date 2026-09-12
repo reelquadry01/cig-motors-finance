@@ -119,6 +119,29 @@ def build_pl(merged: pd.DataFrame) -> dict:
                    "Other Income", "Finance Costs", "Tax", "Depreciation"]
     df = merged[merged["Statement_Section"].isin(pl_sections)].copy()
 
+    # ── Capital expenditure (PP&E additions in the period) ──
+    # Capex is not a P&L cost (it is capitalised), but it is shown alongside
+    # cost so management sees total cash going into cost + investment.
+    capex_df = merged[
+        (merged["Statement_Section"] == "Assets")
+        & (merged["FS_Heading"] == "Property, plant and equipment")
+        & (merged["Note_Heading"].astype(str).str.contains("Cost", case=False, na=False))
+    ].copy()
+    capex_df["Amount"] = capex_df["Debit"] - capex_df["Credit"]  # additions positive
+    capex_total = float(capex_df["Amount"].sum())
+    capex_breakdown = []
+    if not capex_df.empty:
+        for desc, amt in capex_df.groupby("Account_Description")["Amount"].sum().items():
+            amt = float(amt)
+            if abs(amt) < 1:
+                continue
+            capex_breakdown.append({
+                "label": _clean_account_label(desc),
+                "value": round(amt, 2),
+                "share": round(safe_div(amt, capex_total) * 100, 1),
+            })
+        capex_breakdown.sort(key=lambda x: x["value"], reverse=True)
+
     grouped = df.groupby(["Statement_Section", "FS_Heading"]).agg(
         Debit=("Debit", "sum"),
         Credit=("Credit", "sum"),
@@ -169,6 +192,8 @@ def build_pl(merged: pd.DataFrame) -> dict:
         "opex": items_for("Operating Expenses"),
         "opex_breakdown": build_flat(df, "Operating Expenses", credit_positive=False),
         "total_opex": round(opex, 2),
+        "capex": round(capex_total, 2),
+        "capex_breakdown": capex_breakdown,
         "depreciation": items_for("Depreciation"),
         "total_depreciation": round(depreciation, 2),
         "operating_profit": round(ebit, 2),

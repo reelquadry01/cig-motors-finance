@@ -18,7 +18,7 @@ function SectionRow({ title, items, total, bold, defaultOpen = false }) {
           {title}
         </td>
         <td style={{ textAlign: 'right', fontWeight: bold ? 700 : 400, fontVariantNumeric: 'tabular-nums' }}>
-          {fmt.mm(total)}
+          {fmt.th(total)}
         </td>
         <td style={{ textAlign: 'right' }}>—</td>
       </tr>
@@ -36,14 +36,14 @@ function SectionRow({ title, items, total, bold, defaultOpen = false }) {
           <span style={{ fontSize: 10, color: 'var(--text-muted)', opacity: 0.6 }}>({items.length})</span>
         </td>
         <td style={{ textAlign: 'right', fontWeight: bold ? 700 : 500, fontVariantNumeric: 'tabular-nums' }}>
-          {fmt.mm(total)}
+          {fmt.th(total)}
         </td>
         <td style={{ textAlign: 'right' }}>—</td>
       </tr>
       {open && items.map((item, i) => (
         <tr key={i} style={{ animation: 'fadeIn 0.15s ease-out' }}>
           <td style={{ paddingLeft: 28, color: 'var(--text-secondary)' }}>{item.label}</td>
-          <td style={{ textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{fmt.mm(item.value)}</td>
+          <td style={{ textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{fmt.th(item.value)}</td>
           <td style={{ textAlign: 'right' }}>
             <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>
               {total !== 0 ? fmt.pct(item.value / total * 100) : '—'}
@@ -74,7 +74,7 @@ export default function CFView({ data }) {
   return (
     <div className="animate-in">
       <ViewHeader icon={ArrowLeftRight} title="Cash flow" sub="movements" accent="var(--fav)"
-        meta={`${data.period} · in ₦ millions`} />
+        meta={`${data.period} · in ₦ thousands`} />
 
       <div className="pl-grid">
         <div>
@@ -98,7 +98,7 @@ export default function CFView({ data }) {
           <div className="card" style={{ marginTop: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <span style={{ fontSize: 13.5, fontWeight: 600 }}>Net Change in Cash</span>
             <span style={{ fontSize: 18, fontWeight: 700, fontVariantNumeric: 'tabular-nums', color: cf?.net_change >= 0 ? 'var(--fav)' : 'var(--unfav)' }}>
-              {fmt.mm(cf?.net_change)}
+              {fmt.th(cf?.net_change)}
             </span>
           </div>
         </div>
@@ -125,7 +125,7 @@ export default function CFView({ data }) {
                       <Cell key={i} fill={COLORS[i]} fillOpacity={0.85} />
                     ))}
                   </Pie>
-                  <Tooltip formatter={v => fmt.mm(v)} />
+                  <Tooltip formatter={v => fmt.th(v)} />
                 </PieChart>
               </ResponsiveContainer>
               <div style={{
@@ -135,7 +135,7 @@ export default function CFView({ data }) {
               }}>
                 <div style={{ fontSize: 10, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Net</div>
                 <div style={{ fontSize: 16, fontWeight: 700, fontVariantNumeric: 'tabular-nums', color: cf?.net_change >= 0 ? 'var(--fav)' : 'var(--unfav)' }}>
-                  {fmt.mm(cf?.net_change)}
+                  {fmt.th(cf?.net_change)}
                 </div>
               </div>
             </div>
@@ -159,7 +159,7 @@ export default function CFView({ data }) {
               <div key={i} className="side-row">
                 <span className="side-label">{row.label}</span>
                 <span className="side-value" style={{ color: i === 1 && row.value < 0 ? 'var(--unfav)' : undefined }}>
-                  {fmt.mm(row.value)}
+                  {fmt.th(row.value)}
                 </span>
               </div>
             ))}

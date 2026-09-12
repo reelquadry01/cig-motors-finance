@@ -73,7 +73,7 @@ export default function Dashboard({ data }) {
           ].map((row, i) => (
             <div key={i} className="side-row">
               <span className="side-label">{row.label}</span>
-              <span className="side-value" style={row.value < 0 ? { color: 'var(--unfav)' } : undefined}>{fmt.mm(row.value)}</span>
+              <span className="side-value" style={row.value < 0 ? { color: 'var(--unfav)' } : undefined}>{fmt.th(row.value)}</span>
             </div>
           ))}
         </div>
@@ -89,7 +89,7 @@ export default function Dashboard({ data }) {
           ].map((row, i) => (
             <div key={i} className="side-row">
               <span className="side-label">{row.label}</span>
-              <span className="side-value" style={row.value < 0 ? { color: 'var(--unfav)' } : undefined}>{row.fmt ? row.fmt(row.value) : fmt.mm(row.value)}</span>
+              <span className="side-value" style={row.value < 0 ? { color: 'var(--unfav)' } : undefined}>{row.fmt ? row.fmt(row.value) : fmt.th(row.value)}</span>
             </div>
           ))}
         </div>
@@ -107,7 +107,7 @@ export default function Dashboard({ data }) {
           ].map((row, i) => (
             <div key={i} className="side-row">
               <span className="side-label">{row.label}</span>
-              <span className="side-value" style={row.value < 0 ? { color: 'var(--unfav)' } : undefined}>{fmt.mm(row.value)}</span>
+              <span className="side-value" style={row.value < 0 ? { color: 'var(--unfav)' } : undefined}>{fmt.th(row.value)}</span>
             </div>
           ))}
         </div>

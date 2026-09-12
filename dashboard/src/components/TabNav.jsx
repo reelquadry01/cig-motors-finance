@@ -6,7 +6,7 @@ const tabs = [
   { id: 'workingcapital', label: 'Working capital' },
   { id: 'segments', label: 'Segments' },
   { id: 'branches', label: 'Branches' },
-  { id: 'expenses', label: 'Expenses' },
+  { id: 'expenses', label: 'Costs' },
   { id: 'ratios', label: 'Ratios' },
   { id: 'budget', label: 'Budget' },
   { id: 'commentary', label: 'Commentary' },
