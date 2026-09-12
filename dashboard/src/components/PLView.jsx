@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { ChevronRight, FileText } from 'lucide-react'
 import fmt from '../lib/fmt'
 import ViewHeader from './ui/ViewHeader'
+import DownloadExcel from './ui/DownloadExcel'
 
 /* Account-level leaf row (deepest level of a breakdown) */
 function LeafRow({ label, value, revenueTotal, indent = 44 }) {
@@ -132,7 +133,8 @@ export default function PLView({ data }) {
   return (
     <div className="animate-in">
       <ViewHeader icon={FileText} title="Income statement" sub="profit or loss" accent="var(--brand)"
-        meta={`${data.period} · in ₦ thousands · expand Revenue or Cost of Sales for the segment & product-line breakdown`} />
+        meta={`${data.period} · in ₦ thousands · expand Revenue or Cost of Sales for the segment & product-line breakdown`}
+        right={<DownloadExcel kind="income" data={data} />} />
 
       <div className="pl-grid">
         <div className="card tinted" style={{ padding: 0, overflow: 'hidden', '--tint': 'var(--brand)' }}>

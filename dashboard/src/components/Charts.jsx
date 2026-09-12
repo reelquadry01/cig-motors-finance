@@ -9,15 +9,17 @@ import {
    Recharts writes colors as SVG attributes, which don't resolve CSS vars,
    so chart series must use concrete values. */
 export const CHART = {
-  brand: '#d81a37',
-  accent: '#1394bd',
-  green: '#2f9e6f',
-  red: '#d94b6a',
-  amber: '#c79a2e',
+  brand: '#d81a37',   // reserve red for costs / negatives, not revenue
+  navy: '#345995',    // revenue / primary income
+  accent: '#1394bd',  // gross profit / secondary
+  green: '#2f9e6f',   // profit / positive
+  red: '#d94b6a',     // decline
+  amber: '#c79a2e',   // opex / caution
   magenta: '#d6006c',
   grey: '#9b9797',
 }
-const COLORS = [CHART.brand, CHART.accent, CHART.green, CHART.amber, CHART.magenta, CHART.grey]
+// Composition palette — no red first (used for revenue mix etc.)
+const COLORS = [CHART.navy, CHART.accent, CHART.green, CHART.amber, CHART.magenta, CHART.grey]
 const GRID = 'rgba(128,128,128,0.18)'
 const AXIS = 'rgba(128,128,128,0.28)'
 const TICK = '#9b9797'
@@ -73,13 +75,13 @@ export function MonthlyTrendChart({ data }) {
           <XAxis dataKey="name" tick={{ fontSize: 10.5, fill: TICK }} tickLine={false} axisLine={{ stroke: AXIS }} interval="preserveStartEnd" />
           <YAxis tick={{ fontSize: 10.5, fill: TICK }} tickLine={false} axisLine={false} tickFormatter={fmtAxis} />
           <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(128,128,128,0.08)' }} />
-          <Bar dataKey="Revenue" fill={CHART.brand} radius={[2, 2, 0, 0]} barSize={26} />
+          <Bar dataKey="Revenue" fill={CHART.navy} radius={[2, 2, 0, 0]} barSize={26} />
           <Bar dataKey="Gross Profit" fill={CHART.accent} radius={[2, 2, 0, 0]} barSize={26} />
           <Line type="monotone" dataKey="Net Income" stroke={CHART.green} strokeWidth={2} dot={false} strokeDasharray="4 4" />
         </ComposedChart>
       </ResponsiveContainer>
       <ChartLegend items={[
-        { label: 'Revenue', color: CHART.brand },
+        { label: 'Revenue', color: CHART.navy },
         { label: 'Gross Profit', color: CHART.accent },
         { label: 'Net Income', color: CHART.green },
       ]} />

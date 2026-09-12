@@ -1,6 +1,7 @@
 import { Receipt, Building2 } from 'lucide-react'
 import fmt from '../lib/fmt'
 import ViewHeader from './ui/ViewHeader'
+import DownloadExcel from './ui/DownloadExcel'
 
 function BreakdownTable({ items, total, totalLabel, accent }) {
   const maxVal = items.reduce((m, i) => Math.max(m, Math.abs(i.value)), 0) || 1
@@ -50,7 +51,8 @@ export default function ExpensesView({ data }) {
   return (
     <div className="animate-in">
       <ViewHeader icon={Receipt} title="Costs & expenditure" sub="operating expenses and capex" accent="var(--magenta)"
-        meta={`${data.period} · in ₦ thousands`} />
+        meta={`${data.period} · in ₦ thousands`}
+        right={<DownloadExcel kind="costs" data={data} />} />
 
       <div className="pl-grid">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>

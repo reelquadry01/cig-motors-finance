@@ -3,6 +3,7 @@ import { ChevronRight, ArrowLeftRight } from 'lucide-react'
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 import fmt from '../lib/fmt'
 import ViewHeader from './ui/ViewHeader'
+import DownloadExcel from './ui/DownloadExcel'
 import { CHART } from './Charts'
 
 const COLORS = [CHART.brand, CHART.accent, CHART.green, CHART.amber, CHART.magenta]
@@ -74,7 +75,8 @@ export default function CFView({ data }) {
   return (
     <div className="animate-in">
       <ViewHeader icon={ArrowLeftRight} title="Cash flow" sub="movements" accent="var(--fav)"
-        meta={`${data.period} · in ₦ thousands`} />
+        meta={`${data.period} · in ₦ thousands`}
+        right={<DownloadExcel kind="cashflow" data={data} />} />
 
       <div className="pl-grid">
         <div>

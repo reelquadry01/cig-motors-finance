@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { ChevronRight, Scale } from 'lucide-react'
 import fmt from '../lib/fmt'
 import ViewHeader from './ui/ViewHeader'
+import DownloadExcel from './ui/DownloadExcel'
 
 function SectionRow({ title, items, total, bold, defaultOpen = false }) {
   const [open, setOpen] = useState(defaultOpen)
@@ -71,7 +72,8 @@ export default function BSView({ data }) {
   return (
     <div className="animate-in">
       <ViewHeader icon={Scale} title="Balance sheet" sub="financial position" accent="var(--accent)"
-        meta={`${data.period} · in ₦ thousands`} />
+        meta={`${data.period} · in ₦ thousands`}
+        right={<DownloadExcel kind="balancesheet" data={data} />} />
 
       <div className="pl-grid">
         <div className="card tinted" style={{ padding: 0, overflow: 'hidden', '--tint': 'var(--accent)' }}>
