@@ -3,7 +3,7 @@
   "company": "CIG Motors",
   "currency": "NGN",
   "unit": "millions",
-  "generated_at": "2026-09-12T13:13:11.107677",
+  "generated_at": "2026-09-12T13:41:51.301817",
   "data_sources": {
     "gl_transactions": 10252,
     "gl_accounts": 372,
@@ -899,53 +899,53 @@
     "current_liabilities": [
       {
         "label": "Current tax payable",
-        "value": 260952510.33
+        "value": -260952510.33
       },
       {
         "label": "Trade and other payables",
-        "value": -2626667088.46
+        "value": 2626667088.46
       }
     ],
-    "total_current_liabilities": -2365714578.13,
+    "total_current_liabilities": 2365714578.13,
     "non_current_liabilities": [
       {
         "label": "Borrowings",
-        "value": -52249541768.53
+        "value": 52249541768.53
       },
       {
         "label": "Due to related parties",
-        "value": 405749175.5
+        "value": -405749175.5
       },
       {
         "label": "Lease Liability",
-        "value": 48072078.09
+        "value": -48072078.09
       }
     ],
-    "total_non_current_liabilities": -51795720514.94,
-    "total_liabilities": -54161435093.07,
+    "total_non_current_liabilities": 51795720514.94,
+    "total_liabilities": 54161435093.07,
     "equity": [
       {
         "label": "Capital reserve",
-        "value": -4901284407.07
+        "value": 4901284407.07
       },
       {
         "label": "Deposit for shares",
-        "value": -10945973464.18
+        "value": 10945973464.18
       },
       {
         "label": "Retained Earnings",
-        "value": -7192386548.51
+        "value": 7192386548.51
       },
       {
         "label": "Share Capital",
-        "value": -9611830984.62
+        "value": 9611830984.62
       }
     ],
-    "total_equity": -32651475404.38,
-    "net_assets": 99356896539.69,
-    "working_capital": 14714946704.07,
-    "current_ratio": -5.22,
-    "quick_ratio": -5.22
+    "total_equity": 32651475404.38,
+    "net_assets": -8965973646.45,
+    "working_capital": 9983517547.81,
+    "current_ratio": 5.22,
+    "quick_ratio": 5.22
   },
   "cf": {
     "operating": {
@@ -50014,1641 +50014,2625 @@
     "14022": {
       "name": "Prepaid - Rent-Frank Court",
       "group": "Current assets",
+      "line": "Prepayment and other assets",
+      "note": "Prepayments",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "11000": {
       "name": "CA - Accounts Receivable",
       "group": "Current assets",
+      "line": "Trade receivables",
+      "note": "Trade receivables & Other Receivables",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10910": {
       "name": "CL - Globus Bank Loan - LPO 1",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "10500": {
       "name": "Bank -  Providus Bank",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "62060": {
       "name": "IE - Interest Income on Loan",
       "group": "Finance costs",
+      "line": "Interest Expenses",
+      "note": "Interest on bank loan",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10195": {
       "name": "Globus Bank BOI loan",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "39003": {
       "name": "Deposit for shares",
       "group": "Equity",
+      "line": "Deposit for shares",
+      "note": "Deposit for shares",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "10979": {
       "name": "CL-WEMA-STF5-N500.5M",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "90800": {
       "name": "IE- LC cash back",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Bank charges",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "61100": {
       "name": "IE - Feeding Allowance Chinese",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Other staff related expense",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10939": {
       "name": "CL-UBN-BOI-TL-N3.5B-1",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "67600": {
       "name": "DE- Vehicle Registration exp",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Motor vehicles -Cost of sales",
+      "cf": "Operating",
       "segment": "Motor Vehicles Sales"
     },
     "62500": {
       "name": "IE - Visa Exp",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Other staff related expense",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10932": {
       "name": "CL-Globus-STF2-N500M",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "10976": {
       "name": "CL-Wema Bank Bid support 54.5m",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "10165": {
       "name": "Bank- Union Bank (USD)",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10451": {
       "name": "Bank - UBA Benue State Account",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "24950": {
       "name": "Revenue - Warranty-Fee Service",
       "group": "Revenue",
+      "line": "Revenue",
+      "note": "Spare parts and labour",
+      "cf": "Operating",
       "segment": "Spare Parts & After-Sales"
     },
     "10998": {
       "name": "Wema Bank 3Bn STF",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "24600": {
       "name": "CL - Accrued Expenses",
       "group": "Current liabilities",
+      "line": "Trade and other payables",
+      "note": "Other payables and accruals",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "77600": {
       "name": "IE - Bonus",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Other staff related expense",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "91550": {
       "name": "IE - Admin Expense",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Office and miscellaneous expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "91200": {
       "name": "IE- CIG staff award expense",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Other staff related expense",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "59000": {
       "name": "DE - Loading&Offloading",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Spare parts and labour -Cost of sales",
+      "cf": "Operating",
       "segment": "Spare Parts & After-Sales"
     },
     "63100": {
       "name": "IE- Generator Rep & Maint.VI",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Fuel & repairs expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "91965": {
       "name": "IE- Vehicles Repairs & Maintai",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Fuel & repairs expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "89500": {
       "name": "IE- Management Remuneration",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Directors emoluments (Note 39)",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "74580": {
       "name": "IE - Service Charge",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "License, and legal expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10317": {
       "name": "Bank -  Union Bank Sub Account",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "91953": {
       "name": "DE- Demurage Expenses",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Motor vehicles -Cost of sales",
+      "cf": "Operating",
       "segment": "Motor Vehicles Sales"
     },
     "15800": {
       "name": "FA - Plot 7 Ligali Ayorinde",
       "group": "Non-current assets",
+      "line": "Property, plant and equipment",
+      "note": "Property, plant and equipment - Cost",
+      "cf": "Investing",
       "segment": "Corporate"
     },
     "14021": {
       "name": "Prepaid - Rent- PH",
       "group": "Current assets",
+      "line": "Prepayment and other assets",
+      "note": "Prepayments",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "39006": {
       "name": "Capital reserve",
       "group": "Equity",
+      "line": "Capital reserve",
+      "note": "Equity",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "10970": {
       "name": "CL-WEMA Bank CFF Loan - 1",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "14046": {
       "name": "Prepaid Rent Oregun Ground",
       "group": "Current assets",
+      "line": "Prepayment and other assets",
+      "note": "Prepayments",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "19200": {
       "name": "CA-Provision for ECL",
       "group": "Current assets",
+      "line": "Trade receivables",
+      "note": "Trade receivables & Other Receivables",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "23660": {
       "name": "CL - VAT on After Sales",
       "group": "Current assets",
+      "line": "Prepayment and other assets",
+      "note": "Other assets",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "66500": {
       "name": "IE-  Corporate gift Expense",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Business promotional expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "62050": {
       "name": "IE - Interest on Loan",
       "group": "Finance costs",
+      "line": "Interest Expenses",
+      "note": "Interest on bank loan",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10120": {
       "name": "CL  Zenith Bank O/ D",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "60300": {
       "name": "IE - Courier Exp",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Printing, postage and stationery",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "72000": {
       "name": "IE - Tax Exp",
       "group": "Tax",
+      "line": "Income Tax Expenses",
+      "note": "Tax Expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "74560": {
       "name": "IE-Rent Oregun",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Rent expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10100": {
       "name": "Cash in Hand - Naira - 2",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "19100": {
       "name": "CA - Deffered Tax Assets|Liabi",
       "group": "Tax",
+      "line": "Deferred tax asset",
+      "note": "Deferred tax asset",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10220": {
       "name": "Bank -  First Bank",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "91900": {
       "name": "IE- Tax Service Expenses",
       "group": "Tax",
+      "line": "Income Tax Expenses",
+      "note": "Tax Expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "73400": {
       "name": "IE- Eko Hotel Accomodation Exp",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Other staff related expense",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "17000": {
       "name": "Acc Depreciation - Furniture",
       "group": "Non-current assets",
+      "line": "Property, plant and equipment",
+      "note": "Acc Depreciation - Furniture",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "69000": {
       "name": "IE- Legal & Professional Exp",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "License, and legal expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "11010": {
       "name": "CA - Other Receivables",
       "group": "Current assets",
+      "line": "Prepayment and other assets",
+      "note": "Other assets",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "64550": {
       "name": "IE- Depreciation -Building",
       "group": "Depreciation",
+      "line": "Depreciation & Amortization",
+      "note": "Charge for the year",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10938": {
       "name": "CL-UBN-BOI-WC-N3.0B-2",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "24500": {
       "name": "Lease Liability",
       "group": "Non-current liabilities",
+      "line": "Lease Liability",
+      "note": "Lease Liability",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "74510": {
       "name": "IE -  Rent-VI",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Rent expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "74520": {
       "name": "IE -  Rent - PH",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Rent expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10150": {
       "name": "Bank -  Polaris Bank",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "41000": {
       "name": "Revenue - Spare Parts-VI",
       "group": "Revenue",
+      "line": "Revenue",
+      "note": "Spare parts and labour",
+      "cf": "Operating",
       "segment": "Spare Parts & After-Sales"
     },
     "66100": {
       "name": "IE- Salaries Expenses-Chinese",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Salaries and wages",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "24200": {
       "name": "CL-Intercompany-Lontor",
       "group": "Non-current liabilities",
+      "line": "Due to related parties",
+      "note": "Lontor Hi-Tech Development Company",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "24900": {
       "name": "CL - Educational Tax payable",
       "group": "Current liabilities",
+      "line": "Current tax payable",
+      "note": "Tax Payable",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "51500": {
       "name": "DE - SON Charge",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Motor vehicles -Cost of sales",
+      "cf": "Operating",
       "segment": "Motor Vehicles Sales"
     },
     "60500": {
       "name": "IE - Hotel & Acco Exp",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Other staff related expense",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10937": {
       "name": "CL-UBN-N3B-IFF",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "91962": {
       "name": "IE - Expired Permit",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "License, and legal expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "62200": {
       "name": "IE-  Fuel Exp - New Cars",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Fuel & repairs expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "45500": {
       "name": "OI - Miscellanous Income",
       "group": "Other income",
+      "line": "Other Income",
+      "note": "Miscellaneous income",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10316": {
       "name": "Bank -  Union DSRA Acct",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10972": {
       "name": "CL-Wema Bank Bid support 104m",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "76500": {
       "name": "IE - Pension",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Other staff related expense",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "77500": {
       "name": "IE - Wages Expenses",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Other staff related expense",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "78500": {
       "name": "DE - Forex Gain / Loss",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Motor vehicles -Cost of sales",
+      "cf": "Operating",
       "segment": "Motor Vehicles Sales"
     },
     "67000": {
       "name": "IE-  Income Tax expense",
       "group": "Tax",
+      "line": "Income Tax Expenses",
+      "note": "Tax Expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10000": {
       "name": "Cash in Hand - Naira-1",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "14050": {
       "name": "Prepaid - General",
       "group": "Current assets",
+      "line": "Prepayment and other assets",
+      "note": "Prepayments",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10450": {
       "name": "Bank -  UBA Acct 2",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10520": {
       "name": "Bank -  Keystone Bank",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "64530": {
       "name": "IE- Depreciation-Motor Vehicle",
       "group": "Depreciation",
+      "line": "Depreciation & Amortization",
+      "note": "Charge for the year",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10951": {
       "name": "CL-GLOBUS LOAN 1B",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "71560": {
       "name": "IE-Admin expense-Alausa",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Office and miscellaneous expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10400": {
       "name": "Bank -  UBA",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "23300": {
       "name": "CL - Audit Fees Payable",
       "group": "Current liabilities",
+      "line": "Trade and other payables",
+      "note": "Other payables and accruals",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10140": {
       "name": "Bank -  Access Bank",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10240": {
       "name": "Bank -  ECO Bank",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "14100": {
       "name": "CA - Employee Advances",
       "group": "Current assets",
+      "line": "Prepayment and other assets",
+      "note": "Other assets",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "58500": {
       "name": "DE - Clearing Charge",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Motor vehicles -Cost of sales",
+      "cf": "Operating",
       "segment": "Motor Vehicles Sales"
     },
     "10270": {
       "name": "Bank - Sterling Bank",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10196": {
       "name": "Globus Bank Trade Loan",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "40000": {
       "name": "Revenue - Vehicle Sales",
       "group": "Revenue",
+      "line": "Revenue",
+      "note": "Motor vehicles",
+      "cf": "Operating",
       "segment": "Motor Vehicles Sales"
     },
     "14786": {
       "name": "CA - Barter - Receivables",
       "group": "Current assets",
+      "line": "Prepayment and other assets",
+      "note": "Other assets",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "68300": {
       "name": "DE- Workshop Exp- Ojota",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Spare parts and labour -Cost of sales",
+      "cf": "Operating",
       "segment": "Spare Parts & After-Sales"
     },
     "67100": {
       "name": "IE-  Education tax expense",
       "group": "Tax",
+      "line": "Income Tax Expenses",
+      "note": "Tax Expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "19110": {
       "name": "CA - Input VAT",
       "group": "Current assets",
+      "line": "Prepayment and other assets",
+      "note": "Other assets",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "70000": {
       "name": "IE-  Diesel expenses",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Fuel & repairs expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10994": {
       "name": "Wema Bank11.1 Bn STF",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "64300": {
       "name": "IE - Photo & Video Expenses",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Business promotional expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "64400": {
       "name": "IE - Police Escort Expenses",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Other staff related expense",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "14755": {
       "name": "CA - Barter - Maryland",
       "group": "Current assets",
+      "line": "Trade receivables",
+      "note": "Trade receivables & Other Receivables",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "15100": {
       "name": "FA - Equipment",
       "group": "Non-current assets",
+      "line": "Property, plant and equipment",
+      "note": "Property, plant and equipment - Cost",
+      "cf": "Investing",
       "segment": "Corporate"
     },
     "10160": {
       "name": "Bank -  Union Bank",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank overdrafts",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "67700": {
       "name": "IE-  Audit Fees Expenses",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Audit fees",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10999": {
       "name": "Wema Bank 6.9Bn Term Loan",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "74550": {
       "name": "IE - Rent-Abuja",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Rent expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10190": {
       "name": "Bank -  Fidelity Bank",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "63500": {
       "name": "DE-  Commissions and Fees Exp",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Motor vehicles -Cost of sales",
+      "cf": "Operating",
       "segment": "Motor Vehicles Sales"
     },
     "71550": {
       "name": "IE- Admin expense- Ogba",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Office and miscellaneous expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10933": {
       "name": "CL-Globus-STF3-N500M",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "10600": {
       "name": "Bank -  Heritage Mini Account",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10750": {
       "name": "Bank - Wema Bank - CFF",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "17500": {
       "name": "IE- Recruitment/ Training",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Other staff related expense",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "91961": {
       "name": "CL- Deferred Income on Loan",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "10144": {
       "name": "Wema Bank $1.5 BG",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "91520": {
       "name": "IE-Industrial Training(ITF)",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Other staff related expense",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "91300": {
       "name": "COGS -Aftersales Abuja",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Spare parts and labour -Cost of sales",
+      "cf": "Operating",
       "segment": "Spare Parts & After-Sales"
     },
     "61300": {
       "name": "IE-  Feeding Allowance-Nigeria",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Other staff related expense",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10210": {
       "name": "Bank - Zenith  Bank (USD)",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "89550": {
       "name": "IE- Fuel expenses - Others",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Fuel & repairs expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10931": {
       "name": "CL-Globus-STF1-N500M",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "10280": {
       "name": "Bank - Access - Diamond Bank",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "23940": {
       "name": "CL - Employers pension payable",
       "group": "Current liabilities",
+      "line": "Trade and other payables",
+      "note": "Statutory liabilities payable",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "65400": {
       "name": "IE- Repairs&Maint.Exp-Showroom",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Fuel & repairs expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "23500": {
       "name": "CL - Witholding Tax Payable",
       "group": "Current liabilities",
+      "line": "Trade and other payables",
+      "note": "Statutory liabilities payable",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "24300": {
       "name": "CL - Intercompany - CABC",
       "group": "Non-current liabilities",
+      "line": "Due to related parties",
+      "note": "China-Africa Business Council",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "64520": {
       "name": "IE- Depreciation - Equipment",
       "group": "Depreciation",
+      "line": "Depreciation & Amortization",
+      "note": "Charge for the year",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "62150": {
       "name": "IE-  Fuel Exp - Fuel Card",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Fuel & repairs expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "11080": {
       "name": "CA - WHT Receivable",
       "group": "Current assets",
+      "line": "Prepayment and other assets",
+      "note": "Other assets",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "11085": {
       "name": "CA - WHT Govt Receivable",
       "group": "Current assets",
+      "line": "Prepayment and other assets",
+      "note": "Other assets",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "66300": {
       "name": "IE- Staff Welfare Expenses",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Other staff related expense",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10300": {
       "name": "Bank -  Heritage Bank",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "91650": {
       "name": "IE -Rent Heritage Court",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Rent expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "40200": {
       "name": "Revenue - Spare Parts",
       "group": "Revenue",
+      "line": "Revenue",
+      "note": "Motor vehicles",
+      "cf": "Operating",
       "segment": "Motor Vehicles Sales"
     },
     "68500": {
       "name": "IE- Waste disposal expense",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Office and miscellaneous expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "58200": {
       "name": "DE - Transport Charge",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Motor vehicles -Cost of sales",
+      "cf": "Operating",
       "segment": "Motor Vehicles Sales"
     },
     "10957": {
       "name": "CL-Zenith Bid support 52m",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "10320": {
       "name": "Bank - Optimus Bank",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "61000": {
       "name": "IE -  Building Renovation",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Fuel & repairs expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "14045": {
       "name": "Prepaid - Rent - Ojota",
       "group": "Current assets",
+      "line": "Prepayment and other assets",
+      "note": "Prepayments",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10964": {
       "name": "CL-Wema Bank Bid support196.5m",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "14024": {
       "name": "Prepaid - Rent  - FLT 401 1004",
       "group": "Current assets",
+      "line": "Prepayment and other assets",
+      "note": "Prepayments",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "23930": {
       "name": "CL - Payee Payable",
       "group": "Current liabilities",
+      "line": "Trade and other payables",
+      "note": "Statutory liabilities payable",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "78000": {
       "name": "IE - Security Expense",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Other staff related expense",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "24920": {
       "name": "CL - NSITF Payable",
       "group": "Current liabilities",
+      "line": "Trade and other payables",
+      "note": "Statutory liabilities payable",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10310": {
       "name": "Bank - Jaiz Bank",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10956": {
       "name": "CL- Zenith Bid support 123m",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "10185": {
       "name": "Bank - Stanbic ( USD)",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "67400": {
       "name": "IE- Travelling Exp Offshore",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Other staff related expense",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10936": {
       "name": "CL-UBN-N2B-STF",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "71530": {
       "name": "IE-  Admin expense VI",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Office and miscellaneous expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "11070": {
       "name": "CA - VAT Receivable",
       "group": "Current assets",
+      "line": "Trade receivables",
+      "note": "Trade receivables & Other Receivables",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "63000": {
       "name": "IE-  Electricity Exp",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Fuel & repairs expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10330": {
       "name": "Bank - Premium Trust Bank",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "79100": {
       "name": "Discount - Vehicle Sales",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Motor vehicles -Cost of sales",
+      "cf": "Operating",
       "segment": "Motor Vehicles Sales"
     },
     "57000": {
       "name": "DE - Shipping Charge",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Motor vehicles -Cost of sales",
+      "cf": "Operating",
       "segment": "Motor Vehicles Sales"
     },
     "10982": {
       "name": "CL-WEMA-STF2-N500.5M",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "10315": {
       "name": "Bank - Union Project Account",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "71510": {
       "name": "IE- Admin Expense Plot 7",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Office and miscellaneous expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "15900": {
       "name": "FA-Plot1597-Abuja-AC Okoch",
       "group": "Non-current assets",
+      "line": "Property, plant and equipment",
+      "note": "Property, plant and equipment - Cost",
+      "cf": "Investing",
       "segment": "Corporate"
     },
     "74500": {
       "name": "IE-  Rent or Lease payment",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "License, and legal expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10955": {
       "name": "CL- Zenith Bank Loan/ LPO",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "17800": {
       "name": "Acc Depreciation- Building",
       "group": "Non-current assets",
+      "line": "Property, plant and equipment",
+      "note": "Acc Depreciation- P&M",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10981": {
       "name": "CL-WEMA-STF3-N500.5M",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "14031": {
       "name": "Prepaid - Rent  FLT 513 B 1004",
       "group": "Current assets",
+      "line": "Prepayment and other assets",
+      "note": "Prepayments",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "58000": {
       "name": "DE - Custom Duty",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Motor vehicles -Cost of sales",
+      "cf": "Operating",
       "segment": "Motor Vehicles Sales"
     },
     "10934": {
       "name": "CL-UBN-N3.3B Bridge",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "10935": {
       "name": "CL-UBN-N500m STF",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "91150": {
       "name": "DE - Foot Mat - Fire Extinguis",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Spare parts and labour -Cost of sales",
+      "cf": "Operating",
       "segment": "Spare Parts & After-Sales"
     },
     "71500": {
       "name": "IE-  Office Expense",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Office and miscellaneous expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "62000": {
       "name": "IE - Bank Charges",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Bank charges",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "14023": {
       "name": "Prepaid -  Rents Plot 7",
       "group": "Current assets",
+      "line": "Prepayment and other assets",
+      "note": "Prepayments",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "91360": {
       "name": "IE-Management Exp CEO OFFICE",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Office and miscellaneous expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "91968": {
       "name": "IE  - Uniforms",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Other staff related expense",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "24910": {
       "name": "CL - ITF Payable",
       "group": "Current liabilities",
+      "line": "Trade and other payables",
+      "note": "Statutory liabilities payable",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "64100": {
       "name": "IE - Outstation Allowance",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Other staff related expense",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "62650": {
       "name": "Discount - After Sales-Abuja",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Spare parts and labour -Cost of sales",
+      "cf": "Operating",
       "segment": "Spare Parts & After-Sales"
     },
     "91957": {
       "name": "DE- Agent Reimbursement-Comm",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Motor vehicles -Cost of sales",
+      "cf": "Operating",
       "segment": "Motor Vehicles Sales"
     },
     "10978": {
       "name": "CL-WEMA-STF4-N550.5M",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "63300": {
       "name": "IE- IT Repairs&Maintenance Exp",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Fuel & repairs expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "65300": {
       "name": "IE-Repairs&Maint.Exp-VI",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Fuel & repairs expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "65000": {
       "name": "IE- Dues and Subscriptions Exp",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "License, and legal expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "74570": {
       "name": "IE-Rent Gombe",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Rent expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "62600": {
       "name": "Discount - After Sales-VI",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Spare parts and labour -Cost of sales",
+      "cf": "Operating",
       "segment": "Spare Parts & After-Sales"
     },
     "62100": {
       "name": "IE - Fuel Exp - Aftersales",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Fuel & repairs expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "40500": {
       "name": "Revenue - Labour Income-VI",
       "group": "Revenue",
+      "line": "Revenue",
+      "note": "Spare parts and labour",
+      "cf": "Operating",
       "segment": "Spare Parts & After-Sales"
     },
     "71200": {
       "name": "IE-  Donation/Sponsorship",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Business promotional expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "90400": {
       "name": "Deferred Tax Expenses",
       "group": "Tax",
+      "line": "Income Tax Expenses",
+      "note": "Tax Expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "65200": {
       "name": "DE- Repairs & Maintenance- SKD",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Spare parts and labour -Cost of sales",
+      "cf": "Operating",
       "segment": "Spare Parts & After-Sales"
     },
     "73100": {
       "name": "IE - Other Levies",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "License, and legal expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "15600": {
       "name": "FA - GAC Ogba Construction",
       "group": "Non-current assets",
+      "line": "Property, plant and equipment",
+      "note": "Property, plant and equipment - Cost",
+      "cf": "Investing",
       "segment": "Corporate"
     },
     "15500": {
       "name": "FA - Land",
       "group": "Non-current assets",
+      "line": "Property, plant and equipment",
+      "note": "Property, plant and equipment - Cost",
+      "cf": "Investing",
       "segment": "Corporate"
     },
     "10200": {
       "name": "Bank - GTB",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "91959": {
       "name": "DE -Agency Fee",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "License, and legal expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10963": {
       "name": "CL-Wema Bank Bid support 315m",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "11090": {
       "name": "CA - WHT Cr Notes Receivable",
       "group": "Current assets",
+      "line": "Prepayment and other assets",
+      "note": "Other assets",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10700": {
       "name": "Bank -  WEMA Bank (Operation)",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "40700": {
       "name": "Revenue - Labour Income-OJOTA",
       "group": "Revenue",
+      "line": "Revenue",
+      "note": "Spare parts and labour",
+      "cf": "Operating",
       "segment": "Spare Parts & After-Sales"
     },
     "60600": {
       "name": "DE- Sublet Exp VI",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Spare parts and labour -Cost of sales",
+      "cf": "Operating",
       "segment": "Spare Parts & After-Sales"
     },
     "10145": {
       "name": "Access Bank 14Bn",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "64560": {
       "name": "ROU Amortization expense",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Right of use amortization",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10855": {
       "name": "Bank -  TITAN Trust Bank-2",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "91530": {
       "name": "IE-Nig Soc Ins Trust(NSITF)",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Other staff related expense",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "67200": {
       "name": "DE- Towing Expenses",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Spare parts and labour -Cost of sales",
+      "cf": "Operating",
       "segment": "Spare Parts & After-Sales"
     },
     "58400": {
       "name": "DE - Valuation Charge",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Motor vehicles -Cost of sales",
+      "cf": "Operating",
       "segment": "Motor Vehicles Sales"
     },
     "10920": {
       "name": "CL - Globus Bank Loan - LPO 2",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "23900": {
       "name": "CL - Income Taxes Payable",
       "group": "Current liabilities",
+      "line": "Current tax payable",
+      "note": "Tax Payable",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "89600": {
       "name": "IE- Toll gate & parking fee",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Office and miscellaneous expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "17100": {
       "name": "Acc Depreciation - Equipment",
       "group": "Non-current assets",
+      "line": "Property, plant and equipment",
+      "note": "Acc Depreciation - Equipment",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "64000": {
       "name": "DE- Vehicle Transfer Exp",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Motor vehicles -Cost of sales",
+      "cf": "Operating",
       "segment": "Motor Vehicles Sales"
     },
     "60900": {
       "name": "COGS - Painting Exp Ojota",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Spare parts and labour -Cost of sales",
+      "cf": "Operating",
       "segment": "Spare Parts & After-Sales"
     },
     "17700": {
       "name": "Acc Depreciation- P&M",
       "group": "Non-current assets",
+      "line": "Property, plant and equipment",
+      "note": "Acc Depreciation- P&M",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10350": {
       "name": "Bank -  Wema Bank Ops 2",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10130": {
       "name": "Bank -  Zenith Bank Acct-2",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "60200": {
       "name": "IE - Airport Exp",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Office and miscellaneous expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10800": {
       "name": "Bank -  Sun Trust",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "39004": {
       "name": "Share Capital",
       "group": "Equity",
+      "line": "Share Capital",
+      "note": "Equity",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "23610": {
       "name": "CA -VAT Deducted @ Source",
       "group": "Current assets",
+      "line": "Prepayment and other assets",
+      "note": "Other assets",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10960": {
       "name": "CL-WEMA Bank Bid Support 975m",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "65100": {
       "name": "DE - PR Expense",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Spare parts and labour -Cost of sales",
+      "cf": "Operating",
       "segment": "Spare Parts & After-Sales"
     },
     "20000": {
       "name": "CL - Accounts Payable",
       "group": "Current liabilities",
+      "line": "Trade and other payables",
+      "note": "Trade payables",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "61400": {
       "name": "DE- Airport Exp Parts",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Spare parts and labour -Cost of sales",
+      "cf": "Operating",
       "segment": "Spare Parts & After-Sales"
     },
     "91966": {
       "name": "IE - Employer Pension",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Other staff related expense",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10961": {
       "name": "CL-Wema Bank Bid support 1.38m",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "76000": {
       "name": "IE - PAYE",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Other staff related expense",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "50200": {
       "name": "COGS - Aftersales-VI",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Spare parts and labour -Cost of sales",
+      "cf": "Operating",
       "segment": "Spare Parts & After-Sales"
     },
     "79200": {
       "name": "Discount - After Sales-Ojota",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Spare parts and labour -Cost of sales",
+      "cf": "Operating",
       "segment": "Spare Parts & After-Sales"
     },
     "10973": {
       "name": "CL-Wema Bank Bid support 69m",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "91956": {
       "name": "CL- WEMA - BOI",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "50100": {
       "name": "COGS -Aftersales-Ojota",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Spare parts and labour -Cost of sales",
+      "cf": "Operating",
       "segment": "Spare Parts & After-Sales"
     },
     "10975": {
       "name": "CL-Wema Bank CFF Loan- 2",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "64570": {
       "name": "Interest expense on Lease Liability",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Interest expense on lease liability",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "71540": {
       "name": "IE- Printing&Stationeries exp",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Printing, postage and stationery",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "14048": {
       "name": "Prepaid Rent Gombe",
       "group": "Current assets",
+      "line": "Prepayment and other assets",
+      "note": "Prepayments",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10971": {
       "name": "CL-Wema Bank Bid support 111m",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "91960": {
       "name": "IE- BOI Expenses",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Bank charges",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10550": {
       "name": "Bank - Lotus Bank",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "74540": {
       "name": "IE -Rent-Staff Accomodat(1004)",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Rent expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "62400": {
       "name": "IE- Fuel Expenses-SKD Vehicles",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Fuel & repairs expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "50000": {
       "name": "COGS - Vehicles",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Motor vehicles -Cost of sales",
+      "cf": "Operating",
       "segment": "Motor Vehicles Sales"
     },
     "14800": {
       "name": "CA - Customer Advances Sales",
       "group": "Current assets",
+      "line": "Other Receivable",
+      "note": "Trade receivables & Other Receivables",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "50700": {
       "name": "COGS - Vehicles- Others",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Motor vehicles -Cost of sales",
+      "cf": "Operating",
       "segment": "Motor Vehicles Sales"
     },
     "10170": {
       "name": "Cash in Hand - US$",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "17200": {
       "name": "Acc Depreciation-Motor Vehicle",
       "group": "Non-current assets",
+      "line": "Property, plant and equipment",
+      "note": "Acc Depreciation-Motor Vehicle",
+      "cf": "Operating",
       "segment": "Motor Vehicles Sales"
     },
     "69500": {
       "name": "IE- Licenses Expense",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "License, and legal expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "15950": {
       "name": "FA-Plot1597-Abuja-AC Okoch 2",
       "group": "Non-current assets",
+      "line": "Property, plant and equipment",
+      "note": "Property, plant and equipment - Cost",
+      "cf": "Investing",
       "segment": "Corporate"
     },
     "10453": {
       "name": "CL-UBA LOAN(GOMBE STATE)",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "66000": {
       "name": "IE- Telephone expense",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Communication cost",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10952": {
       "name": "CL-GLOBUS LOAN 1.5B",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "60800": {
       "name": "COGS - Painting Expenses VI",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Spare parts and labour -Cost of sales",
+      "cf": "Operating",
       "segment": "Spare Parts & After-Sales"
     },
     "24400": {
       "name": "Revenue - Insurance Claim",
       "group": "Revenue",
+      "line": "Revenue",
+      "note": "Spare parts and labour",
+      "cf": "Operating",
       "segment": "Spare Parts & After-Sales"
     },
     "15700": {
       "name": "FA - Plant & Machinery",
       "group": "Non-current assets",
+      "line": "Property, plant and equipment",
+      "note": "Property, plant and equipment - Cost",
+      "cf": "Investing",
       "segment": "Corporate"
     },
     "10452": {
       "name": "Bank- UBA Acct 3",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10290": {
       "name": "CL- UBA-Contract Financing",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "15000": {
       "name": "FA - Furniture & Fittings",
       "group": "Non-current assets",
+      "line": "Property, plant and equipment",
+      "note": "Property, plant and equipment - Cost",
+      "cf": "Investing",
       "segment": "Corporate"
     },
     "40900": {
       "name": "Revenue- Spare Parts-Ojota",
       "group": "Revenue",
+      "line": "Revenue",
+      "note": "Spare parts and labour",
+      "cf": "Operating",
       "segment": "Spare Parts & After-Sales"
     },
     "72500": {
       "name": "IE- Penalties and Fines Exp",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "License, and legal expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "60100": {
       "name": "IE - Business Pro",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Business promotional expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "14030": {
       "name": "Prepaid - Rent - Abuja",
       "group": "Current assets",
+      "line": "Prepayment and other assets",
+      "note": "Prepayments",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "23600": {
       "name": "CA - VAT Payable/Output",
       "group": "Current liabilities",
+      "line": "Trade and other payables",
+      "note": "Other payables and accruals",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10930": {
       "name": "CL - Globus Bank Loan - LPO 3",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "10155": {
       "name": "CL- Polaris bank Loan",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "10940": {
       "name": "CL -WEMA BOI Loan a/c",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "67410": {
       "name": "DE-  Vendor Registration Exp",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Spare parts and labour -Cost of sales",
+      "cf": "Operating",
       "segment": "Spare Parts & After-Sales"
     },
     "64540": {
       "name": "IE- Depreciation plant machine",
       "group": "Depreciation",
+      "line": "Depreciation & Amortization",
+      "note": "Charge for the year",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "91320": {
       "name": "Revenue  Int Sales- Veh. Mtce",
       "group": "Revenue",
+      "line": "Revenue",
+      "note": "Spare parts and labour",
+      "cf": "Operating",
       "segment": "Spare Parts & After-Sales"
     },
     "39005": {
       "name": "Retained Earnings",
       "group": "Equity",
+      "line": "Retained Earnings",
+      "note": "Equity",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "10965": {
       "name": "CL-Union Bank Loan",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "90600": {
       "name": "IE- Land use charge",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "License, and legal expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10250": {
       "name": "Bank -  SCB Bank",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "64510": {
       "name": "IE- Dep- Furnitures & Fittings",
       "group": "Depreciation",
+      "line": "Depreciation & Amortization",
+      "note": "Charge for the year",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "64200": {
       "name": "IE - Overtime Expenses",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Other staff related expense",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "14027": {
       "name": "Prepaid - Rent  FLT 402 C 1004",
       "group": "Current assets",
+      "line": "Prepayment and other assets",
+      "note": "Prepayments",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "24100": {
       "name": "CL - Deposits",
       "group": "Current liabilities",
+      "line": "Trade and other payables",
+      "note": "Other payables and accruals",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10962": {
       "name": "CL-Wema Bank Bid support 400m",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "14080": {
       "name": "CA - Choice International",
       "group": "Non-current liabilities",
+      "line": "Due to related parties",
+      "note": "Choice International Company Limited",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "90500": {
       "name": "IE- Medical Exp/Insurance Exp",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Other staff related expense",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "71520": {
       "name": "IE- Internet Expense",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Communication cost",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10902": {
       "name": "CL -GLOBUS BOI Loan a/c",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "74551": {
       "name": "IE-Rent Ado Ekiti",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Rent expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "65500": {
       "name": "DE - Parts Supplied",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Spare parts and labour -Cost of sales",
+      "cf": "Operating",
       "segment": "Spare Parts & After-Sales"
     },
     "10950": {
       "name": "CL - Loan - Globus Bank OD",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank overdrafts",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "76100": {
       "name": "IE - Consultancy Fees",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Business promotional expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "91600": {
       "name": "IE - Admin Expenses-Abuja",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Office and miscellaneous expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10180": {
       "name": "Bank -  Stanbic Bank",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "91400": {
       "name": "IE-Water expenses",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Office and miscellaneous expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "17900": {
       "name": "Accum Amortization- ROU",
       "group": "Non-current assets",
+      "line": "Right of Use Asset",
+      "note": "Right of Use",
+      "cf": "Investing",
       "segment": "Corporate"
     },
     "14300": {
       "name": "CA-Customers Advance AfterSale",
       "group": "Current assets",
+      "line": "Other Receivable",
+      "note": "Trade receivables & Other Receivables",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "61200": {
       "name": "IE - Feeding Allowance Guest",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Other staff related expense",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "23910": {
       "name": "CL - Salary Control",
       "group": "Current liabilities",
+      "line": "Trade and other payables",
+      "note": "Other payables and accruals",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "23920": {
       "name": "CL - Employees Pension Payable",
       "group": "Current liabilities",
+      "line": "Trade and other payables",
+      "note": "Statutory liabilities payable",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "50800": {
       "name": "COGS - Spare Parts- Ojota",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Spare parts and labour -Cost of sales",
+      "cf": "Operating",
       "segment": "Spare Parts & After-Sales"
     },
     "10171": {
       "name": "Cash in Hand - Euro",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "77000": {
       "name": "IE- Salaries expense",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Salaries and wages",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "14025": {
       "name": "Prepaid - Rent Lazarus",
       "group": "Current assets",
+      "line": "Prepayment and other assets",
+      "note": "Prepayments",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "24250": {
       "name": "CL-Intercompany-E-Home",
       "group": "Non-current liabilities",
+      "line": "Due to related parties",
+      "note": "CIG E-Home Company Limited",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10610": {
       "name": "CL- Fidelity Bank Loan",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "74530": {
       "name": "IE - Rent- Ojota",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Rent expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "70500": {
       "name": "IE- Travelling Exp Local",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Other staff related expense",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10968": {
       "name": "CL-Wema Bank Bid support 179m",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "57500": {
       "name": "DE - Terminal Charge",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Motor vehicles -Cost of sales",
+      "cf": "Operating",
       "segment": "Motor Vehicles Sales"
     },
     "15960": {
       "name": "Right of Use",
       "group": "Non-current assets",
+      "line": "Right of Use Asset",
+      "note": "Right of Use",
+      "cf": "Investing",
       "segment": "Corporate"
     },
     "10230": {
       "name": "Bank - Access Bank (USD)",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "58300": {
       "name": "DE - Service Charge",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Spare parts and labour -Cost of sales",
+      "cf": "Operating",
       "segment": "Spare Parts & After-Sales"
     },
     "10710": {
       "name": "Bank - Wema Bank  (USD)",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10900": {
       "name": "Bank -  GLOBUS Bank",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "10340": {
       "name": "Coronation Bank",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10980": {
       "name": "CL- Zenith Bank - Bid Collater",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "40800": {
       "name": "OI - Miscellaneous",
       "group": "Other income",
+      "line": "Other Income",
+      "note": "Miscellaneous income",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10967": {
       "name": "CL-Wema Bank Bid support 211m",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "67500": {
       "name": "DE- Insurance Exp(Veh/Others",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Motor vehicles -Cost of sales",
+      "cf": "Operating",
       "segment": "Motor Vehicles Sales"
     },
     "91969": {
       "name": "Revenue - Labour Income-Abuja",
       "group": "Revenue",
+      "line": "Revenue",
+      "note": "Spare parts and labour",
+      "cf": "Operating",
       "segment": "Spare Parts & After-Sales"
     },
     "89000": {
       "name": "IE - Other Expenses",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Office and miscellaneous expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10966": {
       "name": "CL-Wema Bank Bid support381.5m",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "14028": {
       "name": "Prepaid - Rent - Heritage",
       "group": "Current assets",
+      "line": "Prepayment and other assets",
+      "note": "Prepayments",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10271": {
       "name": "Bank - Sterling Aternative",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "77100": {
       "name": "IE - Leave Allowance",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Other staff related expense",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "15501": {
       "name": "FA - Building",
       "group": "Non-current assets",
+      "line": "Property, plant and equipment",
+      "note": "Property, plant and equipment - Cost",
+      "cf": "Investing",
       "segment": "Corporate"
     },
     "10260": {
       "name": "Bank -  FCMB",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10760": {
       "name": "Bank - Wema & BOI",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "62300": {
       "name": "IE-Fuel Exp - Ojota Workshop",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Fuel & repairs expenses",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10977": {
       "name": "CL-WEMA-STF1 - N705",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "91970": {
       "name": "Revenue - Spare Parts-Abuja",
       "group": "Revenue",
+      "line": "Revenue",
+      "note": "Spare parts and labour",
+      "cf": "Operating",
       "segment": "Spare Parts & After-Sales"
     },
     "71700": {
       "name": "DE- Admin Expense (SKD)& Ojota",
       "group": "Cost of sales",
+      "line": "Cost of Sales",
+      "note": "Spare parts and labour -Cost of sales",
+      "cf": "Operating",
       "segment": "Spare Parts & After-Sales"
     },
     "10974": {
       "name": "CL-Wema Bank Bid support 300m",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "15200": {
       "name": "FA - Motor Vehicle",
       "group": "Non-current assets",
+      "line": "Property, plant and equipment",
+      "note": "Property, plant and equipment - Cost",
+      "cf": "Investing",
       "segment": "Corporate"
     },
     "10990": {
       "name": "CL-Wema Bank O/D",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "10221": {
       "name": "Nova Bank",
       "group": "Current assets",
+      "line": "Cash and cash equivalents",
+      "note": "Cash in hand and at bank",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "14032": {
       "name": "Prepaid Rent Ekiti",
       "group": "Current assets",
+      "line": "Prepayment and other assets",
+      "note": "Prepayments",
+      "cf": "Operating",
       "segment": "Corporate"
     },
     "10969": {
       "name": "CL-Wema Bank Bid support 149m",
       "group": "Non-current liabilities",
+      "line": "Borrowings",
+      "note": "Bank loans",
+      "cf": "Financing",
       "segment": "Corporate"
     },
     "71000": {
       "name": "IE- Entertainment Expenses",
       "group": "Operating expenses",
+      "line": "General & Administrative Expenses",
+      "note": "Other staff related expense",
+      "cf": "Operating",
       "segment": "Corporate"
     }
   },
@@ -65009,9 +65993,9 @@
     }
   },
   "ratios": {
-    "current_ratio": -5.22,
-    "quick_ratio": -5.22,
-    "cash_ratio": -0.52,
+    "current_ratio": 5.22,
+    "quick_ratio": 5.22,
+    "cash_ratio": 0.52,
     "inventory_turnover": 0,
     "receivables_turnover": 0,
     "days_sales_outstanding": 0,
@@ -65019,28 +66003,24 @@
     "gross_margin": 64.6,
     "operating_margin": -30.1,
     "net_margin": -37.7,
-    "roe": 8.1,
+    "roe": -8.1,
     "roa": -5.9,
     "asset_turnover": 0.16,
     "debt_to_equity": 165.9,
-    "equity_multiplier": -1.38,
+    "equity_multiplier": 1.38,
     "interest_coverage": -14.05,
-    "debt_ratio": -119.8
+    "debt_ratio": 119.8
   },
   "commentary": {
     "pnl": "Revenue for the period was NGN 7.02B, 50.8% up vs prior month (NGN 4.66B). Gross margin 64.6%, operating margin -30.1%, net margin -37.7%. Operating expenses were NGN 5,160M.",
-    "balance_sheet": "Total assets NGN 45.20B, total liabilities NGN -54.16B, shareholders' equity NGN -32.65B. Current ratio -5.22x.",
+    "balance_sheet": "Total assets NGN 45.20B, total liabilities NGN 54.16B, shareholders' equity NGN 32.65B. Current ratio 5.22x.",
     "cash_flow": "Net cash movement NGN -23,883M. Operating NGN 28,410M, investing NGN 32,560M, financing NGN -84,853M.",
-    "ratios": "Current ratio -5.22x, debt-to-equity 165.9%, asset turnover 0.16x.",
+    "ratios": "Current ratio 5.22x, debt-to-equity 165.9%, asset turnover 0.16x.",
     "executive_summary": "The company was loss-making for this period with NGN -2,647M net income. Revenue NGN 7.02B, gross margin 64.6%.",
     "red_flags": [
       {
         "title": "Loss-making period",
         "detail": "Company is loss-making for this period"
-      },
-      {
-        "title": "Liquidity concern",
-        "detail": "Current ratio -5.22x below 1.0"
       }
     ],
     "quick_wins": [
