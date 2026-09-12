@@ -50,6 +50,10 @@ def run_pipeline(
     all_periods = sorted(merged["Period"].dropna().unique().tolist())
     all_years = sorted(set(str(p)[:4] for p in all_periods if isinstance(p, str) and len(p) >= 4))
 
+    # Day-level keys (for date-range filtering down to the day)
+    merged["Day"] = merged["Doc_Date"].dt.strftime("%Y-%m-%d")
+    all_days = sorted(d for d in merged["Day"].dropna().unique().tolist())
+
     # Determine which period to use for B/S and C/F (point-in-time)
     if mode == "yearly" and period:
         bs_cf_data = merged[merged["Period"].str.startswith(period, na=False)]
@@ -87,6 +91,16 @@ def run_pipeline(
     for p in all_periods:
         period_data = merged[merged["Period"] == p]
         pl_by_period[p] = build_pl(period_data)
+
+    # Per-day P&L for day-level date-range filtering. Only days with P&L
+    # activity are stored to keep the payload lean.
+    pl_by_day = {}
+    for day in all_days:
+        day_data = merged[merged["Day"] == day]
+        pl_d = build_pl(day_data)
+        if pl_d["total_revenue"] or pl_d["total_cogs"] or pl_d["total_opex"]:
+            pl_by_day[day] = pl_d
+    active_days = sorted(pl_by_day.keys())
 
     # Format segments
     total_rev = pl["total_revenue"]
@@ -130,6 +144,9 @@ def run_pipeline(
         "available_periods": {
             "months": all_periods,
             "years": all_years,
+            "days": active_days,
+            "date_min": active_days[0] if active_days else None,
+            "date_max": active_days[-1] if active_days else None,
         },
         "pl": pl,
         "bs": bs,
@@ -137,6 +154,7 @@ def run_pipeline(
         "segments": segments,
         "monthly": monthly,
         "pl_by_period": pl_by_period,
+        "pl_by_day": pl_by_day,
         "ratios": ratios,
         "commentary": commentary,
         "available_data": {

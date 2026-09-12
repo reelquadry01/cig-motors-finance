@@ -16,6 +16,68 @@ def merge_mapping(gl: pd.DataFrame, mapping: pd.DataFrame) -> pd.DataFrame:
     return merged
 
 
+def _clean_account_label(desc: str, section_hint: str = "") -> str:
+    """Tidy a raw GL account description for display in a breakdown row."""
+    if not isinstance(desc, str):
+        return "Other"
+    label = desc.strip()
+    # Drop leading statement prefixes like "Revenue - ", "COGS - ", "DE - "
+    for prefix in ("Revenue -", "Revenue-", "COGS -", "COGS-", "DE -", "DE-",
+                   "Discount -", "Discount-"):
+        if label.lower().startswith(prefix.lower()):
+            label = label[len(prefix):].strip()
+            break
+    return label or "Other"
+
+
+def build_breakdown(merged: pd.DataFrame, section_names, credit_positive: bool) -> list:
+    """Build a two-level breakdown (Segment -> account line) for a P&L section.
+
+    Returns a list of segment groups, each:
+        {group, value, share, items: [{label, value, share}, ...]}
+    Only positive-contribution lines are kept; groups/items sorted desc by value.
+    `credit_positive` picks the sign convention (True for income lines).
+    """
+    if isinstance(section_names, str):
+        section_names = [section_names]
+    df = merged[merged["Statement_Section"].isin(section_names)].copy()
+    if df.empty:
+        return []
+
+    if credit_positive:
+        df["Amount"] = df["Credit"] - df["Debit"]
+    else:
+        df["Amount"] = df["Debit"] - df["Credit"]
+
+    grand_total = float(df["Amount"].sum())
+
+    groups = []
+    for segment, seg_df in df.groupby("Segment"):
+        seg_total = float(seg_df["Amount"].sum())
+        if abs(seg_total) < 1:  # skip empty/negligible segments
+            continue
+        items = []
+        acct = seg_df.groupby("Account_Description")["Amount"].sum()
+        for desc, amount in acct.items():
+            amount = float(amount)
+            if abs(amount) < 1:
+                continue
+            items.append({
+                "label": _clean_account_label(desc),
+                "value": round(amount, 2),
+                "share": round(safe_div(amount, seg_total) * 100, 1),
+            })
+        items.sort(key=lambda x: x["value"], reverse=True)
+        groups.append({
+            "group": segment,
+            "value": round(seg_total, 2),
+            "share": round(safe_div(seg_total, grand_total) * 100, 1),
+            "items": items,
+        })
+    groups.sort(key=lambda x: x["value"], reverse=True)
+    return groups
+
+
 def build_pl(merged: pd.DataFrame) -> dict:
     """Build P&L from merged GL data. Expects pre-filtered data."""
     pl_sections = ["Revenue", "COGS", "Cost of Sales", "Operating Expenses",
@@ -63,8 +125,10 @@ def build_pl(merged: pd.DataFrame) -> dict:
 
     return {
         "revenue": items_for("Revenue"),
+        "revenue_breakdown": build_breakdown(df, "Revenue", credit_positive=True),
         "total_revenue": round(revenue, 2),
         "cogs": items_for(["COGS", "Cost of Sales"]),
+        "cogs_breakdown": build_breakdown(df, ["COGS", "Cost of Sales"], credit_positive=False),
         "total_cogs": round(cogs, 2),
         "gross_profit": round(gp, 2),
         "opex": items_for("Operating Expenses"),

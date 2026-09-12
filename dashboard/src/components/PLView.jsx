@@ -1,23 +1,81 @@
 import { useState } from 'react'
-import { ChevronRight, ChevronDown } from 'lucide-react'
+import { ChevronRight } from 'lucide-react'
 import fmt from '../lib/fmt'
 
-function SectionRow({ title, items, total, margin, bold, defaultOpen = false }) {
-  const [open, setOpen] = useState(defaultOpen)
-  const hasItems = items && items.length > 0
+/* Account-level leaf row (deepest level of a breakdown) */
+function LeafRow({ label, value, revenueTotal, indent = 44 }) {
+  return (
+    <tr style={{ animation: 'fadeIn 0.15s ease-out' }}>
+      <td style={{ paddingLeft: indent, color: 'var(--text-secondary)' }}>{label}</td>
+      <td style={{ textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{fmt.ng0(value)}</td>
+      <td style={{ textAlign: 'right' }}>—</td>
+      <td style={{ textAlign: 'right' }}>—</td>
+      <td style={{ textAlign: 'right' }}>
+        <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>
+          {revenueTotal ? fmt.pct(Math.abs(value) / Math.abs(revenueTotal) * 100) : '—'}
+        </span>
+      </td>
+    </tr>
+  )
+}
 
-  if (!hasItems) {
+/* Segment-level group row that expands to its account lines */
+function GroupRow({ group, sectionTotal, revenueTotal }) {
+  const [open, setOpen] = useState(false)
+  const items = group.items || []
+  return (
+    <>
+      <tr className="collapse-trigger" onClick={() => setOpen(!open)}>
+        <td style={{ paddingLeft: 28 }}>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--text-primary)', fontWeight: 500 }}>
+            <span style={{ color: 'var(--text-muted)', display: 'inline-flex', transition: 'transform 0.2s', transform: open ? 'rotate(90deg)' : 'rotate(0deg)' }}>
+              <ChevronRight size={12} />
+            </span>
+            {group.group}
+            <span style={{ fontSize: 10, color: 'var(--text-muted)', opacity: 0.6 }}>({items.length})</span>
+          </span>
+        </td>
+        <td style={{ textAlign: 'right', fontVariantNumeric: 'tabular-nums', fontWeight: 500 }}>{fmt.ng0(group.value)}</td>
+        <td style={{ textAlign: 'right' }}>—</td>
+        <td style={{ textAlign: 'right' }}>—</td>
+        <td style={{ textAlign: 'right' }}>
+          <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>
+            {sectionTotal ? fmt.pct(Math.abs(group.value) / Math.abs(sectionTotal) * 100) : '—'}
+          </span>
+        </td>
+      </tr>
+      {open && items.map((it, i) => (
+        <LeafRow key={i} label={it.label} value={it.value} revenueTotal={sectionTotal} indent={48} />
+      ))}
+    </>
+  )
+}
+
+/* Top-level statement line. Supports:
+   - breakdown: array of segment groups (Revenue / COGS) -> nested expand
+   - items: flat list of account lines (other sections)
+   - neither: a computed subtotal line (Gross Profit, PBT, ...) */
+function SectionRow({ title, items, breakdown, total, margin, bold, revenueTotal, defaultOpen = false }) {
+  const [open, setOpen] = useState(defaultOpen)
+  const hasBreakdown = breakdown && breakdown.length > 0
+  const hasItems = items && items.length > 0
+  const expandable = hasBreakdown || hasItems
+  const childCount = hasBreakdown ? breakdown.length : (items?.length || 0)
+
+  const labelStyle = {
+    fontWeight: bold ? 600 : 500,
+    color: bold ? 'var(--text-primary)' : 'var(--text-muted)',
+    fontSize: bold ? 13.5 : 11,
+    textTransform: bold ? 'none' : 'uppercase',
+    letterSpacing: bold ? 0 : '0.06em',
+  }
+
+  if (!expandable) {
     return (
       <tr className={bold ? 'row-subtotal' : ''}>
-        <td style={{ fontWeight: bold ? 600 : 500, color: bold ? 'var(--text-primary)' : 'var(--text-muted)', fontSize: bold ? 13.5 : 11, textTransform: bold ? 'none' : 'uppercase', letterSpacing: bold ? 0 : '0.06em' }}>
-          {title}
-        </td>
-        <td style={{ textAlign: 'right', fontWeight: bold ? 700 : 400, fontVariantNumeric: 'tabular-nums' }}>
-          {fmt.ng0(total)}
-        </td>
-        <td style={{ textAlign: 'right' }}>
-          {margin !== undefined && <span className="badge badge-neutral">{fmt.pct(margin)}</span>}
-        </td>
+        <td style={labelStyle}>{title}</td>
+        <td style={{ textAlign: 'right', fontWeight: bold ? 700 : 400, fontVariantNumeric: 'tabular-nums' }}>{fmt.ng0(total)}</td>
+        <td style={{ textAlign: 'right' }}>{margin !== undefined && <span className="badge badge-neutral">{fmt.pct(margin)}</span>}</td>
         <td style={{ textAlign: 'right' }}>—</td>
         <td style={{ textAlign: 'right' }}>—</td>
       </tr>
@@ -26,40 +84,26 @@ function SectionRow({ title, items, total, margin, bold, defaultOpen = false }) 
 
   return (
     <>
-      <tr
-        className="collapse-trigger"
-        onClick={() => setOpen(!open)}
-      >
-        <td style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: bold ? 600 : 500, color: bold ? 'var(--text-primary)' : 'var(--text-muted)', fontSize: bold ? 13.5 : 11, textTransform: bold ? 'none' : 'uppercase', letterSpacing: bold ? 0 : '0.06em' }}>
-          <span style={{ color: 'var(--text-muted)', display: 'flex', transition: 'transform 0.2s', transform: open ? 'rotate(90deg)' : 'rotate(0deg)' }}>
-            <ChevronRight size={13} />
-          </span>
-          {title}
-          <span style={{ fontSize: 10, color: 'var(--text-muted)', opacity: 0.6 }}>({items.length})</span>
-        </td>
-        <td style={{ textAlign: 'right', fontWeight: bold ? 700 : 500, fontVariantNumeric: 'tabular-nums' }}>
-          {fmt.ng0(total)}
-        </td>
-        <td style={{ textAlign: 'right' }}>
-          {margin !== undefined && <span className="badge badge-neutral">{fmt.pct(margin)}</span>}
-        </td>
-        <td style={{ textAlign: 'right' }}>—</td>
-        <td style={{ textAlign: 'right' }}>
-          {total > 0 && <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>100%</span>}
-        </td>
-      </tr>
-      {open && items.map((item, i) => (
-        <tr key={i} style={{ animation: 'fadeIn 0.15s ease-out' }}>
-          <td style={{ paddingLeft: 28, color: 'var(--text-secondary)' }}>{item.label}</td>
-          <td style={{ textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{fmt.ng0(item.value)}</td>
-          <td style={{ textAlign: 'right' }}>—</td>
-          <td style={{ textAlign: 'right' }}>—</td>
-          <td style={{ textAlign: 'right' }}>
-            <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>
-              {total > 0 ? fmt.pct(item.value / total * 100) : '—'}
+      <tr className="collapse-trigger" onClick={() => setOpen(!open)}>
+        <td>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, ...labelStyle }}>
+            <span style={{ color: 'var(--text-muted)', display: 'inline-flex', transition: 'transform 0.2s', transform: open ? 'rotate(90deg)' : 'rotate(0deg)' }}>
+              <ChevronRight size={13} />
             </span>
-          </td>
-        </tr>
+            {title}
+            <span style={{ fontSize: 10, color: 'var(--text-muted)', opacity: 0.6 }}>({childCount})</span>
+          </span>
+        </td>
+        <td style={{ textAlign: 'right', fontWeight: bold ? 700 : 500, fontVariantNumeric: 'tabular-nums' }}>{fmt.ng0(total)}</td>
+        <td style={{ textAlign: 'right' }}>{margin !== undefined && <span className="badge badge-neutral">{fmt.pct(margin)}</span>}</td>
+        <td style={{ textAlign: 'right' }}>—</td>
+        <td style={{ textAlign: 'right' }}>{total !== 0 && <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>100%</span>}</td>
+      </tr>
+      {open && hasBreakdown && breakdown.map((g, i) => (
+        <GroupRow key={i} group={g} sectionTotal={total} revenueTotal={revenueTotal} />
+      ))}
+      {open && !hasBreakdown && items.map((item, i) => (
+        <LeafRow key={i} label={item.label} value={item.value} revenueTotal={total} indent={28} />
       ))}
     </>
   )
@@ -68,10 +112,11 @@ function SectionRow({ title, items, total, margin, bold, defaultOpen = false }) 
 export default function PLView({ data }) {
   if (!data) return null
   const pl = data.pl
+  const rev = pl?.total_revenue
 
   const sections = [
-    { title: 'Revenue', items: pl?.revenue, total: pl?.total_revenue, bold: true, defaultOpen: true },
-    { title: 'Cost of Sales', items: pl?.cogs, total: pl?.total_cogs },
+    { title: 'Revenue', breakdown: pl?.revenue_breakdown, items: pl?.revenue, total: pl?.total_revenue, bold: true, defaultOpen: true },
+    { title: 'Cost of Sales', breakdown: pl?.cogs_breakdown, items: pl?.cogs, total: pl?.total_cogs },
     { title: 'Gross Profit', total: pl?.gross_profit, bold: true, margin: pl?.gp_margin },
     { title: 'Operating Expenses', items: pl?.opex, total: pl?.total_opex },
     { title: 'Depreciation', items: pl?.depreciation, total: pl?.total_depreciation },
@@ -89,12 +134,12 @@ export default function PLView({ data }) {
         <h1 className="section-header">
           Income statement <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>— profit or loss</span>
         </h1>
-        <div className="section-sub">{data.period} · ₦ millions</div>
+        <div className="section-sub">{data.period} · ₦ millions · expand Revenue or Cost of Sales for the segment &amp; product-line breakdown</div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 28 }}>
+      <div className="pl-grid">
         <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
-          <div style={{ padding: '16px 24px' }}>
+          <div style={{ padding: '16px 24px', overflowX: 'auto' }}>
             <table className="data-table">
               <thead>
                 <tr>
@@ -106,7 +151,7 @@ export default function PLView({ data }) {
                 </tr>
               </thead>
               <tbody>
-                {sections.map((s, i) => <SectionRow key={i} {...s} />)}
+                {sections.map((s, i) => <SectionRow key={i} {...s} revenueTotal={rev} />)}
               </tbody>
             </table>
           </div>
@@ -136,14 +181,14 @@ export default function PLView({ data }) {
           <div className="side-panel">
             <div className="side-panel-title">Margins</div>
             {[
-              { label: 'Gross', value: pl?.gp_margin, color: '#4fbde3' },
-              { label: 'Operating', value: pl?.op_margin, color: '#c8102e' },
-              { label: 'PBT', value: pl?.pbt_margin, color: '#fbbf24' },
-              { label: 'Net', value: pl?.pat_margin, color: pl?.pat_margin >= 0 ? '#34d399' : '#f87171' },
+              { label: 'Gross', value: pl?.gp_margin, color: 'var(--accent)' },
+              { label: 'Operating', value: pl?.op_margin, color: 'var(--brand)' },
+              { label: 'PBT', value: pl?.pbt_margin, color: 'var(--warn)' },
+              { label: 'Net', value: pl?.pat_margin, color: pl?.pat_margin >= 0 ? 'var(--fav)' : 'var(--unfav)' },
             ].map((m, i) => (
               <div key={i} className="side-row">
                 <span className="side-label">{m.label}</span>
-                <span className="badge" style={{ color: m.color, background: m.color + '18' }}>
+                <span className="badge" style={{ color: m.color, background: 'color-mix(in srgb, currentColor 14%, transparent)' }}>
                   {fmt.pct(m.value)}
                 </span>
               </div>

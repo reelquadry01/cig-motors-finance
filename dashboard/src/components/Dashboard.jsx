@@ -55,13 +55,13 @@ export default function Dashboard({ data }) {
       </div>
 
       {/* Charts Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 380px', gap: 20, marginBottom: 28 }}>
+      <div className="dash-charts">
         <MonthlyTrendChart data={monthly} />
         <RevenueDonut data={segments} total={pl?.total_revenue} />
       </div>
 
       {/* Bottom Row */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 340px', gap: 20 }}>
+      <div className="dash-bottom">
         {/* P&L Summary */}
         <div className="card">
           <div className="chart-title">P&L highlights</div>

@@ -1,26 +1,36 @@
-const MONTH_LABELS = {
-  '2025-01': 'Jan 2025', '2025-02': 'Feb 2025', '2025-03': 'Mar 2025',
-  '2025-04': 'Apr 2025', '2025-05': 'May 2025', '2025-06': 'Jun 2025',
-  '2025-07': 'Jul 2025', '2025-08': 'Aug 2025', '2025-09': 'Sep 2025',
-  '2025-10': 'Oct 2025', '2025-11': 'Nov 2025', '2025-12': 'Dec 2025',
-  '2026-01': 'Jan 2026',
-}
+import { Sun, Moon } from 'lucide-react'
+
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 
 function fmtMonth(key) {
-  if (MONTH_LABELS[key]) return MONTH_LABELS[key]
   if (!key || !key.includes('-')) return key || ''
   const [y, m] = key.split('-')
-  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-  return `${months[parseInt(m, 10) - 1]} ${y}`
+  return `${MONTHS[parseInt(m, 10) - 1]} ${y}`
 }
 
-export default function Header({ data, periodFilter, onPeriodChange }) {
+export default function Header({ data, periodFilter, onPeriodChange, theme, onToggleTheme }) {
   const mode = periodFilter?.mode || 'latest'
   const months = data?.available_periods?.months || []
   const years = data?.available_periods?.years || []
+  const dateMin = data?.available_periods?.date_min
+  const dateMax = data?.available_periods?.date_max
 
-  const setMode = (newMode, opts = {}) => {
-    onPeriodChange?.({ mode: newMode, ...opts })
+  const setMode = (newMode, opts = {}) => onPeriodChange?.({ mode: newMode, ...opts })
+
+  const modes = [
+    { id: 'latest', label: 'Latest' },
+    { id: 'monthly', label: 'Monthly' },
+    { id: 'daily', label: 'Daily' },
+    { id: 'yearly', label: 'Yearly' },
+    { id: 'range', label: 'Range' },
+  ]
+
+  const onModeClick = (id) => {
+    if (id === 'latest') setMode('latest')
+    else if (id === 'monthly') setMode('monthly', { period: months[months.length - 1] })
+    else if (id === 'daily') setMode('daily', { period: dateMax })
+    else if (id === 'yearly') setMode('yearly', { period: years[years.length - 1] })
+    else if (id === 'range') setMode('range', { periodFrom: dateMin, periodTo: dateMax })
   }
 
   return (
@@ -37,21 +47,11 @@ export default function Header({ data, periodFilter, onPeriodChange }) {
         </div>
 
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8 }}>
-          <div style={{ display: 'flex', gap: 3, background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: 8, padding: 3 }}>
-            {[
-              { id: 'latest', label: 'Latest' },
-              { id: 'monthly', label: 'Monthly' },
-              { id: 'yearly', label: 'Yearly' },
-              { id: 'range', label: 'Range' },
-            ].map(m => (
+          <div className="mode-switch">
+            {modes.map(m => (
               <button
                 key={m.id}
-                onClick={() => {
-                  if (m.id === 'latest') setMode('latest')
-                  else if (m.id === 'monthly') setMode('monthly', { period: months[months.length - 1] })
-                  else if (m.id === 'yearly') setMode('yearly', { period: years[years.length - 1] })
-                  else if (m.id === 'range') setMode('range', { periodFrom: months[0], periodTo: months[months.length - 1] })
-                }}
+                onClick={() => onModeClick(m.id)}
                 className={`btn-mode ${mode === m.id ? 'active' : ''}`}
               >
                 {m.label}
@@ -60,44 +60,58 @@ export default function Header({ data, periodFilter, onPeriodChange }) {
           </div>
 
           {mode === 'monthly' && (
-            <select
-              value={periodFilter?.period || ''}
-              onChange={e => setMode('monthly', { period: e.target.value })}
-              className="select-input"
-            >
+            <select value={periodFilter?.period || ''} onChange={e => setMode('monthly', { period: e.target.value })} className="select-input">
               {months.map(m => <option key={m} value={m}>{fmtMonth(m)}</option>)}
             </select>
           )}
 
-          {mode === 'yearly' && (
-            <select
-              value={periodFilter?.period || ''}
-              onChange={e => setMode('yearly', { period: e.target.value })}
+          {mode === 'daily' && (
+            <input
+              type="date"
               className="select-input"
-            >
+              value={periodFilter?.period || dateMax || ''}
+              min={dateMin || undefined}
+              max={dateMax || undefined}
+              onChange={e => setMode('daily', { period: e.target.value })}
+            />
+          )}
+
+          {mode === 'yearly' && (
+            <select value={periodFilter?.period || ''} onChange={e => setMode('yearly', { period: e.target.value })} className="select-input">
               {years.map(y => <option key={y} value={y}>{y}</option>)}
             </select>
           )}
 
           {mode === 'range' && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <select
-                value={periodFilter?.periodFrom || ''}
-                onChange={e => setMode('range', { periodFrom: e.target.value, periodTo: periodFilter?.periodTo || months[months.length - 1] })}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+              <input
+                type="date"
                 className="select-input"
-              >
-                {months.map(m => <option key={m} value={m}>{fmtMonth(m)}</option>)}
-              </select>
+                value={periodFilter?.periodFrom || dateMin || ''}
+                min={dateMin || undefined}
+                max={dateMax || undefined}
+                onChange={e => setMode('range', { periodFrom: e.target.value, periodTo: periodFilter?.periodTo || dateMax })}
+              />
               <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>→</span>
-              <select
-                value={periodFilter?.periodTo || ''}
-                onChange={e => setMode('range', { periodFrom: periodFilter?.periodFrom || months[0], periodTo: e.target.value })}
+              <input
+                type="date"
                 className="select-input"
-              >
-                {months.map(m => <option key={m} value={m}>{fmtMonth(m)}</option>)}
-              </select>
+                value={periodFilter?.periodTo || dateMax || ''}
+                min={dateMin || undefined}
+                max={dateMax || undefined}
+                onChange={e => setMode('range', { periodFrom: periodFilter?.periodFrom || dateMin, periodTo: e.target.value })}
+              />
             </div>
           )}
+
+          <button
+            className="icon-btn"
+            onClick={onToggleTheme}
+            title={theme === 'light' ? 'Switch to dark' : 'Switch to light'}
+            aria-label="Toggle theme"
+          >
+            {theme === 'light' ? <Moon size={15} /> : <Sun size={15} />}
+          </button>
         </div>
       </div>
 
