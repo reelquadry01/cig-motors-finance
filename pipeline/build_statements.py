@@ -3,6 +3,68 @@
 import pandas as pd
 from .utils import safe_div
 
+# ── Trial balance: account-level source the statements roll up from ──
+_CURRENT_ASSET_KW = ["current", "cash", "receivable", "inventor", "prepayment"]
+_CURRENT_LIAB_KW = ["current", "payable", "short", "accrued"]
+
+
+def tb_group(section: str, fs_heading: str):
+    """Presentation group an account rolls into, or None if it is not part of
+    the trial balance (P&L + balance sheet)."""
+    fsl = str(fs_heading or "").lower()
+    simple = {
+        "Revenue": "Revenue",
+        "COGS": "Cost of sales",
+        "Cost of Sales": "Cost of sales",
+        "Operating Expenses": "Operating expenses",
+        "Depreciation": "Depreciation",
+        "Other Income": "Other income",
+        "Finance Costs": "Finance costs",
+        "Tax": "Tax",
+        "Equity": "Equity",
+    }
+    if section in simple:
+        return simple[section]
+    if section == "Assets":
+        return "Current assets" if any(k in fsl for k in _CURRENT_ASSET_KW) else "Non-current assets"
+    if section == "Liabilities":
+        return "Current liabilities" if any(k in fsl for k in _CURRENT_LIAB_KW) else "Non-current liabilities"
+    return None
+
+
+def build_tb_meta(merged: pd.DataFrame) -> dict:
+    """Stable per-account metadata: {code: {name, group, segment}}."""
+    out = {}
+    cols = ["GL_Code", "Account_Description", "Statement_Section", "FS_Heading", "Segment"]
+    df = merged[cols].drop_duplicates(subset=["GL_Code"])
+    for _, r in df.iterrows():
+        g = tb_group(r["Statement_Section"], r["FS_Heading"])
+        if not g:
+            continue
+        out[str(r["GL_Code"])] = {
+            "name": str(r["Account_Description"]) if pd.notna(r["Account_Description"]) else str(r["GL_Code"]),
+            "group": g,
+            "segment": str(r["Segment"]) if pd.notna(r["Segment"]) else "Corporate",
+        }
+    return out
+
+
+def build_tb_amounts(period_df: pd.DataFrame, meta: dict) -> dict:
+    """Per-account debit/credit totals for one period: {code: [debit, credit]}."""
+    if period_df.empty:
+        return {}
+    g = period_df.groupby("GL_Code").agg(Debit=("Debit", "sum"), Credit=("Credit", "sum"))
+    out = {}
+    for code, row in g.iterrows():
+        code = str(code)
+        if code not in meta:
+            continue
+        d, c = float(row["Debit"]), float(row["Credit"])
+        if abs(d) < 1 and abs(c) < 1:
+            continue
+        out[code] = [round(d, 2), round(c, 2)]
+    return out
+
 
 def merge_mapping(gl: pd.DataFrame, mapping: pd.DataFrame) -> pd.DataFrame:
     """Left-join GL transactions with statement mapping."""

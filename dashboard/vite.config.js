@@ -7,5 +7,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   base: './',
+  // gzip-size reporting is memory hungry on large chunks and is cosmetic only
+  build: { reportCompressedSize: false, chunkSizeWarningLimit: 1200 },
   server: { port: 3000, open: true },
 })

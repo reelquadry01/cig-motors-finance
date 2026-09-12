@@ -11,6 +11,7 @@ from pipeline.read_data import read_gl_clean, read_statement_mapping, read_accou
 from pipeline.build_statements import (
     merge_mapping, build_pl, build_balance_sheet, build_cash_flow,
     build_segments, build_monthly_summary, build_budget,
+    build_tb_meta, build_tb_amounts,
 )
 from pipeline.ratios import calculate_ratios
 from pipeline.commentary import generate_commentary
@@ -103,6 +104,15 @@ def run_pipeline(
             pl_by_day[day] = pl_d
     active_days = sorted(pl_by_day.keys())
 
+    # Trial balance — account-level source the exported model rolls up from
+    tb_meta = build_tb_meta(merged)
+    tb_by_period = {}
+    for p in all_periods:
+        amts = build_tb_amounts(merged[merged["Period"] == p], tb_meta)
+        if amts:
+            tb_by_period[p] = amts
+    print(f"  Trial balance: {len(tb_meta)} accounts across {len(tb_by_period)} periods")
+
     # Budget (blank until Budget_Template.xlsx is populated)
     try:
         budget_df = read_budget(base / budget_path)
@@ -166,6 +176,8 @@ def run_pipeline(
         "pl_by_period": pl_by_period,
         "pl_by_day": pl_by_day,
         "budget_by_period": budget_by_period,
+        "tb_meta": tb_meta,
+        "tb_by_period": tb_by_period,
         "ratios": ratios,
         "commentary": commentary,
         "available_data": {
