@@ -15,6 +15,19 @@
 import fmt from './fmt'
 import { segmentPL, branchPerf, workingCapital } from './sections'
 import { CIG_LOGO_DATA_URL } from './logoAsset'
+import { ROBOTO_REGULAR_BASE64, ROBOTO_BOLD_BASE64 } from './fontAsset'
+
+// Register Roboto Regular + Bold with a jsPDF instance so every text() call
+// draws in a proper finance-report typeface (with Latin-Ext coverage: ₦, ×,
+// —, ·). Called once per document at the start of exportPdf().
+function registerRoboto(doc) {
+  doc.addFileToVFS('Roboto-Regular.ttf', ROBOTO_REGULAR_BASE64)
+  doc.addFileToVFS('Roboto-Bold.ttf', ROBOTO_BOLD_BASE64)
+  doc.addFont('Roboto-Regular.ttf', 'Roboto', 'normal')
+  doc.addFont('Roboto-Bold.ttf', 'Roboto', 'bold')
+  doc.setFont('Roboto', 'normal')
+}
+const FONT_FAMILY = 'Roboto'
 
 // Logo native aspect ratio (289 × 84 px)
 const LOGO_RATIO = 289 / 84
@@ -40,7 +53,7 @@ function bIncome(data) {
   const p = data.pl || {}
   const R = (label, val, o = {}) => ({ cells: [label, t(val)], neg: val < 0 ? [1] : [], ...o })
   return {
-    title: 'Income statement', columns: ['', "NGN'000"],
+    title: 'Income statement', columns: ['', "₦'000"],
     rows: [
       R('Revenue', p.total_revenue),
       R('Cost of sales', p.total_cogs),
@@ -75,7 +88,7 @@ function bBalance(data) {
   rows.push({ cells: ['Total liabilities', t(bs.total_liabilities)], bold: true, top: true })
   sec('Total equity', bs.equity, bs.total_equity)
   rows.push({ cells: ['Total liabilities & equity', t((bs.total_liabilities || 0) + (bs.total_equity || 0))], bold: true, top: true, dbl: true })
-  return { title: 'Balance sheet', columns: ['', "NGN'000"], rows }
+  return { title: 'Balance sheet', columns: ['', "₦'000"], rows }
 }
 
 function bCash(data) {
@@ -89,7 +102,7 @@ function bCash(data) {
   sec('Net cash from investing activities', cf.investing)
   sec('Net cash from financing activities', cf.financing)
   rows.push({ cells: ['Net change in cash', t(cf.net_change)], bold: true, top: true, dbl: true, neg: (cf.net_change || 0) < 0 ? [1] : [] })
-  return { title: 'Cash flow', columns: ['', "NGN'000"], rows }
+  return { title: 'Cash flow', columns: ['', "₦'000"], rows }
 }
 
 function bSegments(data) {
@@ -109,7 +122,7 @@ function bCosts(data) {
   rows.push({ cells: ['Capital expenditure — additions to PP&E', '', ''], bold: true })
   ;(p.capex_breakdown || []).forEach(i => rows.push({ cells: [`   ${i.label}`, t(i.value), pct(i.share)] }))
   rows.push({ cells: ['Total capital expenditure', t(p.capex), '100%'], bold: true, top: true, dbl: true })
-  return { title: 'Costs & expenditure', columns: ['', "NGN'000", 'Share'], rows }
+  return { title: 'Costs & expenditure', columns: ['', "₦'000", 'Share'], rows }
 }
 
 function bWorkingCapital(data) {
@@ -133,7 +146,7 @@ function bWorkingCapital(data) {
 
 function bRatios(data) {
   const r = data.ratios || {}
-  const x = v => v == null || isNaN(v) ? '—' : Number(v).toFixed(2) + 'x'
+  const x = v => v == null || isNaN(v) ? '—' : Number(v).toFixed(2) + '×'
   return {
     title: 'Ratio analysis', columns: ['Ratio', 'Value'],
     rows: [
@@ -172,23 +185,23 @@ function pageIdentity(doc, period) {
     const h = 20, w = h * LOGO_RATIO
     doc.addImage(CIG_LOGO_DATA_URL, 'PNG', W - PAGE_MARGIN - w, 8, w, h, undefined, 'FAST')
   } catch { /* logo optional — never fail the page */ }
-  doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(...MUTED)
+  doc.setFont(FONT_FAMILY, 'bold'); doc.setFontSize(9); doc.setTextColor(...MUTED)
   doc.text(`MANAGEMENT REPORT${period ? '  ·  ' + period : ''}`, PAGE_MARGIN, 22)
   doc.setDrawColor(...RULE); doc.setLineWidth(0.4)
   doc.line(PAGE_MARGIN, 34, W - PAGE_MARGIN, 34)
 }
 function sectionTitle(doc, title, subtitle) {
-  doc.setFont('helvetica', 'bold'); doc.setFontSize(14); doc.setTextColor(...INK)
+  doc.setFont(FONT_FAMILY, 'bold'); doc.setFontSize(14); doc.setTextColor(...INK)
   doc.text(title, PAGE_MARGIN, 54)
   if (subtitle) {
-    doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(...MUTED)
+    doc.setFont(FONT_FAMILY, 'normal'); doc.setFontSize(9); doc.setTextColor(...MUTED)
     doc.text(subtitle, PAGE_MARGIN, 68)
   }
 }
 function pageFooter(doc, W, H) {
   doc.setDrawColor(...RULE); doc.setLineWidth(0.3)
   doc.line(PAGE_MARGIN, H - FOOTER_H + 4, W - PAGE_MARGIN, H - FOOTER_H + 4)
-  doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.setTextColor(...MUTED)
+  doc.setFont(FONT_FAMILY, 'normal'); doc.setFontSize(7.5); doc.setTextColor(...MUTED)
   doc.text('Confidential — for management use', PAGE_MARGIN, H - 14)
   doc.text('CIG Motors — Finance', W - PAGE_MARGIN, H - 14, { align: 'right' })
 }
@@ -205,34 +218,34 @@ async function renderCover(doc, data, selected) {
     doc.addImage(CIG_LOGO_DATA_URL, 'PNG', PAGE_MARGIN, 44, w, h, undefined, 'FAST')
   } catch { /* logo optional */ }
   // Small "MANAGEMENT REPORT" subtitle under the logo
-  doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(...MUTED)
+  doc.setFont(FONT_FAMILY, 'bold'); doc.setFontSize(9); doc.setTextColor(...MUTED)
   doc.text('MANAGEMENT REPORT', PAGE_MARGIN, 136)
   // A thin brand rule separates the header block from the title
   doc.setDrawColor(...BRAND); doc.setLineWidth(1)
   doc.line(PAGE_MARGIN, 150, W - PAGE_MARGIN, 150)
   // Title
-  doc.setTextColor(...INK); doc.setFont('helvetica', 'bold'); doc.setFontSize(30)
+  doc.setTextColor(...INK); doc.setFont(FONT_FAMILY, 'bold'); doc.setFontSize(30)
   doc.text('Management Report', PAGE_MARGIN, 195)
-  doc.setFont('helvetica', 'normal'); doc.setFontSize(16); doc.setTextColor(...NAVY)
+  doc.setFont(FONT_FAMILY, 'normal'); doc.setFontSize(16); doc.setTextColor(...NAVY)
   doc.text(data.period || '', PAGE_MARGIN, 222)
   // Meta block
-  doc.setFontSize(10); doc.setTextColor(...MUTED); doc.setFont('helvetica', 'bold')
+  doc.setFontSize(10); doc.setTextColor(...MUTED); doc.setFont(FONT_FAMILY, 'bold')
   const meta = [
     ['Reporting period', data.period || '—'],
-    ['Currency', "Nigerian Naira (NGN)"],
-    ['Presentation', "NGN'000 (thousands)"],
+    ['Currency', "Nigerian Naira (₦)"],
+    ['Presentation', "₦'000 (thousands)"],
     ['Prepared', new Date().toISOString().slice(0, 10)],
   ]
   meta.forEach((r, i) => {
-    doc.setFont('helvetica', 'bold'); doc.setTextColor(...MUTED)
+    doc.setFont(FONT_FAMILY, 'bold'); doc.setTextColor(...MUTED)
     doc.text(r[0], PAGE_MARGIN, 250 + i * 18)
-    doc.setFont('helvetica', 'normal'); doc.setTextColor(...INK)
+    doc.setFont(FONT_FAMILY, 'normal'); doc.setTextColor(...INK)
     doc.text(r[1], PAGE_MARGIN + 130, 250 + i * 18)
   })
   // Contents
-  doc.setFont('helvetica', 'bold'); doc.setFontSize(11); doc.setTextColor(...INK)
+  doc.setFont(FONT_FAMILY, 'bold'); doc.setFontSize(11); doc.setTextColor(...INK)
   doc.text('Contents', PAGE_MARGIN, 350)
-  doc.setFont('helvetica', 'normal'); doc.setFontSize(10)
+  doc.setFont(FONT_FAMILY, 'normal'); doc.setFontSize(10)
   selected.forEach((id, i) => {
     doc.setTextColor(...MUTED); doc.text(String(i + 1).padStart(2, '0'), PAGE_MARGIN, 370 + i * 16)
     doc.setTextColor(...INK); doc.text(LABELS[id] || id, PAGE_MARGIN + 24, 370 + i * 16)
@@ -246,7 +259,7 @@ async function renderTable(doc, data, id, buildCommentary) {
   const W = doc.internal.pageSize.getWidth()
   const H = doc.internal.pageSize.getHeight()
   pageIdentity(doc, data.period)
-  sectionTitle(doc, b.title, `CIG Motors · ${data.period} · figures in NGN'000`)
+  sectionTitle(doc, b.title, `CIG Motors · ${data.period} · figures in ₦'000`)
   const autoTable = (await import('jspdf-autotable')).default
   autoTable(doc, {
     startY: 82,
@@ -254,7 +267,7 @@ async function renderTable(doc, data, id, buildCommentary) {
     body: b.rows.map(r => r.cells),
     theme: 'plain',
     styles: {
-      font: 'helvetica', fontSize: 9,
+      font: FONT_FAMILY, fontSize: 9,
       cellPadding: { top: 4, bottom: 4, left: 6, right: 6 },
       textColor: INK, lineColor: RULE,
     },
@@ -290,9 +303,9 @@ async function renderCommentary(doc, data, buildCommentary) {
   const sections = buildCommentary ? buildCommentary(data) : []
   sections.forEach(sec => {
     if (y > H - FOOTER_H - 40) { doc.addPage('portrait', 'a4'); pageIdentity(doc, data.period); sectionTitle(doc, 'Commentary (cont.)', `CIG Motors · ${data.period}`); y = 90 }
-    doc.setFont('helvetica', 'bold'); doc.setFontSize(11); doc.setTextColor(...BRAND)
+    doc.setFont(FONT_FAMILY, 'bold'); doc.setFontSize(11); doc.setTextColor(...BRAND)
     doc.text(sec.title, PAGE_MARGIN, y); y += 16
-    doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(...INK)
+    doc.setFont(FONT_FAMILY, 'normal'); doc.setFontSize(10); doc.setTextColor(...INK)
     sec.paras.forEach(p => {
       const lines = doc.splitTextToSize(p, maxW)
       const needed = lines.length * 13 + 6
@@ -310,7 +323,7 @@ function addPageNumbers(doc) {
   const W = doc.internal.pageSize.getWidth()
   for (let i = 1; i <= n; i++) {
     doc.setPage(i)
-    doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.setTextColor(...MUTED)
+    doc.setFont(FONT_FAMILY, 'normal'); doc.setFontSize(7.5); doc.setTextColor(...MUTED)
     doc.text(`Page ${i} of ${n}`, W / 2, H - 14, { align: 'center' })
   }
 }
@@ -318,6 +331,7 @@ function addPageNumbers(doc) {
 export async function exportPdf(ids, data, buildCommentary) {
   const { jsPDF } = await import('jspdf')
   const doc = new jsPDF({ unit: 'pt', format: 'a4', orientation: 'portrait' })
+  registerRoboto(doc)   // Roboto is now the base font — supports ₦, ×, —
   const selected = ids.filter(id => TABLE_BUILDERS[id] || id === 'commentary')
   // Cover
   await renderCover(doc, data, selected)

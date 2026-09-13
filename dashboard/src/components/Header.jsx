@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Sun, Moon, Download } from 'lucide-react'
 import ExportCenter from './ExportCenter'
+import cigLogo from '../assets/cig-gac-logo.png'
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 
@@ -39,18 +40,18 @@ export default function Header({ data, periodFilter, onPeriodChange, theme, onTo
   return (
     <div>
       <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'space-between', gap: 20 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
           <img
-            src="/assets/cig-gac-logo.png"
-            alt="CIG Motors / GAC Motor"
-            style={{ height: 44, width: 'auto', flexShrink: 0 }}
+            src={cigLogo}
+            alt="CIG Motors Co. Ltd. / GAC Motor"
+            style={{ height: 52, width: 'auto', flexShrink: 0 }}
           />
-          <div style={{ borderLeft: '1px solid var(--rule)', paddingLeft: 18 }}>
+          <div style={{ borderLeft: '1px solid var(--rule)', paddingLeft: 20 }}>
             <div style={{ fontSize: 10.5, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.14em', color: 'var(--text-muted)', marginBottom: 4 }}>
-              Monthly management report
+              CIG Motors Co. Ltd.  ·  Monthly management report
             </div>
-            <h1 style={{ fontSize: 26, fontWeight: 800, letterSpacing: '-0.02em', margin: 0, lineHeight: 1.15 }}>
-              <span style={{ color: 'var(--brand)' }}>Finance Dashboard</span>
+            <h1 style={{ fontSize: 28, fontWeight: 800, letterSpacing: '-0.02em', margin: 0, lineHeight: 1.15, color: 'var(--brand-navy, #1f3a5f)' }}>
+              Finance Dashboard
             </h1>
           </div>
         </div>

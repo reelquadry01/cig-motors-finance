@@ -35,6 +35,7 @@
 // Presentation: full precision stored, displayed in ₦'000 via a scaling
 // number format, gridlines off, frozen headers, internal hyperlinks.
 import { workingCapital } from './sections'
+import { CIG_LOGO_BASE64, CIG_LOGO_WIDTH, CIG_LOGO_HEIGHT } from './logoAsset'
 
 const FONT = 'Aptos Narrow'
 const NUMFMT = "#,##0,;(#,##0,)"   // stores full ₦, displays ₦'000
@@ -62,7 +63,88 @@ const NOTES_TAB = 'Notes'
 const IS_TAB = 'Income statement'
 const BS_TAB = 'Balance sheet'
 const CF_TAB = 'Cash flow'
+const SETUP_TAB = 'Setup'
 const UNITS = "All figures in ₦'000 unless stated"
+
+// Cell style palette — every sheet builds against these, no ad-hoc font settings.
+// This is what "professional financial modeller" means: one place for the visual
+// language, applied consistently to every cell of the same role.
+const styles = {
+  // H1 — sheet title. Navy, not red. Red is reserved for the firm identity band
+  // and for adverse variances.
+  h1: (cell) => {
+    cell.font = { name: FONT, bold: true, size: 16, color: { argb: NAVY } }
+    cell.alignment = { vertical: 'middle' }
+  },
+  subtitle: (cell) => {
+    cell.font = { name: FONT, italic: true, size: 9, color: { argb: MUTED } }
+    cell.alignment = { vertical: 'middle' }
+  },
+  // H2 — section heading within a sheet, brand red, small caps feel
+  h2: (cell) => {
+    cell.font = { name: FONT, bold: true, size: 11, color: { argb: BRAND } }
+    cell.alignment = { vertical: 'middle' }
+  },
+  // H3 — small caps grey label above a table block
+  h3: (cell) => {
+    cell.font = { name: FONT, bold: true, size: 9, color: { argb: MUTED } }
+    cell.alignment = { vertical: 'middle' }
+  },
+  // Table column header — grey fill, bold ink, bottom rule
+  tblHeader: (cell, opts = {}) => {
+    cell.font = { name: FONT, bold: true, size: 9, color: { argb: INK } }
+    cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: HEADFILL } }
+    cell.border = { bottom: { style: 'thin', color: { argb: RULE } } }
+    cell.alignment = { vertical: 'middle', horizontal: opts.align || 'right' }
+  },
+  label: (cell) => {
+    cell.font = { name: FONT, size: 10, color: { argb: INK } }
+    cell.alignment = { vertical: 'middle', horizontal: 'left' }
+  },
+  labelIndent: (cell, level = 1) => {
+    styles.label(cell)
+    cell.alignment = { vertical: 'middle', horizontal: 'left', indent: level * 2 }
+  },
+  input: (cell, fmt = NUMFMT) => {
+    cell.numFmt = fmt
+    cell.font = { name: FONT, size: 10, color: { argb: C_INPUT } }
+    cell.alignment = { vertical: 'middle', horizontal: 'right' }
+  },
+  calc: (cell, fmt = NUMFMT) => {
+    cell.numFmt = fmt
+    cell.font = { name: FONT, size: 10, color: { argb: C_CALC } }
+    cell.alignment = { vertical: 'middle', horizontal: 'right' }
+  },
+  link: (cell, fmt = NUMFMT) => {
+    cell.numFmt = fmt
+    cell.font = { name: FONT, size: 10, color: { argb: C_LINK } }
+    cell.alignment = { vertical: 'middle', horizontal: 'right' }
+  },
+  // Subtotal / total — bold + top rule
+  total: (row, opts = {}) => {
+    const boldColor = opts.color || C_CALC
+    row.eachCell(c => {
+      c.font = { name: FONT, bold: true, size: 10, color: { argb: c.font?.color?.argb || boldColor } }
+      c.border = { ...(c.border || {}), top: { style: 'thin', color: { argb: RULE } } }
+      c.alignment = c.alignment || { vertical: 'middle' }
+    })
+  },
+  // Grand total — bold + top rule + double bottom + soft grey shade
+  grandTotal: (row) => {
+    row.eachCell(c => {
+      c.font = { name: FONT, bold: true, size: 10.5, color: { argb: c.font?.color?.argb || NAVY } }
+      c.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: BANDFILL } }
+      c.border = {
+        top: { style: 'thin', color: { argb: RULE } },
+        bottom: { style: 'double', color: { argb: RULE } },
+      }
+      c.alignment = c.alignment || { vertical: 'middle' }
+    })
+  },
+  muted: (cell) => {
+    cell.font = { name: FONT, size: 9, italic: true, color: { argb: MUTED } }
+  },
+}
 
 const val = v => Math.round(v || 0)
 const q = t => `'${String(t).replace(/'/g, "''")}'`
@@ -100,22 +182,20 @@ async function newWorkbook() {
   return wb
 }
 
-// Fetch the CIG / GAC lockup once per workbook and cache its ExcelJS image id.
-// In Node (SSR / model generation) we read from disk; in the browser we fetch
-// the public asset. Falls back silently if the logo is unavailable.
-async function ensureLogo(wb) {
-  if (wb._cigLogoId !== null) return wb._cigLogoId
+// Register the CIG / GAC lockup with the workbook exactly once, using the
+// base64 payload bundled by Vite. No network fetch, no filesystem read —
+// works uniformly in the browser, in dev, in prod builds, and in Node when
+// the model is generated headlessly for tests.
+function b64ToBytes(b64) {
+  if (typeof Buffer !== 'undefined') return Buffer.from(b64, 'base64')
+  const bin = atob(b64); const out = new Uint8Array(bin.length)
+  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i)
+  return out
+}
+function ensureLogo(wb) {
+  if (wb._cigLogoId !== null && wb._cigLogoId !== undefined) return wb._cigLogoId
   try {
-    let buffer
-    if (typeof window === 'undefined') {
-      const fs = await import('fs'); const path = await import('path')
-      const p = path.resolve('public/assets/cig-gac-logo.png')
-      if (fs.existsSync(p)) buffer = fs.readFileSync(p)
-    } else {
-      const resp = await fetch('/assets/cig-gac-logo.png')
-      if (resp.ok) buffer = new Uint8Array(await resp.arrayBuffer())
-    }
-    if (!buffer) { wb._cigLogoId = -1; return -1 }
+    const buffer = b64ToBytes(CIG_LOGO_BASE64)
     wb._cigLogoId = wb.addImage({ buffer, extension: 'png' })
   } catch {
     wb._cigLogoId = -1
@@ -148,39 +228,49 @@ const base = ws => {
   }
 }
 // Firm identity block placed at the top of every content sheet. The CIG / GAC
-// lockup is anchored top-right so the sheet title reads naturally on the left.
-// When the workbook has cached a logo image, it floats over these header rows.
+// lockup floats top-right; the company name (referenced from Setup!$B$2 —
+// never hardcoded) sits top-left; the sheet H1 (navy blue, per professional
+// convention) sits under a brand rule.
 function pageHeader(ws, sheetTitle, sub, period) {
-  const r1 = ws.addRow(['CIG MOTORS'])
+  const isSetup = ws.name === SETUP_TAB
+  // Row 1: company name (formula reference to Setup unless this IS Setup)
+  const r1 = ws.addRow([null])
+  r1.getCell(1).value = isSetup
+    ? 'CIG MOTORS CO LTD'
+    : { formula: `${q(SETUP_TAB)}!$B$2` }
   r1.getCell(1).font = { name: FONT, bold: true, size: 10, color: { argb: BRAND } }
   r1.getCell(1).alignment = { vertical: 'middle' }
   r1.height = 16
-  const r2 = ws.addRow([`MANAGEMENT REPORT${period ? '  ·  ' + period : ''}`])
+  // Row 2: "MANAGEMENT REPORT · <period>" — period is referenced from Setup
+  const r2 = ws.addRow([null])
+  r2.getCell(1).value = isSetup
+    ? `MANAGEMENT REPORT${period ? '  ·  ' + period : ''}`
+    : { formula: `"MANAGEMENT REPORT  ·  "&${q(SETUP_TAB)}!$B$3` }
   r2.getCell(1).font = { name: FONT, bold: true, size: 9, color: { argb: MUTED } }
   r2.height = 14
+  // Row 3: thin brand rule
   const ruleRow = ws.addRow([''])
   ruleRow.height = 4
   for (let c = 1; c <= 12; c++) { ws.getCell(ruleRow.number, c).border = { bottom: { style: 'medium', color: { argb: BRAND } } } }
+  // Row 4: H1 sheet title — navy, professional finance-model convention
   const tRow = ws.addRow([sheetTitle])
-  tRow.getCell(1).font = { name: FONT, bold: true, size: 14, color: { argb: INK } }
-  tRow.height = 22
+  styles.h1(tRow.getCell(1))
+  tRow.height = 24
+  // Row 5: subtitle (optional, muted italic)
   if (sub) {
     const s = ws.addRow([sub])
-    s.getCell(1).font = { name: FONT, italic: true, size: 9, color: { argb: MUTED } }
+    styles.subtitle(s.getCell(1))
   }
   ws.addRow([])
-  // Float the logo over the top-right of the identity band (columns L–N, rows 1–3).
-  // ExcelJS uses zero-indexed coordinates; ranges are inclusive.
+  // Logo — anchored top-right (columns L-N, rows 0-3)
   const wb = ws.workbook
-  if (wb && wb._cigLogoId !== null && wb._cigLogoId !== -1) {
+  if (wb && wb._cigLogoId !== null && wb._cigLogoId !== undefined && wb._cigLogoId !== -1) {
     ws.addImage(wb._cigLogoId, {
-      tl: { col: 11, row: 0 }, ext: { width: 130, height: 38 }, editAs: 'oneCell',
+      tl: { col: 11, row: 0 }, ext: { width: 138, height: 40 }, editAs: 'oneCell',
     })
   }
   return ws.rowCount
 }
-// Kept for backwards compat within this file — sheets that were calling title()
-// now route through pageHeader() with the firm identity.
 function title(ws, text, sub, period) { pageHeader(ws, text, sub, period) }
 
 function backLink(ws) {
@@ -389,55 +479,85 @@ const noteRefs = (notes, group) => notesFor(notes, group).map(x => x.number).joi
 /* ── Income statement with Actual | Prior | MoM | YTD ── */
 function sheetIncome(ws, data, ctx) {
   const { notes, periodCtx } = ctx
-  const { pk, prior, ytdMonths, pbp } = periodCtx
+  const { pk, prior, priorYear, ytdMonths, ytdPriorMonths, pbp } = periodCtx
   base(ws)
-  const priorLbl = prior ? fmtMonth(prior) : 'Prior'
+  const priorLbl = prior ? fmtMonth(prior) : 'Prior mo.'
   const actualLbl = pk ? fmtMonth(pk) : 'Actual'
-  title(ws, 'Income statement', `${UNITS} · ${actualLbl}${prior ? ` vs ${priorLbl}` : ''}${ytdMonths.length > 1 ? ` · YTD ${ytdMonths.length} months` : ''}`, data.period)
+  const py = priorYear ? pbp[priorYear] : null
+  const hasYoY = !!py
+  const hasYtdYoY = ytdPriorMonths && ytdPriorMonths.length > 0
+  const subBits = [actualLbl]
+  if (prior) subBits.push(`vs ${priorLbl}`)
+  if (hasYoY) subBits.push(`YoY vs ${fmtMonth(priorYear)}`)
+  if (ytdMonths.length > 1) subBits.push(`YTD ${ytdMonths.length} months`)
+  title(ws, 'Income statement', `${UNITS} · ${subBits.join(' · ')}`, data.period)
   backLink(ws)
-  const h = headerRow(ws, ['', 'Note', actualLbl, priorLbl, 'MoM ₦', 'MoM %', 'YTD'], 3)
+  // Columns: label | Note | Actual | Prior mo. | MoM % | Prior yr | YoY % | YTD | Prior YTD | YoY YTD %
+  const cols = ['', 'Note', actualLbl, priorLbl, 'MoM %']
+  if (hasYoY) cols.push('Prior yr', 'YoY %')
+  cols.push('YTD')
+  if (hasYtdYoY) cols.push('Prior YTD', 'YoY YTD %')
+  const h = headerRow(ws, cols, 3)
+  // Column indexes computed once so downstream code stays readable regardless
+  // of whether YoY columns are present in this run.
+  const COL = {
+    label: 1, note: 2, act: 3, prior: 4, mom: 5,
+    py: hasYoY ? 6 : null, yoy: hasYoY ? 7 : null,
+    ytd: hasYoY ? 8 : 6,
+    pytd: hasYtdYoY ? (hasYoY ? 9 : 7) : null,
+    yoytd: hasYtdYoY ? (hasYoY ? 10 : 8) : null,
+  }
+  const L = i => String.fromCharCode(64 + i)
   const R = {}
   const cur = periodCtx.pk ? pbp[periodCtx.pk] : (data.pl || {})
   const prev = prior ? pbp[prior] : null
 
   const line = (key, label, group, plKey) => {
-    const r = ws.addRow([label, noteRefs(notes, group)]); r.font = { name: FONT, size: 10 }
-    r.getCell(2).alignment = { horizontal: 'center' }
-    r.getCell(2).font = { name: FONT, size: 9, color: { argb: MUTED } }
+    const r = ws.addRow([label, noteRefs(notes, group)])
+    styles.label(r.getCell(COL.label))
+    r.getCell(COL.note).font = { name: FONT, size: 9, color: { argb: MUTED } }
+    r.getCell(COL.note).alignment = { horizontal: 'center', vertical: 'middle' }
     // Actual = SUM of the note totals for the group (green cross-sheet formula)
     const f = groupSum(notes, group)
-    const c3 = r.getCell(3)
-    if (f) { c3.value = { formula: f }; styleCell(c3, { color: C_LINK }) }
-    else { c3.value = val(cur?.[plKey]); styleCell(c3, { color: C_INPUT }) }
-    // Prior period (hard input from the prior-period JSON)
-    r.getCell(4).value = prev ? val(prev[plKey]) : (prior ? 0 : null)
-    if (prev) styleCell(r.getCell(4), { color: C_INPUT })
-    // MoM absolute (black same-sheet)
-    if (prev) { r.getCell(5).value = { formula: `C${r.number}-D${r.number}` }; styleCell(r.getCell(5)) }
+    const cAct = r.getCell(COL.act)
+    if (f) { cAct.value = { formula: f }; styles.link(cAct) }
+    else { cAct.value = val(cur?.[plKey]); styles.input(cAct) }
+    // Prior month
+    if (prev) { r.getCell(COL.prior).value = val(prev[plKey]); styles.input(r.getCell(COL.prior)) }
     // MoM %
-    if (prev) { r.getCell(6).value = { formula: `IF(D${r.number}=0,"",(C${r.number}-D${r.number})/ABS(D${r.number}))` }; styleCell(r.getCell(6), { fmt: PCTFMT }) }
-    // YTD (sum from Jan of the current year to this period)
+    if (prev) { r.getCell(COL.mom).value = { formula: `IF(${L(COL.prior)}${r.number}=0,"",(${L(COL.act)}${r.number}-${L(COL.prior)}${r.number})/ABS(${L(COL.prior)}${r.number}))` }; styles.calc(r.getCell(COL.mom), PCTFMT) }
+    // Prior year (same-month)
+    if (hasYoY) { r.getCell(COL.py).value = val(py[plKey]); styles.input(r.getCell(COL.py)) }
+    // YoY %
+    if (hasYoY) { r.getCell(COL.yoy).value = { formula: `IF(${L(COL.py)}${r.number}=0,"",(${L(COL.act)}${r.number}-${L(COL.py)}${r.number})/ABS(${L(COL.py)}${r.number}))` }; styles.calc(r.getCell(COL.yoy), PCTFMT) }
+    // YTD
     if (ytdMonths.length) {
       const ytd = sumMonthsField(pbp, ytdMonths, plKey)
-      r.getCell(7).value = val(ytd); styleCell(r.getCell(7), { color: C_INPUT })
+      r.getCell(COL.ytd).value = val(ytd); styles.input(r.getCell(COL.ytd))
     }
+    // Prior YTD
+    if (hasYtdYoY) {
+      const pytd = sumMonthsField(pbp, ytdPriorMonths, plKey)
+      r.getCell(COL.pytd).value = val(pytd); styles.input(r.getCell(COL.pytd))
+    }
+    // YoY YTD %
+    if (hasYtdYoY) { r.getCell(COL.yoytd).value = { formula: `IF(${L(COL.pytd)}${r.number}=0,"",(${L(COL.ytd)}${r.number}-${L(COL.pytd)}${r.number})/ABS(${L(COL.pytd)}${r.number}))` }; styles.calc(r.getCell(COL.yoytd), PCTFMT) }
     R[key] = r.number
   }
-  const calc = (key, label, formula, { pct = false, dbl = false, ytdFormula = null } = {}) => {
-    const r = ws.addRow([label]); r.font = { name: FONT, size: 10, bold: true }
-    ;[3, 4, 7].forEach(ci => {
-      const c = r.getCell(ci)
-      if (ci === 4 && !prev) return
-      if (ci === 7 && !ytdMonths.length) return
-      const L = { 3: 'C', 4: 'D', 7: 'G' }[ci]
-      c.value = { formula: formula(L) }
-      styleCell(c, { bold: true, fmt: pct ? PCTFMT : NUMFMT })
-    })
-    if (prev) {
-      r.getCell(5).value = { formula: `C${r.number}-D${r.number}` }; styleCell(r.getCell(5), { bold: true })
-      r.getCell(6).value = { formula: `IF(D${r.number}=0,"",(C${r.number}-D${r.number})/ABS(D${r.number}))` }; styleCell(r.getCell(6), { bold: true, fmt: PCTFMT })
-    }
-    dbl ? ruleDouble(r) : ruleAbove(r)
+  const calc = (key, label, formula, { pct = false, dbl = false } = {}) => {
+    const r = ws.addRow([label])
+    styles.label(r.getCell(COL.label)); r.getCell(COL.label).font = { name: FONT, bold: true, size: 10, color: { argb: INK } }
+    const cols = [COL.act]
+    if (prev) cols.push(COL.prior)
+    if (hasYoY) cols.push(COL.py)
+    if (ytdMonths.length) cols.push(COL.ytd)
+    if (hasYtdYoY) cols.push(COL.pytd)
+    cols.forEach(ci => { r.getCell(ci).value = { formula: formula(L(ci)) }; styles.calc(r.getCell(ci), pct ? PCTFMT : NUMFMT); r.getCell(ci).font = { name: FONT, bold: true, size: 10, color: { argb: C_CALC } } })
+    // Derived deltas
+    if (prev) { r.getCell(COL.mom).value = { formula: `IF(${L(COL.prior)}${r.number}=0,"",(${L(COL.act)}${r.number}-${L(COL.prior)}${r.number})/ABS(${L(COL.prior)}${r.number}))` }; styles.calc(r.getCell(COL.mom), PCTFMT); r.getCell(COL.mom).font = { name: FONT, bold: true, size: 10, color: { argb: C_CALC } } }
+    if (hasYoY) { r.getCell(COL.yoy).value = { formula: `IF(${L(COL.py)}${r.number}=0,"",(${L(COL.act)}${r.number}-${L(COL.py)}${r.number})/ABS(${L(COL.py)}${r.number}))` }; styles.calc(r.getCell(COL.yoy), PCTFMT); r.getCell(COL.yoy).font = { name: FONT, bold: true, size: 10, color: { argb: C_CALC } } }
+    if (hasYtdYoY) { r.getCell(COL.yoytd).value = { formula: `IF(${L(COL.pytd)}${r.number}=0,"",(${L(COL.ytd)}${r.number}-${L(COL.pytd)}${r.number})/ABS(${L(COL.pytd)}${r.number}))` }; styles.calc(r.getCell(COL.yoytd), PCTFMT); r.getCell(COL.yoytd).font = { name: FONT, bold: true, size: 10, color: { argb: C_CALC } } }
+    if (dbl) styles.grandTotal(r); else styles.total(r)
     R[key] = r.number
   }
   line('rev', 'Revenue', 'Revenue', 'total_revenue')
@@ -455,20 +575,22 @@ function sheetIncome(ws, data, ctx) {
   ws.addRow([])
   ws.addRow(['Margins']).getCell(1).font = { name: FONT, bold: true, size: 9, color: { argb: MUTED } }
   const pctRow = (label, key) => {
-    const r = ws.addRow([label]); r.font = { name: FONT, size: 10 }
-    r.getCell(3).value = { formula: `IF(C${R.rev}=0,0,C${R[key]}/C${R.rev})` }; styleCell(r.getCell(3), { fmt: PCTFMT })
-    if (prev) {
-      r.getCell(4).value = { formula: `IF(D${R.rev}=0,0,D${R[key]}/D${R.rev})` }; styleCell(r.getCell(4), { fmt: PCTFMT })
-      r.getCell(6).value = { formula: `(C${r.number}-D${r.number})*100` }; styleCell(r.getCell(6), { fmt: PCTPPT })
-    }
-    if (ytdMonths.length) { r.getCell(7).value = { formula: `IF(G${R.rev}=0,0,G${R[key]}/G${R.rev})` }; styleCell(r.getCell(7), { fmt: PCTFMT }) }
+    const r = ws.addRow([label]); styles.label(r.getCell(COL.label))
+    const pct = ci => { const c = r.getCell(ci); c.value = { formula: `IF(${L(COL.act)}${R.rev}=0,0,${L(ci)}${R[key]}/${L(ci)}${R.rev})` }; styles.calc(c, PCTFMT) }
+    pct(COL.act)
+    if (prev) pct(COL.prior)
+    if (hasYoY) pct(COL.py)
+    if (ytdMonths.length) pct(COL.ytd)
+    if (hasYtdYoY) pct(COL.pytd)
   }
   pctRow('Gross margin', 'gp'); pctRow('EBITDA margin', 'ebitda'); pctRow('Operating margin', 'op'); pctRow('Net margin', 'pat')
 
-  ws.getColumn(1).width = 34; ws.getColumn(2).width = 6
-  ;[3, 4, 5, 7].forEach(c => ws.getColumn(c).width = 14)
-  ws.getColumn(6).width = 10
-  ws.views = [{ showGridLines: false, state: 'frozen', ySplit: h.number }]
+  // Column widths — label wide, note narrow, everything else uniform
+  ws.getColumn(COL.label).width = 34
+  ws.getColumn(COL.note).width = 6
+  ;[COL.act, COL.prior, COL.py, COL.ytd, COL.pytd].filter(Boolean).forEach(c => ws.getColumn(c).width = 13)
+  ;[COL.mom, COL.yoy, COL.yoytd].filter(Boolean).forEach(c => ws.getColumn(c).width = 10)
+  ws.views = [{ showGridLines: false, state: 'frozen', ySplit: h.number, xSplit: 2 }]
 
   return { R, revRow: R.rev, cogsRow: R.cogs, gpRow: R.gp, ebitdaRow: R.ebitda, opRow: R.op, pbtRow: R.pbt, patRow: R.pat }
 }
@@ -1028,24 +1150,67 @@ function sheetDashboard(ws, data, ctx) {
   ws.views = [{ showGridLines: false, state: 'frozen', ySplit: h1.number }]
 }
 
+/* ── Setup — one source of truth for firm metadata. Every other sheet
+   references Setup!$B$n rather than hardcoding the company name. Edit the
+   values here and the whole pack updates.  ── */
+function sheetSetup(ws, data) {
+  base(ws)
+  // Explicit rows so downstream references (B2 = company, B3 = period, etc.)
+  // remain stable across pipeline revisions.
+  ws.addRow(['Field', 'Value']).eachCell(c => styles.tblHeader(c, { align: 'left' }))
+  const rows = [
+    ['Company name', 'CIG MOTORS CO LTD'],
+    ['Reporting period', data.period || ''],
+    ['Currency', 'Nigerian Naira (₦)'],
+    ['Presentation', "₦'000 (thousands)"],
+    ['Prepared by', 'Finance'],
+    ['Reviewed by', ''],
+    ['Prepared on', new Date().toISOString().slice(0, 10)],
+    ['Basis of preparation', 'Management reporting — extracted from the general ledger'],
+    ['Source system', 'Sample GL — trial-balance-sourced pipeline'],
+    ['Formula convention', 'Direct cell references + SUMIFS on the Trial Balance'],
+    ['Confidentiality', 'For internal management use'],
+  ]
+  rows.forEach(([k, v]) => {
+    const r = ws.addRow([k, v])
+    styles.label(r.getCell(1))
+    styles.input(r.getCell(2), '@')   // text input format
+    r.getCell(2).alignment = { vertical: 'middle', horizontal: 'left' }
+  })
+  ws.getColumn(1).width = 26
+  ws.getColumn(2).width = 60
+  ws.addRow([])
+  ws.addRow(['Note']).getCell(1).font = { name: FONT, bold: true, size: 9, color: { argb: MUTED } }
+  const n = ws.addRow(['Every other sheet references this tab for the firm identity — change the value here and it flows through the pack.'])
+  styles.muted(n.getCell(1))
+  n.getCell(1).alignment = { wrapText: true, vertical: 'top' }
+  n.height = 30
+  // Freeze the header row and hide gridlines
+  ws.views = [{ showGridLines: false, state: 'frozen', ySplit: 1 }]
+}
+
 /* ── Cover ── */
 function coverSheet(ws, data, tabs) {
   base(ws)
-  // Large branded lockup — logo top-left, brand band underneath, then title
   const wb = ws.workbook
   if (wb && wb._cigLogoId !== null && wb._cigLogoId !== -1) {
     ws.addImage(wb._cigLogoId, { tl: { col: 0, row: 0 }, ext: { width: 260, height: 76 }, editAs: 'oneCell' })
-    // reserve vertical space for the image
     for (let r = 1; r <= 4; r++) ws.getRow(r).height = 22
     ws.addRow([]); ws.addRow([])
   }
-  // Brand rule across the top of the page
   const brandRule = ws.addRow([''])
   brandRule.height = 4
   for (let c = 1; c <= 8; c++) ws.getCell(brandRule.number, c).border = { bottom: { style: 'medium', color: { argb: BRAND } } }
   ws.addRow([])
-  ws.addRow(['Management Report']).getCell(1).font = { name: FONT, bold: true, size: 26, color: { argb: BRAND } }
-  ws.addRow([data.period]).getCell(1).font = { name: FONT, size: 14, color: { argb: NAVY } }
+  // Company name from Setup (blue link colour makes the reference obvious)
+  const co = ws.addRow([null]); co.getCell(1).value = { formula: `${q(SETUP_TAB)}!$B$2` }
+  co.getCell(1).font = { name: FONT, bold: true, size: 18, color: { argb: BRAND } }
+  co.height = 22
+  const mr = ws.addRow(['Management Report'])
+  mr.getCell(1).font = { name: FONT, bold: true, size: 26, color: { argb: NAVY } }
+  mr.height = 30
+  const per = ws.addRow([null]); per.getCell(1).value = { formula: `${q(SETUP_TAB)}!$B$3` }
+  per.getCell(1).font = { name: FONT, size: 14, color: { argb: INK } }
   ws.addRow([])
   ;[['Currency', 'Nigerian Naira (₦)'], ['Presentation', "₦'000 (thousands)"],
   ['Basis of preparation', 'Extracted from the general ledger. The Trial Balance is the source; the Notes roll up from it and the statements roll up from the Notes.'],
@@ -1107,15 +1272,20 @@ async function download(wb, name) {
 
 export async function buildWorkbook(ids, data, buildCommentary, { withSummary = true, withCover = true } = {}) {
   const wb = await newWorkbook()
-  await ensureLogo(wb)   // preloads the CIG/GAC lockup used on every sheet's identity block
+  ensureLogo(wb)   // registers the CIG/GAC lockup once, reused on every sheet's identity block
   // Preserve catalog order (skill spec) regardless of selection order
   const chosen = CATALOG.filter(s => ids.includes(s.id))
   const tb = chosen.some(s => s.needsTB) ? resolveTB(data) : null
 
-  // Tab order (as user will see them): Cover → chosen (in catalog order) → Notes → TB (source at end)
+  // Tab order (as user will see them): Setup → Cover → chosen → Notes → TB (source at end)
   const tabNames = []
   chosen.forEach(s => tabNames.push(s.tab))
   if (tb) { tabNames.push(NOTES_TAB); tabNames.push(TB_TAB) }
+
+  // Setup sheet FIRST — every other sheet's identity band references it via
+  // Setup!$B$2 etc., so it must exist before any other sheet is written.
+  const setupWs = wb.addWorksheet(SETUP_TAB)
+  sheetSetup(setupWs, data)
 
   if (withCover) coverSheet(wb.addWorksheet('Cover'), data, tabNames)
   const wsById = {}
