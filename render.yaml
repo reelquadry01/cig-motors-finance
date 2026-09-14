@@ -52,8 +52,14 @@ services:
       - key: PIPELINE_TIMEOUT_S
         value: "60"
 
-    # Persist the uploads and generated dashboard_data.json across deploys.
-    disk:
-      name: cig-finance-data
-      mountPath: /opt/render/project/src/data
-      sizeGB: 1
+    # NOTE: persistent disks require the `starter` plan or higher. On the free
+    # tier the data/ directory is ephemeral — uploads and dashboard_data.json
+    # are lost on each redeploy or when the instance spins down (15 min idle).
+    # To make uploads persistent later:
+    #   1. In the Render dashboard → this service → Settings → change plan to Starter ($7/mo).
+    #   2. Uncomment the block below and push again — the disk will attach.
+    #
+    # disk:
+    #   name: cig-finance-data
+    #   mountPath: /opt/render/project/src/data
+    #   sizeGB: 1
