@@ -48,6 +48,8 @@ FILE_TYPES: dict[str, dict] = {
         "sheet": "GL_Clean",
         "diff_key": ["Transaction_ID"],  # falls back to composite if missing
         "diff_key_fallback": ["GL_Code", "Doc_Date", "Reference", "Debit", "Credit"],
+        # Post-clean shape used by the differ. Raw uploads pass through
+        # backend.services.gl_ingest first, which produces this shape.
         "headers": [
             "Transaction_ID", "GL_Code", "GL_Account", "Doc_Date",
             "Source", "Reference", "Narration", "Debit", "Credit",
@@ -56,6 +58,23 @@ FILE_TYPES: dict[str, dict] = {
             "TX-000001", "40000", "Revenue - Vehicle Sales", "2026-09-01",
             "Sales", "INV-2026-0912", "Vehicle sale to customer XYZ", 0, 4_500_000,
         ],
+        # Raw Sage-style shape the template exposes to users, because that
+        # is what the source system spits out. Interleaved header rows are
+        # not shown in the sample — the file preview note explains the
+        # hierarchy in words.
+        "template_sheet": "gl",
+        "template_headers": [
+            "Account Number/Year/ Prd.", "Source", "Doc. Date",
+            "Description", "Reference", "Debits", "Credits",
+        ],
+        "template_sample": [
+            "10000", "Cash in Hand - Naira-1", "Opening Balance:", 500000, 0, "", "",
+        ],
+        "template_note": (
+            "Export your monthly GL from Sage (or your source system) exactly as it comes "
+            "out — the hierarchical shape with account headers, year rows and transaction "
+            "rows. The pipeline detects the raw shape and cleans it automatically."
+        ),
         "triggers_pipeline": True,
     },
     "mapping": {

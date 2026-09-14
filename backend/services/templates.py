@@ -28,6 +28,7 @@ RULE = "B9B2AA"
 
 # Human-readable notes shown on the "Notes" sheet of each template.
 COLUMN_NOTES: dict[str, str] = {
+    # Clean-shape columns
     "Transaction_ID": "Optional. If present, we use it as the primary diff key. Composite of GL_Code + Doc_Date + Reference is used otherwise.",
     "GL_Code": "Chart-of-accounts code. Must match a row in Statement_Mapping.xlsx.",
     "GL_Account": "Human-readable account name (used on the face of the statements).",
@@ -37,6 +38,12 @@ COLUMN_NOTES: dict[str, str] = {
     "Narration": "Free-text description.",
     "Debit": "Debit amount in Naira. Zero if credit-only.",
     "Credit": "Credit amount in Naira. Zero if debit-only.",
+    # Raw Sage-shape columns (GL template only)
+    "Account Number/Year/ Prd.": "Column A carries three things: on account-header rows the GL code; on year-separator rows the 4-digit year; on transaction rows the month period (01-12). Do not rearrange.",
+    "Doc. Date": "On transaction rows the document date. On account-header rows the literal text \"Opening Balance:\".",
+    "Description": "On transaction rows the free-text narration. On account-header rows the account name.",
+    "Debits": "Raw debit amount. On account-header rows this is the opening debit balance.",
+    "Credits": "Raw credit amount. On account-header rows this is the opening credit balance.",
     "Account_Description": "Name of the GL account.",
     "Statement_Section": "Assets / Liabilities / Equity / Revenue / COGS / Operating Expenses / Depreciation / Other Income / Finance Costs / Tax.",
     "FS_Heading": "The line the account rolls up to on the face of the statements (e.g. \"Trade receivables\").",
@@ -66,21 +73,33 @@ def _sample_cell(cell) -> None:
 
 
 def build_template(file_type: str) -> bytes:
-    """Return a fully-styled .xlsx template for `file_type`."""
+    """Return a fully-styled .xlsx template for `file_type`.
+
+    Some file types (currently just `gl`) offer a template in the raw shape
+    the source system exports — the pipeline cleans the raw upload before it
+    reaches the differ. When `template_headers` / `template_sample` /
+    `template_sheet` / `template_note` are defined on the file spec, the
+    template uses those in place of the clean-shape versions.
+    """
     spec = config.file_type_or_400(file_type)
     wb = Workbook()
 
+    headers = spec.get("template_headers") or spec["headers"]
+    sample = spec.get("template_sample") or spec["sample"]
+    sheet_name = spec.get("template_sheet") or spec.get("sheet", "Data")
+    note_text = spec.get("template_note")
+
     # Data sheet
     ws = wb.active
-    ws.title = str(spec.get("sheet", "Data"))[:31]
-    for i, h in enumerate(spec["headers"], start=1):
+    ws.title = str(sheet_name)[:31]
+    for i, h in enumerate(headers, start=1):
         c = ws.cell(row=1, column=i, value=h)
         _header_cell(c)
-    for i, v in enumerate(spec["sample"], start=1):
+    for i, v in enumerate(sample, start=1):
         c = ws.cell(row=2, column=i, value=v)
         _sample_cell(c)
-    for i, h in enumerate(spec["headers"], start=1):
-        ws.column_dimensions[get_column_letter(i)].width = max(14, min(28, len(h) + 6))
+    for i, h in enumerate(headers, start=1):
+        ws.column_dimensions[get_column_letter(i)].width = max(14, min(28, len(str(h)) + 6))
     ws.freeze_panes = "A2"
 
     # Notes sheet
@@ -90,13 +109,20 @@ def build_template(file_type: str) -> bytes:
     t.font = Font(name="Aptos Narrow", bold=True, size=14, color=BRAND)
     notes.row_dimensions[1].height = 22
 
-    subtitle = notes.cell(row=2, column=1, value="Fill the sheet named " + ws.title + ". Delete the italic sample row before uploading.")
+    subtitle_text = "Fill the sheet named " + ws.title + ". Delete the italic sample row before uploading."
+    subtitle = notes.cell(row=2, column=1, value=subtitle_text)
     subtitle.font = Font(name="Aptos Narrow", italic=True, size=9, color=MUTED)
+
+    if note_text:
+        n = notes.cell(row=3, column=1, value=note_text)
+        n.font = Font(name="Aptos Narrow", size=10, color="1A1A1A")
+        n.alignment = Alignment(wrap_text=True, vertical="top")
+        notes.row_dimensions[3].height = max(30, 15 * (len(note_text) // 90 + 1))
 
     # Header row
     for i, label in enumerate(["Column", "Meaning"], start=1):
         _header_cell(notes.cell(row=4, column=i, value=label))
-    for r, h in enumerate(spec["headers"], start=5):
+    for r, h in enumerate(headers, start=5):
         notes.cell(row=r, column=1, value=h).font = Font(name="Aptos Narrow", bold=True, size=10, color=NAVY)
         cell = notes.cell(row=r, column=2, value=COLUMN_NOTES.get(h, "—"))
         cell.font = Font(name="Aptos Narrow", size=10, color="1A1A1A")

@@ -34,6 +34,18 @@ async def upload(file: UploadFile = File(...), type: str = Form(...)) -> dict:
     path = file_manager.upload_path(upload_id, file.filename or "upload.xlsx")
     path.write_bytes(body)
 
+    # GL specifically may come as a raw Sage-style hierarchical export. If it
+    # does, run it through gl_cleaner before anything else touches it — the
+    # rest of the pipeline (differ, confirm, pipeline) only sees the clean
+    # version.
+    ingest_meta = {}
+    if type == "gl":
+        try:
+            from ..services.gl_ingest import prepare_gl_for_diff
+            path, ingest_meta = prepare_gl_for_diff(path)
+        except Exception as exc:
+            raise HTTPException(status_code=400, detail=f"Could not clean the raw GL: {exc}")
+
     try:
         diff_result = differ.diff(type, path)
     except Exception as exc:
@@ -48,6 +60,7 @@ async def upload(file: UploadFile = File(...), type: str = Form(...)) -> dict:
         "uploadId": upload_id,
         "fileType": type,
         "diff": diff_result,
+        "ingest": ingest_meta,
     }
 
 

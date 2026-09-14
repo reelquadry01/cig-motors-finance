@@ -10,7 +10,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   Lock, Upload as UploadIcon, FileSpreadsheet, Download, Check, X,
   RefreshCw, AlertTriangle, Clock, Loader2, ChevronRight, LogOut,
-  CheckCircle2, XCircle, Circle,
+  CheckCircle2, XCircle, Circle, Eye, EyeOff,
 } from 'lucide-react'
 import { api, getToken, setToken, clearToken } from '../lib/api'
 import cigLogo from '../assets/cig-gac-logo.png'
@@ -163,6 +163,7 @@ function PasswordGate({ onAuthed }) {
   const [key, setKey] = useState('')
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
+  const [reveal, setReveal] = useState(false)
 
   const submit = async (e) => {
     e.preventDefault()
@@ -193,13 +194,22 @@ function PasswordGate({ onAuthed }) {
             <div className="mt-1 relative">
               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 w-4 h-4" />
               <input
-                type="password"
+                type={reveal ? 'text' : 'password'}
                 value={key}
                 onChange={(e) => setKey(e.target.value)}
                 autoFocus
                 placeholder="Enter shared admin key"
-                className="w-full pl-10 pr-3 py-2.5 rounded-lg border border-neutral-300 focus:border-[#1f3a5f] focus:ring-2 focus:ring-[#1f3a5f]/20 focus:outline-none text-sm bg-white"
+                className="w-full pl-10 pr-10 py-2.5 rounded-lg border border-neutral-300 focus:border-[#1f3a5f] focus:ring-2 focus:ring-[#1f3a5f]/20 focus:outline-none text-sm bg-white"
               />
+              <button
+                type="button"
+                onClick={() => setReveal(v => !v)}
+                aria-label={reveal ? 'Hide key' : 'Show key'}
+                title={reveal ? 'Hide key' : 'Show key'}
+                className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-neutral-400 hover:text-[#1f3a5f] rounded-md hover:bg-neutral-100 transition-colors"
+              >
+                {reveal ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
             </div>
           </label>
           {error && (
