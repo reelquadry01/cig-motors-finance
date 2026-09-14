@@ -1,12 +1,13 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// Relative base so the same build works at a root domain (Cloudflare Pages,
-// project.pages.dev) and at a sub-path (GitHub Pages). Runtime data fetch uses
-// import.meta.env.BASE_URL, which resolves to './' here.
+// Absolute base — the app is served from FastAPI at the root and the client-side
+// router uses nested paths like /admin. A relative base breaks nested routes
+// because the browser resolves `./assets/…` against the current URL, so from
+// /admin it tries `/admin/assets/…` and 404s.
 export default defineConfig({
   plugins: [react()],
-  base: './',
+  base: '/',
   // gzip-size reporting is memory hungry on large chunks and is cosmetic only
   build: { reportCompressedSize: false, chunkSizeWarningLimit: 1200 },
   server: { port: 3000, open: true },
