@@ -22,7 +22,7 @@ def _unb64(s: str) -> bytes:
 
 
 def sign_token(now_ms: Optional[int] = None) -> str:
-    """Issue a token good for TOKEN_TTL_HOURS from now."""
+    """Issue a token good for TOKEN_TTL_MINUTES from now."""
     iat = now_ms if now_ms is not None else int(time.time() * 1000)
     payload = _b64(json.dumps({"iat": iat}).encode())
     sig = _b64(hmac.new(config.JWT_SECRET.encode(), payload.encode(), hashlib.sha256).digest())
@@ -37,8 +37,8 @@ def verify_token(token: str) -> bool:
         if not hmac.compare_digest(expected, sig_b64):
             return False
         payload = json.loads(_unb64(payload_b64))
-        age_h = (time.time() - payload["iat"] / 1000) / 3600
-        return 0 <= age_h < config.TOKEN_TTL_HOURS
+        age_min = (time.time() - payload["iat"] / 1000) / 60
+        return 0 <= age_min < config.TOKEN_TTL_MINUTES
     except Exception:
         return False
 

@@ -27,7 +27,11 @@ for d in (DATA_DIR, UPLOADS_DIR, CURRENT_DIR, BACKUPS_DIR):
 # a default is provided so nobody is locked out — override in production.
 ADMIN_KEY: str = os.getenv("ADMIN_KEY", "cig-finance-2026")
 JWT_SECRET: str = os.getenv("JWT_SECRET", ADMIN_KEY + "::sign")
-TOKEN_TTL_HOURS: int = int(os.getenv("TOKEN_TTL_HOURS", "24"))
+# TTL is expressed in minutes. Default is 30 min — short enough that a lost
+# device can't be used for long, long enough for a normal admin session.
+TOKEN_TTL_MINUTES: int = int(os.getenv("TOKEN_TTL_MINUTES", "30"))
+# Backwards-compat alias used by the /api/auth response.
+TOKEN_TTL_HOURS: float = TOKEN_TTL_MINUTES / 60
 
 
 # ── Upload limits ──

@@ -228,7 +228,7 @@ function PasswordGate({ onAuthed }) {
           </button>
         </form>
         <div className="mt-6 text-[11px] text-neutral-500 text-center">
-          For internal use. Tokens expire after 24 hours.
+          For internal use. Sessions expire after 30 minutes of inactivity.
         </div>
       </div>
     </div>

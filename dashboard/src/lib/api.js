@@ -14,8 +14,10 @@ export function getToken() {
     const t = localStorage.getItem(TOKEN_KEY)
     const ts = parseInt(localStorage.getItem(TOKEN_TS_KEY) || '0', 10)
     if (!t) return null
-    // Token TTL is 24h; drop if older to force a re-auth on refresh
-    if (Date.now() - ts > 24 * 60 * 60 * 1000) return null
+    // Token TTL is 30 minutes; drop if older to force a re-auth on refresh.
+    // The server enforces the same TTL — this is just a UX shortcut so a
+    // known-expired token never rides the wire.
+    if (Date.now() - ts > 30 * 60 * 1000) return null
     return t
   } catch { return null }
 }

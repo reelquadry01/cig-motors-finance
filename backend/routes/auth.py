@@ -17,11 +17,11 @@ class AuthRequest(BaseModel):
 
 class AuthResponse(BaseModel):
     token: str
-    expires_in_hours: int
+    expires_in_minutes: int
 
 
 @router.post("/auth", response_model=AuthResponse)
 def authenticate(body: AuthRequest) -> AuthResponse:
     if not auth_svc.check_admin_key(body.key):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid admin key")
-    return AuthResponse(token=auth_svc.sign_token(), expires_in_hours=config.TOKEN_TTL_HOURS)
+    return AuthResponse(token=auth_svc.sign_token(), expires_in_minutes=config.TOKEN_TTL_MINUTES)
