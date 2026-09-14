@@ -1,0 +1,88 @@
+"""Upload flow: /api/upload → /api/confirm-upload → /api/pipeline-status."""
+from __future__ import annotations
+from pathlib import Path
+
+from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
+from pydantic import BaseModel
+
+from ..auth import require_auth
+from ..services import file_manager, differ, pipeline_runner
+from .. import config
+
+
+router = APIRouter(prefix="/api", tags=["upload"])
+
+
+# ── In-memory registry of pending uploads (uploadId → (file_type, path)) ──
+# Cleared on process restart, which is fine — a stale uploadId simply 404s.
+PENDING: dict[str, tuple[str, Path]] = {}
+
+
+@router.post("/upload", dependencies=[Depends(require_auth)])
+async def upload(file: UploadFile = File(...), type: str = Form(...)) -> dict:
+    """Accept a file, save it to data/uploads, diff it, hand back a preview."""
+    if type not in config.FILE_TYPES:
+        raise HTTPException(status_code=400, detail=f"Unknown file type '{type}'")
+    if not (file.filename or "").lower().endswith(".xlsx"):
+        raise HTTPException(status_code=400, detail="File must be an Excel .xlsx")
+
+    body = await file.read()
+    if len(body) > config.MAX_UPLOAD_MB * 1024 * 1024:
+        raise HTTPException(status_code=413, detail=f"File exceeds {config.MAX_UPLOAD_MB}MB limit")
+
+    upload_id = file_manager.new_upload_id()
+    path = file_manager.upload_path(upload_id, file.filename or "upload.xlsx")
+    path.write_bytes(body)
+
+    try:
+        diff_result = differ.diff(type, path)
+    except Exception as exc:
+        raise HTTPException(status_code=400, detail=f"Could not read the file: {exc}")
+
+    if "error" in diff_result:
+        raise HTTPException(status_code=400, detail=diff_result["error"])
+
+    PENDING[upload_id] = (type, path)
+    return {
+        "status": "diff_ready",
+        "uploadId": upload_id,
+        "fileType": type,
+        "diff": diff_result,
+    }
+
+
+class ConfirmRequest(BaseModel):
+    uploadId: str
+    action: str    # "append" | "replace" | "cancel"
+
+
+@router.post("/confirm-upload", dependencies=[Depends(require_auth)])
+def confirm_upload(body: ConfirmRequest) -> dict:
+    if body.uploadId not in PENDING:
+        raise HTTPException(status_code=404, detail="Unknown uploadId (expired or already processed)")
+    file_type, uploaded_path = PENDING[body.uploadId]
+
+    if body.action == "cancel":
+        PENDING.pop(body.uploadId, None)
+        try: uploaded_path.unlink()
+        except FileNotFoundError: pass
+        return {"status": "cancelled"}
+
+    if body.action not in ("append", "replace"):
+        raise HTTPException(status_code=400, detail="action must be append | replace | cancel")
+
+    merged = differ.apply_merge(file_type, uploaded_path, body.action)
+    file_manager.promote(body.uploadId, file_type, merged)
+    PENDING.pop(body.uploadId, None)
+
+    # Kick off pipeline in a worker thread
+    job = pipeline_runner.start(file_type)
+    return {"status": "pipeline_running", "jobId": job.id}
+
+
+@router.get("/pipeline-status/{job_id}", dependencies=[Depends(require_auth)])
+def pipeline_status(job_id: str) -> dict:
+    job = pipeline_runner.get_job(job_id)
+    if not job:
+        raise HTTPException(status_code=404, detail="Unknown job id")
+    return job.to_dict()

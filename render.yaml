@@ -1,0 +1,58 @@
+# Render.com Blueprint — one-click deploy of the CIG Motors finance admin.
+# https://render.com/docs/blueprint-spec
+#
+# What it provisions:
+#   • One web service (FastAPI + built React SPA)
+#   • A 1 GB persistent disk for data/ so uploads and dashboard_data.json
+#     survive redeploys and worker restarts.
+#
+# After creating the blueprint on Render:
+#   1. Set ADMIN_KEY in the dashboard (marked sync:false below → not stored here)
+#   2. Optionally set JWT_SECRET (defaults to a signed derivative of ADMIN_KEY)
+#   3. Deploy. The build compiles the React SPA and serves it from FastAPI.
+
+services:
+  - type: web
+    name: cig-finance-admin
+    runtime: python
+    plan: starter          # $7/mo — free tier spins down and loses in-flight uploads
+    region: frankfurt      # closest to Nigeria of the free regions; adjust if needed
+    branch: master
+    autoDeploy: true       # redeploy on push to master
+
+    # Pin the Python interpreter so the build isn't broken by future defaults.
+    pythonVersion: "3.11.9"
+
+    # Build: Python deps, then Node deps, then Vite build.
+    # Render provides Node 20 out of the box.
+    buildCommand: |
+      pip install --upgrade pip &&
+      pip install -r requirements.txt &&
+      cd dashboard &&
+      npm ci &&
+      npm run build
+
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+
+    healthCheckPath: /api/health
+
+    envVars:
+      # Never persisted in this file — you set this in the Render dashboard once.
+      - key: ADMIN_KEY
+        sync: false
+      # If left blank, backend/config.py derives a signing secret from ADMIN_KEY.
+      # Set explicitly to a long random string for production.
+      - key: JWT_SECRET
+        sync: false
+      - key: TOKEN_TTL_HOURS
+        value: "24"
+      - key: MAX_UPLOAD_MB
+        value: "50"
+      - key: PIPELINE_TIMEOUT_S
+        value: "60"
+
+    # Persist the uploads and generated dashboard_data.json across deploys.
+    disk:
+      name: cig-finance-data
+      mountPath: /opt/render/project/src/data
+      sizeGB: 1

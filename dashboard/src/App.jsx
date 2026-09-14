@@ -1,4 +1,6 @@
 import { useState, useEffect, Component } from 'react'
+import AdminPage from './components/AdminPage'
+import DashboardSkeleton from './components/Skeletons'
 import Header from './components/Header'
 import TabNav from './components/TabNav'
 import Dashboard from './components/Dashboard'
@@ -31,6 +33,14 @@ class ErrorBoundary extends Component {
 }
 
 export default function App() {
+  // Trivial client-side routing — /admin gets the admin console, everything
+  // else gets the dashboard. Avoids pulling in react-router for one route.
+  const path = typeof window !== 'undefined' ? window.location.pathname : '/'
+  if (path.startsWith('/admin')) return <AdminPage />
+  return <Dashboard_App />
+}
+
+function Dashboard_App() {
   const [rawData, setRawData] = useState(null)
   const [activeTab, setActiveTab] = useState('dashboard')
   const [loading, setLoading] = useState(true)
@@ -56,11 +66,8 @@ export default function App() {
 
   const data = rawData ? applyPeriodFilter(rawData, periodFilter) : null
 
-  if (loading) return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--surface-0)', color: 'var(--text-muted)', fontSize: 14 }}>
-      Loading dashboard...
-    </div>
-  )
+  if (loading) return <DashboardSkeleton />
+
 
   if (error) return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--surface-0)', color: 'var(--unfav)', fontSize: 14 }}>

@@ -24,3 +24,13 @@ __pycache__/
 .vscode/
 .idea/
 *.code-workspace
+
+# Admin backend — runtime data lives on Render's persistent disk, not in git
+data/uploads/
+data/current/
+data/backups/
+!data/.gitkeep
+
+# Scratch
+apitest/
+*.tmp
