@@ -115,6 +115,13 @@ function Dashboard_App() {
         <span style={{ color: 'var(--rule)' }}>·</span>
         <span>{data?.period}</span>
         <div style={{ flex: 1 }} />
+        {/* Understated developer credit — small, muted, no link. */}
+        <span
+          style={{ fontSize: 10.5, color: 'var(--rule)', letterSpacing: '0.02em' }}
+          title="Built by QA"
+        >
+          Built by QA
+        </span>
         <a
           href="/admin"
           style={{
