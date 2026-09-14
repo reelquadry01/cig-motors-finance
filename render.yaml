@@ -13,7 +13,7 @@
 
 services:
   - type: web
-    name: cig-finance-admin
+    name: cig-finance
     runtime: python
     plan: free             # free — 512 MB RAM, spins down after 15 min idle. Upgrade to `starter` in the dashboard when ready.
     region: frankfurt      # closest to Nigeria of the free regions
