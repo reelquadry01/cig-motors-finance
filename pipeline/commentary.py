@@ -1,6 +1,10 @@
-"""Auto-generates narrative commentary from financial figures."""
+"""Auto-generates narrative commentary from financial figures.
+
+All currency labels and thresholds come from pipeline.config.
+"""
 
 from .utils import safe_div
+from . import config as cfg
 
 
 def generate_commentary(pl: dict, bs: dict, cf: dict, ratios: dict,
@@ -14,20 +18,21 @@ def generate_commentary(pl: dict, bs: dict, cf: dict, ratios: dict,
     pat_margin = pl["pat_margin"]
     total_opex = pl["total_opex"]
     net_income = pl["pat"]
+    fmt = cfg.fmt_amount
 
     # P&L commentary
     if monthly and len(monthly) >= 2:
         prior = monthly[-2]["revenue"]
         growth = round(safe_div(revenue - prior, prior) * 100, 1) if prior else 0
         trend = "up" if growth > 0 else "down" if growth < 0 else "flat"
-        sections["pnl"] = (f"Revenue for the period was NGN {revenue/1e9:.2f}B, "
+        sections["pnl"] = (f"Revenue for the period was {fmt(revenue)}, "
                            f"{abs(growth)}% {trend} vs prior month "
-                           f"(NGN {prior/1e9:.2f}B). "
+                           f"({fmt(prior)}). "
                            f"Gross margin {gp_margin}%, operating margin {op_margin}%, "
                            f"net margin {pat_margin}%. "
-                           f"Operating expenses were NGN {total_opex/1e6:,.0f}M.")
+                           f"Operating expenses were {fmt(total_opex)}.")
     else:
-        sections["pnl"] = (f"Revenue for the period was NGN {revenue/1e9:.2f}B. "
+        sections["pnl"] = (f"Revenue for the period was {fmt(revenue)}. "
                            f"Gross margin {gp_margin}%, net margin {pat_margin}%.")
 
     # Balance sheet commentary
@@ -35,9 +40,9 @@ def generate_commentary(pl: dict, bs: dict, cf: dict, ratios: dict,
     total_liabilities = bs["total_liabilities"]
     total_equity = bs["total_equity"]
     current_ratio = bs.get("current_ratio", 0)
-    sections["balance_sheet"] = (f"Total assets NGN {total_assets/1e9:.2f}B, "
-                                 f"total liabilities NGN {total_liabilities/1e9:.2f}B, "
-                                 f"shareholders' equity NGN {total_equity/1e9:.2f}B. "
+    sections["balance_sheet"] = (f"Total assets {fmt(total_assets)}, "
+                                 f"total liabilities {fmt(total_liabilities)}, "
+                                 f"shareholders' equity {fmt(total_equity)}. "
                                  f"Current ratio {current_ratio}x.")
 
     # Cash flow commentary
@@ -45,10 +50,10 @@ def generate_commentary(pl: dict, bs: dict, cf: dict, ratios: dict,
     inv_cf = cf["investing"]["total"]
     fin_cf = cf["financing"]["total"]
     net_change = cf["net_change"]
-    sections["cash_flow"] = (f"Net cash movement NGN {net_change/1e6:,.0f}M. "
-                             f"Operating NGN {op_cf/1e6:,.0f}M, "
-                             f"investing NGN {inv_cf/1e6:,.0f}M, "
-                             f"financing NGN {fin_cf/1e6:,.0f}M.")
+    sections["cash_flow"] = (f"Net cash movement {fmt(net_change)}. "
+                             f"Operating {fmt(op_cf)}, "
+                             f"investing {fmt(inv_cf)}, "
+                             f"financing {fmt(fin_cf)}.")
 
     # Ratios
     cr = ratios.get("current_ratio", 0)
@@ -57,42 +62,47 @@ def generate_commentary(pl: dict, bs: dict, cf: dict, ratios: dict,
                           f"asset turnover {ratios.get('asset_turnover', 0)}x.")
 
     # Executive summary
-    if net_income > 0:
-        perf = "profitable"
-    else:
-        perf = "loss-making"
+    perf = "profitable" if net_income > 0 else "loss-making"
     sections["executive_summary"] = (f"The company was {perf} for this period with "
-                                     f"NGN {net_income/1e6:,.0f}M net income. "
-                                     f"Revenue NGN {revenue/1e9:.2f}B, "
+                                     f"{fmt(net_income)} net income. "
+                                     f"Revenue {fmt(revenue)}, "
                                      f"gross margin {gp_margin}%.")
 
-    # Red flags
+    # Red flags — use configurable thresholds
     flags = []
-    if gp_margin < 15:
+    if gp_margin < cfg.THRESHOLD_GP_MARGIN_LOW:
         flags.append({"title": "Low gross margin",
-                       "detail": f"Gross margin {gp_margin}% is below 15% threshold"})
+                       "detail": f"Gross margin {gp_margin}% is below {cfg.THRESHOLD_GP_MARGIN_LOW}% threshold"})
     if net_income < 0:
         flags.append({"title": "Loss-making period",
                        "detail": "Company is loss-making for this period"})
-    if cr < 1.0:
+    if cr < cfg.THRESHOLD_CR_LOW:
         flags.append({"title": "Liquidity concern",
-                       "detail": f"Current ratio {cr}x below 1.0"})
-    if de > 200:
+                       "detail": f"Current ratio {cr}x below {cfg.THRESHOLD_CR_LOW}x"})
+    if de > cfg.THRESHOLD_DE_HIGH:
         flags.append({"title": "Elevated leverage",
-                       "detail": f"Debt-to-equity {de}% is elevated"})
+                       "detail": f"Debt-to-equity {de}% is elevated (threshold {cfg.THRESHOLD_DE_HIGH}%)"})
     sections["red_flags"] = flags if flags else [{"title": "No material concerns",
                                                    "detail": "No material concerns detected"}]
 
-    # Quick wins
-    sections["quick_wins"] = [{"title": "Load budget data",
-                                "detail": "Budget figures not yet available for variance analysis"},
-                               {"title": "Review COGS allocation",
-                                "detail": "Ensure cost of sales accounts are correctly classified"}]
+    # Quick wins — generated dynamically based on data availability
+    quick_wins = []
+    if not ratios.get("inventory_turnover"):
+        quick_wins.append({"title": "Inventory turnover",
+                           "detail": "Inventory data not yet available for turnover analysis"})
+    if not ratios.get("receivables_turnover"):
+        quick_wins.append({"title": "Receivables turnover",
+                           "detail": "Receivables aging data not yet available"})
+    sections["quick_wins"] = quick_wins if quick_wins else [
+        {"title": "No quick wins identified",
+         "detail": "All key metrics are within normal ranges"}
+    ]
 
     # Pending data
-    sections["pending_data"] = [{"title": "Budget figures",
-                                  "detail": "Budget data not loaded — variance analysis unavailable"},
-                                 {"title": "Prior period data",
-                                  "detail": "Prior period figures not available for trend analysis"}]
+    pending = []
+    if not monthly or len(monthly) < 3:
+        pending.append({"title": "Prior period data",
+                        "detail": "Need at least 3 months for meaningful trend analysis"})
+    sections["pending_data"] = pending
 
     return sections

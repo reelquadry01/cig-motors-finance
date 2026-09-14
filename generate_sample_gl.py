@@ -400,14 +400,12 @@ ACCOUNTS = {
     '39006': ('Capital reserve', 'Credit'),
 }
 
-# Dummy GL codes not in mapping (to make it dirty)
 UNMAPPED_ACCOUNTS = {
     '18000': ('Advances to Suppliers', 'Debit'),
     '80100': ('Suspense Account', 'Debit'),
     '99999': ('System Clearing', 'Debit'),
 }
 
-# Narrations pool
 NARRATIONS = [
     'Being amount paid for vehicle importation',
     'Invoice for motor vehicle sales to customer',
@@ -516,258 +514,446 @@ NARRATIONS = [
 SOURCES = ['ACCENTURE', 'ACCENTURE P.EYE', 'ACCENTURE SMART', 'DEBIT ADVICE', 'CREDIT ADVICE',
            'CASH RECEIPT', 'TRANSFER', 'POS', 'ONLINE', 'CHEQUE', 'BANK TRANSFER']
 
-def generate_sample_gl():
-    """Generate a complete, dirty sample GL with all line items."""
-    rows = []
-    txn_id = 10001
 
-    # Generate dates across 2025
-    start_date = datetime(2025, 1, 2)
-    end_date = datetime(2025, 12, 30)
+class GLBuilder:
+    def __init__(self):
+        self.rows = []
+        self.txn_id = 10001
+        self._month_revenue = {}
 
-    def random_date():
-        delta = (end_date - start_date).days
-        return start_date + timedelta(days=random.randint(0, delta))
+        self.BANK_KEYS = [k for k, v in ACCOUNTS.items()
+                          if k.startswith('10') and v[1] == 'Debit' and int(k) < 10900]
 
-    def random_ref():
-        return f'REF{random.randint(100000, 999999)}'
+        self.RECV_KEYS = ['11000', '11010', '11070', '11080', '11085', '11090']
 
-    # For each account, generate 5-50 transactions
-    for gl_code, (account_name, normal_bal) in ACCOUNTS.items():
-        num_txns = random.randint(5, 50)
+        self.PAY_KEYS = ['20000', '23300', '23500', '23600', '23910', '23920', '23930',
+                         '23940', '24100', '24600', '24910', '24920', '24500']
 
-        for _ in range(num_txns):
-            date = random_date()
-            month = date.month
-            month_name = date.strftime('%B')
-            period = date.strftime('%Y-%m')
+        self.REV_KEYS = ['40000', '40200', '40500', '40700', '40900', '41000',
+                         '24400', '24950', '91320', '91969', '91970']
+        self.REV_W = [30, 15, 12, 10, 8, 6, 3, 3, 5, 4, 4]
 
-            # Generate realistic amounts
-            if gl_code.startswith('4'):  # Revenue
-                amount = random.uniform(5_000_000, 500_000_000)
-            elif gl_code.startswith('5') or gl_code.startswith('6'):  # COGS/OpEx
-                amount = random.uniform(500_000, 80_000_000)
-            elif gl_code.startswith('10') and int(gl_code) < 10900:  # Cash/Bank
-                amount = random.uniform(1_000_000, 200_000_000)
-            elif gl_code.startswith('10') and int(gl_code) >= 10900:  # Borrowings
-                amount = random.uniform(50_000_000, 500_000_000)
-            elif gl_code.startswith('12') or gl_code.startswith('13'):  # Inventory
-                amount = random.uniform(10_000_000, 300_000_000)
-            elif gl_code.startswith('15'):  # Fixed Assets
-                amount = random.uniform(50_000_000, 1_000_000_000)
-            elif gl_code.startswith('17'):  # Acc Depreciation
-                amount = random.uniform(5_000_000, 50_000_000)
-            elif gl_code.startswith('20') or gl_code.startswith('23') or gl_code.startswith('24'):  # Payables
-                amount = random.uniform(1_000_000, 100_000_000)
-            elif gl_code.startswith('39'):  # Equity
-                amount = random.uniform(100_000_000, 5_000_000_000)
-            elif gl_code.startswith('67') or gl_code.startswith('72'):  # Tax
-                amount = random.uniform(5_000_000, 50_000_000)
-            else:
-                amount = random.uniform(100_000, 20_000_000)
+        self.COGS_KEYS = ['50000', '50100', '50200', '50700', '50800', '51500', '57000',
+                          '57500', '58000', '58200', '58300', '58400', '58500', '59000',
+                          '60600', '60800', '60900', '61400', '62600', '62650', '63500',
+                          '64000', '65100', '65200', '65500', '67200', '67410', '67500',
+                          '67600', '68300', '71700', '78500', '79100', '79200', '91150',
+                          '91300', '91953', '91957']
+        self.COGS_W = [20, 8, 8, 6, 6, 3, 3, 3, 5, 4, 4, 3, 3, 3, 2, 2, 2, 1, 1, 1,
+                       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 
-            # Make some transactions dirty
-            if random.random() < 0.03:  # 3% chance of missing date
-                date = None
-                month = None
-                month_name = None
-                period = None
+        self.OPEX_KEYS = ['60100', '60200', '60300', '60500', '61000', '61100', '61200',
+                          '61300', '61500', '62000', '62100', '62150', '62200', '62300',
+                          '62400', '62500', '63000', '63100', '63300', '64100', '64200',
+                          '64300', '64400', '65000', '65300', '65400', '66000', '66100',
+                          '66300', '66500', '67700', '68500', '69000', '69500', '70000',
+                          '70500', '71000', '71200', '71500', '71510', '71520', '71530',
+                          '71540', '71550', '71560', '72500', '73100', '73400', '74500',
+                          '74510', '74520', '74530', '74540', '74550', '74551', '74560',
+                          '74570', '74580', '76000', '76100', '76500', '77000', '77100',
+                          '77500', '77600', '78000', '89000', '89500', '89550', '89600',
+                          '90500', '90600', '90800', '91200', '91360', '91400', '91520',
+                          '91530', '91550', '91600', '91650', '91959', '91960', '91962',
+                          '91965', '91966', '91968']
+        self.OPEX_W = [3, 2, 2, 2, 2, 2, 2, 2, 1, 3, 2, 2, 2, 2, 2, 1, 2, 1, 2, 2,
+                       2, 1, 1, 2, 2, 2, 3, 2, 2, 1, 2, 1, 2, 1, 2, 2, 2, 1, 3, 2, 2,
+                       2, 2, 2, 2, 2, 2, 2, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+                       3, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+                       2, 1, 1, 2, 2, 2, 2]
 
-            if random.random() < 0.02:  # 2% chance of negative amount
-                amount = -amount
+        self.DEPR_KEYS = ['64510', '64520', '64530', '64540', '64550', '64560']
+        self.DEPR_ACC = {
+            '64510': '17000', '64520': '17100', '64530': '17200',
+            '64540': '17700', '64550': '17800', '64560': '17900',
+        }
 
-            if random.random() < 0.05:  # 5% chance of very large amount
-                amount *= random.uniform(5, 20)
+        self._rev_totals = [6200, 5800, 7100, 6800, 7500, 8200, 7900, 8600, 9100, 8800, 9500, 10200]
 
-            if random.random() < 0.02:  # 2% chance of very small amount
-                amount = random.uniform(0.01, 100)
-
-            # Debit/Credit
-            if normal_bal == 'Debit':
-                debit = max(0, amount) if amount > 0 else 0
-                credit = abs(amount) if amount < 0 else 0
-            else:
-                credit = max(0, amount) if amount > 0 else 0
-                debit = abs(amount) if amount < 0 else 0
-
+    def emit(self, gl_code, amount_m, date, side, narration=None, source=None):
+        amount = round(amount_m * 1_000_000, 2)
+        acct_name = ACCOUNTS.get(str(gl_code), ('Unknown', side.upper()))[0]
+        debit = amount if side.upper() == 'DEBIT' else 0
+        credit = amount if side.upper() == 'CREDIT' else 0
+        if narration is None:
             narration = random.choice(NARRATIONS)
+        if source is None:
             source = random.choice(SOURCES)
-            reference = random_ref()
+        self.rows.append({
+            'Transaction_ID': self.txn_id,
+            'GL_Code': int(gl_code),
+            'GL_Account': acct_name,
+            'Desc_Status': random.choice(['Posted', 'Posted', 'Posted', 'Pending']),
+            'Doc_Date': date,
+            'Year': date.year,
+            'Month_No': date.month,
+            'Month_Name': date.strftime('%B'),
+            'Period': date.strftime('%Y-%m'),
+            'Source': source,
+            'Reference': f'REF{random.randint(100000, 999999)}',
+            'Narration': narration,
+            'Debit': debit,
+            'Credit': credit,
+            'Net': round(debit - credit, 2),
+        })
+        self.txn_id += 1
 
-            # Some dirty data: empty narration
-            if random.random() < 0.05:
-                narration = ''
+    def double(self, dr_code, cr_code, amount_m, date, narr=None):
+        amt = round(amount_m, 4)
+        self.emit(dr_code, amt, date, 'DEBIT', narration=narr)
+        self.emit(cr_code, amt, date, 'CREDIT', narration=narr)
 
-            # Some dirty data: duplicate reference
-            if random.random() < 0.03:
-                reference = reference  # same ref (not truly dirty, just unusual)
+    def _emit_ob(self, code, amt_m, date):
+        normal = ACCOUNTS[str(code)][1]
+        if normal == 'Debit':
+            self.emit(code, amt_m, date, 'DEBIT', narration='Opening balance b/f', source='OPENING BALANCE')
+        else:
+            self.emit(code, amt_m, date, 'CREDIT', narration='Opening balance b/f', source='OPENING BALANCE')
 
-            # Some dirty data: source name with extra spaces
-            if random.random() < 0.02:
-                source = source + '  '
+    def add_opening_balances(self):
+        ob_date = datetime(2025, 1, 1)
 
-            rows.append({
-                'Transaction_ID': txn_id,
-                'GL_Code': int(gl_code),
-                'GL_Account': account_name,
-                'Desc_Status': random.choice(['Posted', 'Posted', 'Posted', 'Pending']),
-                'Doc_Date': date,
-                'Year': date.year if date else None,
-                'Month_No': month,
-                'Month_Name': month_name,
-                'Period': period,
-                'Source': source,
-                'Reference': reference,
-                'Narration': narration,
-                'Debit': round(debit, 2),
-                'Credit': round(credit, 2),
-                'Net': round(debit - credit, 2),
-            })
-            txn_id += 1
+        # Debit-normal assets: inventory, bank accounts, receivables, fixed assets
+        # Credit-normal liabilities: loans, AP, equity
+        # Amounts in millions. RE plug computed to balance A = L + E.
+        ob_raw = {
+            # ── Assets (Debit-normal) ──
+            '10000': 250, '10100': 180, '10130': 1200, '10140': 650, '10150': 420,
+            '10180': 550, '10190': 320, '10200': 780, '10220': 480, '10260': 250,
+            '10400': 620, '10700': 350, '10165': 180, '10170': 55, '10171': 35,
+            '10185': 130, '10210': 110, '10230': 90, '10240': 75, '10250': 60,
+            '10270': 50, '10271': 35, '10280': 45, '10300': 30, '10310': 25,
+            '10315': 85, '10316': 60, '10317': 45, '10320': 35, '10330': 50,
+            '10340': 28, '10350': 60, '10450': 350, '10451': 120, '10452': 180,
+            '10500': 80, '10520': 95, '10550': 45, '10600': 35, '10710': 110,
+            '10750': 65, '10760': 85, '10800': 25, '10855': 35, '10120': 160,
+            '11000': 3200, '11010': 480, '11070': 350, '11080': 260, '11085': 165,
+            '11090': 105,
+            '12000': 1050, '12100': 1580, '12200': 1320, '12210': 680, '12250': 1180,
+            '12260': 570, '12300': 1020, '12400': 830, '12430': 360, '12500': 1450,
+            '12550': 980, '12600': 450, '12700': 530, '12750': 320, '12850': 285,
+            '12900': 1180, '13000': 720, '13650': 610, '13700': 495, '13710': 340,
+            '13800': 210, '13850': 250, '13860': 270, '13870': 230, '13880': 195,
+            '13890': 155, '13900': 325, '13910': 285, '13920': 230, '13930': 175,
+            '13940': 135,
+            '14021': 75, '14022': 50, '14023': 100, '14024': 60, '14025': 42,
+            '14027': 50, '14028': 82, '14030': 90, '14031': 58, '14032': 35,
+            '14045': 65, '14046': 42, '14048': 28, '14050': 120,
+            '14100': 82, '14300': 140, '14755': 35, '14786': 50, '14800': 180,
+            '19110': 260, '19200': 165,
+            '15000': 720, '15100': 1350, '15200': 3100, '15500': 4600, '15501': 3650,
+            '15600': 1080, '15700': 1620, '15800': 2500, '15900': 1460, '15950': 845,
+            '15960': 580,
+            '17000': 350, '17100': 680, '17200': 1580, '17700': 810, '17800': 1830,
+            '17900': 290,
+            '24310': 700, '24320': 370, '24330': 470, '24340': 255, '24350': 160,
+            '24360': 335, '24380': 215,
+            # ── Liabilities (Credit-normal) ──
+            '20000': 2400, '23300': 140, '23500': 190, '23600': 370, '23910': 330,
+            '23920': 165, '23930': 215, '23940': 190, '24100': 470, '24600': 335,
+            '24910': 50, '24920': 60, '24500': 370,
+            # ── Bank loans (Credit-normal liabilities) ──
+            '10145': 5400, '10155': 970, '10160': 1280, '10290': 700,
+            '10453': 195, '10610': 470, '10900': 315, '10902': 235,
+            '10910': 175, '10920': 150, '10930': 125, '10931': 195,
+            '10932': 195, '10933': 195, '10934': 1285, '10935': 195,
+            '10936': 780, '10937': 1170, '10938': 1170, '10939': 1365,
+            '10940': 585, '10950': 155, '10951': 390, '10952': 585,
+            '10955': 315, '10956': 48, '10957': 20, '10960': 380,
+            '10961': 0.54, '10962': 155, '10963': 122, '10964': 77,
+            '10965': 235, '10966': 148, '10967': 82, '10968': 70,
+            '10969': 58, '10970': 137, '10971': 43, '10972': 41,
+            '10973': 27, '10974': 117, '10975': 109, '10976': 21,
+            '10977': 275, '10978': 215, '10979': 195, '10980': 78,
+            '10981': 195, '10982': 195, '10990': 70, '10195': 137,
+            '10196': 109, '10994': 4340, '10998': 1170, '10999': 2695,
+            '10144': 295, '91956': 155, '91961': 60,
+            # ── Equity (Credit-normal) ──
+            '39003': 2500, '39004': 5000, '39006': 1200,
+        }
 
-    # Add unmapped accounts (dirty data)
-    for gl_code, (account_name, normal_bal) in UNMAPPED_ACCOUNTS.items():
-        num_txns = random.randint(3, 15)
-        for _ in range(num_txns):
-            date = random_date()
-            amount = random.uniform(100_000, 5_000_000)
-            debit = max(0, amount) if normal_bal == 'Debit' else 0
-            credit = max(0, amount) if normal_bal == 'Credit' else 0
-            rows.append({
-                'Transaction_ID': txn_id,
-                'GL_Code': int(gl_code),
-                'GL_Account': account_name,
-                'Desc_Status': 'Posted',
-                'Doc_Date': date,
-                'Year': date.year,
-                'Month_No': date.month,
-                'Month_Name': date.strftime('%B'),
-                'Period': date.strftime('%Y-%m'),
-                'Source': random.choice(SOURCES),
-                'Reference': random_ref(),
-                'Narration': random.choice(NARRATIONS),
-                'Debit': round(debit, 2),
-                'Credit': round(credit, 2),
-                'Net': round(debit - credit, 2),
-            })
-            txn_id += 1
+        sum_dr = 0
+        sum_cr = 0
+        for code, amt in ob_raw.items():
+            normal = ACCOUNTS[str(code)][1]
+            if normal == 'Debit':
+                sum_dr += amt
+            else:
+                sum_cr += amt
 
-    # Add some truly dirty rows
-    # Row with missing GL code
-    rows.append({
-        'Transaction_ID': txn_id,
-        'GL_Code': None,
-        'GL_Account': 'UNKNOWN ACCOUNT',
-        'Desc_Status': 'Error',
-        'Doc_Date': datetime(2025, 6, 15),
-        'Year': 2025,
-        'Month_No': 6,
-        'Month_Name': 'June',
-        'Period': '2025-06',
+        re_plug = sum_dr - sum_cr
+        ob_raw['39005'] = round(re_plug, 4)
+
+        total_ob_dr = 0
+        total_ob_cr = 0
+        for code, amt in sorted(ob_raw.items()):
+            self._emit_ob(code, amt, ob_date)
+            normal = ACCOUNTS[str(code)][1]
+            if normal == 'Debit':
+                total_ob_dr += amt * 1_000_000
+            else:
+                total_ob_cr += amt * 1_000_000
+
+        print(f"  Opening Balances:  Dr = {total_ob_dr:,.2f}  Cr = {total_ob_cr:,.2f}")
+        assert round(total_ob_dr) == round(total_ob_cr), \
+            f"OB unbalanced! Dr={total_ob_dr}, Cr={total_ob_cr}"
+
+    def generate_monthly_pl(self):
+        months = list(range(1, 13))
+        for m in months:
+            month_rev_m = self._rev_totals[m - 1]
+            self._month_revenue[m] = month_rev_m
+
+            start = datetime(2025, m, 1)
+            end_dt = datetime(2025, m, 28) if m == 2 else datetime(2025, m, 30)
+            if m in (1, 3, 5, 7, 8, 10, 12):
+                end_dt = datetime(2025, m, 31)
+
+            def rand_date():
+                delta = (end_dt - start).days
+                return start + timedelta(days=random.randint(0, delta))
+
+            n_rev = random.randint(8, 14)
+            rev_pool = random.choices(self.REV_KEYS, weights=self.REV_W[:len(self.REV_KEYS)], k=n_rev)
+            total_rev = 0
+            for i, rk in enumerate(rev_pool):
+                amt = month_rev_m / n_rev * random.uniform(0.7, 1.3)
+                total_rev += amt
+                cash_or_recv = random.choice(self.BANK_KEYS + self.RECV_KEYS)
+                self.double(cash_or_recv, rk, amt, rand_date())
+
+            cogs_pct = random.uniform(0.65, 0.75)
+            cogs_total = month_rev_m * cogs_pct
+            n_cogs = random.randint(6, 10)
+            cogs_pool = random.choices(self.COGS_KEYS, weights=self.COGS_W[:len(self.COGS_KEYS)], k=n_cogs)
+            for ck in cogs_pool:
+                amt = cogs_total / n_cogs * random.uniform(0.6, 1.4)
+                pay_or_cash = random.choice(self.PAY_KEYS + self.BANK_KEYS)
+                self.double(ck, pay_or_cash, amt, rand_date())
+
+            opex_pct = random.uniform(0.15, 0.19)
+            opex_total = month_rev_m * opex_pct
+            n_opex = random.randint(15, 28)
+            opex_pool = random.choices(self.OPEX_KEYS, weights=self.OPEX_W[:len(self.OPEX_KEYS)], k=n_opex)
+            for ox in opex_pool:
+                amt = opex_total / n_opex * random.uniform(0.5, 1.5)
+                pay_or_cash = random.choice(self.PAY_KEYS + self.BANK_KEYS)
+                self.double(ox, pay_or_cash, amt, rand_date())
+
+            depr_pct = random.uniform(0.025, 0.035)
+            depr_total = month_rev_m * depr_pct
+            n_depr = random.randint(3, 6)
+            depr_pool = random.choices(self.DEPR_KEYS, k=n_depr)
+            for dk in depr_pool:
+                amt = depr_total / n_depr
+                acc = self.DEPR_ACC[dk]
+                self.double(dk, acc, amt, rand_date())
+
+            fin_pct = random.uniform(0.02, 0.03)
+            fin_total = month_rev_m * fin_pct
+            n_fin = random.randint(2, 4)
+            fin_keys = ['62050', '62060', '64570']
+            for _ in range(n_fin):
+                fk = random.choice(fin_keys)
+                amt = fin_total / n_fin * random.uniform(0.7, 1.3)
+                self.double(fk, random.choice(self.BANK_KEYS), amt, rand_date())
+
+            tax_pct = random.uniform(0.008, 0.012)
+            tax_total = month_rev_m * tax_pct
+            n_tax = random.randint(1, 3)
+            tax_keys = ['67000', '67100', '90400']
+            for _ in range(n_tax):
+                tk = random.choice(tax_keys)
+                amt = tax_total / n_tax
+                self.double(tk, '23910', amt, rand_date())
+
+            if random.random() < 0.70:
+                oi_keys = ['40800', '45500']
+                amt_oi = random.uniform(5, 50)
+                self.double(random.choice(self.BANK_KEYS), random.choice(oi_keys), amt_oi, rand_date())
+
+            if random.random() < 0.35:
+                ig_keys = ['78500', '91901']
+                amt_ig = random.uniform(2, 25)
+                side_choice = random.choice(['dr', 'cr'])
+                if side_choice == 'dr':
+                    self.double(random.choice(ig_keys), random.choice(self.BANK_KEYS), amt_ig, rand_date())
+                else:
+                    self.double(random.choice(self.BANK_KEYS), random.choice(ig_keys), amt_ig, rand_date())
+
+    def verify(self):
+        df = pd.DataFrame(self.rows)
+        total_dr = df['Debit'].sum()
+        total_cr = df['Credit'].sum()
+        net = total_dr - total_cr
+        print(f"  Total Debit:  {total_dr:,.2f}")
+        print(f"  Total Credit: {total_cr:,.2f}")
+        print(f"  Net:          {net:,.2f}")
+        print(f"  Rows:         {len(df)}")
+        print(f"  Unique GLs:   {df['GL_Code'].nunique()}")
+
+    def build(self):
+        self.add_opening_balances()
+        self.generate_monthly_pl()
+        self.verify()
+        return pd.DataFrame(self.rows)
+
+
+def add_dirty_data(df):
+    balanced_df = df.copy()
+
+    mask_non_ob = balanced_df['Narration'] == ''
+    balanced_df.loc[mask_non_ob, 'Narration'] = balanced_df.loc[mask_non_ob, 'Narration'].apply(
+        lambda x: x
+    )
+
+    dirty_rows = []
+    txn_base = balanced_df['Transaction_ID'].max() + 1
+
+    dirty_rows.append({
+        'Transaction_ID': txn_base,
+        'GL_Code': 10800,
+        'GL_Account': 'Petty Cash - Ojota',
+        'Desc_Status': 'Pending',
+        'Doc_Date': datetime(2025, 5, 10),
+        'Year': 2025, 'Month_No': 5, 'Month_Name': 'May', 'Period': '2025-05',
         'Source': 'MANUAL',
-        'Reference': 'ERR001',
-        'Narration': 'This row has no GL code - data entry error',
-        'Debit': 2500000,
+        'Reference': f'REF{random.randint(100000, 999999)}',
+        'Narration': '',
+        'Debit': 2_500_000,
         'Credit': 0,
-        'Net': 2500000,
+        'Net': 2_500_000,
     })
-    txn_id += 1
 
-    # Row with wrong date format
-    rows.append({
-        'Transaction_ID': txn_id,
+    dirty_rows.append({
+        'Transaction_ID': txn_base + 1,
         'GL_Code': 77000,
         'GL_Account': 'IE- Salaries expense',
         'Desc_Status': 'Posted',
-        'Doc_Date': '15/03/2025',  # Wrong format
-        'Year': 2025,
-        'Month_No': 3,
-        'Month_Name': 'March',
-        'Period': '2025-03',
+        'Doc_Date': '15/03/2025',
+        'Year': 2025, 'Month_No': 3, 'Month_Name': 'March', 'Period': '2025-03',
         'Source': 'ACCENTURE',
-        'Reference': 'REF999999',
-        'Narration': 'Salary with wrong date format',
-        'Debit': 45000000,
+        'Reference': f'REF{random.randint(100000, 999999)}',
+        'Narration': '',
+        'Debit': 45_000_000,
         'Credit': 0,
-        'Net': 45000000,
+        'Net': 45_000_000,
     })
-    txn_id += 1
 
-    # Row with both debit and credit
-    rows.append({
-        'Transaction_ID': txn_id,
+    dirty_rows.append({
+        'Transaction_ID': txn_base + 2,
         'GL_Code': 10000,
         'GL_Account': 'Cash in Hand - Naira-1',
         'Desc_Status': 'Posted',
         'Doc_Date': datetime(2025, 8, 20),
-        'Year': 2025,
-        'Month_No': 8,
-        'Month_Name': 'August',
-        'Period': '2025-08',
+        'Year': 2025, 'Month_No': 8, 'Month_Name': 'August', 'Period': '2025-08',
         'Source': 'ACCENTURE',
-        'Reference': 'REF888888',
-        'Narration': 'Cash entry with both D and C - error',
-        'Debit': 10000000,
-        'Credit': 5000000,
-        'Net': 5000000,
+        'Reference': f'REF{random.randint(100000, 999999)}',
+        'Narration': '',
+        'Debit': 10_000_000,
+        'Credit': 10_000_000,
+        'Net': 0,
     })
-    txn_id += 1
 
-    # Row with future date
-    rows.append({
-        'Transaction_ID': txn_id,
+    dirty_rows.append({
+        'Transaction_ID': txn_base + 3,
         'GL_Code': 62000,
         'GL_Account': 'IE - Bank Charges',
         'Desc_Status': 'Pending',
         'Doc_Date': datetime(2026, 1, 15),
-        'Year': 2026,
-        'Month_No': 1,
-        'Month_Name': 'January',
-        'Period': '2026-01',
-        'Source': 'MANUAL',
-        'Reference': 'REF777777',
-        'Narration': 'Bank charges posted with future date',
-        'Debit': 750000,
+        'Year': 2026, 'Month_No': 1, 'Month_Name': 'January', 'Period': '2026-01',
+        'Source': 'MANUAL  ',
+        'Reference': f'REF{random.randint(100000, 999999)}',
+        'Narration': '',
+        'Debit': 750_000,
         'Credit': 0,
-        'Net': 750000,
+        'Net': 750_000,
     })
 
-    df = pd.DataFrame(rows)
+    counterpart_rows = [
+        {
+            'Transaction_ID': txn_base + 4,
+            'GL_Code': 20000,
+            'GL_Account': 'CL - Accounts Payable',
+            'Desc_Status': 'Posted',
+            'Doc_Date': datetime(2025, 5, 10),
+            'Year': 2025, 'Month_No': 5, 'Month_Name': 'May', 'Period': '2025-05',
+            'Source': 'MANUAL',
+            'Reference': f'REF{random.randint(100000, 999999)}',
+            'Narration': '',
+            'Debit': 0,
+            'Credit': 2_500_000,
+            'Net': -2_500_000,
+        },
+        {
+            'Transaction_ID': txn_base + 5,
+            'GL_Code': 20000,
+            'GL_Account': 'CL - Accounts Payable',
+            'Desc_Status': 'Posted',
+            'Doc_Date': '15/03/2025',
+            'Year': 2025, 'Month_No': 3, 'Month_Name': 'March', 'Period': '2025-03',
+            'Source': 'ACCENTURE',
+            'Reference': f'REF{random.randint(100000, 999999)}',
+            'Narration': '',
+            'Debit': 0,
+            'Credit': 45_000_000,
+            'Net': -45_000_000,
+        },
+        {
+            'Transaction_ID': txn_base + 6,
+            'GL_Code': 10130,
+            'GL_Account': 'Bank - Zenith Bank Acct-2',
+            'Desc_Status': 'Posted',
+            'Doc_Date': datetime(2026, 1, 15),
+            'Year': 2026, 'Month_No': 1, 'Month_Name': 'January', 'Period': '2026-01',
+            'Source': 'MANUAL  ',
+            'Reference': f'REF{random.randint(100000, 999999)}',
+            'Narration': '',
+            'Debit': 0,
+            'Credit': 750_000,
+            'Net': -750_000,
+        },
+    ]
 
-    # Sort by date - handle mixed types
-    df['_sort_key'] = pd.to_datetime(df['Doc_Date'], errors='coerce')
-    df = df.sort_values('_sort_key').drop(columns=['_sort_key']).reset_index(drop=True)
+    all_dirty = dirty_rows + counterpart_rows
+    dirty_df = pd.DataFrame(all_dirty)
+    combined = pd.concat([balanced_df, dirty_df], ignore_index=True)
 
-    return df
+    combined['_sort_key'] = pd.to_datetime(combined['Doc_Date'], errors='coerce')
+    combined = combined.sort_values('_sort_key').drop(columns=['_sort_key']).reset_index(drop=True)
+
+    return combined
 
 
 if __name__ == '__main__':
-    print('Generating complete dirty sample GL...')
-    df = generate_sample_gl()
+    print('Generating balanced sample GL with GLBuilder...')
+    builder = GLBuilder()
+    df = builder.build()
 
-    print(f'  Generated {len(df)} transactions')
+    print()
+    print('Adding dirty data rows...')
+    df = add_dirty_data(df)
+
+    print()
+    print('=== Final Stats ===')
+    print(f'  Total rows:     {len(df)}')
     print(f'  Unique GL codes: {df["GL_Code"].nunique()}')
     dates = pd.to_datetime(df['Doc_Date'], errors='coerce')
-    print(f'  Date range: {dates.min()} to {dates.max()}')
-    print(f'  Total Debit: {df["Debit"].sum():,.2f}')
-    print(f'  Total Credit: {df["Credit"].sum():,.2f}')
-    print(f'  Net: {df["Debit"].sum() - df["Credit"].sum():,.2f}')
+    print(f'  Date range:      {dates.min()} to {dates.max()}')
+    print(f'  Total Debit:     {df["Debit"].sum():,.2f}')
+    print(f'  Total Credit:    {df["Credit"].sum():,.2f}')
+    print(f'  Net:             {df["Debit"].sum() - df["Credit"].sum():,.2f}')
     print()
-
-    # Dirty data stats
     print('Dirty data stats:')
-    print(f'  Rows with missing GL_Code: {df["GL_Code"].isna().sum()}')
-    print(f'  Rows with missing Doc_Date: {df["Doc_Date"].isna().sum()}')
-    print(f'  Rows with negative amounts: {(df["Debit"] < 0).sum() + (df["Credit"] < 0).sum()}')
-    print(f'  Rows with both D and C: {((df["Debit"] > 0) & (df["Credit"] > 0)).sum()}')
-    print(f'  Rows with empty narration: {(df["Narration"] == "").sum()}')
-    print(f'  Rows with Pending status: {(df["Desc_Status"] == "Pending").sum()}')
+    print(f'  Rows with missing GL_Code:      {df["GL_Code"].isna().sum()}')
+    print(f'  Rows with wrong date format:     {(df["Doc_Date"].apply(lambda x: isinstance(x, str))).sum()}')
+    print(f'  Rows with both D and C:          {((df["Debit"] > 0) & (df["Credit"] > 0)).sum()}')
+    print(f'  Rows with future date (2026+):   {(dates.dt.year >= 2026).sum()}')
+    print(f'  Rows with empty narration:       {(df["Narration"] == "").sum()}')
+    print(f'  Rows with trailing spaces Source: {(df["Source"].apply(lambda x: str(x) != str(x).strip() if pd.notna(x) else False)).sum()}')
     print()
 
-    # Save to Excel
     output_file = 'Sample GL_complete_dirty.xlsx'
     with pd.ExcelWriter(output_file, engine='openpyxl') as writer:
         df.to_excel(writer, sheet_name='GL_Clean', index=False)
 
     print(f'Saved to {output_file}')
-    print(f'File size: {pd.io.common.file_exists(output_file)}')

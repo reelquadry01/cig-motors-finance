@@ -15,6 +15,7 @@ from pipeline.build_statements import (
 )
 from pipeline.ratios import calculate_ratios
 from pipeline.commentary import generate_commentary
+from pipeline import config as cfg
 
 
 def run_pipeline(
@@ -37,7 +38,11 @@ def run_pipeline(
     print("Reading GL data...")
     gl = read_gl_clean(base / gl_path)
     sm = read_statement_mapping(base / mapping_path)
-    ac = read_account_summary(base / gl_path)
+    ac = None
+    try:
+        ac = read_account_summary(base / gl_path)
+    except (ValueError, FileNotFoundError):
+        pass
     print(f"  GL: {len(gl)} transactions, {gl['GL_Code'].nunique()} accounts")
     print(f"  Mapping: {len(sm)} codes")
 
@@ -80,8 +85,8 @@ def run_pipeline(
     print("Building financial statements...")
     # P&L for the selected period
     pl = build_pl(bs_cf_data)
-    # B/S and C/F for the selected period
-    bs = build_balance_sheet(bs_cf_data, ac)
+    # B/S and C/F for the selected period — pass P&L so net income flows to equity
+    bs = build_balance_sheet(bs_cf_data, pl)
     cf = build_cash_flow(bs_cf_data)
     segments_raw = build_segments(bs_cf_data)
 
@@ -113,55 +118,46 @@ def run_pipeline(
             tb_by_period[p] = amts
     print(f"  Trial balance: {len(tb_meta)} accounts across {len(tb_by_period)} periods")
 
-    # Opening balances for BS accounts: run Account_Summary's opening forward
-    # month by month, so each period has its own opening. Assets are debit-
-    # positive, liabilities/equity are credit-positive (stored signed:
-    # positive = debit balance, negative = credit balance).
-    bs_groups = {"Current assets", "Non-current assets",
-                 "Current liabilities", "Non-current liabilities", "Equity"}
-    bs_codes = {c for c, m in tb_meta.items() if m["group"] in bs_groups}
-    # Sanity-check the opening: a proper opening trial balance must balance
-    # (opening debits == opening credits within a small tolerance), and its
-    # opening must be distinct from the source-period totals. If either check
-    # fails (as with the demo GL) treat opening as unavailable and roll a zero
-    # balance forward, so the model doesn't inherit garbage.
-    import re, pandas as pd
-    total_open_dr = float(ac.get("Opening_Debit", pd.Series(dtype=float)).fillna(0).sum())
-    total_open_cr = float(ac.get("Opening_Credit", pd.Series(dtype=float)).fillna(0).sum())
-    total_src_dr = float(ac.get("Src_Total_Debit", pd.Series(dtype=float)).fillna(0).sum())
-    denom = max(abs(total_open_dr), abs(total_open_cr), 1.0)
-    imbalance_pct = abs(total_open_dr - total_open_cr) / denom * 100
-    opening_equals_source = (
-        abs(total_open_dr - total_src_dr) < 1 and abs(total_open_dr) > 0
-    )
-    opening_ok = imbalance_pct < 1.0 and not opening_equals_source
-
-    open_signed = {}
-    if opening_ok:
-        for _, r in ac.iterrows():
-            code = re.sub(r"\.0+$", "", str(r.get("GL_Code", "")).strip())
-            if code and code in bs_codes:
-                open_signed[code] = float(r.get("Opening_Debit", 0) or 0) - float(r.get("Opening_Credit", 0) or 0)
-
-    # Only roll forward when we have a trustworthy opening — otherwise leave
-    # tb_opening_by_period empty so the exported TB shows the same period-only
-    # movements the rest of the pipeline uses (avoids inflating the balance sheet
-    # by accumulating movements against a bogus zero opening).
+    # Opening balances for BS accounts: use Account_Summary if available
     tb_opening_by_period = {p: {} for p in all_periods}
-    if opening_ok:
-        running = {c: open_signed.get(c, 0.0) for c in bs_codes}
-        for p in all_periods:
-            tb_opening_by_period[p] = {c: round(v, 2) for c, v in running.items() if abs(v) > 1}
-            p_moves = merged[(merged["Period"] == p) & (merged["GL_Code"].isin(bs_codes))]
-            if len(p_moves):
-                movements = p_moves.groupby("GL_Code").agg(Debit=("Debit", "sum"), Credit=("Credit", "sum"))
-                for c, row in movements.iterrows():
-                    running[c] = running.get(c, 0.0) + float(row["Debit"]) - float(row["Credit"])
-    if opening_ok:
-        print(f"  Opening balances: {len(open_signed)} BS accounts rolled forward across {len(tb_opening_by_period)} periods")
-    else:
-        note = "opening totals don't balance" if imbalance_pct >= 1.0 else "opening equals source-period totals"
-        print(f"  Opening balances: unavailable in Account_Summary ({note}); movements only.")
+    open_signed = {}
+    opening_ok = False
+    if ac is not None and len(ac) > 0:
+        try:
+            import re
+            bs_groups = {"Current assets", "Non-current assets",
+                         "Current liabilities", "Non-current liabilities", "Equity"}
+            bs_codes = {c for c, m in tb_meta.items() if m["group"] in bs_groups}
+            total_open_dr = float(ac.get("Opening_Debit", pd.Series(dtype=float)).fillna(0).sum())
+            total_open_cr = float(ac.get("Opening_Credit", pd.Series(dtype=float)).fillna(0).sum())
+            total_src_dr = float(ac.get("Src_Total_Debit", pd.Series(dtype=float)).fillna(0).sum())
+            denom = max(abs(total_open_dr), abs(total_open_cr), 1.0)
+            imbalance_pct = abs(total_open_dr - total_open_cr) / denom * 100
+            opening_equals_source = (
+                abs(total_open_dr - total_src_dr) < 1 and abs(total_open_dr) > 0
+            )
+            opening_ok = imbalance_pct < 1.0 and not opening_equals_source
+
+            if opening_ok:
+                for _, r in ac.iterrows():
+                    code = re.sub(r"\.0+$", "", str(r.get("GL_Code", "")).strip())
+                    if code and code in bs_codes:
+                        open_signed[code] = float(r.get("Opening_Debit", 0) or 0) - float(r.get("Opening_Credit", 0) or 0)
+
+                running = {c: open_signed.get(c, 0.0) for c in bs_codes}
+                for p in all_periods:
+                    tb_opening_by_period[p] = {c: round(v, 2) for c, v in running.items() if abs(v) > 1}
+                    p_moves = merged[(merged["Period"] == p) & (merged["GL_Code"].isin(bs_codes))]
+                    if len(p_moves):
+                        movements = p_moves.groupby("GL_Code").agg(Debit=("Debit", "sum"), Credit=("Credit", "sum"))
+                        for c, row in movements.iterrows():
+                            running[c] = running.get(c, 0.0) + float(row["Debit"]) - float(row["Credit"])
+                print(f"  Opening balances: {len(open_signed)} BS accounts rolled forward across {len(tb_opening_by_period)} periods")
+            else:
+                note = "opening totals don't balance" if imbalance_pct >= 1.0 else "opening equals source-period totals"
+                print(f"  Opening balances: unavailable in Account_Summary ({note}); movements only.")
+        except Exception:
+            pass
 
     # Budget (blank until Budget_Template.xlsx is populated)
     try:
@@ -189,7 +185,7 @@ def run_pipeline(
     segments = {"revenue_by_segment": revenue_by_segment, "opex_by_category": opex_by_category}
 
     print(f"  Period: {period_label}")
-    print(f"  Revenue: NGN {pl['total_revenue']/1e9:.2f}B")
+    print(f"  Revenue: {cfg.fmt_amount(pl['total_revenue'])}")
     print(f"  GP margin: {pl['gp_margin']}%")
     print(f"  Net margin: {pl['pat_margin']}%")
 
@@ -201,9 +197,9 @@ def run_pipeline(
 
     dashboard_data = {
         "period": period_label,
-        "company": "CIG Motors",
-        "currency": "NGN",
-        "unit": "millions",
+        "company": cfg.COMPANY_NAME,
+        "currency": cfg.CURRENCY,
+        "unit": cfg.UNIT,
         "generated_at": datetime.now().isoformat(),
         "data_sources": {
             "gl_transactions": len(gl),

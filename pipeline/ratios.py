@@ -1,4 +1,8 @@
-"""Calculates financial ratios from statement data."""
+"""Calculates financial ratios from statement data.
+
+Ratios are computed from P&L, B/S, and C/F dicts built by build_statements.
+Working capital ratios use B/S current assets/liabilities subtotals.
+"""
 
 from .utils import safe_div
 
@@ -12,14 +16,20 @@ def calculate_ratios(pl: dict, bs: dict, cf: dict) -> dict:
     total_assets = bs["total_assets"]
     total_equity = bs["total_equity"]
     total_liabilities = bs["total_liabilities"]
+    total_ca = bs.get("total_current_assets", total_assets)
+    total_cl = bs.get("total_current_liabilities", total_liabilities)
     operating_cf = cf["operating"]["total"]
 
+    # Working capital ratios from B/S subtotals
+    current_ratio = bs.get("current_ratio", round(safe_div(total_ca, total_cl), 2))
+    quick_ratio = bs.get("quick_ratio", round(safe_div(total_ca, total_cl), 2))
+
     return {
-        "current_ratio": bs.get("current_ratio", round(safe_div(total_assets, total_liabilities), 2)),
-        "quick_ratio": bs.get("quick_ratio", round(safe_div(total_assets, total_liabilities), 2)),
-        "cash_ratio": round(safe_div(operating_cf, total_liabilities), 2),
-        "inventory_turnover": 0,
-        "receivables_turnover": 0,
+        "current_ratio": current_ratio,
+        "quick_ratio": quick_ratio,
+        "cash_ratio": round(safe_div(operating_cf, total_cl), 2),
+        "inventory_turnover": 0,   # needs inventory + COGS detail
+        "receivables_turnover": 0, # needs receivables + revenue detail
         "days_sales_outstanding": 0,
         "days_inventory_outstanding": 0,
         "gross_margin": pl["gp_margin"],

@@ -1,34 +1,53 @@
-"""Aggregates GL transactions into P&L, Balance Sheet, and Cash Flow."""
+"""Aggregates GL transactions into P&L, Balance Sheet, and Cash Flow.
+
+Fully data-driven: reads section names, sign conventions, and classification
+rules from pipeline.config so it works with any chart of accounts.
+"""
 
 import pandas as pd
 from .utils import safe_div
+from . import config as cfg
+
 
 # ── Trial balance: account-level source the statements roll up from ──
-_CURRENT_ASSET_KW = ["current", "cash", "receivable", "inventor", "prepayment"]
-_CURRENT_LIAB_KW = ["current", "payable", "short", "accrued"]
 
 
 def tb_group(section: str, fs_heading: str):
     """Presentation group an account rolls into, or None if it is not part of
-    the trial balance (P&L + balance sheet)."""
+    the trial balance (P&L + balance sheet).
+
+    Reads from config to map Statement_Section -> TB group name.
+    """
     fsl = str(fs_heading or "").lower()
-    simple = {
+
+    # P&L sections: map directly from config
+    _pl_map = {
         "Revenue": "Revenue",
         "COGS": "Cost of sales",
         "Cost of Sales": "Cost of sales",
         "Operating Expenses": "Operating expenses",
         "Depreciation": "Depreciation",
         "Other Income": "Other income",
+        "Other Gains/Losses": "Other income",
         "Finance Costs": "Finance costs",
         "Tax": "Tax",
-        "Equity": "Equity",
     }
-    if section in simple:
-        return simple[section]
-    if section == "Assets":
-        return "Current assets" if any(k in fsl for k in _CURRENT_ASSET_KW) else "Non-current assets"
-    if section == "Liabilities":
-        return "Current liabilities" if any(k in fsl for k in _CURRENT_LIAB_KW) else "Non-current liabilities"
+    if section in _pl_map:
+        return _pl_map[section]
+
+    if section == "Equity":
+        return "Equity"
+
+    if section in cfg.BS_ASSET_SECTIONS:
+        return ("Current assets"
+                if any(k in fsl for k in cfg.CURRENT_ASSET_KEYWORDS)
+                else "Non-current assets")
+
+    if section in cfg.BS_LIABILITY_SECTIONS:
+        return ("Current liabilities"
+                if any(k in fsl for k in cfg.CURRENT_LIABILITY_KEYWORDS)
+                else "Non-current liabilities")
+
     return None
 
 
@@ -43,6 +62,8 @@ def build_tb_meta(merged: pd.DataFrame) -> dict:
     out = {}
     cols = ["GL_Code", "Account_Description", "Statement_Section", "FS_Heading",
             "Note_Heading", "CF_Category", "Segment"]
+    # Only include columns that exist
+    cols = [c for c in cols if c in merged.columns]
     df = merged[cols].drop_duplicates(subset=["GL_Code"])
     for _, r in df.iterrows():
         g = tb_group(r["Statement_Section"], r["FS_Heading"])
@@ -50,12 +71,12 @@ def build_tb_meta(merged: pd.DataFrame) -> dict:
             continue
         s = lambda v, d="": str(v) if pd.notna(v) else d
         out[str(r["GL_Code"])] = {
-            "name": s(r["Account_Description"], str(r["GL_Code"])),
+            "name": s(r.get("Account_Description"), str(r["GL_Code"])),
             "group": g,
-            "line": s(r["FS_Heading"], g),
-            "note": s(r["Note_Heading"], s(r["FS_Heading"], g)),
-            "cf": s(r["CF_Category"], ""),
-            "segment": s(r["Segment"], "Corporate"),
+            "line": s(r.get("FS_Heading"), g),
+            "note": s(r.get("Note_Heading"), s(r.get("FS_Heading"), g)),
+            "cf": s(r.get("CF_Category"), ""),
+            "segment": s(r.get("Segment"), "Unspecified"),
         }
     return out
 
@@ -81,11 +102,19 @@ def merge_mapping(gl: pd.DataFrame, mapping: pd.DataFrame) -> pd.DataFrame:
     """Left-join GL transactions with statement mapping."""
     gl["GL_Code"] = gl["GL_Code"].astype(str).str.strip()
     merged = gl.merge(mapping, on="GL_Code", how="left")
-    merged["Statement_Section"] = merged["Statement_Section"].fillna("Unclassified")
-    merged["FS_Heading"] = merged["FS_Heading"].fillna("Unclassified")
-    merged["Note_Heading"] = merged["Note_Heading"].fillna("Unclassified")
-    merged["CF_Category"] = merged["CF_Category"].fillna("Unclassified")
-    merged["Segment"] = merged["Segment"].fillna("Corporate")
+    # Fill missing mapping columns with defaults
+    for col, default in [
+        ("Statement_Section", "Unclassified"),
+        ("FS_Heading", "Unclassified"),
+        ("Note_Heading", "Unclassified"),
+        ("CF_Category", "Unclassified"),
+        ("Segment", "Unspecified"),
+        ("Normal_Balance", "Debit"),
+    ]:
+        if col in merged.columns:
+            merged[col] = merged[col].fillna(default)
+        else:
+            merged[col] = default
     return merged
 
 
@@ -94,9 +123,9 @@ def _clean_account_label(desc: str, section_hint: str = "") -> str:
     if not isinstance(desc, str):
         return "Other"
     label = desc.strip()
-    # Drop leading statement prefixes like "Revenue - ", "COGS - ", "DE - "
+    # Drop common leading statement prefixes
     for prefix in ("Revenue -", "Revenue-", "COGS -", "COGS-", "DE -", "DE-",
-                   "Discount -", "Discount-"):
+                   "Discount -", "Discount-", "Cost of Sales -", "Cost of Sales-"):
         if label.lower().startswith(prefix.lower()):
             label = label[len(prefix):].strip()
             break
@@ -186,21 +215,26 @@ def build_flat(merged: pd.DataFrame, section_names, credit_positive: bool, top: 
     return items
 
 
+def _is_credit_positive(section: str) -> bool:
+    """Return True if this P&L section uses credit-positive sign convention."""
+    return section in cfg.CREDIT_POSITIVE_SECTIONS
+
+
 def build_pl(merged: pd.DataFrame) -> dict:
-    """Build P&L from merged GL data. Expects pre-filtered data."""
-    pl_sections = ["Revenue", "COGS", "Cost of Sales", "Operating Expenses",
-                   "Other Income", "Finance Costs", "Tax", "Depreciation"]
-    df = merged[merged["Statement_Section"].isin(pl_sections)].copy()
+    """Build P&L from merged GL data. Expects pre-filtered data.
+
+    Fully dynamic: reads section groups from config.
+    """
+    all_pl_sections = set(cfg.PL_SECTION_ORDER)
+    df = merged[merged["Statement_Section"].isin(all_pl_sections)].copy()
 
     # ── Capital expenditure (PP&E additions in the period) ──
-    # Capex is not a P&L cost (it is capitalised), but it is shown alongside
-    # cost so management sees total cash going into cost + investment.
     capex_df = merged[
-        (merged["Statement_Section"] == "Assets")
-        & (merged["FS_Heading"] == "Property, plant and equipment")
-        & (merged["Note_Heading"].astype(str).str.contains("Cost", case=False, na=False))
+        (merged["Statement_Section"].isin(cfg.BS_ASSET_SECTIONS))
+        & (merged["FS_Heading"].astype(str).str.contains("property|plant|equipment", case=False, na=False))
+        & (merged["Note_Heading"].astype(str).str.contains("cost|addition", case=False, na=False))
     ].copy()
-    capex_df["Amount"] = capex_df["Debit"] - capex_df["Credit"]  # additions positive
+    capex_df["Amount"] = capex_df["Debit"] - capex_df["Credit"]
     capex_total = float(capex_df["Amount"].sum())
     capex_breakdown = []
     if not capex_df.empty:
@@ -225,7 +259,7 @@ def build_pl(merged: pd.DataFrame) -> dict:
     for _, row in grouped.iterrows():
         section = row["Statement_Section"]
         heading = row["FS_Heading"]
-        if section in ["Revenue", "Other Income"]:
+        if _is_credit_positive(section):
             amount = row["Credit"] - row["Debit"]
         else:
             amount = row["Debit"] - row["Credit"]
@@ -235,13 +269,17 @@ def build_pl(merged: pd.DataFrame) -> dict:
             "amount": round(amount, 2),
         })
 
-    revenue = sum(l["amount"] for l in pl_lines if l["section"] == "Revenue")
-    cogs = sum(l["amount"] for l in pl_lines if l["section"] in ("COGS", "Cost of Sales"))
-    opex = sum(l["amount"] for l in pl_lines if l["section"] == "Operating Expenses")
-    depreciation = sum(l["amount"] for l in pl_lines if l["section"] == "Depreciation")
-    other_income = sum(l["amount"] for l in pl_lines if l["section"] == "Other Income")
-    finance_costs = sum(l["amount"] for l in pl_lines if l["section"] == "Finance Costs")
-    tax = sum(l["amount"] for l in pl_lines if l["section"] == "Tax")
+    # Summarise by config-defined section groups
+    def sum_sections(groups):
+        return sum(l["amount"] for l in pl_lines if l["section"] in groups)
+
+    revenue = sum_sections(["Revenue"])
+    cogs = sum_sections(cfg.PL_COGS_SECTIONS)
+    opex = sum_sections(cfg.PL_OPEX_SECTIONS)
+    depreciation = sum_sections(cfg.PL_DEPR_SECTIONS)
+    other_income = sum_sections(cfg.PL_OTHER_INCOME_SECTIONS)
+    finance_costs = sum_sections(cfg.PL_FINANCE_SECTIONS)
+    tax = sum_sections(cfg.PL_TAX_SECTIONS)
 
     gp = revenue - cogs
     ebit = gp - opex - depreciation + other_income
@@ -258,24 +296,24 @@ def build_pl(merged: pd.DataFrame) -> dict:
         "revenue": items_for("Revenue"),
         "revenue_breakdown": build_breakdown(df, "Revenue", credit_positive=True),
         "total_revenue": round(revenue, 2),
-        "cogs": items_for(["COGS", "Cost of Sales"]),
-        "cogs_breakdown": build_breakdown(df, ["COGS", "Cost of Sales"], credit_positive=False),
+        "cogs": items_for(cfg.PL_COGS_SECTIONS),
+        "cogs_breakdown": build_breakdown(df, cfg.PL_COGS_SECTIONS, credit_positive=False),
         "total_cogs": round(cogs, 2),
         "gross_profit": round(gp, 2),
-        "opex": items_for("Operating Expenses"),
-        "opex_breakdown": build_flat(df, "Operating Expenses", credit_positive=False),
+        "opex": items_for(cfg.PL_OPEX_SECTIONS),
+        "opex_breakdown": build_flat(df, cfg.PL_OPEX_SECTIONS, credit_positive=False),
         "total_opex": round(opex, 2),
         "capex": round(capex_total, 2),
         "capex_breakdown": capex_breakdown,
-        "depreciation": items_for("Depreciation"),
+        "depreciation": items_for(cfg.PL_DEPR_SECTIONS),
         "total_depreciation": round(depreciation, 2),
         "operating_profit": round(ebit, 2),
-        "other_income": items_for("Other Income"),
+        "other_income": items_for(cfg.PL_OTHER_INCOME_SECTIONS),
         "total_other_income": round(other_income, 2),
-        "finance_costs": items_for("Finance Costs"),
+        "finance_costs": items_for(cfg.PL_FINANCE_SECTIONS),
         "total_finance_costs": round(finance_costs, 2),
         "pbt": round(pbt, 2),
-        "tax": items_for("Tax"),
+        "tax": items_for(cfg.PL_TAX_SECTIONS),
         "total_tax": round(tax, 2),
         "pat": round(pat, 2),
         "gp_margin": round(safe_div(gp, revenue) * 100, 1),
@@ -285,13 +323,37 @@ def build_pl(merged: pd.DataFrame) -> dict:
     }
 
 
-def build_balance_sheet(merged: pd.DataFrame, account_summary: pd.DataFrame) -> dict:
-    """Build Balance Sheet from GL data. Expects pre-filtered data."""
-    bs_sections = ["Assets", "Liabilities", "Equity"]
+def build_balance_sheet(merged: pd.DataFrame, pl: dict = None) -> dict:
+    """Build Balance Sheet from GL data. Expects pre-filtered data.
+
+    Uses Normal_Balance from the statement mapping for correct sign handling:
+    - Debit-normal accounts: balance = Net (positive = normal)
+    - Credit-normal accounts: balance = -Net (positive = normal)
+
+    If a P&L dict is provided, net income (PAT) is added to equity so that
+    Assets = Liabilities + Equity holds.
+    """
+    bs_sections = (cfg.BS_ASSET_SECTIONS + cfg.BS_LIABILITY_SECTIONS
+                   + cfg.BS_EQUITY_SECTIONS + ["Other"])
     df = merged[merged["Statement_Section"].isin(bs_sections)].copy()
 
+    # Reclassify "Other" items into the configured target (default: Assets)
+    if cfg.BS_OTHER_RECLASS:
+        other_mask = df["Statement_Section"] == "Other"
+        if other_mask.any():
+            df.loc[other_mask, "Statement_Section"] = cfg.BS_OTHER_RECLASS
+
+    # Compute balance using Normal_Balance from mapping
+    df = df.copy()
+    def _balance(row):
+        nb = str(row.get("Normal_Balance", "Debit")).strip()
+        if nb == "Credit":
+            return -row["Net"]
+        return row["Net"]
+    df["Balance"] = df.apply(_balance, axis=1)
+
     grouped = df.groupby(["Statement_Section", "FS_Heading"]).agg(
-        Net=("Net", "sum"),
+        Balance=("Balance", "sum"),
     ).reset_index()
 
     total_assets = 0
@@ -306,36 +368,39 @@ def build_balance_sheet(merged: pd.DataFrame, account_summary: pd.DataFrame) -> 
     for _, row in grouped.iterrows():
         section = row["Statement_Section"]
         heading = row["FS_Heading"]
-        amount = row["Net"]
+        amount = row["Balance"]
         if heading == "Unclassified":
             continue
 
-        # Liabilities and equity are credit balances (negative Net). Present
-        # them as positive magnitudes, as a balance sheet is normally read,
-        # so working capital and the current ratio come out with the right sign.
-        if section in ("Liabilities", "Equity"):
-            amount = -amount
-
         item = {"label": heading, "value": round(amount, 2)}
 
-        if section == "Assets":
+        if section in cfg.BS_ASSET_SECTIONS:
             total_assets += amount
-            if any(k in heading.lower() for k in ["current", "cash", "receivable", "inventory", "prepayment"]):
+            hl = heading.lower()
+            if any(k in hl for k in cfg.CURRENT_ASSET_KEYWORDS):
                 current_assets.append(item)
             else:
                 non_current_assets.append(item)
-        elif section == "Liabilities":
+        elif section in cfg.BS_LIABILITY_SECTIONS:
             total_liabilities += amount
-            if any(k in heading.lower() for k in ["current", "payable", "short", "accrued"]):
+            hl = heading.lower()
+            if any(k in hl for k in cfg.CURRENT_LIABILITY_KEYWORDS):
                 current_liabilities.append(item)
             else:
                 non_current_liabilities.append(item)
-        elif section == "Equity":
+        elif section in cfg.BS_EQUITY_SECTIONS:
             total_equity += amount
             equity_items.append(item)
 
     total_ca = sum(i["value"] for i in current_assets)
     total_cl = sum(i["value"] for i in current_liabilities)
+
+    # Add net income (PAT) to equity so A = L + E
+    if pl:
+        pat = pl.get("pat", 0)
+        if pat != 0:
+            equity_items.append({"label": "Net Income for the Period", "value": round(pat, 2)})
+            total_equity += pat
 
     return {
         "current_assets": current_assets,
@@ -358,16 +423,18 @@ def build_balance_sheet(merged: pd.DataFrame, account_summary: pd.DataFrame) -> 
 
 
 def build_cash_flow(merged: pd.DataFrame) -> dict:
-    """Build Cash Flow from GL data. Expects pre-filtered data."""
-    cf_cats = ["Operating", "Investing", "Financing"]
-    df = merged[merged["CF_Category"].isin(cf_cats)].copy()
+    """Build Cash Flow from GL data. Expects pre-filtered data.
+
+    Reads CF categories from config; any category in the mapping is included.
+    """
+    df = merged[merged["CF_Category"].isin(cfg.CF_CATEGORIES)].copy()
 
     grouped = df.groupby(["CF_Category", "FS_Heading"]).agg(
         Net=("Net", "sum"),
     ).reset_index()
 
     cf_sections = {}
-    for cat in ["Operating", "Investing", "Financing"]:
+    for cat in cfg.CF_CATEGORIES:
         cat_data = grouped[grouped["CF_Category"] == cat]
         items = [{"label": r["FS_Heading"], "value": round(r["Net"], 2)}
                  for _, r in cat_data.iterrows() if r["FS_Heading"] != "Unclassified"]
@@ -392,6 +459,8 @@ def build_cash_flow(merged: pd.DataFrame) -> dict:
 def build_segments(merged: pd.DataFrame) -> list:
     """Build revenue by segment breakdown."""
     df = merged[merged["Statement_Section"] == "Revenue"].copy()
+    if df.empty:
+        return []
 
     grouped = df.groupby("Segment").agg(
         Revenue=("Credit", "sum"),
@@ -425,9 +494,9 @@ def build_budget(budget_df: pd.DataFrame, mapping: pd.DataFrame) -> dict:
         def s(*sections):
             return float(pdf[pdf["Statement_Section"].isin(sections)]["Budget"].sum())
         rev = s("Revenue")
-        cogs = s("COGS", "Cost of Sales")
-        opex = s("Operating Expenses")
-        dep = s("Depreciation")
+        cogs = s(*cfg.PL_COGS_SECTIONS)
+        opex = s(*cfg.PL_OPEX_SECTIONS)
+        dep = s(*cfg.PL_DEPR_SECTIONS)
         gp = rev - cogs
         op = gp - opex - dep
         out[str(period)] = {
@@ -443,8 +512,9 @@ def build_budget(budget_df: pd.DataFrame, mapping: pd.DataFrame) -> dict:
 
 def build_monthly_summary(merged: pd.DataFrame) -> list:
     """Build monthly P&L summary for trend charts."""
-    pl_sections = ["Revenue", "COGS", "Cost of Sales", "Operating Expenses", "Depreciation"]
-    df = merged[merged["Statement_Section"].isin(pl_sections)].copy()
+    all_sections = set(cfg.MONTHLY_REVENUE_SECTIONS + cfg.MONTHLY_COGS_SECTIONS
+                       + cfg.MONTHLY_OPEX_SECTIONS)
+    df = merged[merged["Statement_Section"].isin(all_sections)].copy()
 
     monthly = df.groupby(["Period", "Statement_Section"]).agg(
         Debit=("Debit", "sum"),
@@ -454,9 +524,9 @@ def build_monthly_summary(merged: pd.DataFrame) -> list:
     results = []
     for period in sorted(monthly["Period"].dropna().unique()):
         period_data = monthly[monthly["Period"] == period]
-        rev_row = period_data[period_data["Statement_Section"] == "Revenue"]
-        cogs_row = period_data[period_data["Statement_Section"].isin(("COGS", "Cost of Sales"))]
-        opex_row = period_data[period_data["Statement_Section"].isin(("Operating Expenses", "Depreciation"))]
+        rev_row = period_data[period_data["Statement_Section"].isin(cfg.MONTHLY_REVENUE_SECTIONS)]
+        cogs_row = period_data[period_data["Statement_Section"].isin(cfg.MONTHLY_COGS_SECTIONS)]
+        opex_row = period_data[period_data["Statement_Section"].isin(cfg.MONTHLY_OPEX_SECTIONS)]
 
         revenue = float(rev_row["Credit"].sum() - rev_row["Debit"].sum()) if len(rev_row) else 0
         cogs = float(cogs_row["Debit"].sum() - cogs_row["Credit"].sum()) if len(cogs_row) else 0
