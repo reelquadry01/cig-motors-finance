@@ -71,7 +71,7 @@ CF_CATEGORIES = ["Operating", "Investing", "Financing"]
 # ── Monthly summary section groups ──
 MONTHLY_REVENUE_SECTIONS = ["Revenue"]
 MONTHLY_COGS_SECTIONS = ["COGS", "Cost of Sales"]
-MONTHLY_OPEX_SECTIONS = ["Operating Expenses", "Depreciation"]
+MONTHLY_OPEX_SECTIONS = ["Operating Expenses"]
 
 # ── Commentary thresholds ──
 THRESHOLD_GP_MARGIN_LOW = 15.0   # % — flag if gross margin below this

@@ -120,8 +120,8 @@ function bCosts(data) {
   const rows = (p.opex_breakdown || []).map(i => ({ cells: [i.label, t(i.value), pct(i.share)] }))
   rows.push({ cells: ['Total operating expenses', t(p.total_opex), '100%'], bold: true, top: true, dbl: true })
   rows.push({ cells: ['Capital expenditure — additions to PP&E', '', ''], bold: true })
-  ;(p.capex_breakdown || []).forEach(i => rows.push({ cells: [`   ${i.label}`, t(i.value), pct(i.share)] }))
-  rows.push({ cells: ['Total capital expenditure', t(p.capex), '100%'], bold: true, top: true, dbl: true })
+  ;(data.capex_breakdown || []).forEach(i => rows.push({ cells: [`   ${i.label}`, t(i.value), pct(i.share)] }))
+  rows.push({ cells: ['Total capital expenditure', t(data.capex), '100%'], bold: true, top: true, dbl: true })
   return { title: 'Costs & expenditure', columns: ['', "₦'000", 'Share'], rows }
 }
 

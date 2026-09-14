@@ -1,4 +1,4 @@
-import { Gauge, Zap, BarChart3, Scale } from 'lucide-react'
+import { Gauge, Zap, BarChart3, Scale, TrendingUp } from 'lucide-react'
 import fmt from '../lib/fmt'
 import ViewHeader from './ui/ViewHeader'
 
@@ -29,9 +29,12 @@ export default function RatiosView({ data }) {
         { label: 'Gross Margin', value: r?.gross_margin, fmt: v => fmt.pct(v) },
         { label: 'Operating Margin', value: r?.operating_margin, fmt: v => fmt.pct(v) },
         { label: 'Net Margin', value: r?.net_margin, fmt: v => fmt.pct(v), color: r?.net_margin >= 0 ? 'var(--fav)' : 'var(--unfav)' },
+        { label: 'EBITDA', value: r?.ebitda, fmt: v => fmt.th(v) },
+        { label: 'EBITDA Margin', value: r?.ebitda_margin, fmt: v => fmt.pct(v) },
         { label: 'ROE', value: r?.roe, fmt: v => fmt.pct(v) },
         { label: 'ROA', value: r?.roa, fmt: v => fmt.pct(v) },
         { label: 'Asset Turnover', value: r?.asset_turnover, fmt: v => fmt.n2(v) + '×' },
+        { label: 'Effective Tax Rate', value: r?.effective_tax_rate, fmt: v => fmt.pct(v) },
       ],
     },
     {
@@ -41,8 +44,18 @@ export default function RatiosView({ data }) {
       items: [
         { label: 'Debt-to-Equity', value: r?.debt_to_equity, fmt: v => fmt.n2(v) + '%' },
         { label: 'Equity Multiplier', value: r?.equity_multiplier, fmt: v => fmt.n2(v) + '×' },
-        { label: 'Interest Coverage', value: r?.interest_coverage, fmt: v => fmt.n2(v) + '×' },
+        { label: 'Interest Coverage', value: r?.interest_coverage, fmt: v => r?.interest_coverage !== null ? fmt.n2(v) + '×' : 'N/A' },
         { label: 'Debt Ratio', value: r?.debt_ratio, fmt: v => fmt.pct(v) },
+        { label: 'Net Debt', value: r?.net_debt, fmt: v => fmt.th(v) },
+        { label: 'Net Debt / EBITDA', value: r?.net_debt_to_ebitda, fmt: v => fmt.n2(v) + '×' },
+      ],
+    },
+    {
+      title: 'Working Capital',
+      icon: TrendingUp,
+      tint: 'var(--fav)',
+      items: [
+        { label: 'Working Capital', value: r?.working_capital, fmt: v => fmt.th(v) },
       ],
     },
   ]

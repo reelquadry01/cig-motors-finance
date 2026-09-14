@@ -648,30 +648,60 @@ function sheetBalance(ws, data, ctx) {
 /* ── Cash flow ── */
 function sheetCash(ws, data, ctx) {
   const { ref, tb } = ctx
-  base(ws); title(ws, 'Cash flow', `${UNITS} · ${data.period} · classified by GL cash-flow category`, data.period); backLink(ws)
+  base(ws); title(ws, 'Cash flow', `${UNITS} · ${data.period} · IAS 7 indirect method`, data.period); backLink(ws)
   const h = headerRow(ws, ['', "₦'000"], 2)
-  const marks = []
-  const sec = (label, cat) => {
-    const lines = [...new Set(tb.rows.filter(r => r.cf === cat).map(r => r.line))]
+  const cf = data.cf || {}
+  const writeItems = (items, bold = false) => {
     const first = ws.rowCount + 1
-    lines.forEach(l => {
-      const r = ws.addRow([`   ${l}`]); r.font = { name: FONT, size: 10 }
-      r.getCell(2).value = { formula: SUMIFS(ref.bal, [[ref.cf, cat], [ref.line, l]]) }
-      styleCell(r.getCell(2), { color: C_LINK })
+    ;(items || []).forEach(item => {
+      const r = ws.addRow([`   ${item.label}`])
+      r.font = { name: FONT, size: 10, bold }
+      r.getCell(2).value = val(item.value)
+      styleCell(r.getCell(2), { color: item.adjustment ? C_CALC : C_INPUT })
     })
-    const last = ws.rowCount
-    const tr = ws.addRow([label, lines.length ? { formula: `SUM(B${first}:B${last})` } : 0])
-    tr.font = { name: FONT, size: 10, bold: true }; styleCell(tr.getCell(2), { bold: true }); ruleAbove(tr)
-    marks.push(tr.number)
+    return { first, last: ws.rowCount }
   }
-  sec('Net cash from operating activities', 'Operating')
-  sec('Net cash from investing activities', 'Investing')
-  sec('Net cash from financing activities', 'Financing')
-  const nc = ws.addRow(['Net change in cash', { formula: marks.map(m => `B${m}`).join('+') }])
-  nc.font = { name: FONT, size: 10, bold: true }; styleCell(nc.getCell(2), { bold: true }); ruleDouble(nc)
+  const sectionTotal = (label, first, last) => {
+    const tr = ws.addRow([label, first <= last ? { formula: `SUM(B${first}:B${last})` } : 0])
+    tr.font = { name: FONT, size: 10, bold: true }
+    styleCell(tr.getCell(2), { bold: true })
+    ruleAbove(tr)
+    return tr.number
+  }
+
+  // Operating activities
+  ws.addRow(['Operating activities']).font = { name: FONT, bold: true, size: 9, color: { argb: MUTED } }
+  const opItems = cf.operating?.items || []
+  const opAdj = opItems.map(i => ({ ...i, adjustment: /depreciation|interest expense/i.test(i.label) }))
+  const opRange = writeItems(opAdj)
+  const opTotal = sectionTotal('Net cash from operating activities', opRange.first, opRange.last)
+
+  ws.addRow([])
+  // Investing activities
+  ws.addRow(['Investing activities']).font = { name: FONT, bold: true, size: 9, color: { argb: MUTED } }
+  const invRange = writeItems(cf.investing?.items)
+  const invTotal = sectionTotal('Net cash from investing activities', invRange.first, invRange.last)
+
+  ws.addRow([])
+  // Financing activities
+  ws.addRow(['Financing activities']).font = { name: FONT, bold: true, size: 9, color: { argb: MUTED } }
+  const finRange = writeItems(cf.financing?.items)
+  const finTotal = sectionTotal('Net cash from financing activities', finRange.first, finRange.last)
+
+  ws.addRow([])
+  // Reconciliation
+  const nc = ws.addRow(['Net change in cash', { formula: `B${opTotal}+B${invTotal}+B${finTotal}` }])
+  nc.font = { name: FONT, size: 10, bold: true }; styleCell(nc.getCell(2), { bold: true })
+  ruleAbove(nc)
+  const oc = ws.addRow(['Opening cash and cash equivalents', val(cf.opening_cash)])
+  oc.font = { name: FONT, size: 10 }; styleCell(oc.getCell(2), { color: C_INPUT })
+  const cc = ws.addRow(['Closing cash and cash equivalents', { formula: `B${nc.number}+B${oc.number}` }])
+  cc.font = { name: FONT, size: 10, bold: true }; styleCell(cc.getCell(2), { bold: true })
+  ruleDouble(cc)
+
   ws.getColumn(1).width = 48; ws.getColumn(2).width = 16
   ws.views = [{ showGridLines: false, state: 'frozen', ySplit: h.number }]
-  return { ncRow: nc.number }
+  return { ncRow: nc.number, opTotal, invTotal, finTotal }
 }
 
 /* ── Management P&L (segmented) ── */
@@ -863,7 +893,6 @@ function sheetRatios(ws, data, ctx) {
   const r = data.ratios || {}
   base(ws); title(ws, 'Ratio analysis', `${data.period} · direct references to the statement rows above`, data.period); backLink(ws)
   const h = headerRow(ws, ['Ratio', 'Value'])
-  // Direct cross-sheet cell references
   const cell = (tab, row, col = 'C') => `${q(tab)}!$${col}$${row}`
   const isCell = key => cell(IS_TAB, inc[`${key}Row`])
   const bsCell = key => cell(BS_TAB, bal[`${key}Row`])
@@ -875,16 +904,38 @@ function sheetRatios(ws, data, ctx) {
     const row = ws.addRow([label, v ?? null]); row.font = { name: FONT, size: 10 }
     if (typeof v === 'number') styleCell(row.getCell(2), { color: C_INPUT, fmt })
   }
+
+  // Liquidity
   if (bal) rowF('Current ratio', `IF(${bsCell('cl')}=0,0,${bsCell('ca')}/${bsCell('cl')})`, XFMT)
   else rowV('Current ratio', r.current_ratio, XFMT)
+  rowV('Quick Ratio', r.quick_ratio, XFMT)
+  rowV('Cash Ratio', r.cash_ratio, XFMT)
+
+  // Efficiency
+  rowV('Inventory Turnover', r.inventory_turnover, XFMT)
+  rowV('Receivables Turnover', r.receivables_turnover, XFMT)
+  rowV('Days Sales Outstanding', r.days_sales_outstanding, NUMFMT)
+  rowV('Days Inventory Outstanding', r.days_inventory_outstanding, NUMFMT)
+
+  ws.addRow([])
+
+  // Profitability
   if (inc) {
     rowF('Gross margin', `IF(${isCell('rev')}=0,0,${isCell('gp')}/${isCell('rev')})`, PCTFMT)
     rowF('EBITDA margin', `IF(${isCell('rev')}=0,0,${isCell('ebitda')}/${isCell('rev')})`, PCTFMT)
     rowF('Operating margin', `IF(${isCell('rev')}=0,0,${isCell('op')}/${isCell('rev')})`, PCTFMT)
     rowF('Net margin', `IF(${isCell('rev')}=0,0,${isCell('pat')}/${isCell('rev')})`, PCTFMT)
   } else {
-    rowV('Gross margin', (r.gross_margin ?? 0) / 100, PCTFMT); rowV('Operating margin', (r.operating_margin ?? 0) / 100, PCTFMT); rowV('Net margin', (r.net_margin ?? 0) / 100, PCTFMT)
+    rowV('Gross margin', (r.gross_margin ?? 0) / 100, PCTFMT)
+    rowV('Operating margin', (r.operating_margin ?? 0) / 100, PCTFMT)
+    rowV('Net margin', (r.net_margin ?? 0) / 100, PCTFMT)
   }
+  rowV('EBITDA', r.ebitda, NUMFMT)
+  rowV('Effective Tax Rate', r.effective_tax_rate, PCTFMT)
+
+  ws.addRow([])
+
+  // Leverage
   if (inc && bal) rowF('Return on assets', `IF(${bsCell('ta')}=0,0,${isCell('pat')}/${bsCell('ta')})`, PCTFMT)
   else rowV('Return on assets', (r.roa ?? 0) / 100, PCTFMT)
   if (inc && bal) rowF('Return on equity', `IF(${bsCell('eq')}=0,0,${isCell('pat')}/${bsCell('eq')})`, PCTFMT)
@@ -893,6 +944,10 @@ function sheetRatios(ws, data, ctx) {
   else rowV('Debt-to-equity', (r.debt_to_equity ?? 0) / 100, PCTFMT)
   if (inc && bal) rowF('Asset turnover', `IF(${bsCell('ta')}=0,0,${isCell('rev')}/${bsCell('ta')})`, XFMT)
   else rowV('Asset turnover', r.asset_turnover, XFMT)
+  rowV('Interest Coverage', r.interest_coverage, XFMT)
+  rowV('Net Debt', r.net_debt, NUMFMT)
+  rowV('Net Debt / EBITDA', r.net_debt_to_ebitda, XFMT)
+
   ws.getColumn(1).width = 30; ws.getColumn(2).width = 14
   ws.views = [{ showGridLines: false, state: 'frozen', ySplit: h.number }]
   return {}

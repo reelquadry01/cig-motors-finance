@@ -87,8 +87,29 @@ def run_pipeline(
     pl = build_pl(bs_cf_data)
     # B/S and C/F for the selected period — pass P&L so net income flows to equity
     bs = build_balance_sheet(bs_cf_data, pl)
-    cf = build_cash_flow(bs_cf_data)
+    cf = build_cash_flow(bs_cf_data, pl=pl, bs=bs)
     segments_raw = build_segments(bs_cf_data)
+
+    # Standalone capex (moved out of P&L)
+    capex = 0
+    capex_breakdown = []
+    capex_df = bs_cf_data[
+        (bs_cf_data["Statement_Section"].isin(cfg.BS_ASSET_SECTIONS))
+        & (bs_cf_data["FS_Heading"].astype(str).str.contains("property|plant|equipment", case=False, na=False))
+        & (bs_cf_data["Note_Heading"].astype(str).str.contains("cost|addition", case=False, na=False))
+    ].copy()
+    if not capex_df.empty:
+        capex_df["Amount"] = capex_df["Debit"] - capex_df["Credit"]
+        capex = float(capex_df["Amount"].sum())
+        for desc, amt in capex_df.groupby("Account_Description")["Amount"].sum().items():
+            amt = float(amt)
+            if abs(amt) < 1:
+                continue
+            capex_breakdown.append({
+                "label": str(desc),
+                "value": round(amt, 2),
+                "share": round(amt / capex * 100, 1) if capex else 0,
+            })
 
     # Monthly P&L trend from full dataset
     monthly = build_monthly_summary(merged)
@@ -217,6 +238,8 @@ def run_pipeline(
         "pl": pl,
         "bs": bs,
         "cf": cf,
+        "capex": round(capex, 2),
+        "capex_breakdown": capex_breakdown,
         "segments": segments,
         "monthly": monthly,
         "pl_by_period": pl_by_period,

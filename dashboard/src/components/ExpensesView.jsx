@@ -43,9 +43,9 @@ export default function ExpensesView({ data }) {
   if (!data) return null
   const pl = data.pl || {}
   const opex = pl.opex_breakdown || []
-  const capex = pl.capex_breakdown || []
+  const capex = data.capex_breakdown || []
   const totalOpex = pl.total_opex || 0
-  const totalCapex = pl.capex || 0
+  const totalCapex = data.capex || 0
   const rev = pl.total_revenue || 0
 
   return (

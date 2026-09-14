@@ -15,13 +15,14 @@ services:
   - type: web
     name: cig-finance-admin
     runtime: python
-    plan: starter          # $7/mo — free tier spins down and loses in-flight uploads
-    region: frankfurt      # closest to Nigeria of the free regions; adjust if needed
+    plan: free             # free — 512 MB RAM, spins down after 15 min idle. Upgrade to `starter` in the dashboard when ready.
+    region: frankfurt      # closest to Nigeria of the free regions
+    repo: https://github.com/reelquadry01/cig-motors-finance
     branch: master
     autoDeploy: true       # redeploy on push to master
 
-    # Pin the Python interpreter so the build isn't broken by future defaults.
-    pythonVersion: "3.11.9"
+    # Python version is pinned via .python-version at the repo root — Render
+    # reads that file on build. Blueprint schema does not accept pythonVersion.
 
     # Build: Python deps, then Node deps, then Vite build.
     # Render provides Node 20 out of the box.

@@ -303,8 +303,6 @@ def build_pl(merged: pd.DataFrame) -> dict:
         "opex": items_for(cfg.PL_OPEX_SECTIONS),
         "opex_breakdown": build_flat(df, cfg.PL_OPEX_SECTIONS, credit_positive=False),
         "total_opex": round(opex, 2),
-        "capex": round(capex_total, 2),
-        "capex_breakdown": capex_breakdown,
         "depreciation": items_for(cfg.PL_DEPR_SECTIONS),
         "total_depreciation": round(depreciation, 2),
         "operating_profit": round(ebit, 2),
@@ -418,41 +416,130 @@ def build_balance_sheet(merged: pd.DataFrame, pl: dict = None) -> dict:
         "net_assets": round(total_assets - total_liabilities, 2),
         "working_capital": round(total_ca - total_cl, 2),
         "current_ratio": round(safe_div(total_ca, total_cl), 2),
-        "quick_ratio": round(safe_div(total_ca, total_cl), 2),
+        "quick_ratio": round(safe_div(
+            total_ca
+            - sum(i["value"] for i in current_assets if "inventor" in i["label"].lower())
+            - sum(i["value"] for i in current_assets if "prepayment" in i["label"].lower()),
+            total_cl), 2),
     }
 
 
-def build_cash_flow(merged: pd.DataFrame) -> dict:
-    """Build Cash Flow from GL data. Expects pre-filtered data.
+def build_cash_flow(merged: pd.DataFrame, pl: dict = None, bs: dict = None) -> dict:
+    """Build IAS 7 indirect-method Cash Flow from GL data.
 
-    Reads CF categories from config; any category in the mapping is included.
+    Uses P&L for profit before tax and non-cash add-backs,
+    and B/S for working capital changes and financing activities.
     """
-    df = merged[merged["CF_Category"].isin(cfg.CF_CATEGORIES)].copy()
+    operating_items = []
 
-    grouped = df.groupby(["CF_Category", "FS_Heading"]).agg(
-        Net=("Net", "sum"),
-    ).reset_index()
+    # Start with PBT
+    pbt = pl.get("pbt", 0) if pl else 0
+    operating_items.append({"label": "Profit before tax", "value": round(pbt, 2)})
 
-    cf_sections = {}
-    for cat in cfg.CF_CATEGORIES:
-        cat_data = grouped[grouped["CF_Category"] == cat]
-        items = [{"label": r["FS_Heading"], "value": round(r["Net"], 2)}
-                 for _, r in cat_data.iterrows() if r["FS_Heading"] != "Unclassified"]
-        total = sum(i["value"] for i in items)
-        cf_sections[cat.lower()] = {
-            "items": items,
-            "total": round(total, 2),
-        }
+    # Add back non-cash items
+    depreciation = pl.get("total_depreciation", 0) if pl else 0
+    if depreciation:
+        operating_items.append({"label": "Depreciation & amortization", "value": round(depreciation, 2)})
 
-    net_movement = sum(cf_sections[c]["total"] for c in cf_sections)
+    finance_costs = pl.get("total_finance_costs", 0) if pl else 0
+    if finance_costs:
+        operating_items.append({"label": "Interest expense", "value": round(finance_costs, 2)})
+
+    # Working capital changes from B/S
+    if bs:
+        for item in bs.get("current_assets", []):
+            label = item["label"]
+            value = item["value"]
+            if "cash" in label.lower():
+                continue  # Cash is the reconciliation target
+            # Increase in current asset = cash outflow (negative)
+            operating_items.append({
+                "label": f"(Increase)/Decrease in {label}",
+                "value": round(-abs(value), 2) if value > 0 else round(abs(value), 2),
+            })
+
+        for item in bs.get("current_liabilities", []):
+            label = item["label"]
+            value = item["value"]
+            # Increase in current liability = cash inflow (positive)
+            operating_items.append({
+                "label": f"Increase/(Decrease) in {label}",
+                "value": round(abs(value), 2) if value > 0 else round(-abs(value), 2),
+            })
+
+    # Interest paid and tax paid
+    if finance_costs:
+        operating_items.append({"label": "Interest paid", "value": round(-finance_costs, 2)})
+    total_tax = pl.get("total_tax", 0) if pl else 0
+    if total_tax:
+        operating_items.append({"label": "Income tax paid", "value": round(-total_tax, 2)})
+
+    operating_total = sum(i["value"] for i in operating_items)
+
+    # Investing Activities
+    investing_items = []
+    capex = 0
+    if merged is not None and not merged.empty:
+        capex_df = merged[
+            (merged["Statement_Section"].isin(cfg.BS_ASSET_SECTIONS))
+            & (merged["FS_Heading"].astype(str).str.contains("property|plant|equipment", case=False, na=False))
+            & (merged["Note_Heading"].astype(str).str.contains("cost|addition", case=False, na=False))
+        ]
+        if not capex_df.empty:
+            capex = float((capex_df["Debit"] - capex_df["Credit"]).sum())
+    if capex:
+        investing_items.append({"label": "Purchase of property, plant and equipment", "value": round(-abs(capex), 2)})
+
+    investing_total = sum(i["value"] for i in investing_items)
+
+    # Financing Activities
+    financing_items = []
+    if bs:
+        for item in bs.get("non_current_liabilities", []):
+            label = item["label"]
+            value = item["value"]
+            if "borrowing" in label.lower():
+                financing_items.append({"label": f"Proceeds from {label}", "value": round(abs(value), 2)})
+            elif "lease" in label.lower():
+                financing_items.append({"label": f"Repayment of {label}", "value": round(-abs(value), 2)})
+
+        for item in bs.get("equity", []):
+            label = item["label"]
+            value = item["value"]
+            if "share capital" in label.lower():
+                financing_items.append({"label": "Proceeds from share issuance", "value": round(abs(value), 2)})
+            elif "deposit for shares" in label.lower():
+                financing_items.append({"label": "Deposit for shares received", "value": round(abs(value), 2)})
+
+    financing_total = sum(i["value"] for i in financing_items)
+
+    # Reconciliation
+    net_change = round(operating_total + investing_total + financing_total, 2)
+
+    # Opening/closing cash from B/S
+    closing_cash = 0
+    if bs:
+        for item in bs.get("current_assets", []):
+            if "cash" in item["label"].lower():
+                closing_cash += item["value"]
+    opening_cash = round(closing_cash - net_change, 2) if closing_cash else 0
 
     return {
-        "operating": cf_sections.get("operating", {"items": [], "total": 0}),
-        "investing": cf_sections.get("investing", {"items": [], "total": 0}),
-        "financing": cf_sections.get("financing", {"items": [], "total": 0}),
-        "net_change": round(net_movement, 2),
-        "opening_cash": 0,
-        "closing_cash": round(net_movement, 2),
+        "operating": {
+            "items": operating_items,
+            "total": round(operating_total, 2),
+        },
+        "investing": {
+            "items": investing_items,
+            "total": round(investing_total, 2),
+        },
+        "financing": {
+            "items": financing_items,
+            "total": round(financing_total, 2),
+        },
+        "net_change": net_change,
+        "opening_cash": opening_cash,
+        "closing_cash": round(closing_cash, 2),
     }
 
 
@@ -513,7 +600,8 @@ def build_budget(budget_df: pd.DataFrame, mapping: pd.DataFrame) -> dict:
 def build_monthly_summary(merged: pd.DataFrame) -> list:
     """Build monthly P&L summary for trend charts."""
     all_sections = set(cfg.MONTHLY_REVENUE_SECTIONS + cfg.MONTHLY_COGS_SECTIONS
-                       + cfg.MONTHLY_OPEX_SECTIONS)
+                       + cfg.MONTHLY_OPEX_SECTIONS + cfg.PL_DEPR_SECTIONS
+                       + cfg.PL_OTHER_INCOME_SECTIONS)
     df = merged[merged["Statement_Section"].isin(all_sections)].copy()
 
     monthly = df.groupby(["Period", "Statement_Section"]).agg(
@@ -532,13 +620,23 @@ def build_monthly_summary(merged: pd.DataFrame) -> list:
         cogs = float(cogs_row["Debit"].sum() - cogs_row["Credit"].sum()) if len(cogs_row) else 0
         opex = float(opex_row["Debit"].sum() - opex_row["Credit"].sum()) if len(opex_row) else 0
 
+        # Include depreciation and other income in monthly OP (align with main P&L)
+        dep_sections = set(cfg.PL_DEPR_SECTIONS)
+        other_inc_sections = set(cfg.PL_OTHER_INCOME_SECTIONS)
+        dep_row = period_data[period_data["Statement_Section"].isin(dep_sections)]
+        other_row = period_data[period_data["Statement_Section"].isin(other_inc_sections)]
+        dep = float(dep_row["Debit"].sum() - dep_row["Credit"].sum()) if len(dep_row) else 0
+        other_inc = float(other_row["Credit"].sum() - other_row["Debit"].sum()) if len(other_row) else 0
+
         results.append({
             "period": period,
             "revenue": round(revenue, 2),
             "cogs": round(cogs, 2),
             "gross_profit": round(revenue - cogs, 2),
             "operating_expenses": round(opex, 2),
-            "operating_profit": round(revenue - cogs - opex, 2),
+            "depreciation": round(dep, 2),
+            "other_income": round(other_inc, 2),
+            "operating_profit": round(revenue - cogs - opex - dep + other_inc, 2),
         })
 
     return results
