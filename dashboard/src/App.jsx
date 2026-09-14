@@ -34,9 +34,9 @@ class ErrorBoundary extends Component {
 
 export default function App() {
   // Trivial client-side routing — /admin gets the admin console, everything
-  // else gets the dashboard. Avoids pulling in react-router for one route.
+  // else gets the dashboard. Case-insensitive so /ADMIN, /Admin all work.
   const path = typeof window !== 'undefined' ? window.location.pathname : '/'
-  if (path.startsWith('/admin')) return <AdminPage />
+  if (path.toLowerCase().startsWith('/admin')) return <AdminPage />
   return <Dashboard_App />
 }
 
@@ -99,6 +99,43 @@ function Dashboard_App() {
           <ViewComponent data={data} />
         </ErrorBoundary>
       </div>
+      <footer style={{
+        marginTop: 48,
+        paddingTop: 20,
+        paddingBottom: 24,
+        borderTop: '1px solid var(--rule)',
+        display: 'flex',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+        gap: 12,
+        fontSize: 11.5,
+        color: 'var(--text-muted)',
+      }}>
+        <span>CIG Motors Co. Ltd. · Finance Dashboard</span>
+        <span style={{ color: 'var(--rule)' }}>·</span>
+        <span>{data?.period}</span>
+        <div style={{ flex: 1 }} />
+        <a
+          href="/admin"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 6,
+            padding: '4px 10px',
+            borderRadius: 6,
+            border: '1px solid var(--rule)',
+            color: 'var(--brand)',
+            textDecoration: 'none',
+            fontWeight: 600,
+            fontSize: 11,
+            letterSpacing: '0.04em',
+            textTransform: 'uppercase',
+          }}
+          title="Upload GL, mapping, budget — run the pipeline"
+        >
+          Admin console →
+        </a>
+      </footer>
     </div>
   )
 }
