@@ -3,7 +3,7 @@
   "company": "CIG Motors",
   "currency": "NGN",
   "unit": "millions",
-  "generated_at": "2026-09-14T11:29:17.671618",
+  "generated_at": "2026-09-14T12:51:58.928279",
   "data_sources": {
     "gl_transactions": 1444,
     "gl_accounts": 341,
@@ -538,59 +538,6 @@
       }
     ],
     "total_opex": 1187615800,
-    "capex": 20925000000.0,
-    "capex_breakdown": [
-      {
-        "label": "FA - Land",
-        "value": 4600000000.0,
-        "share": 22.0
-      },
-      {
-        "label": "FA - Building",
-        "value": 3650000000.0,
-        "share": 17.4
-      },
-      {
-        "label": "FA - Motor Vehicle",
-        "value": 3100000000.0,
-        "share": 14.8
-      },
-      {
-        "label": "FA - Plot 7 Ligali Ayorinde",
-        "value": 2500000000.0,
-        "share": 11.9
-      },
-      {
-        "label": "FA - Plant & Machinery",
-        "value": 1620000000.0,
-        "share": 7.7
-      },
-      {
-        "label": "FA-Plot1597-Abuja-AC Okoch",
-        "value": 1460000000.0,
-        "share": 7.0
-      },
-      {
-        "label": "FA - Equipment",
-        "value": 1350000000.0,
-        "share": 6.5
-      },
-      {
-        "label": "FA - GAC Ogba Construction",
-        "value": 1080000000.0,
-        "share": 5.2
-      },
-      {
-        "label": "FA-Plot1597-Abuja-AC Okoch 2",
-        "value": 845000000.0,
-        "share": 4.0
-      },
-      {
-        "label": "FA - Furniture & Fittings",
-        "value": 720000000.0,
-        "share": 3.4
-      }
-    ],
     "depreciation": [
       {
         "label": "Depreciation & Amortization",
@@ -712,120 +659,145 @@
     "net_assets": 27462685000,
     "working_capital": 31623350300,
     "current_ratio": 7.13,
-    "quick_ratio": 7.13
+    "quick_ratio": 2.86
   },
   "cf": {
     "operating": {
       "items": [
         {
-          "label": "Cash and cash equivalents",
-          "value": 8189514300
+          "label": "Profit before tax",
+          "value": 439447900
         },
         {
-          "label": "Cost of Sales",
-          "value": 4413871200
-        },
-        {
-          "label": "Depreciation & Amortization",
+          "label": "Depreciation & amortization",
           "value": 166125300
         },
         {
-          "label": "Due from related parties",
-          "value": 2505000000
-        },
-        {
-          "label": "General & Administrative Expenses",
-          "value": 1187615800
-        },
-        {
-          "label": "Income Tax Expenses",
-          "value": 69222900
-        },
-        {
-          "label": "Interest Expenses",
+          "label": "Interest expense",
           "value": 94141200
         },
         {
-          "label": "Inventories",
-          "value": 18410000000
+          "label": "(Increase)/Decrease in Due from related parties",
+          "value": -2505000000
         },
         {
-          "label": "Other Income",
-          "value": -6793700
+          "label": "(Increase)/Decrease in Inventories",
+          "value": -18410000000
         },
         {
-          "label": "Other Receivable",
-          "value": 320000000
+          "label": "(Increase)/Decrease in Other Receivable",
+          "value": -320000000
         },
         {
-          "label": "Prepayment and other assets",
-          "value": 3607506800
+          "label": "(Increase)/Decrease in Prepayment and other assets",
+          "value": -3607506800
         },
         {
-          "label": "Property, plant and equipment",
-          "value": 5083874700
+          "label": "(Increase)/Decrease in Trade receivables",
+          "value": -3750000000
         },
         {
-          "label": "Revenue",
-          "value": -6294407700
+          "label": "Increase/(Decrease) in Trade and other payables",
+          "value": 5158670800
         },
         {
-          "label": "Trade and other payables",
-          "value": -5158670800
+          "label": "Interest paid",
+          "value": -94141200
         },
         {
-          "label": "Trade receivables",
-          "value": 3750000000
+          "label": "Income tax paid",
+          "value": -69222900
         }
       ],
-      "total": 36337000000
+      "total": -22897485700
     },
     "investing": {
       "items": [
         {
-          "label": "Property, plant and equipment",
-          "value": 20925000000
-        },
-        {
-          "label": "Right of Use Asset",
-          "value": 870000000
+          "label": "Purchase of property, plant and equipment",
+          "value": -20925000000.0
         }
       ],
-      "total": 21795000000
+      "total": -20925000000.0
     },
     "financing": {
       "items": [
         {
-          "label": "Borrowings",
-          "value": -30669540000
+          "label": "Proceeds from Borrowings",
+          "value": 30669540000
         },
         {
-          "label": "Capital reserve",
-          "value": -1200000000
-        },
-        {
-          "label": "Deposit for shares",
-          "value": -2500000000
-        },
-        {
-          "label": "Lease Liability",
+          "label": "Repayment of Lease Liability",
           "value": -370000000
         },
         {
-          "label": "Retained Earnings",
-          "value": -18392460000
+          "label": "Deposit for shares received",
+          "value": 2500000000
         },
         {
-          "label": "Share Capital",
-          "value": -5000000000
+          "label": "Proceeds from share issuance",
+          "value": 5000000000
         }
       ],
-      "total": -58132000000
+      "total": 37799540000
     },
-    "net_change": 0,
-    "opening_cash": 0,
-    "closing_cash": 0
+    "net_change": -6022945700.0,
+    "opening_cash": 14212460000.0,
+    "closing_cash": 8189514300
   },
+  "capex": 20925000000.0,
+  "capex_breakdown": [
+    {
+      "label": "FA - Building",
+      "value": 3650000000.0,
+      "share": 17.4
+    },
+    {
+      "label": "FA - Equipment",
+      "value": 1350000000.0,
+      "share": 6.5
+    },
+    {
+      "label": "FA - Furniture & Fittings",
+      "value": 720000000.0,
+      "share": 3.4
+    },
+    {
+      "label": "FA - GAC Ogba Construction",
+      "value": 1080000000.0,
+      "share": 5.2
+    },
+    {
+      "label": "FA - Land",
+      "value": 4600000000.0,
+      "share": 22.0
+    },
+    {
+      "label": "FA - Motor Vehicle",
+      "value": 3100000000.0,
+      "share": 14.8
+    },
+    {
+      "label": "FA - Plant & Machinery",
+      "value": 1620000000.0,
+      "share": 7.7
+    },
+    {
+      "label": "FA - Plot 7 Ligali Ayorinde",
+      "value": 2500000000.0,
+      "share": 11.9
+    },
+    {
+      "label": "FA-Plot1597-Abuja-AC Okoch",
+      "value": 1460000000.0,
+      "share": 7.0
+    },
+    {
+      "label": "FA-Plot1597-Abuja-AC Okoch 2",
+      "value": 845000000.0,
+      "share": 4.0
+    }
+  ],
   "segments": {
     "revenue_by_segment": [
       {
@@ -853,23 +825,29 @@
       "revenue": 6294407700.0,
       "cogs": 4413871200.0,
       "gross_profit": 1880536500.0,
-      "operating_expenses": 1353741100.0,
-      "operating_profit": 526795400.0
+      "operating_expenses": 1187615800.0,
+      "depreciation": 166125300.0,
+      "other_income": 6793700.0,
+      "operating_profit": 533589100.0
     },
     {
       "period": "2025-02",
       "revenue": 6006760200.0,
       "cogs": 3481934400.0,
       "gross_profit": 2524825800.0,
-      "operating_expenses": 1285495500.0,
-      "operating_profit": 1239330300.0
+      "operating_expenses": 1190879900.0,
+      "depreciation": 94615600.0,
+      "other_income": 9763800.0,
+      "operating_profit": 1249094100.0
     },
     {
       "period": "2025-03",
       "revenue": 7094157900.0,
       "cogs": 5467427900.0,
       "gross_profit": 1626730000.0,
-      "operating_expenses": 1456202800.0,
+      "operating_expenses": 1276326400.0,
+      "depreciation": 179876400.0,
+      "other_income": 0,
       "operating_profit": 170527200.0
     },
     {
@@ -877,15 +855,19 @@
       "revenue": 6926915800.0,
       "cogs": 5573531300.0,
       "gross_profit": 1353384500.0,
-      "operating_expenses": 1436449700.0,
-      "operating_profit": -83065200.0
+      "operating_expenses": 1220798200.0,
+      "depreciation": 215651500.0,
+      "other_income": -36512500.0,
+      "operating_profit": -119577700.0
     },
     {
       "period": "2025-05",
       "revenue": 7779209700.0,
       "cogs": 4461823500.0,
       "gross_profit": 3317386200.0,
-      "operating_expenses": 1715072700.0,
+      "operating_expenses": 1558825800.0,
+      "depreciation": 156246900.0,
+      "other_income": 0,
       "operating_profit": 1602313500.0
     },
     {
@@ -893,7 +875,9 @@
       "revenue": 8958331900.0,
       "cogs": 6344467600.0,
       "gross_profit": 2613864300.0,
-      "operating_expenses": 1558840300.0,
+      "operating_expenses": 1392998700.0,
+      "depreciation": 165841600.0,
+      "other_income": 0,
       "operating_profit": 1055024000.0
     },
     {
@@ -901,7 +885,9 @@
       "revenue": 7517647900.0,
       "cogs": 6181869000.0,
       "gross_profit": 1335778900.0,
-      "operating_expenses": 1326545600.0,
+      "operating_expenses": 1260640200.0,
+      "depreciation": 65905400.0,
+      "other_income": 0,
       "operating_profit": 9233300.0
     },
     {
@@ -909,31 +895,39 @@
       "revenue": 9077661000.0,
       "cogs": 5372859700.0,
       "gross_profit": 3704801300.0,
-      "operating_expenses": 1781286900.0,
-      "operating_profit": 1923514400.0
+      "operating_expenses": 1547468700.0,
+      "depreciation": 233818200.0,
+      "other_income": 15341600.0,
+      "operating_profit": 1938856000.0
     },
     {
       "period": "2025-09",
       "revenue": 9060061000.0,
       "cogs": 5810178600.0,
       "gross_profit": 3249882400.0,
-      "operating_expenses": 1969039500.0,
-      "operating_profit": 1280842900.0
+      "operating_expenses": 1716060700.0,
+      "depreciation": 252978800.0,
+      "other_income": 6428200.0,
+      "operating_profit": 1287271100.0
     },
     {
       "period": "2025-10",
       "revenue": 9319828500.0,
       "cogs": 6576181200.0,
       "gross_profit": 2743647300.0,
-      "operating_expenses": 1758511100.0,
-      "operating_profit": 985136200.0
+      "operating_expenses": 1534297400.0,
+      "depreciation": 224213700.0,
+      "other_income": 47961500.0,
+      "operating_profit": 1033097700.0
     },
     {
       "period": "2025-11",
       "revenue": 9887627500.0,
       "cogs": 6646753400.0,
       "gross_profit": 3240874100.0,
-      "operating_expenses": 2050618000.0,
+      "operating_expenses": 1725094500.0,
+      "depreciation": 325523500.0,
+      "other_income": 0,
       "operating_profit": 1190256100.0
     },
     {
@@ -941,7 +935,9 @@
       "revenue": 9707020500.0,
       "cogs": 6605261900.0,
       "gross_profit": 3101758600.0,
-      "operating_expenses": 1638488900.0,
+      "operating_expenses": 1323147500.0,
+      "depreciation": 315341400.0,
+      "other_income": 0,
       "operating_profit": 1463269700.0
     },
     {
@@ -950,6 +946,8 @@
       "cogs": 0,
       "gross_profit": 0,
       "operating_expenses": 750000.0,
+      "depreciation": 0,
+      "other_income": 0,
       "operating_profit": -750000.0
     }
   ],
@@ -1181,59 +1179,6 @@
         }
       ],
       "total_opex": 1187615800,
-      "capex": 20925000000.0,
-      "capex_breakdown": [
-        {
-          "label": "FA - Land",
-          "value": 4600000000.0,
-          "share": 22.0
-        },
-        {
-          "label": "FA - Building",
-          "value": 3650000000.0,
-          "share": 17.4
-        },
-        {
-          "label": "FA - Motor Vehicle",
-          "value": 3100000000.0,
-          "share": 14.8
-        },
-        {
-          "label": "FA - Plot 7 Ligali Ayorinde",
-          "value": 2500000000.0,
-          "share": 11.9
-        },
-        {
-          "label": "FA - Plant & Machinery",
-          "value": 1620000000.0,
-          "share": 7.7
-        },
-        {
-          "label": "FA-Plot1597-Abuja-AC Okoch",
-          "value": 1460000000.0,
-          "share": 7.0
-        },
-        {
-          "label": "FA - Equipment",
-          "value": 1350000000.0,
-          "share": 6.5
-        },
-        {
-          "label": "FA - GAC Ogba Construction",
-          "value": 1080000000.0,
-          "share": 5.2
-        },
-        {
-          "label": "FA-Plot1597-Abuja-AC Okoch 2",
-          "value": 845000000.0,
-          "share": 4.0
-        },
-        {
-          "label": "FA - Furniture & Fittings",
-          "value": 720000000.0,
-          "share": 3.4
-        }
-      ],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -1512,8 +1457,6 @@
         }
       ],
       "total_opex": 1190879900,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -1777,8 +1720,6 @@
         }
       ],
       "total_opex": 1276326400,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -2002,8 +1943,6 @@
         }
       ],
       "total_opex": 1220798200,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -2266,8 +2205,6 @@
         }
       ],
       "total_opex": 1558825800,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -2481,8 +2418,6 @@
         }
       ],
       "total_opex": 1392998700,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -2756,8 +2691,6 @@
         }
       ],
       "total_opex": 1260640200,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -3021,8 +2954,6 @@
         }
       ],
       "total_opex": 1547468700,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -3276,8 +3207,6 @@
         }
       ],
       "total_opex": 1716060700,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -3521,8 +3450,6 @@
         }
       ],
       "total_opex": 1534297400,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -3771,8 +3698,6 @@
         }
       ],
       "total_opex": 1725094500,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -4001,8 +3926,6 @@
         }
       ],
       "total_opex": 1323147500,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -4056,8 +3979,6 @@
         }
       ],
       "total_opex": 750000,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -750000,
@@ -4098,8 +4019,6 @@
         }
       ],
       "total_opex": 48735600,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -48735600,
@@ -4162,8 +4081,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 1441533800,
@@ -4230,8 +4147,6 @@
         }
       ],
       "total_opex": 114593600,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1028403300,
@@ -4275,8 +4190,6 @@
         }
       ],
       "total_opex": 74034100,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -74034100,
@@ -4348,8 +4261,6 @@
         }
       ],
       "total_opex": 106320600,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 1536479400,
@@ -4395,8 +4306,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -842688600,
@@ -4458,8 +4367,6 @@
         }
       ],
       "total_opex": 103814300,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -934426700,
@@ -4516,8 +4423,6 @@
         }
       ],
       "total_opex": 57198400,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -596647300,
@@ -4574,8 +4479,6 @@
         }
       ],
       "total_opex": 63056700,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -770743700,
@@ -4637,8 +4540,6 @@
         }
       ],
       "total_opex": 96396600,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -669227500,
@@ -4689,8 +4590,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 560788100,
@@ -4752,8 +4651,6 @@
         }
       ],
       "total_opex": 36357500,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 1304421500,
@@ -4792,8 +4689,6 @@
         }
       ],
       "total_opex": 68674500,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -68674500,
@@ -4844,8 +4739,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 1308506800,
@@ -4889,8 +4782,6 @@
         }
       ],
       "total_opex": 48074000,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -48074000,
@@ -4934,8 +4825,6 @@
         }
       ],
       "total_opex": 122836400,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -122836400,
@@ -4979,8 +4868,6 @@
         }
       ],
       "total_opex": 120090300,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -120090300,
@@ -5019,8 +4906,6 @@
         }
       ],
       "total_opex": 70958800,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -70958800,
@@ -5059,8 +4944,6 @@
         }
       ],
       "total_opex": 56474400,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -5122,8 +5005,6 @@
         }
       ],
       "total_opex": 49083000,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -396608200,
@@ -5162,8 +5043,6 @@
         }
       ],
       "total_opex": 47767200,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -47767200,
@@ -5230,8 +5109,6 @@
         }
       ],
       "total_opex": 136035500,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 576499100,
@@ -5285,8 +5162,6 @@
         }
       ],
       "total_opex": 156599300,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -156599300,
@@ -5325,8 +5200,6 @@
         }
       ],
       "total_opex": 34539200,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -34539200,
@@ -5365,8 +5238,6 @@
         }
       ],
       "total_opex": 29911400,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -29911400,
@@ -5428,8 +5299,6 @@
         }
       ],
       "total_opex": 47307800,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -696583400,
@@ -5491,8 +5360,6 @@
         }
       ],
       "total_opex": 109547000,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 473145700,
@@ -5538,8 +5405,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 569563600,
@@ -5601,8 +5466,6 @@
         }
       ],
       "total_opex": 58869700,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -72610800,
@@ -5660,8 +5523,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 1024763900,
@@ -5710,8 +5571,6 @@
         }
       ],
       "total_opex": 91654800,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -91654800,
@@ -5791,8 +5650,6 @@
         }
       ],
       "total_opex": 36369500,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 344876300,
@@ -5838,8 +5695,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 521689100,
@@ -5902,8 +5757,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1219021400,
@@ -5942,8 +5795,6 @@
         }
       ],
       "total_opex": 58459400,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -5994,8 +5845,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -339102500,
@@ -6062,8 +5911,6 @@
         }
       ],
       "total_opex": 115028900,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -425409500,
@@ -6102,8 +5949,6 @@
         }
       ],
       "total_opex": 55308800,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -55308800,
@@ -6149,8 +5994,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 726810100,
@@ -6189,8 +6032,6 @@
         }
       ],
       "total_opex": 59077000,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -59077000,
@@ -6248,8 +6089,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 1199464000,
@@ -6316,8 +6155,6 @@
         }
       ],
       "total_opex": 105321400,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -420213000,
@@ -6361,8 +6198,6 @@
         }
       ],
       "total_opex": 66792400,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -66792400,
@@ -6401,8 +6236,6 @@
         }
       ],
       "total_opex": 44327800,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -44327800,
@@ -6459,8 +6292,6 @@
         }
       ],
       "total_opex": 42708800,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 808133100,
@@ -6522,8 +6353,6 @@
         }
       ],
       "total_opex": 130967200,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 459832600,
@@ -6580,8 +6409,6 @@
         }
       ],
       "total_opex": 63531400,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -690946200,
@@ -6620,8 +6447,6 @@
         }
       ],
       "total_opex": 25200800,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -25200800,
@@ -6660,8 +6485,6 @@
         }
       ],
       "total_opex": 66888400,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -66888400,
@@ -6723,8 +6546,6 @@
         }
       ],
       "total_opex": 86462200,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 687716000,
@@ -6781,8 +6602,6 @@
         }
       ],
       "total_opex": 50808300,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 679708800,
@@ -6849,8 +6668,6 @@
         }
       ],
       "total_opex": 80003100,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 1485781300,
@@ -6889,8 +6706,6 @@
         }
       ],
       "total_opex": 40763900,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -40763900,
@@ -6952,8 +6767,6 @@
         }
       ],
       "total_opex": 104874800,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -899146100,
@@ -6997,8 +6810,6 @@
         }
       ],
       "total_opex": 28687100,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -28687100,
@@ -7037,8 +6848,6 @@
         }
       ],
       "total_opex": 53419800,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -53419800,
@@ -7095,8 +6904,6 @@
         }
       ],
       "total_opex": 59958800,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 929696400,
@@ -7135,8 +6942,6 @@
         }
       ],
       "total_opex": 28299200,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -28299200,
@@ -7193,8 +6998,6 @@
         }
       ],
       "total_opex": 60071000,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -786505500,
@@ -7240,8 +7043,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 826911500,
@@ -7303,8 +7104,6 @@
         }
       ],
       "total_opex": 29409000,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -861187900,
@@ -7348,8 +7147,6 @@
         }
       ],
       "total_opex": 37261600,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -37261600,
@@ -7412,8 +7209,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -7464,8 +7259,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 765469800,
@@ -7509,8 +7302,6 @@
         }
       ],
       "total_opex": 175890800,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -7554,8 +7345,6 @@
         }
       ],
       "total_opex": 55836300,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -55836300,
@@ -7594,8 +7383,6 @@
         }
       ],
       "total_opex": 45702400,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -7662,8 +7449,6 @@
         }
       ],
       "total_opex": 122623300,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 658368500,
@@ -7725,8 +7510,6 @@
         }
       ],
       "total_opex": 64757100,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 342447200,
@@ -7789,8 +7572,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -7839,8 +7620,6 @@
         }
       ],
       "total_opex": 43504600,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -7891,8 +7670,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -833446700,
@@ -7936,8 +7713,6 @@
         }
       ],
       "total_opex": 105395500,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -105395500,
@@ -7999,8 +7774,6 @@
         }
       ],
       "total_opex": 98133800,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -927657600,
@@ -8039,8 +7812,6 @@
         }
       ],
       "total_opex": 46842900,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -46842900,
@@ -8086,8 +7857,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 631790800,
@@ -8163,8 +7932,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1234612800,
@@ -8215,8 +7982,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 715775900,
@@ -8260,8 +8025,6 @@
         }
       ],
       "total_opex": 78425200,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -8317,8 +8080,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 550873000,
@@ -8375,8 +8136,6 @@
         }
       ],
       "total_opex": 62785800,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 703302400,
@@ -8422,8 +8181,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 636674300,
@@ -8472,8 +8229,6 @@
         }
       ],
       "total_opex": 148653600,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -148653600,
@@ -8530,8 +8285,6 @@
         }
       ],
       "total_opex": 69213800,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1128345300,
@@ -8593,8 +8346,6 @@
         }
       ],
       "total_opex": 85362100,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 556158900,
@@ -8666,8 +8417,6 @@
         }
       ],
       "total_opex": 132274500,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1051686000,
@@ -8706,8 +8455,6 @@
         }
       ],
       "total_opex": 61287300,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -61287300,
@@ -8753,8 +8500,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 1075569300,
@@ -8839,8 +8584,6 @@
         }
       ],
       "total_opex": 158882500,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -8902,8 +8645,6 @@
         }
       ],
       "total_opex": 32620300,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -570776600,
@@ -8972,8 +8713,6 @@
         }
       ],
       "total_opex": 65541900,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 1922103200,
@@ -9035,8 +8774,6 @@
         }
       ],
       "total_opex": 116996000,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 1056277100,
@@ -9103,8 +8840,6 @@
         }
       ],
       "total_opex": 147915000,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -993260700,
@@ -9148,8 +8883,6 @@
         }
       ],
       "total_opex": 65510300,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -65510300,
@@ -9198,8 +8931,6 @@
         }
       ],
       "total_opex": 162331400,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -162331400,
@@ -9238,8 +8969,6 @@
         }
       ],
       "total_opex": 62373200,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -62373200,
@@ -9301,8 +9030,6 @@
         }
       ],
       "total_opex": 84769200,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 770853900,
@@ -9346,8 +9073,6 @@
         }
       ],
       "total_opex": 97355100,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -97355100,
@@ -9393,8 +9118,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -428678000,
@@ -9433,8 +9156,6 @@
         }
       ],
       "total_opex": 52082300,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -52082300,
@@ -9480,8 +9201,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 747628300,
@@ -9538,8 +9257,6 @@
         }
       ],
       "total_opex": 51681100,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 989342300,
@@ -9578,8 +9295,6 @@
         }
       ],
       "total_opex": 62071900,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -9628,8 +9343,6 @@
         }
       ],
       "total_opex": 116549800,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -116549800,
@@ -9675,8 +9388,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 21482600,
@@ -9715,8 +9426,6 @@
         }
       ],
       "total_opex": 42758300,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -42758300,
@@ -9790,8 +9499,6 @@
         }
       ],
       "total_opex": 89099400,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1300046600,
@@ -9845,8 +9552,6 @@
         }
       ],
       "total_opex": 124402200,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -9890,8 +9595,6 @@
         }
       ],
       "total_opex": 25885900,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -25885900,
@@ -9947,8 +9650,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -876717200,
@@ -9987,8 +9688,6 @@
         }
       ],
       "total_opex": 107895400,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -107895400,
@@ -10046,8 +9745,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1809040600,
@@ -10093,8 +9790,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -610212100,
@@ -10140,8 +9835,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -848692600,
@@ -10198,8 +9891,6 @@
         }
       ],
       "total_opex": 68719900,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 1215148900,
@@ -10268,8 +9959,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -10313,8 +10002,6 @@
         }
       ],
       "total_opex": 49493600,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -49493600,
@@ -10358,8 +10045,6 @@
         }
       ],
       "total_opex": 174600800,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -174600800,
@@ -10405,8 +10090,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 1233468600,
@@ -10463,8 +10146,6 @@
         }
       ],
       "total_opex": 65932200,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -952411900,
@@ -10521,8 +10202,6 @@
         }
       ],
       "total_opex": 115317100,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 907476900,
@@ -10561,8 +10240,6 @@
         }
       ],
       "total_opex": 83906900,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -83906900,
@@ -10601,8 +10278,6 @@
         }
       ],
       "total_opex": 56053400,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -56053400,
@@ -10653,8 +10328,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 1149113500,
@@ -10700,8 +10373,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 1091931900,
@@ -10740,8 +10411,6 @@
         }
       ],
       "total_opex": 82920800,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -82920800,
@@ -10798,8 +10467,6 @@
         }
       ],
       "total_opex": 54698600,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -819900100,
@@ -10861,8 +10528,6 @@
         }
       ],
       "total_opex": 255471000,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -10929,8 +10594,6 @@
         }
       ],
       "total_opex": 210931400,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -947533500,
@@ -10976,8 +10639,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 1147185700,
@@ -11016,8 +10677,6 @@
         }
       ],
       "total_opex": 67057600,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -67057600,
@@ -11061,8 +10720,6 @@
         }
       ],
       "total_opex": 66583100,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -66583100,
@@ -11101,8 +10758,6 @@
         }
       ],
       "total_opex": 65905400,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -65905400,
@@ -11184,8 +10839,6 @@
         }
       ],
       "total_opex": 151502600,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 1404439600,
@@ -11231,8 +10884,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -771651600,
@@ -11271,8 +10922,6 @@
         }
       ],
       "total_opex": 65905400,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -65905400,
@@ -11339,8 +10988,6 @@
         }
       ],
       "total_opex": 119564000,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 615073900,
@@ -11402,8 +11049,6 @@
         }
       ],
       "total_opex": 104277900,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 543615800,
@@ -11449,8 +11094,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 675763100,
@@ -11494,8 +11137,6 @@
         }
       ],
       "total_opex": 75423700,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -75423700,
@@ -11549,8 +11190,6 @@
         }
       ],
       "total_opex": 94701000,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -94701000,
@@ -11612,8 +11251,6 @@
         }
       ],
       "total_opex": 55131300,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -509536200,
@@ -11671,8 +11308,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1200859400,
@@ -11729,8 +11364,6 @@
         }
       ],
       "total_opex": 33795400,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 446643900,
@@ -11776,8 +11409,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 564876700,
@@ -11841,8 +11472,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 169178100,
@@ -11888,8 +11517,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -662606700,
@@ -11938,8 +11565,6 @@
         }
       ],
       "total_opex": 73015600,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -73015600,
@@ -11997,8 +11622,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1326778200,
@@ -12044,8 +11667,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 622498900,
@@ -12084,8 +11705,6 @@
         }
       ],
       "total_opex": 58152600,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -58152600,
@@ -12124,8 +11743,6 @@
         }
       ],
       "total_opex": 62120000,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -62120000,
@@ -12192,8 +11809,6 @@
         }
       ],
       "total_opex": 113528900,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -12273,8 +11888,6 @@
         }
       ],
       "total_opex": 38893800,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 222353200,
@@ -12341,8 +11954,6 @@
         }
       ],
       "total_opex": 82139500,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -681628600,
@@ -12386,8 +11997,6 @@
         }
       ],
       "total_opex": 84146300,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -84146300,
@@ -12438,8 +12047,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 1166200100,
@@ -12478,8 +12085,6 @@
         }
       ],
       "total_opex": 60148800,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -60148800,
@@ -12530,8 +12135,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 1292872900,
@@ -12585,8 +12188,6 @@
         }
       ],
       "total_opex": 155279600,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -12653,8 +12254,6 @@
         }
       ],
       "total_opex": 63231100,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -747448600,
@@ -12698,8 +12297,6 @@
         }
       ],
       "total_opex": 119458800,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -119458800,
@@ -12745,8 +12342,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 706955600,
@@ -12792,8 +12387,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -540793700,
@@ -12855,8 +12448,6 @@
         }
       ],
       "total_opex": 106116000,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 470527500,
@@ -12895,8 +12486,6 @@
         }
       ],
       "total_opex": 64658900,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -64658900,
@@ -12942,8 +12531,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -12987,8 +12574,6 @@
         }
       ],
       "total_opex": 59302400,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -59302400,
@@ -13057,8 +12642,6 @@
         }
       ],
       "total_opex": 78002000,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 1325372000,
@@ -13097,8 +12680,6 @@
         }
       ],
       "total_opex": 43483800,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -43483800,
@@ -13149,8 +12730,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -788775200,
@@ -13194,8 +12773,6 @@
         }
       ],
       "total_opex": 117148600,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -117148600,
@@ -13252,8 +12829,6 @@
         }
       ],
       "total_opex": 67597600,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -809177200,
@@ -13310,8 +12885,6 @@
         }
       ],
       "total_opex": 80237300,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -980695700,
@@ -13378,8 +12951,6 @@
         }
       ],
       "total_opex": 80243900,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -13430,8 +13001,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 688550800,
@@ -13470,8 +13039,6 @@
         }
       ],
       "total_opex": 82099200,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -82099200,
@@ -13510,8 +13077,6 @@
         }
       ],
       "total_opex": 76084400,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -76084400,
@@ -13568,8 +13133,6 @@
         }
       ],
       "total_opex": 35741800,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -884083500,
@@ -13644,8 +13207,6 @@
         }
       ],
       "total_opex": 42646700,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -347422600,
@@ -13684,8 +13245,6 @@
         }
       ],
       "total_opex": 44271600,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -13747,8 +13306,6 @@
         }
       ],
       "total_opex": 87569900,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 621493700,
@@ -13794,8 +13351,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -13887,8 +13442,6 @@
         }
       ],
       "total_opex": 60552000,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 280376100,
@@ -13932,8 +13485,6 @@
         }
       ],
       "total_opex": 113439600,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -107011400,
@@ -14000,8 +13551,6 @@
         }
       ],
       "total_opex": 150581800,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1133273600,
@@ -14058,8 +13607,6 @@
         }
       ],
       "total_opex": 64493200,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 822654800,
@@ -14098,8 +13645,6 @@
         }
       ],
       "total_opex": 63244700,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -63244700,
@@ -14143,8 +13688,6 @@
         }
       ],
       "total_opex": 123441900,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -123441900,
@@ -14183,8 +13726,6 @@
         }
       ],
       "total_opex": 124074200,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -124074200,
@@ -14230,8 +13771,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -10776300,
@@ -14277,8 +13816,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 636626700,
@@ -14317,8 +13854,6 @@
         }
       ],
       "total_opex": 88139300,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -88139300,
@@ -14375,8 +13910,6 @@
         }
       ],
       "total_opex": 112933600,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 867671000,
@@ -14415,8 +13948,6 @@
         }
       ],
       "total_opex": 123269600,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -123269600,
@@ -14473,8 +14004,6 @@
         }
       ],
       "total_opex": 103495600,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -14518,8 +14047,6 @@
         }
       ],
       "total_opex": 122890700,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -14581,8 +14108,6 @@
         }
       ],
       "total_opex": 46253700,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -14633,8 +14158,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 546125600,
@@ -14673,8 +14196,6 @@
         }
       ],
       "total_opex": 69864700,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -69864700,
@@ -14736,8 +14257,6 @@
         }
       ],
       "total_opex": 134780800,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 466476800,
@@ -14783,8 +14302,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 631738800,
@@ -14823,8 +14340,6 @@
         }
       ],
       "total_opex": 66078000,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -66078000,
@@ -14870,8 +14385,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 722244600,
@@ -14915,8 +14428,6 @@
         }
       ],
       "total_opex": 91687100,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -91687100,
@@ -14980,8 +14491,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 297757000,
@@ -15032,8 +14541,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1258636500,
@@ -15108,8 +14615,6 @@
         }
       ],
       "total_opex": 56840200,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -29043400,
@@ -15148,8 +14653,6 @@
         }
       ],
       "total_opex": 85009000,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -85009000,
@@ -15193,8 +14696,6 @@
         }
       ],
       "total_opex": 92854800,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -92854800,
@@ -15240,8 +14741,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -874137000,
@@ -15298,8 +14797,6 @@
         }
       ],
       "total_opex": 135509900,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -756203900,
@@ -15343,8 +14840,6 @@
         }
       ],
       "total_opex": 207517300,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -207517300,
@@ -15390,8 +14885,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 754987200,
@@ -15465,8 +14958,6 @@
         }
       ],
       "total_opex": 156193300,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 1079785600,
@@ -15523,8 +15014,6 @@
         }
       ],
       "total_opex": 51846300,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 433278700,
@@ -15575,8 +15064,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 1354481000,
@@ -15622,8 +15109,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 749037900,
@@ -15674,8 +15159,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -808404300,
@@ -15721,8 +15204,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -16064600,
@@ -15768,8 +15249,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 473746700,
@@ -15813,8 +15292,6 @@
         }
       ],
       "total_opex": 106189600,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -106189600,
@@ -15876,8 +15353,6 @@
         }
       ],
       "total_opex": 169952100,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 513144700,
@@ -15923,8 +15398,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -448375100,
@@ -15970,8 +15443,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -411241900,
@@ -16028,8 +15499,6 @@
         }
       ],
       "total_opex": 73826600,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -16091,8 +15560,6 @@
         }
       ],
       "total_opex": 84556600,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 597475500,
@@ -16131,8 +15598,6 @@
         }
       ],
       "total_opex": 140805600,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -92844100,
@@ -16201,8 +15666,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -55777800,
@@ -16259,8 +15722,6 @@
         }
       ],
       "total_opex": 104084900,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1624680900,
@@ -16306,8 +15767,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 720397200,
@@ -16371,8 +15830,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 34847600,
@@ -16429,8 +15886,6 @@
         }
       ],
       "total_opex": 73185900,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -538800700,
@@ -16469,8 +15924,6 @@
         }
       ],
       "total_opex": 52765500,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -16524,8 +15977,6 @@
         }
       ],
       "total_opex": 119980100,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -119980100,
@@ -16569,8 +16020,6 @@
         }
       ],
       "total_opex": 109571300,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -16621,8 +16070,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 648981800,
@@ -16701,8 +16148,6 @@
         }
       ],
       "total_opex": 225232800,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 1398037800,
@@ -16759,8 +16204,6 @@
         }
       ],
       "total_opex": 38504300,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1179222200,
@@ -16824,8 +16267,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -245616200,
@@ -16864,8 +16305,6 @@
         }
       ],
       "total_opex": 47178900,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -47178900,
@@ -16927,8 +16366,6 @@
         }
       ],
       "total_opex": 79569300,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1809325300,
@@ -16974,8 +16411,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -858192800,
@@ -17019,8 +16454,6 @@
         }
       ],
       "total_opex": 89316100,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -89316100,
@@ -17082,8 +16515,6 @@
         }
       ],
       "total_opex": 146086400,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 597412400,
@@ -17150,8 +16581,6 @@
         }
       ],
       "total_opex": 155883600,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 630741800,
@@ -17190,8 +16619,6 @@
         }
       ],
       "total_opex": 69813900,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -17242,8 +16669,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 725103800,
@@ -17315,8 +16740,6 @@
         }
       ],
       "total_opex": 279459900,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1124388200,
@@ -17373,8 +16796,6 @@
         }
       ],
       "total_opex": 64353900,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 485902400,
@@ -17413,8 +16834,6 @@
         }
       ],
       "total_opex": 47016800,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -47016800,
@@ -17460,8 +16879,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -17512,8 +16929,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 1299494700,
@@ -17557,8 +16972,6 @@
         }
       ],
       "total_opex": 43205700,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -43205700,
@@ -17604,8 +17017,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 547829100,
@@ -17702,8 +17113,6 @@
         }
       ],
       "total_opex": 209921500,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 281644700,
@@ -17760,8 +17169,6 @@
         }
       ],
       "total_opex": 67586200,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 539501000,
@@ -17807,8 +17214,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1211792900,
@@ -17857,8 +17262,6 @@
         }
       ],
       "total_opex": 117328500,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -117328500,
@@ -17904,8 +17307,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 933949000,
@@ -17962,8 +17363,6 @@
         }
       ],
       "total_opex": 112735400,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 654342000,
@@ -18043,8 +17442,6 @@
         }
       ],
       "total_opex": 230425500,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -245903600,
@@ -18088,8 +17485,6 @@
         }
       ],
       "total_opex": 63088300,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -63088300,
@@ -18146,8 +17541,6 @@
         }
       ],
       "total_opex": 85870100,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -1675376900,
@@ -18211,8 +17604,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 144132900,
@@ -18251,8 +17642,6 @@
         }
       ],
       "total_opex": 54355100,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -54355100,
@@ -18309,8 +17698,6 @@
         }
       ],
       "total_opex": 57848500,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 870866600,
@@ -18349,8 +17736,6 @@
         }
       ],
       "total_opex": 58447100,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -58447100,
@@ -18389,8 +17774,6 @@
         }
       ],
       "total_opex": 56421700,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -56421700,
@@ -18470,8 +17853,6 @@
         }
       ],
       "total_opex": 150567100,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 508271800,
@@ -18517,8 +17898,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 644826400,
@@ -18564,8 +17943,6 @@
       "opex": [],
       "opex_breakdown": [],
       "total_opex": 0,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 632188900,
@@ -18622,8 +17999,6 @@
         }
       ],
       "total_opex": 70794700,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -18690,8 +18065,6 @@
         }
       ],
       "total_opex": 151659700,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [
         {
           "label": "Depreciation & Amortization",
@@ -18753,8 +18126,6 @@
         }
       ],
       "total_opex": 46019600,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": 773673600,
@@ -18793,8 +18164,6 @@
         }
       ],
       "total_opex": 750000,
-      "capex": 0.0,
-      "capex_breakdown": [],
       "depreciation": [],
       "total_depreciation": 0,
       "operating_profit": -750000,
@@ -25493,27 +24862,33 @@
   "tb_opening_available": false,
   "ratios": {
     "current_ratio": 7.13,
-    "quick_ratio": 7.13,
-    "cash_ratio": 7.04,
-    "inventory_turnover": 0,
-    "receivables_turnover": 0,
-    "days_sales_outstanding": 0,
-    "days_inventory_outstanding": 0,
+    "quick_ratio": 2.86,
+    "cash_ratio": 1.59,
+    "inventory_turnover": 0.24,
+    "receivables_turnover": 1.55,
+    "days_sales_outstanding": 235.0,
+    "days_inventory_outstanding": 1521.0,
     "gross_margin": 29.9,
     "operating_margin": 8.5,
     "net_margin": 5.9,
+    "ebitda": 699714400,
+    "ebitda_margin": 11.1,
     "roe": 1.3,
     "roa": 0.6,
     "asset_turnover": 0.1,
     "debt_to_equity": 131.8,
     "equity_multiplier": 2.32,
     "interest_coverage": 5.67,
-    "debt_ratio": 56.9
+    "debt_ratio": 56.9,
+    "effective_tax_rate": 15.8,
+    "working_capital": 31623350300,
+    "net_debt": 22850025700,
+    "net_debt_to_ebitda": 2.72
   },
   "commentary": {
     "pnl": "Revenue for the period was \u20a6 6.29B, 35.2% down vs prior month (\u20a6 9.71B). Gross margin 29.9%, operating margin 8.5%, net margin 5.9%. Operating expenses were \u20a6 1.19B.",
     "balance_sheet": "Total assets \u20a6 63.66B, total liabilities \u20a6 36.20B, shareholders' equity \u20a6 27.46B. Current ratio 7.13x.",
-    "cash_flow": "Net cash movement \u20a6 0.00. Operating \u20a6 36.34B, investing \u20a6 21.80B, financing \u20a6 -58.13B.",
+    "cash_flow": "Net cash movement \u20a6 -6.02B. Operating \u20a6 -22.90B, investing \u20a6 -20.93B, financing \u20a6 37.80B.",
     "ratios": "Current ratio 7.13x, debt-to-equity 131.8%, asset turnover 0.1x.",
     "executive_summary": "The company was profitable for this period with \u20a6 370M net income. Revenue \u20a6 6.29B, gross margin 29.9%.",
     "red_flags": [
@@ -25524,12 +24899,8 @@
     ],
     "quick_wins": [
       {
-        "title": "Inventory turnover",
-        "detail": "Inventory data not yet available for turnover analysis"
-      },
-      {
-        "title": "Receivables turnover",
-        "detail": "Receivables aging data not yet available"
+        "title": "No quick wins identified",
+        "detail": "All key metrics are within normal ranges"
       }
     ],
     "pending_data": []
