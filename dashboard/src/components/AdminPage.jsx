@@ -10,7 +10,8 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   Lock, Upload as UploadIcon, FileSpreadsheet, Download, Check, X,
   RefreshCw, AlertTriangle, Clock, Loader2, ChevronRight, LogOut,
-  CheckCircle2, XCircle, Circle, Eye, EyeOff,
+  CheckCircle2, XCircle, Circle, Eye, EyeOff, MoreVertical, Play,
+  History, Trash2, Table as TableIcon, RotateCcw,
 } from 'lucide-react'
 import { api, getToken, setToken, clearToken } from '../lib/api'
 import cigLogo from '../assets/cig-gac-logo.png'
@@ -40,6 +41,9 @@ export default function AdminPage() {
   const [activePrompt, setActivePrompt] = useState(null)   // { fileType, diff, uploadId }
   const [activeJob, setActiveJob] = useState(null)         // job dict
   const [activity, setActivity] = useState([])
+  // Per-card overlays. Only one open at a time, keyed by { fileType, mode }
+  const [overlay, setOverlay] = useState(null)             // { fileType, mode: 'preview'|'backups'|'delete' }
+  const [rerunBusy, setRerunBusy] = useState(false)
 
   const pushActivity = (kind, message, detail) =>
     setActivity(a => [{ id: Date.now(), kind, message, detail, at: new Date() }, ...a].slice(0, 20))
@@ -74,29 +78,51 @@ export default function AdminPage() {
       <main className="mx-auto max-w-7xl px-6 py-8">
         <PageHead />
 
+        <QuickActions
+          busy={rerunBusy}
+          onRerun={async () => {
+            setRerunBusy(true)
+            try {
+              const r = await api.rerunPipeline()
+              pushActivity('info', 'Pipeline running (manual)…')
+              pollJob(r.jobId, setActiveJob, pushActivity)
+            } catch (e) {
+              pushActivity('error', 'Manual re-run failed', e.message)
+            } finally { setRerunBusy(false) }
+          }}
+          onRefresh={refreshStatus}
+        />
+
         {statusError && (
-          <div className="mb-4 rounded-lg border border-rose-200 bg-rose-50 text-rose-800 px-4 py-3 text-sm">
+          <div className="mt-4 rounded-lg border border-rose-200 bg-rose-50 text-rose-800 px-4 py-3 text-sm">
             {statusError}
           </div>
         )}
 
-        <section className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {TYPE_ORDER.map(t => (
-            <UploadCard
-              key={t}
-              fileType={t}
-              info={status?.files?.[t]}
-              onDiffReady={(payload) => setActivePrompt(payload)}
-              onError={(msg) => pushActivity('error', `Upload failed — ${t}`, msg)}
-            />
-          ))}
+        <section className="mt-6">
+          <SectionTitle title="Data sources" subtitle="Drop new files or manage what's live" />
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+            {TYPE_ORDER.map(t => (
+              <UploadCard
+                key={t}
+                fileType={t}
+                info={status?.files?.[t]}
+                onDiffReady={(payload) => setActivePrompt(payload)}
+                onError={(msg) => pushActivity('error', `Upload failed — ${t}`, msg)}
+                onMenu={(mode) => setOverlay({ fileType: t, mode })}
+              />
+            ))}
+          </div>
         </section>
 
-        <section className="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-3">
-          <div className="lg:col-span-2">
-            <PipelinePanel job={activeJob} />
+        <section className="mt-8">
+          <SectionTitle title="Pipeline & activity" subtitle="Live progress and recent operations" />
+          <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
+            <div className="lg:col-span-2">
+              <PipelinePanel job={activeJob} />
+            </div>
+            <ActivityLog items={activity} />
           </div>
-          <ActivityLog items={activity} />
         </section>
 
         <footer className="mt-12 border-t border-neutral-200 dark:border-neutral-800 pt-4 text-xs text-neutral-500">
@@ -122,6 +148,34 @@ export default function AdminPage() {
               pushActivity('error', 'Confirm failed', e.message)
             }
           }}
+        />
+      )}
+
+      {overlay?.mode === 'preview' && (
+        <PreviewModal fileType={overlay.fileType} onClose={() => setOverlay(null)} />
+      )}
+      {overlay?.mode === 'backups' && (
+        <BackupsModal
+          fileType={overlay.fileType}
+          onClose={() => setOverlay(null)}
+          onRestored={(filename, jobId) => {
+            setOverlay(null)
+            pushActivity('success', `${labelOf(overlay.fileType)} restored`, filename)
+            pollJob(jobId, setActiveJob, pushActivity)
+          }}
+          onError={(msg) => pushActivity('error', 'Restore failed', msg)}
+        />
+      )}
+      {overlay?.mode === 'delete' && (
+        <DeleteConfirm
+          fileType={overlay.fileType}
+          onCancel={() => setOverlay(null)}
+          onDone={() => {
+            setOverlay(null)
+            pushActivity('info', `${labelOf(overlay.fileType)} removed from current`)
+            refreshStatus()
+          }}
+          onError={(msg) => pushActivity('error', 'Delete failed', msg)}
         />
       )}
     </div>
@@ -286,11 +340,23 @@ function PageHead() {
 /* ────────────────────────────────────────────────── */
 /* Upload card                                         */
 /* ────────────────────────────────────────────────── */
-function UploadCard({ fileType, info, onDiffReady, onError }) {
+function UploadCard({ fileType, info, onDiffReady, onError, onMenu }) {
   const [dragging, setDragging] = useState(false)
   const [uploading, setUploading] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
   const inputRef = useRef(null)
+  const menuRef = useRef(null)
   const Icon = TYPE_ICONS[fileType] || FileSpreadsheet
+
+  // Click-outside closes the menu
+  useEffect(() => {
+    if (!menuOpen) return
+    const onDoc = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false)
+    }
+    document.addEventListener('mousedown', onDoc)
+    return () => document.removeEventListener('mousedown', onDoc)
+  }, [menuOpen])
 
   const upload = async (file) => {
     if (!file) return
@@ -302,12 +368,35 @@ function UploadCard({ fileType, info, onDiffReady, onError }) {
     finally { setUploading(false) }
   }
 
+  const hasFile = !!info?.lastUpdated
+  const openAction = (mode) => { setMenuOpen(false); onMenu(mode) }
+
   return (
     <div className="group relative rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5 shadow-sm hover:shadow-md transition-shadow">
       {/* Accent bar */}
       <div className={`absolute top-0 left-0 right-0 h-1 rounded-t-2xl bg-gradient-to-r ${TYPE_ACCENT[fileType].replace('text-', 'from-').replace('/10', '/60').replace('to-', 'to-').split(' ').slice(0,2).join(' ')}`} />
 
-      <div className="flex items-start gap-3 mb-4">
+      {/* ⋯ menu */}
+      <div className="absolute top-3 right-3" ref={menuRef}>
+        <button
+          onClick={() => setMenuOpen(v => !v)}
+          className="p-1.5 rounded-md text-neutral-400 hover:text-[#1f3a5f] hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+          title="File actions"
+          aria-label="File actions"
+        >
+          <MoreVertical className="w-4 h-4" />
+        </button>
+        {menuOpen && (
+          <div className="absolute right-0 mt-1 w-48 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 shadow-lg py-1 z-20 animate-in fade-in slide-in-from-top-1 duration-150">
+            <MenuItem icon={TableIcon} label="Preview current" disabled={!hasFile} onClick={() => openAction('preview')} />
+            <MenuItem icon={History} label="Restore backup" onClick={() => openAction('backups')} />
+            <div className="my-1 h-px bg-neutral-100 dark:bg-neutral-800" />
+            <MenuItem icon={Trash2} label="Remove current" danger disabled={!hasFile} onClick={() => openAction('delete')} />
+          </div>
+        )}
+      </div>
+
+      <div className="flex items-start gap-3 mb-4 pr-8">
         <div className={`w-11 h-11 rounded-lg bg-gradient-to-br ${TYPE_ACCENT[fileType]} grid place-items-center`}>
           <Icon className="w-5 h-5" />
         </div>
@@ -614,4 +703,263 @@ const ActivityIcon = ({ kind }) => {
   if (kind === 'success') return <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
   if (kind === 'error') return <XCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
   return <Clock className="w-4 h-4 text-neutral-400 shrink-0 mt-0.5" />
+}
+
+/* ────────────────────────────────────────────────── */
+/* Quick actions + section title                        */
+/* ────────────────────────────────────────────────── */
+function QuickActions({ onRerun, onRefresh, busy }) {
+  return (
+    <div className="flex flex-wrap items-center gap-2 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white/60 dark:bg-neutral-900/60 backdrop-blur-sm px-3 py-2">
+      <button
+        onClick={onRerun}
+        disabled={busy}
+        className="inline-flex items-center gap-2 rounded-lg bg-[#1f3a5f] hover:bg-[#17304f] disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold px-3 py-1.5 text-xs transition-colors"
+      >
+        {busy ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Play className="w-3.5 h-3.5" />}
+        Re-run pipeline
+      </button>
+      <button
+        onClick={onRefresh}
+        className="inline-flex items-center gap-2 rounded-lg border border-neutral-300 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-700 dark:text-neutral-200 font-semibold px-3 py-1.5 text-xs"
+      >
+        <RefreshCw className="w-3.5 h-3.5" /> Refresh status
+      </button>
+      <div className="flex-1" />
+      <a
+        href="/"
+        className="inline-flex items-center gap-1 text-xs font-medium text-neutral-600 hover:text-[#1f3a5f]"
+      >
+        Open dashboard <ChevronRight className="w-3.5 h-3.5" />
+      </a>
+    </div>
+  )
+}
+
+function SectionTitle({ title, subtitle }) {
+  return (
+    <div className="flex items-baseline justify-between mb-3">
+      <div>
+        <h2 className="text-sm font-bold text-neutral-900 dark:text-neutral-100 uppercase tracking-wider">{title}</h2>
+        {subtitle && <p className="text-[11.5px] text-neutral-500 mt-0.5">{subtitle}</p>}
+      </div>
+    </div>
+  )
+}
+
+function MenuItem({ icon: Icon, label, onClick, danger, disabled }) {
+  return (
+    <button
+      disabled={disabled}
+      onClick={onClick}
+      className={`
+        w-full text-left px-3 py-2 text-xs font-medium flex items-center gap-2 transition-colors
+        ${disabled
+          ? 'text-neutral-300 cursor-not-allowed'
+          : danger
+            ? 'text-rose-700 hover:bg-rose-50'
+            : 'text-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800'}
+      `}
+    >
+      <Icon className="w-3.5 h-3.5 shrink-0" />
+      {label}
+    </button>
+  )
+}
+
+/* ────────────────────────────────────────────────── */
+/* Modal shell                                          */
+/* ────────────────────────────────────────────────── */
+function ModalShell({ title, subtitle, onClose, children, footer, size = 'lg' }) {
+  const w = size === 'sm' ? 'max-w-sm' : size === 'md' ? 'max-w-lg' : size === 'xl' ? 'max-w-4xl' : 'max-w-2xl'
+  return (
+    <div className="fixed inset-0 z-50 grid place-items-center bg-black/50 backdrop-blur-sm p-4" onClick={onClose}>
+      <div
+        className={`w-full ${w} rounded-2xl bg-white dark:bg-neutral-950 shadow-2xl border border-neutral-200 dark:border-neutral-800 overflow-hidden animate-in fade-in zoom-in duration-200 flex flex-col max-h-[92vh]`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="px-6 pt-5 pb-4 border-b border-neutral-200 dark:border-neutral-800 flex items-start justify-between shrink-0">
+          <div>
+            <div className="text-[10.5px] tracking-[0.14em] font-semibold uppercase text-neutral-500 mb-1">Admin</div>
+            <h2 className="text-xl font-extrabold text-[#1f3a5f] dark:text-white">{title}</h2>
+            {subtitle && <div className="text-xs text-neutral-500 mt-1">{subtitle}</div>}
+          </div>
+          <button onClick={onClose} className="p-1.5 rounded-md hover:bg-neutral-100">
+            <X className="w-4 h-4 text-neutral-500" />
+          </button>
+        </div>
+        <div className="flex-1 overflow-auto">{children}</div>
+        {footer && (
+          <div className="px-6 py-4 bg-neutral-50 dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-800 flex items-center gap-3 shrink-0">
+            {footer}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+/* ────────────────────────────────────────────────── */
+/* Preview modal                                        */
+/* ────────────────────────────────────────────────── */
+function PreviewModal({ fileType, onClose }) {
+  const [data, setData] = useState(null)
+  const [error, setError] = useState(null)
+  useEffect(() => {
+    api.preview(fileType, 20)
+      .then(setData)
+      .catch(e => setError(e.message))
+  }, [fileType])
+
+  return (
+    <ModalShell
+      title={`Preview — ${labelOf(fileType)}`}
+      subtitle={data ? `${data.shown} of ${data.total.toLocaleString()} rows shown · first ${data.shown}` : 'Loading…'}
+      onClose={onClose}
+      size="xl"
+    >
+      {error && (
+        <div className="p-6 text-sm text-rose-700">{error}</div>
+      )}
+      {!error && !data && (
+        <div className="p-6 grid place-items-center text-neutral-500">
+          <Loader2 className="w-5 h-5 animate-spin" />
+        </div>
+      )}
+      {data && data.empty && (
+        <div className="p-8 text-center text-sm text-neutral-500">No file yet. Upload one first.</div>
+      )}
+      {data && !data.empty && (
+        <div className="p-4 overflow-x-auto">
+          <table className="w-full text-[11.5px] border-collapse">
+            <thead>
+              <tr className="border-b border-neutral-300 text-neutral-500">
+                {data.columns.map(c => (
+                  <th key={c} className="text-left py-1.5 pr-3 font-semibold whitespace-nowrap">{c}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {data.rows.map((row, i) => (
+                <tr key={i} className="border-b border-neutral-100 last:border-0 hover:bg-neutral-50">
+                  {row.map((cell, j) => (
+                    <td key={j} className="py-1.5 pr-3 font-mono text-neutral-800 dark:text-neutral-200 whitespace-nowrap max-w-[220px] truncate">
+                      {cell}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </ModalShell>
+  )
+}
+
+/* ────────────────────────────────────────────────── */
+/* Backups modal — restore                              */
+/* ────────────────────────────────────────────────── */
+function BackupsModal({ fileType, onClose, onRestored, onError }) {
+  const [rows, setRows] = useState(null)
+  const [busy, setBusy] = useState(null)
+
+  useEffect(() => {
+    api.listBackups(fileType)
+      .then(r => setRows(r.backups))
+      .catch(e => onError(e.message))
+  }, [fileType])
+
+  const restore = async (filename) => {
+    setBusy(filename)
+    try {
+      const r = await api.restore(fileType, filename)
+      onRestored(filename, r.jobId)
+    } catch (e) { onError(e.message); setBusy(null) }
+  }
+
+  return (
+    <ModalShell
+      title={`Restore backup — ${labelOf(fileType)}`}
+      subtitle={rows ? `${rows.length} backup${rows.length === 1 ? '' : 's'} available` : 'Loading…'}
+      onClose={onClose}
+      size="md"
+    >
+      <div className="p-4">
+        {rows == null && (
+          <div className="grid place-items-center py-8 text-neutral-500">
+            <Loader2 className="w-5 h-5 animate-spin" />
+          </div>
+        )}
+        {rows && rows.length === 0 && (
+          <div className="text-center py-8 text-sm text-neutral-500">
+            No backups yet. A backup is taken every time a file is replaced.
+          </div>
+        )}
+        {rows && rows.length > 0 && (
+          <ul className="divide-y divide-neutral-100 dark:divide-neutral-800">
+            {rows.map(b => (
+              <li key={b.filename} className="py-2.5 flex items-center gap-3">
+                <History className="w-4 h-4 text-neutral-400 shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <div className="text-xs font-mono text-neutral-800 dark:text-neutral-200 truncate">
+                    {b.timestamp ? new Date(b.timestamp).toLocaleString() : b.filename}
+                  </div>
+                  <div className="text-[10.5px] text-neutral-500 truncate">{b.filename} · {b.sizeKB} KB</div>
+                </div>
+                <button
+                  disabled={busy === b.filename}
+                  onClick={() => restore(b.filename)}
+                  className="inline-flex items-center gap-1.5 rounded-md bg-[#1f3a5f] hover:bg-[#17304f] disabled:opacity-50 text-white text-[11px] font-semibold px-2.5 py-1"
+                >
+                  {busy === b.filename
+                    ? <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    : <RotateCcw className="w-3.5 h-3.5" />}
+                  Restore
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </ModalShell>
+  )
+}
+
+/* ────────────────────────────────────────────────── */
+/* Delete confirm                                       */
+/* ────────────────────────────────────────────────── */
+function DeleteConfirm({ fileType, onCancel, onDone, onError }) {
+  const [busy, setBusy] = useState(false)
+  const run = async () => {
+    setBusy(true)
+    try { await api.deleteFile(fileType); onDone() }
+    catch (e) { onError(e.message); setBusy(false) }
+  }
+  return (
+    <ModalShell
+      title={`Remove ${labelOf(fileType)}?`}
+      subtitle="The current file will be moved to backups — you can restore it any time."
+      onClose={onCancel}
+      size="sm"
+      footer={(
+        <>
+          <div className="flex-1 text-[11.5px] text-neutral-500">A fresh backup is taken first.</div>
+          <button onClick={onCancel} className="px-3 py-1.5 rounded-md text-xs font-semibold text-neutral-600 hover:bg-neutral-100">Cancel</button>
+          <button
+            disabled={busy}
+            onClick={run}
+            className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-md text-xs font-semibold bg-rose-600 hover:bg-rose-700 disabled:opacity-60 text-white"
+          >
+            {busy && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+            Remove
+          </button>
+        </>
+      )}
+    >
+      <div className="p-6 text-sm text-neutral-700">
+        Removing the current <strong className="text-[#1f3a5f]">{labelOf(fileType)}</strong> won't lose it — a backup is taken first, and you can restore it from the file's menu.
+      </div>
+    </ModalShell>
+  )
 }

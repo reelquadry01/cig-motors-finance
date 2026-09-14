@@ -69,4 +69,18 @@ export const api = {
     }),
   jobStatus: (jobId) => _fetch(`/api/pipeline-status/${jobId}`),
   templateUrl: (fileType) => `${API_BASE}/api/download-template/${fileType}`,
+
+  // Manual pipeline re-run — kicks the pipeline off against whatever
+  // already lives in data/current.
+  rerunPipeline: () => _fetch('/api/pipeline/rerun', { method: 'POST' }),
+
+  // File-management endpoints
+  preview: (fileType, limit = 20) => _fetch(`/api/file/${fileType}/preview?limit=${limit}`),
+  listBackups: (fileType) => _fetch(`/api/file/${fileType}/backups`),
+  restore: (fileType, filename) =>
+    _fetch(`/api/file/${fileType}/restore`, {
+      method: 'POST',
+      body: JSON.stringify({ filename }),
+    }),
+  deleteFile: (fileType) => _fetch(`/api/file/${fileType}`, { method: 'DELETE' }),
 }
