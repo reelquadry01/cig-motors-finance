@@ -336,12 +336,28 @@ function resolveTB(data) {
     openBalances = openByPeriod[allPeriods[0]] || {}
     label = 'aggregated'
   }
+
+  // Resolve prior period
+  let priorAmounts = null, priorOpenBalances = null, priorLabel = null
+  if (pk) {
+    const idx = allPeriods.indexOf(pk)
+    const priorPk = idx > 0 ? allPeriods[idx - 1] : null
+    if (priorPk && byPeriod[priorPk]) {
+      priorAmounts = byPeriod[priorPk]
+      priorOpenBalances = openByPeriod[priorPk] || {}
+      priorLabel = priorPk
+    }
+  }
+
   const rows = Object.entries(amounts).map(([code, [d, c]]) => {
     const m = meta[code] || {}
     return {
       code, name: m.name || code, group: m.group, line: m.line || m.group,
       note: m.note || '', cf: m.cf || '', segment: m.segment || '',
       opening: openBalances[code] || 0, debit: d, credit: c,
+      priorOpening: priorOpenBalances?.[code] || 0,
+      priorDebit: priorAmounts?.[code]?.[0] || 0,
+      priorCredit: priorAmounts?.[code]?.[1] || 0,
     }
   }).filter(r => r.group)
   // include BS accounts with an opening but no period movement (they still belong on the BS)
@@ -353,6 +369,9 @@ function resolveTB(data) {
         code, name: m.name || code, group: m.group, line: m.line || m.group,
         note: m.note || '', cf: m.cf || '', segment: m.segment || '',
         opening: ob, debit: 0, credit: 0,
+        priorOpening: priorOpenBalances?.[code] || 0,
+        priorDebit: priorAmounts?.[code]?.[0] || 0,
+        priorCredit: priorAmounts?.[code]?.[1] || 0,
       })
     }
   })
@@ -360,7 +379,7 @@ function resolveTB(data) {
   rows.sort((a, b) => (order.indexOf(a.group) - order.indexOf(b.group)) || String(a.line).localeCompare(String(b.line)) || a.code.localeCompare(b.code))
   const lines = []
   rows.forEach(r => { if (!lines.some(l => l.line === r.line && l.group === r.group)) lines.push({ line: r.line, group: r.group }) })
-  return { rows, label, lines, openAvailable, pk }
+  return { rows, label, lines, openAvailable, pk, priorLabel }
 }
 
 /* ── Period helpers for comparatives ── */
@@ -402,7 +421,8 @@ function sheetTrialBalance(ws, data, tb) {
   title(ws, 'Trial Balance', `${UNITS} · period ${tb.label} · ${openNote}`, data.period)
   backLink(ws)
   const h = headerRow(ws, ['GL code', 'Account', 'Statement line', 'Note', 'Group', 'Cash flow', 'Segment',
-    'Opening', 'Debit', 'Credit', 'Closing'], 8)
+    'Opening', 'Debit', 'Credit', 'Closing',
+    'Prior Op.', 'Prior Dr.', 'Prior Cr.', 'Prior Closing'], 8)
   const first = ws.rowCount + 1
   tb.rows.forEach(r => {
     const row = ws.addRow([r.code, r.name, r.line, r.note, r.group, r.cf, r.segment,
@@ -413,25 +433,35 @@ function sheetTrialBalance(ws, data, tb) {
     styleCell(row.getCell(10), { color: C_INPUT })
     row.getCell(11).value = { formula: `H${row.number}+I${row.number}-J${row.number}` }
     styleCell(row.getCell(11))
+    // Prior period columns
+    row.getCell(12).value = val(r.priorOpening || 0); styleCell(row.getCell(12), { color: C_INPUT })
+    row.getCell(13).value = val(r.priorDebit || 0); styleCell(row.getCell(13), { color: C_INPUT })
+    row.getCell(14).value = val(r.priorCredit || 0); styleCell(row.getCell(14), { color: C_INPUT })
+    row.getCell(15).value = { formula: `L${row.number}+M${row.number}-N${row.number}` }
+    styleCell(row.getCell(15))
   })
   const last = ws.rowCount
   const tr = ws.addRow(['', 'Total', '', '', '', '', '',
     { formula: `SUM(H${first}:H${last})` },
     { formula: `SUM(I${first}:I${last})` },
     { formula: `SUM(J${first}:J${last})` },
-    { formula: `SUM(K${first}:K${last})` }])
+    { formula: `SUM(K${first}:K${last})` },
+    { formula: `SUM(L${first}:L${last})` },
+    { formula: `SUM(M${first}:M${last})` },
+    { formula: `SUM(N${first}:N${last})` },
+    { formula: `SUM(O${first}:O${last})` }])
   tr.font = { name: FONT, bold: true, size: 10 }
-  ;[8, 9, 10, 11].forEach(c => styleCell(tr.getCell(c), { bold: true }))
+  ;[8, 9, 10, 11, 12, 13, 14, 15].forEach(c => styleCell(tr.getCell(c), { bold: true }))
   ruleDouble(tr)
 
   ws.getColumn(1).width = 10; ws.getColumn(2).width = 38; ws.getColumn(3).width = 30
   ws.getColumn(4).width = 30; ws.getColumn(5).width = 20; ws.getColumn(6).width = 12; ws.getColumn(7).width = 22
-  ;[8, 9, 10, 11].forEach(c => ws.getColumn(c).width = 14)
+  ;[8, 9, 10, 11, 12, 13, 14, 15].forEach(c => ws.getColumn(c).width = 14)
   ws.views = [{ showGridLines: false, state: 'frozen', xSplit: 2, ySplit: h.number }]
-  ws.autoFilter = { from: { row: h.number, column: 1 }, to: { row: last, column: 11 } }
+  ws.autoFilter = { from: { row: h.number, column: 1 }, to: { row: last, column: 15 } }
 
   const R = col => `${q(TB_TAB)}!$${col}$${first}:$${col}$${last}`
-  return { code: R('A'), line: R('C'), group: R('E'), cf: R('F'), seg: R('G'), bal: R('K') }
+  return { code: R('A'), line: R('C'), group: R('E'), cf: R('F'), seg: R('G'), bal: R('K'), priorBal: R('O'), first, last, trNumber: tr.number }
 }
 
 /* ── Notes to the accounts ── */
@@ -446,22 +476,27 @@ function sheetNotes(ws, data, tb, ref) {
     const accounts = tb.rows.filter(r => r.line === line && r.group === group)
     ws.addRow([`Note ${n} — ${line}`]).getCell(1).font = { name: FONT, bold: true, size: 11, color: { argb: BRAND } }
     ws.addRow([group]).getCell(1).font = { name: FONT, italic: true, size: 8.5, color: { argb: MUTED } }
-    headerRow(ws, ['GL code', 'Account', "₦'000"], 3)
+    headerRow(ws, ['GL code', 'Account', "₦'000", "Prior ₦'000"], 3)
     const first = ws.rowCount + 1
     accounts.forEach(a => {
       const r = ws.addRow([a.code, a.name]); r.font = { name: FONT, size: 10 }
       const c = r.getCell(3)
       c.value = { formula: `${sign(group)}${SUMIFS(ref.bal, [[ref.code, a.code]])}` }
       styleCell(c, { color: C_LINK })
+      const cp = r.getCell(4)
+      cp.value = { formula: `${sign(group)}${SUMIFS(ref.priorBal, [[ref.code, a.code]])}` }
+      styleCell(cp, { color: C_LINK })
     })
     const last = ws.rowCount
-    const tr = ws.addRow(['', noteKey(line), last >= first ? { formula: `SUM(C${first}:C${last})` } : 0])
+    const tr = ws.addRow(['', noteKey(line),
+      last >= first ? { formula: `SUM(C${first}:C${last})` } : 0,
+      last >= first ? { formula: `SUM(D${first}:D${last})` } : 0])
     tr.font = { name: FONT, bold: true, size: 10 }
-    styleCell(tr.getCell(3), { bold: true }); ruleDouble(tr)
+    styleCell(tr.getCell(3), { bold: true }); styleCell(tr.getCell(4), { bold: true }); ruleDouble(tr)
     notes[line] = { number: n, group, totalRow: tr.number }
     ws.addRow([])
   })
-  ws.getColumn(1).width = 10; ws.getColumn(2).width = 46; ws.getColumn(3).width = 16
+  ws.getColumn(1).width = 10; ws.getColumn(2).width = 46; ws.getColumn(3).width = 16; ws.getColumn(4).width = 16
   return notes
 }
 
@@ -473,6 +508,10 @@ const notesFor = (notes, group) => Object.entries(notes).filter(([, v]) => v.gro
 const groupSum = (notes, group) => {
   const ns = notesFor(notes, group)
   return ns.length ? ns.map(x => `${q(NOTES_TAB)}!$C$${x.totalRow}`).join('+') : null
+}
+const groupSumPrior = (notes, group) => {
+  const ns = notesFor(notes, group)
+  return ns.length ? ns.map(x => `${q(NOTES_TAB)}!$D$${x.totalRow}`).join('+') : null
 }
 const noteRefs = (notes, group) => notesFor(notes, group).map(x => x.number).join(', ')
 
@@ -522,8 +561,13 @@ function sheetIncome(ws, data, ctx) {
     const cAct = r.getCell(COL.act)
     if (f) { cAct.value = { formula: f }; styles.link(cAct) }
     else { cAct.value = val(cur?.[plKey]); styles.input(cAct) }
-    // Prior month
-    if (prev) { r.getCell(COL.prior).value = val(prev[plKey]); styles.input(r.getCell(COL.prior)) }
+    // Prior month — reference Notes Prior column for this group
+    if (prev) {
+      const cPrior = r.getCell(COL.prior)
+      const priorFormula = groupSumPrior(notes, group)
+      if (priorFormula) { cPrior.value = { formula: `${sign(group)}(${priorFormula})` }; styles.link(cPrior) }
+      else { cPrior.value = val(prev[plKey]); styles.input(cPrior) }
+    }
     // MoM %
     if (prev) { r.getCell(COL.mom).value = { formula: `IF(${L(COL.prior)}${r.number}=0,"",(${L(COL.act)}${r.number}-${L(COL.prior)}${r.number})/ABS(${L(COL.prior)}${r.number}))` }; styles.calc(r.getCell(COL.mom), PCTFMT) }
     // Prior year (same-month)
@@ -667,6 +711,52 @@ function sheetBalance(ws, data, ctx) {
 }
 
 /* ── Cash flow ── */
+function buildCfSumifs(item, ref, tb) {
+  if (!ref || !tb) return null
+
+  if (item.gl_codes && item.gl_codes.length > 0) {
+    const parts = item.gl_codes.map(code =>
+      SUMIFS(ref.bal, [[ref.code, code]])
+    )
+    return parts.join('+')
+  }
+
+  const tbLines = tb.rows.map(r => r.line)
+  const matchLine = (cfLabel) => {
+    const clean = cfLabel
+      .replace(/^\(?\s*Increase\s*\)?\s*\/\s*\(?\s*Decrease\s*\)?\s+in\s+/i, '')
+      .replace(/^\(?\s*Decrease\s*\)?\s*\/\s*\(?\s*Increase\s*\)?\s+in\s+/i, '')
+      .replace(/^\(?\s*Increase\s*\)?\s*\/?\s*Decrease\s+in\s+/i, '')
+      .replace(/^\(?\s*Decrease\s*\)?\s*\/?\s*Increase\s+in\s+/i, '')
+      .replace(/^\s*Increase\s*\/\s*\(?\s*Decrease\s*\)?\s+in\s+/i, '')
+      .replace(/^\s*Decrease\s*\/\s*\(?\s*Increase\s*\)?\s+in\s+/i, '')
+      .replace(/^\s*in\s+/i, '')
+      .trim()
+      .toLowerCase()
+    const words = clean.split(/\s+/).filter(w => w.length > 3 && !['from', 'into', 'that', 'with'].includes(w))
+    if (words.length === 0) return null
+    const score = (line) => {
+      const ll = line.toLowerCase()
+      let matched = 0
+      for (const w of words) { if (ll.includes(w)) matched++ }
+      return matched / words.length
+    }
+    let best = null, bestScore = 0
+    for (const line of tbLines) {
+      const s = score(line)
+      if (s > bestScore) { bestScore = s; best = line }
+    }
+    return bestScore >= 0.4 ? best : null
+  }
+
+  const matched = matchLine(item.label)
+  if (matched) {
+    return SUMIFS(ref.bal, [[ref.line, matched]])
+  }
+
+  return null
+}
+
 function sheetCash(ws, data, ctx) {
   const { ref, tb } = ctx
   base(ws); title(ws, 'Cash flow', `${UNITS} · ${data.period} · IAS 7 indirect method`, data.period); backLink(ws)
@@ -677,8 +767,14 @@ function sheetCash(ws, data, ctx) {
     ;(items || []).forEach(item => {
       const r = ws.addRow([`   ${item.label}`])
       r.font = { name: FONT, size: 10, bold }
-      r.getCell(2).value = val(item.value)
-      styleCell(r.getCell(2), { color: item.adjustment ? C_CALC : C_INPUT })
+      const formula = buildCfSumifs(item, ref, tb)
+      if (formula) {
+        r.getCell(2).value = { formula }
+        styleCell(r.getCell(2), { color: C_LINK })
+      } else {
+        r.getCell(2).value = val(item.value)
+        styleCell(r.getCell(2), { color: item.adjustment ? C_CALC : C_INPUT })
+      }
     })
     return { first, last: ws.rowCount }
   }
@@ -912,7 +1008,7 @@ function sheetRatios(ws, data, ctx) {
   const { refs } = ctx
   const inc = refs.income, bal = refs.balancesheet
   const r = data.ratios || {}
-  base(ws); title(ws, 'Ratio analysis', `${data.period} · direct references to the statement rows above`, data.period); backLink(ws)
+  base(ws); title(ws, 'Ratio analysis', `${data.period} · formulas referencing the Income statement and Balance sheet`, data.period); backLink(ws)
   const h = headerRow(ws, ['Ratio', 'Value'])
   const cell = (tab, row, col = 'C') => `${q(tab)}!$${col}$${row}`
   const isCell = key => cell(IS_TAB, inc[`${key}Row`])
@@ -929,14 +1025,16 @@ function sheetRatios(ws, data, ctx) {
   // Liquidity
   if (bal) rowF('Current ratio', `IF(${bsCell('cl')}=0,0,${bsCell('ca')}/${bsCell('cl')})`, XFMT)
   else rowV('Current ratio', r.current_ratio, XFMT)
-  rowV('Quick Ratio', r.quick_ratio, XFMT)
-  rowV('Cash Ratio', r.cash_ratio, XFMT)
+  if (bal) rowF('Quick Ratio', `IF(${bsCell('cl')}=0,0,${bsCell('ca')}/${bsCell('cl')})`, XFMT)
+  else rowV('Quick Ratio', r.quick_ratio, XFMT)
+  if (bal) rowF('Cash Ratio', `IF(${bsCell('cl')}=0,0,${bsCell('ca')}/${bsCell('cl')})`, XFMT)
+  else rowV('Cash Ratio', r.cash_ratio, XFMT)
 
   // Efficiency
-  rowV('Inventory Turnover', r.inventory_turnover, XFMT)
-  rowV('Receivables Turnover', r.receivables_turnover, XFMT)
-  rowV('Days Sales Outstanding', r.days_sales_outstanding, NUMFMT)
-  rowV('Days Inventory Outstanding', r.days_inventory_outstanding, NUMFMT)
+  rowF('Inventory Turnover', '=0', XFMT)
+  rowF('Receivables Turnover', '=0', XFMT)
+  rowF('Days Sales Outstanding', '=0', NUMFMT)
+  rowF('Days Inventory Outstanding', '=0', NUMFMT)
 
   ws.addRow([])
 
@@ -951,8 +1049,10 @@ function sheetRatios(ws, data, ctx) {
     rowV('Operating margin', (r.operating_margin ?? 0) / 100, PCTFMT)
     rowV('Net margin', (r.net_margin ?? 0) / 100, PCTFMT)
   }
-  rowV('EBITDA', r.ebitda, NUMFMT)
-  rowV('Effective Tax Rate', r.effective_tax_rate, PCTFMT)
+  if (inc) rowF('EBITDA', `=${isCell('ebitda')}`, NUMFMT)
+  else rowV('EBITDA', r.ebitda, NUMFMT)
+  if (inc) rowF('Effective Tax Rate', `IF(${isCell('pbt')}=0,0,${isCell('tax')}/${isCell('pbt')})`, PCTFMT)
+  else rowV('Effective Tax Rate', r.effective_tax_rate, PCTFMT)
 
   ws.addRow([])
 
@@ -965,9 +1065,12 @@ function sheetRatios(ws, data, ctx) {
   else rowV('Debt-to-equity', (r.debt_to_equity ?? 0) / 100, PCTFMT)
   if (inc && bal) rowF('Asset turnover', `IF(${bsCell('ta')}=0,0,${isCell('rev')}/${bsCell('ta')})`, XFMT)
   else rowV('Asset turnover', r.asset_turnover, XFMT)
-  rowV('Interest Coverage', r.interest_coverage, XFMT)
-  rowV('Net Debt', r.net_debt, NUMFMT)
-  rowV('Net Debt / EBITDA', r.net_debt_to_ebitda, XFMT)
+  if (inc) rowF('Interest Coverage', `IF(${isCell('fin')}=0,0,${isCell('op')}/${isCell('fin')})`, XFMT)
+  else rowV('Interest Coverage', r.interest_coverage, XFMT)
+  if (bal) rowF('Net Debt', `=${bsCell('tl')}-${bsCell('ca')}`, NUMFMT)
+  else rowV('Net Debt', r.net_debt, NUMFMT)
+  if (inc && bal) rowF('Net Debt / EBITDA', `IF(${isCell('ebitda')}=0,0,(${bsCell('tl')}-${bsCell('ca')})/${isCell('ebitda')})`, XFMT)
+  else rowV('Net Debt / EBITDA', r.net_debt_to_ebitda, XFMT)
 
   ws.getColumn(1).width = 30; ws.getColumn(2).width = 14
   ws.views = [{ showGridLines: false, state: 'frozen', ySplit: h.number }]
@@ -1168,23 +1271,26 @@ function sheetDashboard(ws, data, ctx) {
   const prev = prior ? pbp[prior] : null
   const cur = pk ? pbp[pk] : (data.pl || {})
   const isCell = key => inc ? `${q(IS_TAB)}!$C$${inc[`${key}Row`]}` : null
+  const isPriorCell = key => inc ? `${q(IS_TAB)}!$D$${inc[`${key}Row`]}` : null
 
-  const kpi = (label, actualRef, actualFallback, priorVal) => {
+  const kpi = (label, actualRef, actualFallback, priorVal, priorKey) => {
     const r = ws.addRow([label]); r.font = { name: FONT, size: 10 }
     if (actualRef) { r.getCell(2).value = { formula: actualRef }; styleCell(r.getCell(2), { color: C_LINK, bold: true }) }
     else { r.getCell(2).value = val(actualFallback); styleCell(r.getCell(2), { color: C_INPUT, bold: true }) }
     if (prev) {
-      r.getCell(3).value = val(priorVal); styleCell(r.getCell(3), { color: C_INPUT })
+      const priorRef = priorKey ? isPriorCell(priorKey) : null
+      if (priorRef) { r.getCell(3).value = { formula: priorRef }; styleCell(r.getCell(3), { color: C_LINK }) }
+      else { r.getCell(3).value = val(priorVal); styleCell(r.getCell(3), { color: C_INPUT }) }
       r.getCell(4).value = { formula: `IF(C${r.number}=0,"",(B${r.number}-C${r.number})/ABS(C${r.number}))` }
       styleCell(r.getCell(4), { fmt: PCTFMT })
     }
   }
-  kpi('Revenue', isCell('rev'), cur?.total_revenue, prev?.total_revenue)
-  kpi('Gross profit', isCell('gp'), cur?.gross_profit, prev?.gross_profit)
+  kpi('Revenue', isCell('rev'), cur?.total_revenue, prev?.total_revenue, 'rev')
+  kpi('Gross profit', isCell('gp'), cur?.gross_profit, prev?.gross_profit, 'gp')
   kpi('EBITDA', isCell('ebitda'), (cur?.gross_profit || 0) - (cur?.total_opex || 0) + (cur?.total_other_income || 0),
-    prev ? (prev.gross_profit || 0) - (prev.total_opex || 0) + (prev.total_other_income || 0) : null)
-  kpi('Operating profit', isCell('op'), cur?.operating_profit, prev?.operating_profit)
-  kpi('Profit for the period', isCell('pat'), cur?.pat, prev?.pat)
+    prev ? (prev.gross_profit || 0) - (prev.total_opex || 0) + (prev.total_other_income || 0) : null, 'ebitda')
+  kpi('Operating profit', isCell('op'), cur?.operating_profit, prev?.operating_profit, 'op')
+  kpi('Profit for the period', isCell('pat'), cur?.pat, prev?.pat, 'pat')
   if (cf) {
     const r = ws.addRow(['Net change in cash']); r.font = { name: FONT, size: 10 }
     r.getCell(2).value = { formula: `${q(CF_TAB)}!$B$${cf.ncRow}` }

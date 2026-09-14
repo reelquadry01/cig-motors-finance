@@ -1,0 +1,32 @@
+# Keeps the Render free-tier service warm by hitting /api/health every 10 min.
+# Render puts a free-tier web service to sleep after 15 minutes of no traffic;
+# a wake-up takes ~30 seconds. This workflow makes cold starts effectively
+# invisible for the Finance team.
+#
+# When you upgrade to Starter (or higher) the service stays warm on its own —
+# just delete this file to stop the pings.
+name: Keep-alive · Render service
+
+on:
+  schedule:
+    # GitHub cron minimum interval is 5 min. 10 min is enough — Render's
+    # sleep window is 15 min.
+    - cron: '*/10 * * * *'
+  workflow_dispatch: {}
+
+concurrency:
+  group: keepalive
+  cancel-in-progress: true
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Hit /api/health
+        run: |
+          set -e
+          # -sSf : silent, show errors, exit non-zero on 4xx/5xx
+          # --max-time gives cold starts plenty of runway
+          response=$(curl -sSf --max-time 60 https://cig-finance.onrender.com/api/health)
+          echo "response: $response"
