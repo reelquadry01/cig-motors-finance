@@ -625,6 +625,23 @@ function sheetBalance(ws, data, ctx) {
   const tl = ws.addRow(['Total liabilities', '', { formula: `C${R.cl}+C${R.ncl}` }])
   tl.font = { name: FONT, size: 10, bold: true }; styleCell(tl.getCell(3), { bold: true }); ruleAbove(tl); R.tl = tl.number
   section('Equity', 'Equity', 'eq')
+  // Add Net Income for the Period — references the Income Statement PAT row
+  // This closes the TB (pre-closing) so Assets = Liabilities + Equity
+  const patRow = ctx.refs?.income?.patRow
+  if (patRow) {
+    const ni = ws.addRow(['   Net Income for the Period', '', { formula: `${q(IS_TAB)}!$C$${patRow}` }])
+    ni.font = { name: FONT, size: 10 }
+    ni.getCell(2).alignment = { horizontal: 'center' }; ni.getCell(2).font = { name: FONT, size: 9, color: { argb: MUTED } }
+    styleCell(ni.getCell(3), { color: C_LINK })
+  }
+  // Recompute equity total to include Net Income
+  const eqNs = notesFor(notes, 'Equity')
+  const eqStart = R.eq - (eqNs.length + 1) // first data row of equity section
+  const eqEnd = ws.rowCount // last row (Net Income line)
+  const eqTotal = ws.addRow(['Total equity', '', { formula: `SUM(C${eqStart + 1}:C${eqEnd})` }])
+  eqTotal.font = { name: FONT, size: 10, bold: true }; styleCell(eqTotal.getCell(3), { bold: true }); ruleAbove(eqTotal)
+  R.eq = eqTotal.number
+
   const tle = ws.addRow(['Total liabilities & equity', '', { formula: `C${R.tl}+C${R.eq}` }])
   tle.font = { name: FONT, size: 10, bold: true }; styleCell(tle.getCell(3), { bold: true }); ruleDouble(tle); R.tle = tle.number
   ws.addRow([])
