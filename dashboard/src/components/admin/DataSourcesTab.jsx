@@ -126,16 +126,11 @@ export default function DataSourcesTab() {
       <section>
         <div className="flex items-baseline justify-between mb-3">
           <div>
-            <h2 className="text-sm font-bold text-neutral-900 dark:text-neutral-100 uppercase tracking-wider">Connect a Source</h2>
-            <p className="text-[11.5px] text-neutral-500 mt-0.5">Connect to your ERP, database, or API to pull GL transaction data automatically</p>
+            <h2 className="text-sm font-bold text-neutral-900 dark:text-neutral-100 uppercase tracking-wider">Add a source</h2>
+            <p className="text-[11.5px] text-neutral-500 mt-0.5">
+              GL transactions come from here. Mapping &amp; budget still live under <strong className="text-neutral-700 dark:text-neutral-300">Files</strong>.
+            </p>
           </div>
-        </div>
-        <div className="rounded-xl border border-sky-200 bg-sky-50 dark:border-sky-800 dark:bg-sky-950/50 px-4 py-3 mb-4">
-          <p className="text-xs text-sky-800 dark:text-sky-200">
-            <strong>GL transactions</strong> are pulled from your connected source (ERP, database, API).
-            <br />
-            <strong>Statement Mapping</strong> and <strong>Budget</strong> files are uploaded separately in the <strong>File Imports</strong> tab — these tell the system how to interpret your GL accounts.
-          </p>
         </div>
         <ErpGallery onSelect={setWizardType} />
       </section>

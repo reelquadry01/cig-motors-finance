@@ -1,47 +1,43 @@
 import { useState } from 'react'
-import { ArrowLeft, ArrowRight, Check, Loader2 } from 'lucide-react'
+import { X, Loader2, CheckCircle2 } from 'lucide-react'
 import { connectorApi } from '../../lib/connectorApi'
 import ConnectorStep1 from './ConnectorStep1'
 import ConnectorStep2 from './ConnectorStep2'
-import ConnectorStep3 from './ConnectorStep3'
-
-const STEPS = [
-  { key: 'configure', label: 'Configure' },
-  { key: 'preview', label: 'Preview & Clean' },
-  { key: 'activate', label: 'Activate' },
-]
 
 export default function ConnectorWizard({ connectorType, onComplete, onCancel }) {
-  const [step, setStep] = useState(0)
+  const [step, setStep] = useState('form')
   const [config, setConfig] = useState({})
   const [credentials, setCredentials] = useState({})
   const [connectorName, setConnectorName] = useState('')
   const [connectorId, setConnectorId] = useState(null)
   const [testResult, setTestResult] = useState(null)
-  const [saving, setSaving] = useState(false)
   const [error, setError] = useState(null)
 
   const typeKey = typeof connectorType === 'string' ? connectorType : connectorType?.type
   const subtype = typeof connectorType === 'object' ? connectorType?.subtype : null
+  const displayName = subtype ? subtype.charAt(0).toUpperCase() + subtype.slice(1) : typeKey
 
-  const handleTest = async (testConfig, testCreds) => {
+  const handleConnect = async (formConfig, formCreds, formName) => {
     setTestResult(null)
     setError(null)
     try {
-      const name = testConfig.host || testConfig.name || connectorName || `${typeKey} connection`
-      if (!connectorName) setConnectorName(name)
-
+      const name = formName || `${displayName} connection`
       const createResult = await connectorApi.createConnector(
         typeKey,
-        { ...testConfig, subtype },
+        { ...formConfig, subtype },
         name,
-        testCreds,
+        formCreds,
       )
       const id = createResult.connector.id
       setConnectorId(id)
+      setConnectorName(name)
 
       const result = await connectorApi.testConnection(id)
       setTestResult(result)
+
+      if (result.ok) {
+        setStep('preview')
+      }
       return result
     } catch (e) {
       setError(e.message)
@@ -50,72 +46,73 @@ export default function ConnectorWizard({ connectorType, onComplete, onCancel })
     }
   }
 
-  const handleNext = () => {
-    if (step < STEPS.length - 1) setStep(s => s + 1)
-  }
-
-  const handleBack = () => {
-    if (step > 0) setStep(s => s - 1)
-  }
-
-  const handleActivate = async (schedule) => {
-    setSaving(true)
-    setError(null)
+  const handleLoad = async () => {
     try {
       if (connectorId) {
-        await connectorApi.setSchedule(connectorId, schedule)
         await connectorApi.syncNow(connectorId)
       }
       onComplete()
     } catch (e) {
       setError(e.message)
-    } finally { setSaving(false) }
+    }
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-3">
-        <button onClick={onCancel} className="p-2 rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-600 dark:text-neutral-400">
-          <ArrowLeft className="w-4 h-4" />
-        </button>
+    <div className="space-y-0">
+      {/* Header */}
+      <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-200 dark:border-neutral-800">
         <div>
-          <div className="text-[10.5px] tracking-[0.14em] font-semibold uppercase text-neutral-500">Connector Wizard</div>
+          <div className="text-[10.5px] tracking-[0.14em] font-semibold uppercase text-neutral-500">
+            Data Source
+          </div>
           <h2 className="text-lg font-extrabold text-[#1f3a5f] dark:text-white">
-            Set up {subtype ? subtype.charAt(0).toUpperCase() + subtype.slice(1) : typeKey}
+            Connect to {displayName}
           </h2>
         </div>
+        <button
+          onClick={onCancel}
+          className="p-2 rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors"
+        >
+          <X className="w-5 h-5" />
+        </button>
       </div>
 
-      {/* Progress bar */}
-      <div className="flex items-center gap-2 px-4">
-        {STEPS.map((s, i) => (
+      {/* Steps indicator */}
+      <div className="flex items-center gap-3 px-6 pt-4">
+        {[
+          { key: 'form', label: 'Configure' },
+          { key: 'preview', label: 'Preview & Load' },
+        ].map((s, i) => (
           <div key={s.key} className="flex items-center gap-2 flex-1">
-            <div className="flex items-center gap-2">
-              <div className={`
-                w-7 h-7 rounded-full grid place-items-center text-xs font-bold shrink-0 transition-colors duration-200
-                ${i <= step
-                  ? 'bg-[#c8102e] text-white'
-                  : 'bg-neutral-200 dark:bg-neutral-700 text-neutral-500 dark:text-neutral-400'}
-              `}>
-                {i < step ? <Check className="w-3.5 h-3.5" /> : i + 1}
-              </div>
-              <span className={`text-xs font-semibold hidden sm:inline ${i <= step ? 'text-neutral-900 dark:text-white' : 'text-neutral-500'}`}>
-                {s.label}
-              </span>
+            <div className={`w-6 h-6 rounded-full grid place-items-center text-[10px] font-bold shrink-0 transition-colors ${
+              (step === 'form' && i === 0) || (step === 'preview' && i <= 1)
+                ? 'bg-[#c8102e] text-white'
+                : 'bg-neutral-200 dark:bg-neutral-700 text-neutral-500'
+            }`}>
+              {step === 'preview' && i === 0 ? <CheckCircle2 className="w-3.5 h-3.5" /> : i + 1}
             </div>
-            {i < STEPS.length - 1 && (
-              <div className={`flex-1 h-0.5 rounded-full transition-colors duration-200 ${i < step ? 'bg-[#c8102e]' : 'bg-neutral-200 dark:bg-neutral-700'}`} />
-            )}
+            <span className={`text-[11px] font-semibold ${
+              (step === 'form' && i === 0) || (step === 'preview' && i <= 1)
+                ? 'text-neutral-900 dark:text-white'
+                : 'text-neutral-400'
+            }`}>{s.label}</span>
+            {i === 0 && <div className={`flex-1 h-0.5 rounded-full ${
+              step === 'preview' ? 'bg-[#c8102e]' : 'bg-neutral-200 dark:bg-neutral-700'
+            }`} />}
           </div>
         ))}
       </div>
 
+      {/* Error banner */}
       {error && (
-        <div className="rounded-lg border border-rose-200 bg-rose-50 dark:bg-rose-950/30 dark:border-rose-800 text-rose-800 dark:text-rose-300 px-4 py-3 text-sm">{error}</div>
+        <div className="mx-6 mt-4 rounded-lg border border-rose-200 bg-rose-50 dark:bg-rose-950/30 dark:border-rose-800 text-rose-800 dark:text-rose-300 px-4 py-3 text-sm">
+          {error}
+        </div>
       )}
 
-      <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-6">
-        {step === 0 && (
+      {/* Body */}
+      <div className="px-6 py-5">
+        {step === 'form' && (
           <ConnectorStep1
             connectorType={connectorType}
             config={config}
@@ -125,41 +122,15 @@ export default function ConnectorWizard({ connectorType, onComplete, onCancel })
             onConfigChange={setConfig}
             onCredentialsChange={setCredentials}
             onNameChange={setConnectorName}
-            onTest={handleTest}
+            onConnect={handleConnect}
           />
         )}
-        {step === 1 && (
+        {step === 'preview' && (
           <ConnectorStep2
             connectorId={connectorId}
             connectorType={connectorType}
+            onLoad={handleLoad}
           />
-        )}
-        {step === 2 && (
-          <ConnectorStep3
-            connectorId={connectorId}
-            connectorName={connectorName}
-            connectorType={connectorType}
-            onActivate={handleActivate}
-            saving={saving}
-          />
-        )}
-      </div>
-
-      <div className="flex items-center justify-between">
-        <button
-          onClick={step === 0 ? onCancel : handleBack}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-neutral-300 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-700 dark:text-neutral-200 font-semibold px-4 py-2 text-xs transition-colors"
-        >
-          <ArrowLeft className="w-3.5 h-3.5" /> {step === 0 ? 'Cancel' : 'Back'}
-        </button>
-        {step < STEPS.length - 1 && (
-          <button
-            onClick={handleNext}
-            disabled={step === 0 && !testResult?.ok}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-[#1f3a5f] hover:bg-[#17304f] disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold px-4 py-2 text-xs transition-colors"
-          >
-            Next <ArrowRight className="w-3.5 h-3.5" />
-          </button>
         )}
       </div>
     </div>

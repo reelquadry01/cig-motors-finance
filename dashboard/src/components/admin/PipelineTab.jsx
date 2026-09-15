@@ -156,7 +156,7 @@ function ActivityLogItem({ entry }) {
   )
 }
 
-function ActivityHistory() {
+function ActivityHistory({ sessionItems = [] }) {
   const [entries, setEntries] = useState([])
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(true)
@@ -192,51 +192,66 @@ function ActivityHistory() {
     }
   }
 
+  const nothing = !loading && entries.length === 0 && sessionItems.length === 0
+
   return (
     <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5">
       <div className="flex items-center justify-between mb-4">
         <div>
           <div className="text-[10.5px] tracking-[0.14em] font-semibold uppercase text-neutral-500">Activity</div>
           <h3 className="text-lg font-extrabold text-[#1f3a5f] dark:text-white">
-            History {total > 0 && <span className="text-sm font-normal text-neutral-400 ml-1">({total})</span>}
+            Recent
+            {total > 0 && <span className="text-sm font-normal text-neutral-400 ml-1">({total.toLocaleString()})</span>}
           </h3>
         </div>
         <button
           onClick={handleClear}
           disabled={clearing || entries.length === 0}
           className="text-[11px] text-neutral-400 hover:text-rose-600 disabled:opacity-40 transition-colors flex items-center gap-1"
-          title="Clear all activity history"
+          title="Clear the persistent history (a backup is saved on the server)"
         >
           <Trash className="w-3 h-3" />
-          {clearing ? 'Clearing…' : 'Clear'}
+          {clearing ? 'Clearing…' : 'Clear history'}
         </button>
       </div>
 
-      {/* Kind filter tabs */}
-      <div className="flex flex-wrap gap-1 mb-3">
-        {KIND_FILTERS.map(f => (
-          <button
-            key={f.key || 'all'}
-            onClick={() => setKindFilter(f.key)}
-            className={`px-2 py-0.5 rounded-md text-[10.5px] font-medium transition-colors ${
-              kindFilter === f.key
-                ? 'bg-[#1f3a5f] text-white'
-                : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-700'
-            }`}
-          >
-            {f.label}
-          </button>
-        ))}
-      </div>
+      {/* Kind filter chips — only visible when there's history to filter */}
+      {entries.length > 0 && (
+        <div className="flex flex-wrap gap-1 mb-3">
+          {KIND_FILTERS.map(f => (
+            <button
+              key={f.key || 'all'}
+              onClick={() => setKindFilter(f.key)}
+              className={`px-2 py-0.5 rounded-md text-[10.5px] font-medium transition-colors ${
+                kindFilter === f.key
+                  ? 'bg-[#1f3a5f] text-white'
+                  : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-700'
+              }`}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
+      )}
 
-      {loading ? (
+      {loading && (
         <div className="flex items-center justify-center py-8">
           <Loader2 className="w-5 h-5 text-neutral-400 animate-spin" />
         </div>
-      ) : entries.length === 0 ? (
-        <div className="text-xs text-neutral-500 py-8 text-center">No activity recorded yet.</div>
-      ) : (
+      )}
+      {nothing && (
+        <div className="text-xs text-neutral-500 py-8 text-center">No activity yet.</div>
+      )}
+      {!loading && !nothing && (
         <ul className="space-y-3 max-h-[520px] overflow-auto pr-1">
+          {/* Session items — this-tab actions, newest first, faintly tagged */}
+          {sessionItems.map(it => <SessionItem key={it.id} it={it} />)}
+          {/* Divider between session and persistent, only when both exist */}
+          {sessionItems.length > 0 && entries.length > 0 && (
+            <li className="border-t border-dashed border-neutral-200 dark:border-neutral-800 pt-1">
+              <span className="text-[9.5px] tracking-[0.14em] uppercase text-neutral-400">Earlier</span>
+            </li>
+          )}
           {entries.map(entry => (
             <ActivityLogItem key={entry.id} entry={entry} />
           ))}
@@ -246,30 +261,30 @@ function ActivityHistory() {
   )
 }
 
-function LocalActivityLog({ items }) {
+/**
+ * Session-only activity items rendered inline at the top of the unified
+ * activity feed. Same shape as the persistent items so users see one stream.
+ */
+function SessionItem({ it }) {
+  const icon = it.kind === 'success'
+    ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+    : it.kind === 'error'
+      ? <XCircle className="w-3.5 h-3.5 text-rose-600" />
+      : <Clock className="w-3.5 h-3.5 text-neutral-400" />
   return (
-    <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5">
-      <div className="mb-4">
-        <div className="text-[10.5px] tracking-[0.14em] font-semibold uppercase text-neutral-500">Pipeline</div>
-        <h3 className="text-lg font-extrabold text-[#1f3a5f] dark:text-white">Session</h3>
+    <li className="flex items-start gap-2.5 text-xs">
+      <div className="shrink-0 mt-0.5 p-1 rounded-md bg-neutral-100 dark:bg-neutral-800">{icon}</div>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2">
+          <span className="text-neutral-800 dark:text-neutral-200 font-medium">{it.message}</span>
+          <span className="text-[10px] px-1.5 py-0.5 rounded-full font-medium bg-neutral-100 text-neutral-500 dark:bg-neutral-800">
+            Session
+          </span>
+        </div>
+        {it.detail && <div className="text-neutral-500 mt-0.5 truncate">{String(it.detail).split('\n')[0]}</div>}
+        <div className="text-neutral-400 text-[10.5px] mt-0.5">{it.at.toLocaleTimeString()}</div>
       </div>
-      {items.length === 0 ? (
-        <div className="text-xs text-neutral-500 py-6 text-center">No activity yet.</div>
-      ) : (
-        <ul className="space-y-2.5 max-h-[340px] overflow-auto pr-1">
-          {items.map(it => (
-            <li key={it.id} className="flex items-start gap-2.5 text-xs">
-              {it.kind === 'success' ? <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" /> : it.kind === 'error' ? <XCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" /> : <Clock className="w-4 h-4 text-neutral-400 shrink-0 mt-0.5" />}
-              <div className="flex-1 min-w-0">
-                <div className="text-neutral-800 dark:text-neutral-200 font-medium">{it.message}</div>
-                {it.detail && <div className="text-neutral-500 truncate">{String(it.detail).split('\n')[0]}</div>}
-                <div className="text-neutral-400 text-[10.5px] mt-0.5">{it.at.toLocaleTimeString()}</div>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+    </li>
   )
 }
 
@@ -316,24 +331,36 @@ export default function PipelineTab() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center gap-2 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white/60 dark:bg-neutral-900/60 backdrop-blur-sm px-3 py-2">
-        <button onClick={handleRerun} disabled={rerunBusy}
-          className="inline-flex items-center gap-2 rounded-lg bg-[#1f3a5f] hover:bg-[#17304f] disabled:opacity-50 text-white font-semibold px-3 py-1.5 text-xs transition-colors">
-          {rerunBusy ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Play className="w-3.5 h-3.5" />}Re-run pipeline
-        </button>
-      </div>
-
-      <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
-        <div className="lg:col-span-2">
-          <PipelinePanel job={activeJob} />
+      {/* Section 1 — Live pipeline: the re-run button lives here, next to
+          what it acts on. No separate quick-actions bar hovering above. */}
+      <section>
+        <div className="flex items-baseline justify-between mb-3">
+          <div>
+            <h2 className="text-sm font-bold text-neutral-900 dark:text-neutral-100 uppercase tracking-wider">Live pipeline</h2>
+            <p className="text-[11.5px] text-neutral-500 mt-0.5">
+              Kick a run off against whatever is currently in <code className="px-1 rounded bg-neutral-100 dark:bg-neutral-800 text-[10.5px]">data/current</code>.
+            </p>
+          </div>
+          <button
+            onClick={handleRerun}
+            disabled={rerunBusy || activeJob?.status === 'running'}
+            className="inline-flex items-center gap-2 rounded-lg bg-[#1f3a5f] hover:bg-[#17304f] disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold px-3 py-1.5 text-xs transition-colors"
+          >
+            {rerunBusy ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Play className="w-3.5 h-3.5" />}
+            Re-run pipeline
+          </button>
         </div>
-        <LocalActivityLog items={activity} />
-      </div>
+        <PipelinePanel job={activeJob} />
+      </section>
 
+      {/* Section 2 — Job history: only shown once there's something to show */}
       {jobHistory.length > 0 && (
         <section>
           <div className="flex items-baseline justify-between mb-3">
-            <h2 className="text-sm font-bold text-neutral-900 dark:text-neutral-100 uppercase tracking-wider">Job History</h2>
+            <div>
+              <h2 className="text-sm font-bold text-neutral-900 dark:text-neutral-100 uppercase tracking-wider">Job history</h2>
+              <p className="text-[11.5px] text-neutral-500 mt-0.5">Pipeline runs from this session, newest first.</p>
+            </div>
           </div>
           <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 divide-y divide-neutral-100 dark:divide-neutral-800">
             {jobHistory.map((j, i) => (
@@ -343,8 +370,8 @@ export default function PipelineTab() {
                   <div className="text-xs font-medium text-neutral-800 dark:text-neutral-200">
                     {j.status === 'completed' ? 'Pipeline completed' : j.status === 'failed' ? 'Pipeline failed' : 'Running…'}
                   </div>
-                  <div className="text-[10.5px] text-neutral-500">
-                    {j.completedAt?.toLocaleString()} {j.error && `· ${j.error}`}
+                  <div className="text-[10.5px] text-neutral-500 truncate">
+                    {j.completedAt?.toLocaleString()}{j.error && ` · ${j.error.split('\n')[0]}`}
                   </div>
                 </div>
               </div>
@@ -353,8 +380,23 @@ export default function PipelineTab() {
         </section>
       )}
 
-      {/* Persistent Activity History */}
-      <ActivityHistory />
+      {/* Session activity — a small inline feed of this-tab events. The
+          full audit log now lives in its own Activity section in the sidebar. */}
+      {activity.length > 0 && (
+        <section>
+          <div className="mb-3">
+            <h2 className="text-sm font-bold text-neutral-900 dark:text-neutral-100 uppercase tracking-wider">This session</h2>
+            <p className="text-[11.5px] text-neutral-500 mt-0.5">
+              Recent actions on this tab. See <a href="#activity" className="text-[#1f3a5f] hover:underline font-semibold">Activity</a> for the full audit log.
+            </p>
+          </div>
+          <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5">
+            <ul className="space-y-2.5">
+              {activity.map(it => <SessionItem key={it.id} it={it} />)}
+            </ul>
+          </div>
+        </section>
+      )}
     </div>
   )
 }
