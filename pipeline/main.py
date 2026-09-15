@@ -146,6 +146,7 @@ def run_pipeline(
     if ac is not None and len(ac) > 0:
         try:
             import re
+            import pandas as pd
             bs_groups = {"Current assets", "Non-current assets",
                          "Current liabilities", "Non-current liabilities", "Equity"}
             bs_codes = {c for c, m in tb_meta.items() if m["group"] in bs_groups}

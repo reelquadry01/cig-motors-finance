@@ -48,6 +48,17 @@ def tb_group(section: str, fs_heading: str):
                 if any(k in fsl for k in cfg.CURRENT_LIABILITY_KEYWORDS)
                 else "Non-current liabilities")
 
+    # "Other" is used in the mapping for the inventory and prepayment buckets
+    # (Statement_Section = "Other", FS_Heading = "Inventories"/"Prepayment").
+    # Elsewhere the pipeline reclassifies "Other" into Assets on the balance
+    # sheet; the trial balance was silently dropping it, so opening balances
+    # for those accounts never landed. Treat "Other" as a balance-sheet asset
+    # here too, using the same current / non-current keyword split.
+    if section == "Other":
+        return ("Current assets"
+                if any(k in fsl for k in cfg.CURRENT_ASSET_KEYWORDS)
+                else "Non-current assets")
+
     return None
 
 
