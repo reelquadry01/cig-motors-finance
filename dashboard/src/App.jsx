@@ -39,7 +39,7 @@ export default function App() {
   const lower = path.toLowerCase()
   return (
     <SettingsProvider>
-      {lower.startsWith('/admin') ? <AdminPage />
+      {lower.startsWith('/admin') ? <ErrorBoundary><AdminPage /></ErrorBoundary>
         : lower === '/' || lower === '/index.html' ? <Landing />
         : <Dashboard_App />}
     </SettingsProvider>

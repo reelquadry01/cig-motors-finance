@@ -70,8 +70,8 @@ def dashboard_json() -> FileResponse:
 
 
 # Report export and model/industry listing
-@app.post("/api/export/{model_id}")
-async def export_model(model_id: str, request: Request, format: str = "xlsx"):
+@app.get("/api/export/{model_id}")
+async def export_model(model_id: str, format: str = "xlsx"):
     import json
     data_file = config.DASHBOARD_JSON
     if not data_file.exists():
