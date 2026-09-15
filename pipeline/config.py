@@ -2,14 +2,27 @@
 
 All company-specific values live here. The rest of the pipeline reads
 from this module so nothing is hardcoded in business logic.
+
+If data/settings.json exists (set via admin UI), the pipeline reads
+company name, currency, etc. from there as a fallback.
 """
 
+import json
 from pathlib import Path
 
+# ── Load settings from admin UI if available ──
+_settings_path = Path(__file__).resolve().parent.parent / "data" / "settings.json"
+_defaults = {}
+if _settings_path.exists():
+    try:
+        _defaults = json.loads(_settings_path.read_text(encoding="utf-8"))
+    except Exception:
+        _defaults = {}
+
 # ── Company identity ──
-COMPANY_NAME = "CIG Motors"
-CURRENCY = "NGN"
-CURRENCY_SYMBOL = "\u20a6"
+COMPANY_NAME = _defaults.get("company_name", "CIG Motors")
+CURRENCY = _defaults.get("currency_code", "NGN")
+CURRENCY_SYMBOL = _defaults.get("currency_symbol", "\u20a6")
 UNIT = "millions"
 
 # ── File defaults ──

@@ -1,0 +1,139 @@
+[
+  {
+    "id": 1789465827756,
+    "kind": "pipeline",
+    "action": "Pipeline completed",
+    "detail": "Duration: 0s",
+    "metadata": {
+      "job_id": "8b62af375b81",
+      "duration": 0
+    },
+    "timestamp": "2026-09-15T09:50:27.756849Z"
+  },
+  {
+    "id": 1789465808910,
+    "kind": "pipeline",
+    "action": "Pipeline started",
+    "detail": "File type: sample-load",
+    "metadata": {
+      "job_id": "8b62af375b81",
+      "file_type": "sample-load"
+    },
+    "timestamp": "2026-09-15T09:50:08.910306Z"
+  },
+  {
+    "id": 1789465808900,
+    "kind": "system",
+    "action": "Loaded sample dataset",
+    "detail": "4 files copied",
+    "metadata": {
+      "copied": [
+        "gl",
+        "mapping",
+        "budget",
+        "prior_period"
+      ]
+    },
+    "timestamp": "2026-09-15T09:50:08.900594Z"
+  },
+  {
+    "id": 1789465808496,
+    "kind": "auth",
+    "action": "Admin signed in",
+    "detail": "",
+    "metadata": {
+      "ip": "127.0.0.1"
+    },
+    "timestamp": "2026-09-15T09:50:08.496890Z"
+  },
+  {
+    "id": 1789465777008,
+    "kind": "auth",
+    "action": "Admin signed in",
+    "detail": "",
+    "metadata": {
+      "ip": "127.0.0.1"
+    },
+    "timestamp": "2026-09-15T09:49:37.008095Z"
+  },
+  {
+    "id": 1789465629659,
+    "kind": "auth",
+    "action": "Admin signed in",
+    "detail": "",
+    "metadata": {
+      "ip": "127.0.0.1"
+    },
+    "timestamp": "2026-09-15T09:47:09.659717Z"
+  },
+  {
+    "id": 1789465628726,
+    "kind": "pipeline",
+    "action": "Pipeline completed",
+    "detail": "Duration: 0s",
+    "metadata": {
+      "job_id": "24fe9edbf243",
+      "duration": 0
+    },
+    "timestamp": "2026-09-15T09:47:08.726570Z"
+  },
+  {
+    "id": 1789465621056,
+    "kind": "pipeline",
+    "action": "Pipeline started",
+    "detail": "File type: sample-load",
+    "metadata": {
+      "job_id": "24fe9edbf243",
+      "file_type": "sample-load"
+    },
+    "timestamp": "2026-09-15T09:47:01.056896Z"
+  },
+  {
+    "id": 1789465621031,
+    "kind": "system",
+    "action": "Loaded sample dataset",
+    "detail": "4 files copied",
+    "metadata": {
+      "copied": [
+        "gl",
+        "mapping",
+        "budget",
+        "prior_period"
+      ]
+    },
+    "timestamp": "2026-09-15T09:47:01.031619Z"
+  },
+  {
+    "id": 1789465620832,
+    "kind": "delete",
+    "action": "Cleared all current data",
+    "detail": "2 files removed: gl, mapping",
+    "metadata": {
+      "removed": [
+        "gl",
+        "mapping"
+      ]
+    },
+    "timestamp": "2026-09-15T09:47:00.832968Z"
+  },
+  {
+    "id": 1789465620531,
+    "kind": "auth",
+    "action": "Admin signed in",
+    "detail": "",
+    "metadata": {
+      "ip": "127.0.0.1"
+    },
+    "timestamp": "2026-09-15T09:47:00.531636Z"
+  },
+  {
+    "id": 1789464165134,
+    "kind": "auth",
+    "action": "Admin signed in",
+    "detail": "",
+    "metadata": {
+      "ip": "127.0.0.1"
+    },
+    "timestamp": "2026-09-15T09:22:45.134673Z"
+  }
+]

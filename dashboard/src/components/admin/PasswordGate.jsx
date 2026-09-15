@@ -2,12 +2,14 @@ import { useState } from 'react'
 import { Lock, Eye, EyeOff, Loader2 } from 'lucide-react'
 import { api, setToken } from '../../lib/api'
 import cigLogo from '../../assets/cig-gac-logo.png'
+import { useSettings } from '../../contexts/SettingsContext'
 
 export default function PasswordGate({ onAuthed }) {
   const [key, setKey] = useState('')
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
   const [reveal, setReveal] = useState(false)
+  const { settings } = useSettings()
 
   const submit = async (e) => {
     e.preventDefault()
@@ -23,13 +25,13 @@ export default function PasswordGate({ onAuthed }) {
   }
 
   return (
-    <div className="min-h-screen grid place-items-center bg-gradient-to-br from-[#1f3a5f] via-[#1a1a1a] to-[#c8102e]/70">
+    <div className="min-h-screen grid place-items-center bg-gradient-to-br from-[var(--brand-navy,#1f3a5f)] via-[#1a1a1a] to-[var(--brand,#c8102e)]/70">
       <div className="w-full max-w-md rounded-2xl bg-white/95 backdrop-blur-sm shadow-2xl border border-white/20 p-8">
         <div className="flex items-center gap-3 mb-6">
-          <img src={cigLogo} alt="CIG Motors" className="h-10 w-auto" />
+          <img src={settings.logo_url || cigLogo} alt={settings.company_name || 'Logo'} className="h-10 w-auto" />
           <div className="border-l border-neutral-300 pl-3">
             <div className="text-[10px] tracking-[0.16em] font-semibold uppercase text-neutral-500">Admin console</div>
-            <h1 className="text-xl font-extrabold text-[#1f3a5f] leading-tight">Finance Data Prep</h1>
+            <h1 className="text-xl font-extrabold text-[var(--brand-navy)] leading-tight">{settings.company_short_name || 'Finance'} Data Prep</h1>
           </div>
         </div>
         <form onSubmit={submit} className="space-y-4">

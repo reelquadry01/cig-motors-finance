@@ -29,6 +29,7 @@ import {
 } from 'lucide-react'
 import { getToken, clearToken } from '../../lib/api'
 import cigLogo from '../../assets/cig-gac-logo.png'
+import { useSettings } from '../../contexts/SettingsContext'
 import PasswordGate from './PasswordGate'
 import DataSourcesTab from './DataSourcesTab'
 import FileImportsTab from './FileImportsTab'
@@ -91,6 +92,7 @@ export default function AdminPage() {
   const [authed, setAuthed] = useState(() => !!getToken())
   const [activeKey, setActiveKey] = useState(readHash)
   const [drawerOpen, setDrawerOpen] = useState(false)
+  const { settings } = useSettings()
 
   // Keep the hash in sync so the page is bookmark-able and back-nav works.
   useEffect(() => {
@@ -123,8 +125,8 @@ export default function AdminPage() {
         >
           {drawerOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
         </button>
-        <img src={cigLogo} alt="CIG Motors" className="h-7 w-auto" />
-        <div className="text-sm font-extrabold text-[#1f3a5f] dark:text-white">Admin console</div>
+        <img src={settings.logo_url || cigLogo} alt={settings.company_name || 'Logo'} className="h-7 w-auto" />
+        <div className="text-sm font-extrabold text-[var(--brand-navy)] dark:text-white">Admin console</div>
       </div>
 
       <div className="mx-auto max-w-[1400px] px-4 lg:px-8 lg:py-6">
@@ -162,7 +164,7 @@ export default function AdminPage() {
             <div key={activeKey}>{active.render({ goto })}</div>
 
             <footer className="mt-16 pt-4 border-t border-neutral-200 dark:border-neutral-800 flex flex-wrap items-center gap-2 text-xs text-neutral-500">
-              <span>CIG Motors Co. Ltd. · Finance Data Prep</span>
+              <span>{settings.company_name} · Finance Data Prep</span>
               <span className="text-neutral-300">·</span>
               <span>v1</span>
               <div className="flex-1" />
@@ -211,10 +213,10 @@ function Sidebar({ active, onGo, drawerOpen, onCloseDrawer, onSignOut }) {
         {/* Brand */}
         <div className="p-5 border-b border-neutral-200 dark:border-neutral-800 lg:border-0">
           <a href="/" className="flex items-center gap-3">
-            <img src={cigLogo} alt="CIG Motors" className="h-9 w-auto" />
+            <img src={settings.logo_url || cigLogo} alt={settings.company_name || 'Logo'} className="h-9 w-auto" />
             <div className="border-l border-neutral-300 dark:border-neutral-700 pl-3">
               <div className="text-[10px] tracking-[0.16em] font-semibold uppercase text-neutral-500 dark:text-neutral-400">Admin</div>
-              <div className="text-sm font-extrabold text-[#1f3a5f] dark:text-white leading-tight">Finance Data Prep</div>
+              <div className="text-sm font-extrabold text-[var(--brand-navy)] dark:text-white leading-tight">Finance Data Prep</div>
             </div>
           </a>
         </div>

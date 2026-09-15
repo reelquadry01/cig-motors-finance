@@ -17,6 +17,12 @@ import { segmentPL, branchPerf, workingCapital } from './sections'
 import { CIG_LOGO_DATA_URL } from './logoAsset'
 import { ROBOTO_REGULAR_BASE64, ROBOTO_BOLD_BASE64 } from './fontAsset'
 
+// Current settings — set before export via exportPdf()
+let _s = {}
+function S() { return _s }
+const CURR = () => S().currency_symbol || '\u20a6'
+const CO_NAME = () => S().company_short_name || S().company_name || 'Company'
+
 // Register Roboto Regular + Bold with a jsPDF instance so every text() call
 // draws in a proper finance-report typeface (with Latin-Ext coverage: ₦, ×,
 // —, ·). Called once per document at the start of exportPdf().
@@ -53,7 +59,7 @@ function bIncome(data) {
   const p = data.pl || {}
   const R = (label, val, o = {}) => ({ cells: [label, t(val)], neg: val < 0 ? [1] : [], ...o })
   return {
-    title: 'Income statement', columns: ['', "₦'000"],
+    title: 'Income statement', columns: ['', `${CURR()}'000`],
     rows: [
       R('Revenue', p.total_revenue),
       R('Cost of sales', p.total_cogs),
@@ -88,7 +94,7 @@ function bBalance(data) {
   rows.push({ cells: ['Total liabilities', t(bs.total_liabilities)], bold: true, top: true })
   sec('Total equity', bs.equity, bs.total_equity)
   rows.push({ cells: ['Total liabilities & equity', t((bs.total_liabilities || 0) + (bs.total_equity || 0))], bold: true, top: true, dbl: true })
-  return { title: 'Balance sheet', columns: ['', "₦'000"], rows }
+  return { title: 'Balance sheet', columns: ['', `${CURR()}'000`], rows }
 }
 
 function bCash(data) {
@@ -102,7 +108,7 @@ function bCash(data) {
   sec('Net cash from investing activities', cf.investing)
   sec('Net cash from financing activities', cf.financing)
   rows.push({ cells: ['Net change in cash', t(cf.net_change)], bold: true, top: true, dbl: true, neg: (cf.net_change || 0) < 0 ? [1] : [] })
-  return { title: 'Cash flow', columns: ['', "₦'000"], rows }
+  return { title: 'Cash flow', columns: ['', `${CURR()}'000`], rows }
 }
 
 function bSegments(data) {
@@ -122,7 +128,7 @@ function bCosts(data) {
   rows.push({ cells: ['Capital expenditure — additions to PP&E', '', ''], bold: true })
   ;(data.capex_breakdown || []).forEach(i => rows.push({ cells: [`   ${i.label}`, t(i.value), pct(i.share)] }))
   rows.push({ cells: ['Total capital expenditure', t(data.capex), '100%'], bold: true, top: true, dbl: true })
-  return { title: 'Costs & expenditure', columns: ['', "₦'000", 'Share'], rows }
+  return { title: 'Costs & expenditure', columns: ['', `${CURR()}'000`, 'Share'], rows }
 }
 
 function bWorkingCapital(data) {
@@ -203,7 +209,7 @@ function pageFooter(doc, W, H) {
   doc.line(PAGE_MARGIN, H - FOOTER_H + 4, W - PAGE_MARGIN, H - FOOTER_H + 4)
   doc.setFont(FONT_FAMILY, 'normal'); doc.setFontSize(7.5); doc.setTextColor(...MUTED)
   doc.text('Confidential — for management use', PAGE_MARGIN, H - 14)
-  doc.text('CIG Motors — Finance', W - PAGE_MARGIN, H - 14, { align: 'right' })
+  doc.text(`${CO_NAME()} — Finance`, W - PAGE_MARGIN, H - 14, { align: 'right' })
 }
 
 /* ─── Renderers ─── */
@@ -232,8 +238,8 @@ async function renderCover(doc, data, selected) {
   doc.setFontSize(10); doc.setTextColor(...MUTED); doc.setFont(FONT_FAMILY, 'bold')
   const meta = [
     ['Reporting period', data.period || '—'],
-    ['Currency', "Nigerian Naira (₦)"],
-    ['Presentation', "₦'000 (thousands)"],
+    ['Currency', `${S().currency_name || 'Currency'} (${CURR()})`],
+    ['Presentation', `${CURR()}'000 (thousands)`],
     ['Prepared', new Date().toISOString().slice(0, 10)],
   ]
   meta.forEach((r, i) => {
@@ -259,7 +265,7 @@ async function renderTable(doc, data, id, buildCommentary) {
   const W = doc.internal.pageSize.getWidth()
   const H = doc.internal.pageSize.getHeight()
   pageIdentity(doc, data.period)
-  sectionTitle(doc, b.title, `CIG Motors · ${data.period} · figures in ₦'000`)
+  sectionTitle(doc, b.title, `${CO_NAME()} · ${data.period} · figures in ${CURR()}'000`)
   const autoTable = (await import('jspdf-autotable')).default
   autoTable(doc, {
     startY: 82,
@@ -297,19 +303,19 @@ async function renderCommentary(doc, data, buildCommentary) {
   const W = doc.internal.pageSize.getWidth()
   const H = doc.internal.pageSize.getHeight()
   pageIdentity(doc, data.period)
-  sectionTitle(doc, 'Commentary', `CIG Motors · ${data.period}`)
+  sectionTitle(doc, 'Commentary', `${CO_NAME()} · ${data.period}`)
   let y = 90
   const maxW = W - PAGE_MARGIN * 2
   const sections = buildCommentary ? buildCommentary(data) : []
   sections.forEach(sec => {
-    if (y > H - FOOTER_H - 40) { doc.addPage('portrait', 'a4'); pageIdentity(doc, data.period); sectionTitle(doc, 'Commentary (cont.)', `CIG Motors · ${data.period}`); y = 90 }
+    if (y > H - FOOTER_H - 40) { doc.addPage('portrait', 'a4'); pageIdentity(doc, data.period); sectionTitle(doc, 'Commentary (cont.)', `${CO_NAME()} · ${data.period}`); y = 90 }
     doc.setFont(FONT_FAMILY, 'bold'); doc.setFontSize(11); doc.setTextColor(...BRAND)
     doc.text(sec.title, PAGE_MARGIN, y); y += 16
     doc.setFont(FONT_FAMILY, 'normal'); doc.setFontSize(10); doc.setTextColor(...INK)
     sec.paras.forEach(p => {
       const lines = doc.splitTextToSize(p, maxW)
       const needed = lines.length * 13 + 6
-      if (y + needed > H - FOOTER_H - 10) { doc.addPage('portrait', 'a4'); pageIdentity(doc, data.period); sectionTitle(doc, 'Commentary (cont.)', `CIG Motors · ${data.period}`); y = 90 }
+      if (y + needed > H - FOOTER_H - 10) { doc.addPage('portrait', 'a4'); pageIdentity(doc, data.period); sectionTitle(doc, 'Commentary (cont.)', `${CO_NAME()} · ${data.period}`); y = 90 }
       doc.text(lines, PAGE_MARGIN, y); y += needed
     })
     y += 8
@@ -328,18 +334,18 @@ function addPageNumbers(doc) {
   }
 }
 
-export async function exportPdf(ids, data, buildCommentary) {
+export async function exportPdf(ids, data, buildCommentary, settings = {}) {
+  _s = settings
   const { jsPDF } = await import('jspdf')
   const doc = new jsPDF({ unit: 'pt', format: 'a4', orientation: 'portrait' })
-  registerRoboto(doc)   // Roboto is now the base font — supports ₦, ×, —
+  registerRoboto(doc)
   const selected = ids.filter(id => TABLE_BUILDERS[id] || id === 'commentary')
-  // Cover
-  await renderCover(doc, data, selected)
-  // Sections
+  await renderCover(doc, data, selected, settings)
   for (const id of selected) {
-    if (id === 'commentary') await renderCommentary(doc, data, buildCommentary)
-    else await renderTable(doc, data, id)
+    if (id === 'commentary') await renderCommentary(doc, data, buildCommentary, settings)
+    else await renderTable(doc, data, id, settings)
   }
   addPageNumbers(doc)
-  doc.save(`CIG_Financials_${(data.period || '').replace(/[^\w-]/g, '_')}.pdf`)
+  const coName = (settings.company_short_name || 'Financials').replace(/[^a-zA-Z0-9]/g, '_')
+  doc.save(`${coName}_Financials_${(data.period || '').replace(/[^\w-]/g, '_')}.pdf`)
 }

@@ -37,6 +37,13 @@
 import { workingCapital } from './sections'
 import { CIG_LOGO_BASE64, CIG_LOGO_WIDTH, CIG_LOGO_HEIGHT } from './logoAsset'
 
+// Current settings — set before export via buildWorkbook()
+let _s = {}
+function S() { return _s }
+const CURR = () => S().currency_symbol || '\u20a6'
+const CO_NAME = () => (S().company_name || 'Company').toUpperCase()
+const CO_NAME_TITLE = () => S().company_short_name || S().company_name || 'Company'
+
 const FONT = 'Aptos Narrow'
 const NUMFMT = "#,##0,;(#,##0,)"   // stores full ₦, displays ₦'000
 const PCTFMT = '0.0%'
@@ -177,7 +184,7 @@ async function newWorkbook() {
   const mod = await import('exceljs')
   const ExcelJS = mod.default || mod
   const wb = new ExcelJS.Workbook()
-  wb.creator = 'CIG Motors — Finance'
+  wb.creator = `${CO_NAME_TITLE()} — Finance`
   wb._cigLogoId = null   // set once the logo is fetched, reused on every sheet
   return wb
 }
@@ -223,8 +230,8 @@ const base = ws => {
     margins: { left: 0.4, right: 0.4, top: 0.6, bottom: 0.6, header: 0.3, footer: 0.3 },
   })
   ws.headerFooter = {
-    oddHeader: '&L&"Aptos Narrow,Bold"&K1A1A1ACIG MOTORS  &"Aptos Narrow,Regular"&K7A736C|  Management Report&R&"Aptos Narrow,Regular"&K7A736C&D',
-    oddFooter: '&L&"Aptos Narrow,Regular"&K7A736CConfidential — for management use&C&P of &N&RCIG Motors — Finance',
+    oddHeader: `&L&"Aptos Narrow,Bold"&K1A1A1A${CO_NAME()}  &"Aptos Narrow,Regular"&K7A736C|  Management Report&R&"Aptos Narrow,Regular"&K7A736C&D`,
+    oddFooter: `&L&"Aptos Narrow,Regular"&K7A736CConfidential — for management use&C&P of &N&R${CO_NAME_TITLE()} — Finance`,
   }
 }
 // Firm identity block placed at the top of every content sheet. The CIG / GAC
@@ -236,7 +243,7 @@ function pageHeader(ws, sheetTitle, sub, period) {
   // Row 1: company name (formula reference to Setup unless this IS Setup)
   const r1 = ws.addRow([null])
   r1.getCell(1).value = isSetup
-    ? 'CIG MOTORS CO LTD'
+    ? CO_NAME()
     : { formula: `${q(SETUP_TAB)}!$B$2` }
   r1.getCell(1).font = { name: FONT, bold: true, size: 10, color: { argb: BRAND } }
   r1.getCell(1).alignment = { vertical: 'middle' }
@@ -476,7 +483,7 @@ function sheetNotes(ws, data, tb, ref) {
     const accounts = tb.rows.filter(r => r.line === line && r.group === group)
     ws.addRow([`Note ${n} — ${line}`]).getCell(1).font = { name: FONT, bold: true, size: 11, color: { argb: BRAND } }
     ws.addRow([group]).getCell(1).font = { name: FONT, italic: true, size: 8.5, color: { argb: MUTED } }
-    headerRow(ws, ['GL code', 'Account', "₦'000", "Prior ₦'000"], 3)
+    headerRow(ws, ['GL code', 'Account', `${CURR()}'000`, `Prior ${CURR()}'000`], 3)
     const first = ws.rowCount + 1
     accounts.forEach(a => {
       const r = ws.addRow([a.code, a.name]); r.font = { name: FONT, size: 10 }
@@ -643,7 +650,7 @@ function sheetIncome(ws, data, ctx) {
 function sheetBalance(ws, data, ctx) {
   const { notes } = ctx
   base(ws); title(ws, 'Balance sheet', `${UNITS} · ${data.period}`, data.period); backLink(ws)
-  const h = headerRow(ws, ['', 'Note', "₦'000"], 2)
+  const h = headerRow(ws, ['', 'Note', `${CURR()}'000`], 2)
   const R = {}
   const section = (heading, group, key) => {
     ws.addRow([heading]).getCell(1).font = { name: FONT, bold: true, size: 9, color: { argb: MUTED } }
@@ -760,7 +767,7 @@ function buildCfSumifs(item, ref, tb) {
 function sheetCash(ws, data, ctx) {
   const { ref, tb } = ctx
   base(ws); title(ws, 'Cash flow', `${UNITS} · ${data.period} · IAS 7 indirect method`, data.period); backLink(ws)
-  const h = headerRow(ws, ['', "₦'000"], 2)
+  const h = headerRow(ws, ['', `${CURR()}'000`], 2)
   const cf = data.cf || {}
   const writeItems = (items, bold = false) => {
     const first = ws.rowCount + 1
@@ -826,7 +833,7 @@ function sheetManagementPL(ws, data, ctx) {
   const { ref, tb, refs } = ctx
   const isRef = refs.income
   base(ws); title(ws, 'Management P&L', `${UNITS} · ${data.period} · segmented for decision-making`, data.period); backLink(ws)
-  const h = headerRow(ws, ['', "₦'000", '% of revenue'])
+  const h = headerRow(ws, ['', `${CURR()}'000`, '% of revenue'])
   const R = {}
   const segments = [...new Set(tb.rows.filter(r => ['Revenue', 'Cost of sales'].includes(r.group)).map(r => r.segment))].filter(Boolean)
 
@@ -932,7 +939,7 @@ function sheetCosts(ws, data, ctx) {
   base(ws); title(ws, 'Costs & expenditure', `${UNITS} · ${data.period}`, data.period); backLink(ws)
   const block = (heading, rows, totalLabel, grp) => {
     ws.addRow([heading]).getCell(1).font = { name: FONT, bold: true, size: 10, color: { argb: BRAND } }
-    headerRow(ws, ['GL code', 'Account', "₦'000", 'Share'], 3)
+    headerRow(ws, ['GL code', 'Account', `${CURR()}'000`, 'Share'], 3)
     const first = ws.rowCount + 1
     rows.forEach(a => {
       const r = ws.addRow([a.code, a.name]); r.font = { name: FONT, size: 10 }
@@ -1261,7 +1268,7 @@ function sheetDashboard(ws, data, ctx) {
   const { refs } = ctx
   const inc = refs.income, bal = refs.balancesheet, cf = refs.cashflow
   base(ws)
-  title(ws, `Executive Dashboard`, `CIG Motors · ${data.period}`, data.period)
+  title(ws, `Executive Dashboard`, `${CO_NAME_TITLE()} · ${data.period}`, data.period)
   backLink(ws)
 
   // Financial KPI section
@@ -1318,7 +1325,7 @@ function sheetDashboard(ws, data, ctx) {
 
   ws.addRow([])
   ws.addRow(['Balance sheet snapshot']).getCell(1).font = { name: FONT, bold: true, size: 11, color: { argb: NAVY } }
-  headerRow(ws, ['', "₦'000"])
+  headerRow(ws, ['', `${CURR()}'000`])
   if (bal) {
     const bsCell = key => `${q(BS_TAB)}!$C$${bal[`${key}Row`]}`
     const bsLine = (label, key) => {
@@ -1341,10 +1348,10 @@ function sheetSetup(ws, data) {
   // remain stable across pipeline revisions.
   ws.addRow(['Field', 'Value']).eachCell(c => styles.tblHeader(c, { align: 'left' }))
   const rows = [
-    ['Company name', 'CIG MOTORS CO LTD'],
+    ['Company name', CO_NAME()],
     ['Reporting period', data.period || ''],
     ['Currency', 'Nigerian Naira (₦)'],
-    ['Presentation', "₦'000 (thousands)"],
+    ['Presentation', `${CURR()}'000 (thousands)`],
     ['Prepared by', 'Finance'],
     ['Reviewed by', ''],
     ['Prepared on', new Date().toISOString().slice(0, 10)],
@@ -1394,7 +1401,7 @@ function coverSheet(ws, data, tabs) {
   const per = ws.addRow([null]); per.getCell(1).value = { formula: `${q(SETUP_TAB)}!$B$3` }
   per.getCell(1).font = { name: FONT, size: 14, color: { argb: INK } }
   ws.addRow([])
-  ;[['Currency', 'Nigerian Naira (₦)'], ['Presentation', "₦'000 (thousands)"],
+  ;[['Currency', `${S().currency_name || 'Currency'} (${CURR()})`], ['Presentation', `${CURR()}'000 (thousands)`],
   ['Basis of preparation', 'Extracted from the general ledger. The Trial Balance is the source; the Notes roll up from it and the statements roll up from the Notes.'],
   ['Formula convention', 'Direct cell references throughout; SUMIFS for account roll-ups on the Trial Balance. Compatible with every version of Excel that supports SUMIFS (Excel 2007 onward).'],
   ['Prepared', new Date().toISOString().slice(0, 10)]]
@@ -1452,7 +1459,8 @@ async function download(wb, name) {
   setTimeout(() => URL.revokeObjectURL(url), 1000)
 }
 
-export async function buildWorkbook(ids, data, buildCommentary, { withSummary = true, withCover = true } = {}) {
+export async function buildWorkbook(ids, data, buildCommentary, { withSummary = true, withCover = true, settings = {} } = {}) {
+  _s = settings
   const wb = await newWorkbook()
   ensureLogo(wb)   // registers the CIG/GAC lockup once, reused on every sheet's identity block
   // Preserve catalog order (skill spec) regardless of selection order
@@ -1497,11 +1505,12 @@ export async function buildWorkbook(ids, data, buildCommentary, { withSummary = 
 
 export async function exportWorkbook(ids, data, buildCommentary, opts = {}) {
   const wb = await buildWorkbook(ids, data, buildCommentary, opts)
-  await download(wb, `CIG_Financials_${(data.period || '').replace(/[^\w-]/g, '_')}.xlsx`)
+  const coName = (S().company_short_name || 'Financials').replace(/[^a-zA-Z0-9]/g, '_')
+  await download(wb, `${coName}_Financials_${(data.period || '').replace(/[^\w-]/g, '_')}.xlsx`)
 }
 
-export async function exportStatement(kind, data, buildCommentary) {
-  await exportWorkbook([kind], data, buildCommentary, { withSummary: false, withCover: false })
+export async function exportStatement(kind, data, buildCommentary, settings = {}) {
+  await exportWorkbook([kind], data, buildCommentary, { withSummary: false, withCover: false, settings })
 }
 
 export const REPORT_CATALOG = CATALOG.map(({ id, label }) => ({ id, label }))

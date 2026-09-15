@@ -19,3 +19,7 @@ def list_models(industry_code: str = None) -> list[dict]:
     else:
         models = list(MODEL_MAP.values())
     return [{"id": m.id, "name": m.name, "description": m.description} for m in models]
+
+
+# Register all models by importing their modules
+from . import three_statement, variance, forecast, management, cash_liquidity, audit, ratio_analysis, valuation

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Sun, Moon, Download } from 'lucide-react'
 import ExportCenter from './ExportCenter'
 import cigLogo from '../assets/cig-gac-logo.png'
+import { useSettings } from '../contexts/SettingsContext'
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 
@@ -13,6 +14,7 @@ function fmtMonth(key) {
 
 export default function Header({ data, periodFilter, onPeriodChange, theme, onToggleTheme }) {
   const [exportOpen, setExportOpen] = useState(false)
+  const { settings } = useSettings()
   const mode = periodFilter?.mode || 'latest'
   const months = data?.available_periods?.months || []
   const years = data?.available_periods?.years || []
@@ -41,14 +43,16 @@ export default function Header({ data, periodFilter, onPeriodChange, theme, onTo
     <div>
       <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'space-between', gap: 20 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
-          <img
-            src={cigLogo}
-            alt="CIG Motors Co. Ltd. / GAC Motor"
-            style={{ height: 52, width: 'auto', flexShrink: 0 }}
-          />
+          <a href="/dashboard" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+            <img
+              src={settings.logo_url || cigLogo}
+              alt={settings.company_name || 'Company Logo'}
+              style={{ height: 52, width: 'auto', flexShrink: 0 }}
+            />
+          </a>
           <div style={{ borderLeft: '1px solid var(--rule)', paddingLeft: 20 }}>
             <div style={{ fontSize: 10.5, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.14em', color: 'var(--text-muted)', marginBottom: 4 }}>
-              CIG Motors Co. Ltd.  ·  Monthly management report
+              {settings.company_name}  ·  {settings.tagline || 'Monthly management report'}
             </div>
             <h1 style={{ fontSize: 28, fontWeight: 800, letterSpacing: '-0.02em', margin: 0, lineHeight: 1.15, color: 'var(--brand-navy, #1f3a5f)' }}>
               Finance Dashboard
@@ -140,7 +144,7 @@ export default function Header({ data, periodFilter, onPeriodChange, theme, onTo
         <span>·</span>
         <span>Figures tie to the trial balance</span>
         <span>·</span>
-        <span>Figures in ₦ thousands (₦'000)</span>
+        <span>Figures in {settings.currency_symbol} thousands ({settings.currency_symbol}'000)</span>
         <span style={{ marginLeft: 'auto', fontVariantNumeric: 'tabular-nums', color: 'var(--text-muted)' }}>
           {data.data_sources?.gl_transactions?.toLocaleString()} txns · {data.data_sources?.gl_accounts} accounts
         </span>

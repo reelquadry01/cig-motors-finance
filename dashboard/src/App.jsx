@@ -1,5 +1,7 @@
 import { useState, useEffect, Component } from 'react'
+import { SettingsProvider } from './contexts/SettingsContext'
 import AdminPage from './components/admin/AdminPage'
+import Landing from './components/Landing'
 import DashboardSkeleton from './components/Skeletons'
 import Header from './components/Header'
 import TabNav from './components/TabNav'
@@ -33,11 +35,15 @@ class ErrorBoundary extends Component {
 }
 
 export default function App() {
-  // Trivial client-side routing — /admin gets the admin console, everything
-  // else gets the dashboard. Case-insensitive so /ADMIN, /Admin all work.
   const path = typeof window !== 'undefined' ? window.location.pathname : '/'
-  if (path.toLowerCase().startsWith('/admin')) return <AdminPage />
-  return <Dashboard_App />
+  const lower = path.toLowerCase()
+  return (
+    <SettingsProvider>
+      {lower.startsWith('/admin') ? <AdminPage />
+        : lower === '/' || lower === '/index.html' ? <Landing />
+        : <Dashboard_App />}
+    </SettingsProvider>
+  )
 }
 
 function Dashboard_App() {
