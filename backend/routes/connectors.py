@@ -84,7 +84,7 @@ def _enrich_connector(entry: dict) -> dict:
 # ── Routes ──────────────────────────────────────────────────────────
 
 
-@router.get("/types/{connector_type}/schema", dependencies=[Depends(require_auth)])
+@router.get("/types/{connector_type}/schema")
 def get_connector_type_schema(connector_type: str) -> dict:
     """Return the config schema (editable fields) for a connector type."""
     cls = get_connector_class(connector_type)
@@ -93,7 +93,7 @@ def get_connector_type_schema(connector_type: str) -> dict:
     return {"type": connector_type, "schema": cls.CONFIG_SCHEMA}
 
 
-@router.get("/types", dependencies=[Depends(require_auth)])
+@router.get("/types")
 def get_connector_types() -> dict:
     """List all available connector types with their config schemas."""
     types = list_connector_types()
