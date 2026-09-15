@@ -11,6 +11,7 @@ python-multipart>=0.0.9
 cryptography>=42.0
 watchdog>=4.0
 requests>=2.31
+filelock>=3.13
 
 # Optional: CLI experience
 rich>=13.0
