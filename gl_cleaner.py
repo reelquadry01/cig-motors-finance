@@ -262,7 +262,9 @@ def resolve_map(gl_path: str, gl_sheet: str, map_file: str, map_sheet: str):
         external = False
     source_path = Path(chosen) if chosen else Path(gl_path)
 
-    wb = openpyxl.load_workbook(source_path, data_only=True)
+    # read_only=True streams cells lazily — massively smaller memory footprint
+    # on ~8k-row workbooks. Essential on the 512 MB Render free tier.
+    wb = openpyxl.load_workbook(source_path, data_only=True, read_only=True)
     if external:
         # The user pointed us at a chart file on purpose: trust its first
         # non-ledger sheet if nothing better matches.
@@ -272,6 +274,7 @@ def resolve_map(gl_path: str, gl_sheet: str, map_file: str, map_sheet: str):
         sheet = _pick_map_sheet(wb, map_sheet, exclude=(gl_sheet,), allow_first=False)
 
     mapping = load_agreed_map_from_ws(wb[sheet]) if sheet else {}
+    wb.close()
     origin = "external chart" if external else "GL workbook"
     where = f"sheet '{sheet}' in {source_path.name}" if sheet else f"none found in {source_path.name}"
     info = f"{len(mapping)} codes from {where} ({origin})"
@@ -291,7 +294,10 @@ def parse_gl(path: str, gl_sheet: str, agreed: dict):
 
     `agreed` is the {code: description} chart resolved by resolve_map().
     """
-    wb = openpyxl.load_workbook(path, data_only=True)
+    # Streaming mode — the biggest single memory saving on a Sage-style GL.
+    # Without this, an 8k-row workbook can spike well over 500 MB of resident
+    # memory during parse and OOM-kill the process on Render's free tier.
+    wb = openpyxl.load_workbook(path, data_only=True, read_only=True)
     if gl_sheet not in wb.sheetnames:
         raise KeyError(f"GL sheet '{gl_sheet}' not found. Available: {wb.sheetnames}")
 
@@ -428,6 +434,7 @@ def parse_gl(path: str, gl_sheet: str, agreed: dict):
                 "Detail": f"computed {computed_closing:.2f} vs source {src_ending_net:.2f}",
             })
 
+    wb.close()   # release the streaming workbook — matters on 512 MB VMs
     return transactions, summary, exceptions
 
 

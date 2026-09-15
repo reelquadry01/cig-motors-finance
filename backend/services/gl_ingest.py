@@ -93,6 +93,14 @@ def clean_raw_gl(raw_path: Path, out_path: Path | None = None) -> Path:
 
     out_path = out_path or raw_path.with_name(raw_path.stem + "__cleaned.xlsx")
     C.write_outputs(transactions, summary, exceptions, out_path)
+
+    # Release the big intermediate objects before returning — matters on the
+    # 512 MB Render free tier where a 8k-row GL can push resident memory near
+    # the ceiling. Without this, the differ's subsequent pd.read_excel of the
+    # cleaned file has been observed to OOM-kill the process.
+    import gc
+    del transactions, summary, exceptions, agreed
+    gc.collect()
     return out_path
 
 
