@@ -217,11 +217,23 @@ def run_pipeline(
     print("Generating commentary...")
     commentary = generate_commentary(pl, bs, cf, ratios, monthly)
 
+    # Load industry from settings
+    settings_file = Path(__file__).parent.parent / "data" / "settings.json"
+    if settings_file.exists():
+        try:
+            settings = json.loads(settings_file.read_text("utf-8"))
+            industry = settings.get("industry", "automotive")
+        except:
+            industry = "automotive"
+    else:
+        industry = "automotive"
+
     dashboard_data = {
         "period": period_label,
         "company": cfg.COMPANY_NAME,
         "currency": cfg.CURRENCY,
         "unit": cfg.UNIT,
+        "industry": industry,
         "generated_at": datetime.now().isoformat(),
         "data_sources": {
             "gl_transactions": len(gl),
