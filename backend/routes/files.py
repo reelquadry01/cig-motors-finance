@@ -13,6 +13,7 @@ from pydantic import BaseModel
 
 from ..auth import require_auth
 from ..services import file_manager, pipeline_runner
+from ..services.activity_log import log_event
 from .. import config
 
 
@@ -110,10 +111,12 @@ def restore(file_type: str, body: RestoreRequest) -> dict:
     if not body.filename.endswith(canonical):
         raise HTTPException(status_code=400, detail="Backup name doesn't match this file type")
 
-    file_manager.backup_current(file_type)
+    backup_path = file_manager.backup_current(file_type)
     dest = file_manager.current_path(file_type)
     dest.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(src, dest)
+
+    log_event("restore", f"Backup restored: {file_type}", f"Restored from {body.filename}", {"file_type": file_type, "backup": body.filename})
 
     job = pipeline_runner.start(file_type)
     return {"status": "restored", "restored": body.filename, "jobId": job.id}
@@ -134,4 +137,7 @@ def delete_current(file_type: str) -> dict:
 
     file_manager.backup_current(file_type)
     path.unlink()
+
+    log_event("delete", f"File deleted: {file_type}", "Backed up before deletion", {"file_type": file_type})
+
     return {"status": "deleted", "fileType": file_type}

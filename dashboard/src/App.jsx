@@ -1,5 +1,5 @@
 import { useState, useEffect, Component } from 'react'
-import AdminPage from './components/AdminPage'
+import AdminPage from './components/admin/AdminPage'
 import DashboardSkeleton from './components/Skeletons'
 import Header from './components/Header'
 import TabNav from './components/TabNav'

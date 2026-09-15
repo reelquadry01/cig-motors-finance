@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Optional
 
 from .. import config
+from .activity_log import log_event
 
 
 # Step names in the order the pipeline prints them. We tail the print
@@ -82,6 +83,9 @@ def _run(job: Job) -> None:
     """Worker thread. Runs the pipeline; captures failures onto the Job."""
     job.status = "running"
     job.started = time.time()
+
+    log_event("pipeline", "Pipeline started", f"File type: {job.file_type}", {"job_id": job.id, "file_type": job.file_type})
+
     try:
         # Import lazily so a broken pipeline doesn't crash the FastAPI import.
         from pipeline.main import run_pipeline
@@ -103,6 +107,10 @@ def _run(job: Job) -> None:
         for name in STEPS:
             _mark(name, job, "done")
         job.status = "completed"
+
+        duration = round(job.ended - job.started, 2) if job.ended else 0
+        log_event("pipeline", "Pipeline completed", f"Duration: {duration}s", {"job_id": job.id, "duration": duration})
+
     except Exception as exc:
         job.error = f"{type(exc).__name__}: {exc}\n\n{traceback.format_exc(limit=6)}"
         # Mark the currently-running step (if any) as failed
@@ -111,6 +119,9 @@ def _run(job: Job) -> None:
                 _mark(s["name"], job, "failed")
                 break
         job.status = "failed"
+
+        log_event("pipeline", "Pipeline failed", f"Error: {job.error}", {"job_id": job.id, "error": job.error})
+
     finally:
         job.ended = time.time()
 

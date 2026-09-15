@@ -7,6 +7,7 @@ from pydantic import BaseModel
 
 from ..auth import require_auth
 from ..services import file_manager, differ, pipeline_runner
+from ..services.activity_log import log_event
 from .. import config
 
 
@@ -55,6 +56,7 @@ async def upload(file: UploadFile = File(...), type: str = Form(...)) -> dict:
         raise HTTPException(status_code=400, detail=diff_result["error"])
 
     PENDING[upload_id] = (type, path)
+    log_event("upload", f"File uploaded: {type}", f"{file.filename} ({len(body)} bytes)", {"file_type": type, "upload_id": upload_id})
     return {
         "status": "diff_ready",
         "uploadId": upload_id,
@@ -88,6 +90,8 @@ def confirm_upload(body: ConfirmRequest) -> dict:
     file_manager.promote(body.uploadId, file_type, merged)
     PENDING.pop(body.uploadId, None)
 
+    log_event("upload", f"File merged: {file_type}", f"Action: {body.action}", {"file_type": file_type, "action": body.action})
+
     # Kick off pipeline in a worker thread
     job = pipeline_runner.start(file_type)
     return {"status": "pipeline_running", "jobId": job.id}
@@ -109,5 +113,6 @@ def pipeline_rerun() -> dict:
     failed and you want to try again without re-uploading. The job is
     labelled 'manual' so it's obvious in the activity log.
     """
+    log_event("pipeline", "Pipeline re-run triggered", "Manual re-run from admin", {"trigger": "manual"})
     job = pipeline_runner.start("manual")
     return {"status": "pipeline_running", "jobId": job.id}
