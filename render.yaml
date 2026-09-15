@@ -51,6 +51,8 @@ services:
         value: "50"
       - key: PIPELINE_TIMEOUT_S
         value: "60"
+      - key: CRED_ENCRYPTION_KEY
+        sync: false
 
     # NOTE: persistent disks require the `starter` plan or higher. On the free
     # tier the data/ directory is ephemeral — uploads and dashboard_data.json
