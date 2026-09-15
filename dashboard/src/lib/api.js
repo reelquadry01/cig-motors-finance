@@ -83,4 +83,25 @@ export const api = {
       body: JSON.stringify({ filename }),
     }),
   deleteFile: (fileType) => _fetch(`/api/file/${fileType}`, { method: 'DELETE' }),
+
+  // Whole-dataset actions
+  clearAll: () => _fetch('/api/data/clear-all', { method: 'POST' }),
+  loadSample: () => _fetch('/api/data/load-sample', { method: 'POST' }),
+
+  // Download the currently-loaded file for a type as an .xlsx blob.
+  // Uses fetch + Blob so the Authorization header rides along — a plain
+  // <a href> would not, since browsers strip custom headers on navigation.
+  downloadFile: async (fileType) => {
+    const res = await _fetch(`/api/file/${fileType}/download`)
+    // _fetch returned the raw Response (non-JSON path). Convert to blob.
+    const blob = await res.blob()
+    const cd = res.headers.get('Content-Disposition') || ''
+    const match = cd.match(/filename="?([^"]+)"?/i)
+    const filename = match?.[1] || `${fileType}.xlsx`
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url; a.download = filename
+    document.body.appendChild(a); a.click(); a.remove()
+    setTimeout(() => URL.revokeObjectURL(url), 1000)
+  },
 }

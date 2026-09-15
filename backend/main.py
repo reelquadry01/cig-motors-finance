@@ -22,6 +22,7 @@ from .routes import upload as upload_routes
 from .routes import files as files_routes
 from .routes import connectors as connectors_routes
 from .routes import activity as activity_routes
+from .routes import dataset as dataset_routes
 
 
 app = FastAPI(
@@ -46,6 +47,7 @@ app.include_router(upload_routes.router)
 app.include_router(files_routes.router)
 app.include_router(connectors_routes.router)
 app.include_router(activity_routes.router)
+app.include_router(dataset_routes.router)
 
 
 @app.get("/api/health")

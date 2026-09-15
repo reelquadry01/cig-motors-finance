@@ -84,6 +84,7 @@ function UploadCard({ fileType, info, onDiffReady, onError, onMenu }) {
         {menuOpen && (
           <div className="absolute right-0 mt-1 w-48 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 shadow-lg py-1 z-20 animate-in fade-in slide-in-from-top-1 duration-150">
             <MenuItem icon={TableIcon} label="Preview current" disabled={!hasFile} onClick={() => openAction('preview')} />
+            <MenuItem icon={Download} label="Download current" disabled={!hasFile} onClick={() => openAction('download')} />
             <MenuItem icon={History} label="Restore backup" onClick={() => openAction('backups')} />
             <div className="my-1 h-px bg-neutral-100 dark:bg-neutral-800" />
             <MenuItem icon={Trash2} label="Remove current" danger disabled={!hasFile} onClick={() => openAction('delete')} />
@@ -307,7 +308,19 @@ export default function FileImportsTab() {
             <UploadCard key={t} fileType={t} info={status?.files?.[t]}
               onDiffReady={(payload) => setActivePrompt(payload)}
               onError={(msg) => pushActivity('error', `Upload failed — ${t}`, msg)}
-              onMenu={(mode) => setOverlay({ fileType: t, mode })}
+              onMenu={async (mode) => {
+                if (mode === 'download') {
+                  // No modal — just trigger the download.
+                  try {
+                    await api.downloadFile(t)
+                    pushActivity('info', `${labelOf(t)} downloaded`)
+                  } catch (e) {
+                    pushActivity('error', `${labelOf(t)} download failed`, e.message)
+                  }
+                  return
+                }
+                setOverlay({ fileType: t, mode })
+              }}
             />
           ))}
         </div>

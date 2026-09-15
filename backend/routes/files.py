@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
 from ..auth import require_auth
@@ -60,6 +61,31 @@ def preview(file_type: str, limit: int = Query(20, ge=1, le=200)) -> dict:
         "shown": len(rows),
         "empty": total == 0,
     }
+
+
+# ── Download current ───────────────────────────────────────────────────
+@router.get("/{file_type}/download", dependencies=[Depends(require_auth)])
+def download_current(file_type: str) -> FileResponse:
+    """Serve the current file as an .xlsx download.
+
+    Uses a friendly download name (e.g. `general_ledger.xlsx`) rather than
+    the internal canonical filename, since that's what the person clicking
+    save-as will see.
+    """
+    if file_type not in config.FILE_TYPES:
+        raise HTTPException(status_code=400, detail=f"Unknown file type '{file_type}'")
+    spec = config.FILE_TYPES[file_type]
+    path = file_manager.current_path(file_type)
+    if not path.exists():
+        raise HTTPException(status_code=404, detail=f"No current {spec['label']} file")
+    # Friendly filename: label slugified, .xlsx suffix
+    label_slug = spec["label"].lower().replace(" ", "_").replace("(", "").replace(")", "")
+    friendly = f"{label_slug}.xlsx"
+    return FileResponse(
+        path,
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        filename=friendly,
+    )
 
 
 # ── Backups ─────────────────────────────────────────────────────────────
