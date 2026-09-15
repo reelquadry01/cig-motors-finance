@@ -18,7 +18,11 @@ const TYPE_ACCENT = {
   account_summary: 'from-amber-500/10 to-amber-500/0 text-amber-600',
   prior_period: 'from-violet-500/10 to-violet-500/0 text-violet-600',
 }
-const TYPE_ORDER = ['gl', 'mapping', 'budget', 'account_summary', 'prior_period']
+// Uploadable file types shown as cards. Account Summary (opening balances)
+// is deliberately excluded — it's derived automatically from the GL by the
+// cleaner, so a separate upload just confused users. The GL card carries an
+// "Auto-generates Account Summary" note to make that explicit.
+const TYPE_ORDER = ['gl', 'mapping', 'budget', 'prior_period']
 const labelOf = t => ({
   gl: 'GL data', mapping: 'Statement mapping', budget: 'Budget',
   account_summary: 'Account summary', prior_period: 'Prior period',
@@ -119,6 +123,14 @@ function UploadCard({ fileType, info, onDiffReady, onError, onMenu }) {
         <a href={api.templateUrl(fileType)} className="inline-flex items-center gap-1.5 text-[11.5px] font-semibold text-[#1f3a5f] hover:text-[#c8102e]">
           <Download className="w-3.5 h-3.5" /> Download template
         </a>
+        {fileType === 'gl' && (
+          <span
+            className="inline-flex items-center gap-1 rounded-full bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300 px-1.5 py-0.5 text-[10px] font-semibold"
+            title="The cleaner emits an Account Summary sheet inside the cleaned GL. No separate upload needed."
+          >
+            ⚡ Auto-generates Account Summary
+          </span>
+        )}
       </div>
 
       <input ref={inputRef} type="file" accept=".xlsx" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) upload(f); e.target.value = '' }} />

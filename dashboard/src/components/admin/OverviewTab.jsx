@@ -19,13 +19,16 @@ import {
 import { api } from '../../lib/api'
 import { connectorApi, activityApi } from '../../lib/connectorApi'
 
+// Account Summary is derived from the GL cleaner rather than uploaded,
+// so it's excluded here to keep the Overview honest about what admins
+// actually manage.
 const FILE_TYPE_LABEL = {
   gl: 'General ledger',
   mapping: 'Statement mapping',
   budget: 'Budget',
-  account_summary: 'Account summary',
   prior_period: 'Prior period',
 }
+const IS_MANAGED = (type) => type in FILE_TYPE_LABEL
 
 function relativeTime(ts) {
   if (!ts) return null
@@ -70,8 +73,11 @@ export default function OverviewTab({ onGoTo }) {
   useEffect(() => { load() }, [load])
 
   const connectorsActive = (connectors || []).filter(c => c.status?.status === 'idle' || c.status?.status === 'syncing').length
-  const filesPopulated = Object.values(files || {}).filter(f => (f?.rows || 0) > 0).length
-  const totalFiles = Object.keys(files || {}).length
+  // Count only managed (user-uploadable) file types — Account Summary is
+  // derived so it shouldn't count against the "X of Y loaded" pill.
+  const managedEntries = Object.entries(files || {}).filter(([t]) => IS_MANAGED(t))
+  const filesPopulated = managedEntries.filter(([, f]) => (f?.rows || 0) > 0).length
+  const totalFiles = managedEntries.length
 
   // Last pipeline event we know about
   const lastPipeline = (activity?.entries || []).find(e => e.kind === 'pipeline' && (e.action?.includes('completed') || e.action?.includes('failed')))
@@ -148,7 +154,7 @@ export default function OverviewTab({ onGoTo }) {
             </div>
           ) : (
             <ul className="divide-y divide-neutral-100 dark:divide-neutral-800">
-              {Object.entries(files || {}).map(([type, f]) => {
+              {managedEntries.map(([type, f]) => {
                 const populated = (f?.rows || 0) > 0
                 return (
                   <li key={type} className="flex items-center gap-3 py-2.5">
