@@ -10,6 +10,7 @@ python-multipart>=0.0.9
 # Data source connectors
 cryptography>=42.0
 watchdog>=4.0
+requests>=2.31
 
 # Optional: CLI experience
 rich>=13.0
